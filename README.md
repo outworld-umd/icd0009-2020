@@ -1,3 +1,4 @@
+```
 dotnet aspnet-codegenerator controller -name AbsenceReasonController -actions -m AbsenceReason -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
 dotnet aspnet-codegenerator controller -name DependenceController -actions -m Dependence -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
 dotnet aspnet-codegenerator controller -name DependenceTypeController -actions -m DependenceType -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
@@ -14,3 +15,4 @@ dotnet aspnet-codegenerator controller -name RemarkController -actions -m Remark
 dotnet aspnet-codegenerator controller -name RemarkTypeController -actions -m RemarkType -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
 dotnet aspnet-codegenerator controller -name SubjectController -actions -m Subject -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
 dotnet aspnet-codegenerator controller -name SubjectGroupController -actions -m SubjectGroup -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
+```
