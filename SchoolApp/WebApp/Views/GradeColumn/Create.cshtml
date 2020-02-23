@@ -1,0 +1,51 @@
+@model Domain.GradeColumn
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>GradeColumn</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="GradeTypeId" class="control-label"></label>
+                <select asp-for="GradeTypeId" class ="form-control" asp-items="ViewBag.GradeTypeId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LessonNumber" class="control-label"></label>
+                <input asp-for="LessonNumber" class="form-control" />
+                <span asp-validation-for="LessonNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Theme" class="control-label"></label>
+                <input asp-for="Theme" class="form-control" />
+                <span asp-validation-for="Theme" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubjectGroupId" class="control-label"></label>
+                <select asp-for="SubjectGroupId" class ="form-control" asp-items="ViewBag.SubjectGroupId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

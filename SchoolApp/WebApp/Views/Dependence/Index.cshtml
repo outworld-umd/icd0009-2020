@@ -1,0 +1,59 @@
+@model IEnumerable<Domain.Dependence>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Parent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Child)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DependenceType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.From)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.To)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Parent.PersonId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Child.PersonId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DependenceType.DependenceTypeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.From)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.To)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.DependenceId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.DependenceId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.DependenceId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
