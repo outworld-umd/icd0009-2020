@@ -26,7 +26,7 @@ namespace WebApp.Controllers
         }
 
         // GET: Subject/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -34,7 +34,7 @@ namespace WebApp.Controllers
             }
 
             var subject = await _context.Subjects
-                .FirstOrDefaultAsync(m => m.SubjectId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (subject == null)
             {
                 return NotFound();
@@ -54,10 +54,11 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SubjectId,Name,Description")] Subject subject)
+        public async Task<IActionResult> Create([Bind("Name,Description,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Subject subject)
         {
             if (ModelState.IsValid)
             {
+                subject.Id = Guid.NewGuid();
                 _context.Add(subject);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -66,7 +67,7 @@ namespace WebApp.Controllers
         }
 
         // GET: Subject/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -86,9 +87,9 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SubjectId,Name,Description")] Subject subject)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Description,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Subject subject)
         {
-            if (id != subject.SubjectId)
+            if (id != subject.Id)
             {
                 return NotFound();
             }
@@ -102,7 +103,7 @@ namespace WebApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SubjectExists(subject.SubjectId))
+                    if (!SubjectExists(subject.Id))
                     {
                         return NotFound();
                     }
@@ -117,7 +118,7 @@ namespace WebApp.Controllers
         }
 
         // GET: Subject/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -125,7 +126,7 @@ namespace WebApp.Controllers
             }
 
             var subject = await _context.Subjects
-                .FirstOrDefaultAsync(m => m.SubjectId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (subject == null)
             {
                 return NotFound();
@@ -137,7 +138,7 @@ namespace WebApp.Controllers
         // POST: Subject/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var subject = await _context.Subjects.FindAsync(id);
             _context.Subjects.Remove(subject);
@@ -145,9 +146,9 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SubjectExists(int id)
+        private bool SubjectExists(Guid id)
         {
-            return _context.Subjects.Any(e => e.SubjectId == id);
+            return _context.Subjects.Any(e => e.Id == id);
         }
     }
 }

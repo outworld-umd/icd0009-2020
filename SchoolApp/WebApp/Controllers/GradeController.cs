@@ -27,7 +27,7 @@ namespace WebApp.Controllers
         }
 
         // GET: Grade/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -38,7 +38,7 @@ namespace WebApp.Controllers
                 .Include(g => g.AbsenceReason)
                 .Include(g => g.Student)
                 .Include(g => g.Teacher)
-                .FirstOrDefaultAsync(m => m.GradeId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (grade == null)
             {
                 return NotFound();
@@ -50,9 +50,9 @@ namespace WebApp.Controllers
         // GET: Grade/Create
         public IActionResult Create()
         {
-            ViewData["AbsenceReasonId"] = new SelectList(_context.AbsenceReasons, "AbsenceReasonId", "AbsenceReasonId");
-            ViewData["StudentId"] = new SelectList(_context.Persons, "PersonId", "PersonId");
-            ViewData["TeacherId"] = new SelectList(_context.Persons, "PersonId", "PersonId");
+            ViewData["AbsenceReasonId"] = new SelectList(_context.AbsenceReasons, "Id", "Id");
+            ViewData["StudentId"] = new SelectList(_context.Persons, "Id", "Id");
+            ViewData["TeacherId"] = new SelectList(_context.Persons, "Id", "Id");
             return View();
         }
 
@@ -61,22 +61,23 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("GradeId,Value,IsAbsent,Description,Created,AbsenceReasonId,StudentId,TeacherId")] Grade grade)
+        public async Task<IActionResult> Create([Bind("Value,IsAbsent,Description,Created,AbsenceReasonId,StudentId,TeacherId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Grade grade)
         {
             if (ModelState.IsValid)
             {
+                grade.Id = Guid.NewGuid();
                 _context.Add(grade);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AbsenceReasonId"] = new SelectList(_context.AbsenceReasons, "AbsenceReasonId", "AbsenceReasonId", grade.AbsenceReasonId);
-            ViewData["StudentId"] = new SelectList(_context.Persons, "PersonId", "PersonId", grade.StudentId);
-            ViewData["TeacherId"] = new SelectList(_context.Persons, "PersonId", "PersonId", grade.TeacherId);
+            ViewData["AbsenceReasonId"] = new SelectList(_context.AbsenceReasons, "Id", "Id", grade.AbsenceReasonId);
+            ViewData["StudentId"] = new SelectList(_context.Persons, "Id", "Id", grade.StudentId);
+            ViewData["TeacherId"] = new SelectList(_context.Persons, "Id", "Id", grade.TeacherId);
             return View(grade);
         }
 
         // GET: Grade/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -88,9 +89,9 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["AbsenceReasonId"] = new SelectList(_context.AbsenceReasons, "AbsenceReasonId", "AbsenceReasonId", grade.AbsenceReasonId);
-            ViewData["StudentId"] = new SelectList(_context.Persons, "PersonId", "PersonId", grade.StudentId);
-            ViewData["TeacherId"] = new SelectList(_context.Persons, "PersonId", "PersonId", grade.TeacherId);
+            ViewData["AbsenceReasonId"] = new SelectList(_context.AbsenceReasons, "Id", "Id", grade.AbsenceReasonId);
+            ViewData["StudentId"] = new SelectList(_context.Persons, "Id", "Id", grade.StudentId);
+            ViewData["TeacherId"] = new SelectList(_context.Persons, "Id", "Id", grade.TeacherId);
             return View(grade);
         }
 
@@ -99,9 +100,9 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("GradeId,Value,IsAbsent,Description,Created,AbsenceReasonId,StudentId,TeacherId")] Grade grade)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Value,IsAbsent,Description,Created,AbsenceReasonId,StudentId,TeacherId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Grade grade)
         {
-            if (id != grade.GradeId)
+            if (id != grade.Id)
             {
                 return NotFound();
             }
@@ -115,7 +116,7 @@ namespace WebApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GradeExists(grade.GradeId))
+                    if (!GradeExists(grade.Id))
                     {
                         return NotFound();
                     }
@@ -126,14 +127,14 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AbsenceReasonId"] = new SelectList(_context.AbsenceReasons, "AbsenceReasonId", "AbsenceReasonId", grade.AbsenceReasonId);
-            ViewData["StudentId"] = new SelectList(_context.Persons, "PersonId", "PersonId", grade.StudentId);
-            ViewData["TeacherId"] = new SelectList(_context.Persons, "PersonId", "PersonId", grade.TeacherId);
+            ViewData["AbsenceReasonId"] = new SelectList(_context.AbsenceReasons, "Id", "Id", grade.AbsenceReasonId);
+            ViewData["StudentId"] = new SelectList(_context.Persons, "Id", "Id", grade.StudentId);
+            ViewData["TeacherId"] = new SelectList(_context.Persons, "Id", "Id", grade.TeacherId);
             return View(grade);
         }
 
         // GET: Grade/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -144,7 +145,7 @@ namespace WebApp.Controllers
                 .Include(g => g.AbsenceReason)
                 .Include(g => g.Student)
                 .Include(g => g.Teacher)
-                .FirstOrDefaultAsync(m => m.GradeId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (grade == null)
             {
                 return NotFound();
@@ -156,7 +157,7 @@ namespace WebApp.Controllers
         // POST: Grade/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var grade = await _context.Grades.FindAsync(id);
             _context.Grades.Remove(grade);
@@ -164,9 +165,9 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GradeExists(int id)
+        private bool GradeExists(Guid id)
         {
-            return _context.Grades.Any(e => e.GradeId == id);
+            return _context.Grades.Any(e => e.Id == id);
         }
     }
 }

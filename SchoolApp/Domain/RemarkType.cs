@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using DAL.Base;
 
 namespace Domain {
 
-    public class RemarkType {
-        public int RemarkTypeId { get; set; }
+    public class RemarkType : DomainEntity {
         [MaxLength(30)]
         public string Name { get; set; }
     }

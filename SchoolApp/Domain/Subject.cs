@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using DAL.Base;
 
 namespace Domain {
-
-    public class Subject {
-        public int SubjectId { get; set; }
+    
+    public class Subject : DomainEntity {
         [MaxLength(30)]
         public string Name { get; set; }
         [MaxLength(200)]

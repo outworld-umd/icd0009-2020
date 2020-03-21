@@ -1,11 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using DAL.Base;
 
 namespace Domain {
 
-    public class Person {
-
-        public int PersonId { get; set; }
+    public class Person : DomainEntity {
         [MaxLength(30)]
         public string FirstName { get; set; }
         [MaxLength(30)]

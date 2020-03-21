@@ -1,16 +1,16 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DAL.Base;
 
 namespace Domain {
 
-    public class AbsenceReason {
-        public int AbsenceReasonId { get; set; }
+    public class AbsenceReason : DomainEntity {
         [ForeignKey(nameof(Student))]
-        public int StudentId { get; set; }
+        public Guid StudentId { get; set; }
         public Person Student { get; set; }
         [ForeignKey(nameof(Creator))]
-        public int CreatorId { get; set; }
+        public Guid CreatorId { get; set; }
         public Person Creator { get; set; }
         public DateTime From { get; set; }
         public DateTime To { get; set; }

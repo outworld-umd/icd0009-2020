@@ -27,7 +27,7 @@ namespace WebApp.Controllers
         }
 
         // GET: Dependence/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -38,7 +38,7 @@ namespace WebApp.Controllers
                 .Include(d => d.Child)
                 .Include(d => d.DependenceType)
                 .Include(d => d.Parent)
-                .FirstOrDefaultAsync(m => m.DependenceId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (dependence == null)
             {
                 return NotFound();
@@ -50,9 +50,9 @@ namespace WebApp.Controllers
         // GET: Dependence/Create
         public IActionResult Create()
         {
-            ViewData["ChildId"] = new SelectList(_context.Persons, "PersonId", "PersonId");
-            ViewData["DependenceTypeId"] = new SelectList(_context.DependenceTypes, "DependenceTypeId", "DependenceTypeId");
-            ViewData["ParentId"] = new SelectList(_context.Persons, "PersonId", "PersonId");
+            ViewData["ChildId"] = new SelectList(_context.Persons, "Id", "Id");
+            ViewData["DependenceTypeId"] = new SelectList(_context.DependenceTypes, "Id", "Id");
+            ViewData["ParentId"] = new SelectList(_context.Persons, "Id", "Id");
             return View();
         }
 
@@ -61,22 +61,23 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DependenceId,ParentId,ChildId,DependenceTypeId,From,To")] Dependence dependence)
+        public async Task<IActionResult> Create([Bind("ParentId,ChildId,DependenceTypeId,From,To,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Dependence dependence)
         {
             if (ModelState.IsValid)
             {
+                dependence.Id = Guid.NewGuid();
                 _context.Add(dependence);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ChildId"] = new SelectList(_context.Persons, "PersonId", "PersonId", dependence.ChildId);
-            ViewData["DependenceTypeId"] = new SelectList(_context.DependenceTypes, "DependenceTypeId", "DependenceTypeId", dependence.DependenceTypeId);
-            ViewData["ParentId"] = new SelectList(_context.Persons, "PersonId", "PersonId", dependence.ParentId);
+            ViewData["ChildId"] = new SelectList(_context.Persons, "Id", "Id", dependence.ChildId);
+            ViewData["DependenceTypeId"] = new SelectList(_context.DependenceTypes, "Id", "Id", dependence.DependenceTypeId);
+            ViewData["ParentId"] = new SelectList(_context.Persons, "Id", "Id", dependence.ParentId);
             return View(dependence);
         }
 
         // GET: Dependence/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -88,9 +89,9 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["ChildId"] = new SelectList(_context.Persons, "PersonId", "PersonId", dependence.ChildId);
-            ViewData["DependenceTypeId"] = new SelectList(_context.DependenceTypes, "DependenceTypeId", "DependenceTypeId", dependence.DependenceTypeId);
-            ViewData["ParentId"] = new SelectList(_context.Persons, "PersonId", "PersonId", dependence.ParentId);
+            ViewData["ChildId"] = new SelectList(_context.Persons, "Id", "Id", dependence.ChildId);
+            ViewData["DependenceTypeId"] = new SelectList(_context.DependenceTypes, "Id", "Id", dependence.DependenceTypeId);
+            ViewData["ParentId"] = new SelectList(_context.Persons, "Id", "Id", dependence.ParentId);
             return View(dependence);
         }
 
@@ -99,9 +100,9 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DependenceId,ParentId,ChildId,DependenceTypeId,From,To")] Dependence dependence)
+        public async Task<IActionResult> Edit(Guid id, [Bind("ParentId,ChildId,DependenceTypeId,From,To,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Dependence dependence)
         {
-            if (id != dependence.DependenceId)
+            if (id != dependence.Id)
             {
                 return NotFound();
             }
@@ -115,7 +116,7 @@ namespace WebApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DependenceExists(dependence.DependenceId))
+                    if (!DependenceExists(dependence.Id))
                     {
                         return NotFound();
                     }
@@ -126,14 +127,14 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ChildId"] = new SelectList(_context.Persons, "PersonId", "PersonId", dependence.ChildId);
-            ViewData["DependenceTypeId"] = new SelectList(_context.DependenceTypes, "DependenceTypeId", "DependenceTypeId", dependence.DependenceTypeId);
-            ViewData["ParentId"] = new SelectList(_context.Persons, "PersonId", "PersonId", dependence.ParentId);
+            ViewData["ChildId"] = new SelectList(_context.Persons, "Id", "Id", dependence.ChildId);
+            ViewData["DependenceTypeId"] = new SelectList(_context.DependenceTypes, "Id", "Id", dependence.DependenceTypeId);
+            ViewData["ParentId"] = new SelectList(_context.Persons, "Id", "Id", dependence.ParentId);
             return View(dependence);
         }
 
         // GET: Dependence/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -144,7 +145,7 @@ namespace WebApp.Controllers
                 .Include(d => d.Child)
                 .Include(d => d.DependenceType)
                 .Include(d => d.Parent)
-                .FirstOrDefaultAsync(m => m.DependenceId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (dependence == null)
             {
                 return NotFound();
@@ -156,7 +157,7 @@ namespace WebApp.Controllers
         // POST: Dependence/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var dependence = await _context.Dependences.FindAsync(id);
             _context.Dependences.Remove(dependence);
@@ -164,9 +165,9 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DependenceExists(int id)
+        private bool DependenceExists(Guid id)
         {
-            return _context.Dependences.Any(e => e.DependenceId == id);
+            return _context.Dependences.Any(e => e.Id == id);
         }
     }
 }

@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using DAL.Base;
 
 namespace Domain {
 
-    public class SubjectGroup {
-        public int SubjectGroupId { get; set; }
-        public int SubjectId { get; set; }
+    public class SubjectGroup : DomainEntity {
+        public Guid SubjectId { get; set; }
         public Subject Subject { get; set; }
         public int Capacity { get; set; }
         [MaxLength(30)]

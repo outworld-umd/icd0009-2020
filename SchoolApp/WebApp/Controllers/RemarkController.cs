@@ -27,7 +27,7 @@ namespace WebApp.Controllers
         }
 
         // GET: Remark/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -38,7 +38,7 @@ namespace WebApp.Controllers
                 .Include(r => r.Recipient)
                 .Include(r => r.RemarkType)
                 .Include(r => r.Sender)
-                .FirstOrDefaultAsync(m => m.RemarkId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (remark == null)
             {
                 return NotFound();
@@ -50,9 +50,9 @@ namespace WebApp.Controllers
         // GET: Remark/Create
         public IActionResult Create()
         {
-            ViewData["RecipientId"] = new SelectList(_context.Persons, "PersonId", "PersonId");
-            ViewData["RemarkTypeId"] = new SelectList(_context.RemarkTypes, "RemarkTypeId", "RemarkTypeId");
-            ViewData["SenderId"] = new SelectList(_context.Persons, "PersonId", "PersonId");
+            ViewData["RecipientId"] = new SelectList(_context.Persons, "Id", "Id");
+            ViewData["RemarkTypeId"] = new SelectList(_context.RemarkTypes, "Id", "Id");
+            ViewData["SenderId"] = new SelectList(_context.Persons, "Id", "Id");
             return View();
         }
 
@@ -61,22 +61,23 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RemarkId,SenderId,RecipientId,Date,Text,RemarkTypeId")] Remark remark)
+        public async Task<IActionResult> Create([Bind("SenderId,RecipientId,Date,Text,RemarkTypeId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Remark remark)
         {
             if (ModelState.IsValid)
             {
+                remark.Id = Guid.NewGuid();
                 _context.Add(remark);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RecipientId"] = new SelectList(_context.Persons, "PersonId", "PersonId", remark.RecipientId);
-            ViewData["RemarkTypeId"] = new SelectList(_context.RemarkTypes, "RemarkTypeId", "RemarkTypeId", remark.RemarkTypeId);
-            ViewData["SenderId"] = new SelectList(_context.Persons, "PersonId", "PersonId", remark.SenderId);
+            ViewData["RecipientId"] = new SelectList(_context.Persons, "Id", "Id", remark.RecipientId);
+            ViewData["RemarkTypeId"] = new SelectList(_context.RemarkTypes, "Id", "Id", remark.RemarkTypeId);
+            ViewData["SenderId"] = new SelectList(_context.Persons, "Id", "Id", remark.SenderId);
             return View(remark);
         }
 
         // GET: Remark/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -88,9 +89,9 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["RecipientId"] = new SelectList(_context.Persons, "PersonId", "PersonId", remark.RecipientId);
-            ViewData["RemarkTypeId"] = new SelectList(_context.RemarkTypes, "RemarkTypeId", "RemarkTypeId", remark.RemarkTypeId);
-            ViewData["SenderId"] = new SelectList(_context.Persons, "PersonId", "PersonId", remark.SenderId);
+            ViewData["RecipientId"] = new SelectList(_context.Persons, "Id", "Id", remark.RecipientId);
+            ViewData["RemarkTypeId"] = new SelectList(_context.RemarkTypes, "Id", "Id", remark.RemarkTypeId);
+            ViewData["SenderId"] = new SelectList(_context.Persons, "Id", "Id", remark.SenderId);
             return View(remark);
         }
 
@@ -99,9 +100,9 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RemarkId,SenderId,RecipientId,Date,Text,RemarkTypeId")] Remark remark)
+        public async Task<IActionResult> Edit(Guid id, [Bind("SenderId,RecipientId,Date,Text,RemarkTypeId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Remark remark)
         {
-            if (id != remark.RemarkId)
+            if (id != remark.Id)
             {
                 return NotFound();
             }
@@ -115,7 +116,7 @@ namespace WebApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RemarkExists(remark.RemarkId))
+                    if (!RemarkExists(remark.Id))
                     {
                         return NotFound();
                     }
@@ -126,14 +127,14 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RecipientId"] = new SelectList(_context.Persons, "PersonId", "PersonId", remark.RecipientId);
-            ViewData["RemarkTypeId"] = new SelectList(_context.RemarkTypes, "RemarkTypeId", "RemarkTypeId", remark.RemarkTypeId);
-            ViewData["SenderId"] = new SelectList(_context.Persons, "PersonId", "PersonId", remark.SenderId);
+            ViewData["RecipientId"] = new SelectList(_context.Persons, "Id", "Id", remark.RecipientId);
+            ViewData["RemarkTypeId"] = new SelectList(_context.RemarkTypes, "Id", "Id", remark.RemarkTypeId);
+            ViewData["SenderId"] = new SelectList(_context.Persons, "Id", "Id", remark.SenderId);
             return View(remark);
         }
 
         // GET: Remark/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -144,7 +145,7 @@ namespace WebApp.Controllers
                 .Include(r => r.Recipient)
                 .Include(r => r.RemarkType)
                 .Include(r => r.Sender)
-                .FirstOrDefaultAsync(m => m.RemarkId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (remark == null)
             {
                 return NotFound();
@@ -156,7 +157,7 @@ namespace WebApp.Controllers
         // POST: Remark/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var remark = await _context.Remarks.FindAsync(id);
             _context.Remarks.Remove(remark);
@@ -164,9 +165,9 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RemarkExists(int id)
+        private bool RemarkExists(Guid id)
         {
-            return _context.Remarks.Any(e => e.RemarkId == id);
+            return _context.Remarks.Any(e => e.Id == id);
         }
     }
 }

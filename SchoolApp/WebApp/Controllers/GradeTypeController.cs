@@ -26,7 +26,7 @@ namespace WebApp.Controllers
         }
 
         // GET: GradeType/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -34,7 +34,7 @@ namespace WebApp.Controllers
             }
 
             var gradeType = await _context.GradeTypes
-                .FirstOrDefaultAsync(m => m.GradeTypeId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (gradeType == null)
             {
                 return NotFound();
@@ -54,10 +54,11 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("GradeTypeId,Name")] GradeType gradeType)
+        public async Task<IActionResult> Create([Bind("Name,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] GradeType gradeType)
         {
             if (ModelState.IsValid)
             {
+                gradeType.Id = Guid.NewGuid();
                 _context.Add(gradeType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -66,7 +67,7 @@ namespace WebApp.Controllers
         }
 
         // GET: GradeType/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -86,9 +87,9 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("GradeTypeId,Name")] GradeType gradeType)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] GradeType gradeType)
         {
-            if (id != gradeType.GradeTypeId)
+            if (id != gradeType.Id)
             {
                 return NotFound();
             }
@@ -102,7 +103,7 @@ namespace WebApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GradeTypeExists(gradeType.GradeTypeId))
+                    if (!GradeTypeExists(gradeType.Id))
                     {
                         return NotFound();
                     }
@@ -117,7 +118,7 @@ namespace WebApp.Controllers
         }
 
         // GET: GradeType/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -125,7 +126,7 @@ namespace WebApp.Controllers
             }
 
             var gradeType = await _context.GradeTypes
-                .FirstOrDefaultAsync(m => m.GradeTypeId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (gradeType == null)
             {
                 return NotFound();
@@ -137,7 +138,7 @@ namespace WebApp.Controllers
         // POST: GradeType/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var gradeType = await _context.GradeTypes.FindAsync(id);
             _context.GradeTypes.Remove(gradeType);
@@ -145,9 +146,9 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GradeTypeExists(int id)
+        private bool GradeTypeExists(Guid id)
         {
-            return _context.GradeTypes.Any(e => e.GradeTypeId == id);
+            return _context.GradeTypes.Any(e => e.Id == id);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace WebApp.Controllers
         }
 
         // GET: Form/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -34,7 +34,7 @@ namespace WebApp.Controllers
             }
 
             var form = await _context.Forms
-                .FirstOrDefaultAsync(m => m.FormId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (form == null)
             {
                 return NotFound();
@@ -54,10 +54,11 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FormId,Year,FormNumber,Name")] Form form)
+        public async Task<IActionResult> Create([Bind("Year,FormNumber,Name,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Form form)
         {
             if (ModelState.IsValid)
             {
+                form.Id = Guid.NewGuid();
                 _context.Add(form);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -66,7 +67,7 @@ namespace WebApp.Controllers
         }
 
         // GET: Form/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -86,9 +87,9 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FormId,Year,FormNumber,Name")] Form form)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Year,FormNumber,Name,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Form form)
         {
-            if (id != form.FormId)
+            if (id != form.Id)
             {
                 return NotFound();
             }
@@ -102,7 +103,7 @@ namespace WebApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FormExists(form.FormId))
+                    if (!FormExists(form.Id))
                     {
                         return NotFound();
                     }
@@ -117,7 +118,7 @@ namespace WebApp.Controllers
         }
 
         // GET: Form/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -125,7 +126,7 @@ namespace WebApp.Controllers
             }
 
             var form = await _context.Forms
-                .FirstOrDefaultAsync(m => m.FormId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (form == null)
             {
                 return NotFound();
@@ -137,7 +138,7 @@ namespace WebApp.Controllers
         // POST: Form/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var form = await _context.Forms.FindAsync(id);
             _context.Forms.Remove(form);
@@ -145,9 +146,9 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool FormExists(int id)
+        private bool FormExists(Guid id)
         {
-            return _context.Forms.Any(e => e.FormId == id);
+            return _context.Forms.Any(e => e.Id == id);
         }
     }
 }

@@ -22,12 +22,12 @@ namespace WebApp.Controllers
         // GET: GradeColumn
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.GradeColumns.Include(g => g.GradeType).Include(g => g.SubjectGroup);
+            var appDbContext = _context.GradeColumns.Include(g => g.SubjectGroup);
             return View(await appDbContext.ToListAsync());
         }
 
         // GET: GradeColumn/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -35,9 +35,8 @@ namespace WebApp.Controllers
             }
 
             var gradeColumn = await _context.GradeColumns
-                .Include(g => g.GradeType)
                 .Include(g => g.SubjectGroup)
-                .FirstOrDefaultAsync(m => m.GradeColumnId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (gradeColumn == null)
             {
                 return NotFound();
@@ -49,8 +48,7 @@ namespace WebApp.Controllers
         // GET: GradeColumn/Create
         public IActionResult Create()
         {
-            ViewData["GradeTypeId"] = new SelectList(_context.Set<GradeType>(), "GradeTypeId", "GradeTypeId");
-            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "SubjectGroupId", "SubjectGroupId");
+            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "Id", "Id");
             return View();
         }
 
@@ -59,21 +57,21 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("GradeColumnId,GradeTypeId,Date,LessonNumber,Theme,SubjectGroupId")] GradeColumn gradeColumn)
+        public async Task<IActionResult> Create([Bind("GradeTypeId,Date,LessonNumber,Theme,SubjectGroupId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] GradeColumn gradeColumn)
         {
             if (ModelState.IsValid)
             {
+                gradeColumn.Id = Guid.NewGuid();
                 _context.Add(gradeColumn);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["GradeTypeId"] = new SelectList(_context.Set<GradeType>(), "GradeTypeId", "GradeTypeId", gradeColumn.GradeTypeId);
-            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "SubjectGroupId", "SubjectGroupId", gradeColumn.SubjectGroupId);
+            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "Id", "Id", gradeColumn.SubjectGroupId);
             return View(gradeColumn);
         }
 
         // GET: GradeColumn/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -85,8 +83,7 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["GradeTypeId"] = new SelectList(_context.Set<GradeType>(), "GradeTypeId", "GradeTypeId", gradeColumn.GradeTypeId);
-            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "SubjectGroupId", "SubjectGroupId", gradeColumn.SubjectGroupId);
+            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "Id", "Id", gradeColumn.SubjectGroupId);
             return View(gradeColumn);
         }
 
@@ -95,9 +92,9 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("GradeColumnId,GradeTypeId,Date,LessonNumber,Theme,SubjectGroupId")] GradeColumn gradeColumn)
+        public async Task<IActionResult> Edit(Guid id, [Bind("GradeTypeId,Date,LessonNumber,Theme,SubjectGroupId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] GradeColumn gradeColumn)
         {
-            if (id != gradeColumn.GradeColumnId)
+            if (id != gradeColumn.Id)
             {
                 return NotFound();
             }
@@ -111,7 +108,7 @@ namespace WebApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GradeColumnExists(gradeColumn.GradeColumnId))
+                    if (!GradeColumnExists(gradeColumn.Id))
                     {
                         return NotFound();
                     }
@@ -122,13 +119,12 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["GradeTypeId"] = new SelectList(_context.Set<GradeType>(), "GradeTypeId", "GradeTypeId", gradeColumn.GradeTypeId);
-            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "SubjectGroupId", "SubjectGroupId", gradeColumn.SubjectGroupId);
+            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "Id", "Id", gradeColumn.SubjectGroupId);
             return View(gradeColumn);
         }
 
         // GET: GradeColumn/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -136,9 +132,8 @@ namespace WebApp.Controllers
             }
 
             var gradeColumn = await _context.GradeColumns
-                .Include(g => g.GradeType)
                 .Include(g => g.SubjectGroup)
-                .FirstOrDefaultAsync(m => m.GradeColumnId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (gradeColumn == null)
             {
                 return NotFound();
@@ -150,7 +145,7 @@ namespace WebApp.Controllers
         // POST: GradeColumn/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var gradeColumn = await _context.GradeColumns.FindAsync(id);
             _context.GradeColumns.Remove(gradeColumn);
@@ -158,9 +153,9 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GradeColumnExists(int id)
+        private bool GradeColumnExists(Guid id)
         {
-            return _context.GradeColumns.Any(e => e.GradeColumnId == id);
+            return _context.GradeColumns.Any(e => e.Id == id);
         }
     }
 }

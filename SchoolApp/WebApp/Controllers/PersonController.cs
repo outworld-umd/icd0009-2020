@@ -26,7 +26,7 @@ namespace WebApp.Controllers
         }
 
         // GET: Person/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -34,7 +34,7 @@ namespace WebApp.Controllers
             }
 
             var person = await _context.Persons
-                .FirstOrDefaultAsync(m => m.PersonId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (person == null)
             {
                 return NotFound();
@@ -54,10 +54,11 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PersonId,FirstName,LastName,PersonalCode,Sex,Birthdate,Role")] Person person)
+        public async Task<IActionResult> Create([Bind("FirstName,LastName,PersonalCode,Sex,Birthdate,Role,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Person person)
         {
             if (ModelState.IsValid)
             {
+                person.Id = Guid.NewGuid();
                 _context.Add(person);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -66,7 +67,7 @@ namespace WebApp.Controllers
         }
 
         // GET: Person/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -86,9 +87,9 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PersonId,FirstName,LastName,PersonalCode,Sex,Birthdate,Role")] Person person)
+        public async Task<IActionResult> Edit(Guid id, [Bind("FirstName,LastName,PersonalCode,Sex,Birthdate,Role,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Person person)
         {
-            if (id != person.PersonId)
+            if (id != person.Id)
             {
                 return NotFound();
             }
@@ -102,7 +103,7 @@ namespace WebApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PersonExists(person.PersonId))
+                    if (!PersonExists(person.Id))
                     {
                         return NotFound();
                     }
@@ -117,7 +118,7 @@ namespace WebApp.Controllers
         }
 
         // GET: Person/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -125,7 +126,7 @@ namespace WebApp.Controllers
             }
 
             var person = await _context.Persons
-                .FirstOrDefaultAsync(m => m.PersonId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (person == null)
             {
                 return NotFound();
@@ -137,7 +138,7 @@ namespace WebApp.Controllers
         // POST: Person/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var person = await _context.Persons.FindAsync(id);
             _context.Persons.Remove(person);
@@ -145,9 +146,9 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PersonExists(int id)
+        private bool PersonExists(Guid id)
         {
-            return _context.Persons.Any(e => e.PersonId == id);
+            return _context.Persons.Any(e => e.Id == id);
         }
     }
 }

@@ -1,16 +1,16 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using DAL.Base;
 
 namespace Domain {
 
-    public class Homework {
-        public int HomeworkId { get; set; }
-        public int SubjectGroupId { get; set; }
+    public class Homework : DomainEntity {
+        public Guid SubjectGroupId { get; set; }
         public SubjectGroup SubjectGroup { get; set; }
         public DateTime Added { get; set; }
         public DateTime Deadline { get; set; }
         [ForeignKey(nameof(Teacher))]
-        public int TeacherId { get; set; }
+        public Guid TeacherId { get; set; }
         public Person Teacher { get; set; }
     }
 

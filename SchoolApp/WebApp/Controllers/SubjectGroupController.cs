@@ -27,7 +27,7 @@ namespace WebApp.Controllers
         }
 
         // GET: SubjectGroup/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -36,7 +36,7 @@ namespace WebApp.Controllers
 
             var subjectGroup = await _context.SubjectGroups
                 .Include(s => s.Subject)
-                .FirstOrDefaultAsync(m => m.SubjectGroupId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (subjectGroup == null)
             {
                 return NotFound();
@@ -48,7 +48,7 @@ namespace WebApp.Controllers
         // GET: SubjectGroup/Create
         public IActionResult Create()
         {
-            ViewData["SubjectId"] = new SelectList(_context.Subjects, "SubjectId", "SubjectId");
+            ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Id");
             return View();
         }
 
@@ -57,20 +57,21 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SubjectGroupId,SubjectId,Capacity,Name")] SubjectGroup subjectGroup)
+        public async Task<IActionResult> Create([Bind("SubjectId,Capacity,Name,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] SubjectGroup subjectGroup)
         {
             if (ModelState.IsValid)
             {
+                subjectGroup.Id = Guid.NewGuid();
                 _context.Add(subjectGroup);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SubjectId"] = new SelectList(_context.Subjects, "SubjectId", "SubjectId", subjectGroup.SubjectId);
+            ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Id", subjectGroup.SubjectId);
             return View(subjectGroup);
         }
 
         // GET: SubjectGroup/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -82,7 +83,7 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["SubjectId"] = new SelectList(_context.Subjects, "SubjectId", "SubjectId", subjectGroup.SubjectId);
+            ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Id", subjectGroup.SubjectId);
             return View(subjectGroup);
         }
 
@@ -91,9 +92,9 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SubjectGroupId,SubjectId,Capacity,Name")] SubjectGroup subjectGroup)
+        public async Task<IActionResult> Edit(Guid id, [Bind("SubjectId,Capacity,Name,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] SubjectGroup subjectGroup)
         {
-            if (id != subjectGroup.SubjectGroupId)
+            if (id != subjectGroup.Id)
             {
                 return NotFound();
             }
@@ -107,7 +108,7 @@ namespace WebApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SubjectGroupExists(subjectGroup.SubjectGroupId))
+                    if (!SubjectGroupExists(subjectGroup.Id))
                     {
                         return NotFound();
                     }
@@ -118,12 +119,12 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SubjectId"] = new SelectList(_context.Subjects, "SubjectId", "SubjectId", subjectGroup.SubjectId);
+            ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Id", subjectGroup.SubjectId);
             return View(subjectGroup);
         }
 
         // GET: SubjectGroup/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -132,7 +133,7 @@ namespace WebApp.Controllers
 
             var subjectGroup = await _context.SubjectGroups
                 .Include(s => s.Subject)
-                .FirstOrDefaultAsync(m => m.SubjectGroupId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (subjectGroup == null)
             {
                 return NotFound();
@@ -144,7 +145,7 @@ namespace WebApp.Controllers
         // POST: SubjectGroup/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var subjectGroup = await _context.SubjectGroups.FindAsync(id);
             _context.SubjectGroups.Remove(subjectGroup);
@@ -152,9 +153,9 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SubjectGroupExists(int id)
+        private bool SubjectGroupExists(Guid id)
         {
-            return _context.SubjectGroups.Any(e => e.SubjectGroupId == id);
+            return _context.SubjectGroups.Any(e => e.Id == id);
         }
     }
 }

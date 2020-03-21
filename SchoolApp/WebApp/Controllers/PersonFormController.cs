@@ -27,7 +27,7 @@ namespace WebApp.Controllers
         }
 
         // GET: PersonForm/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -38,7 +38,7 @@ namespace WebApp.Controllers
                 .Include(p => p.Form)
                 .Include(p => p.FormRole)
                 .Include(p => p.Person)
-                .FirstOrDefaultAsync(m => m.PersonFormId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (personForm == null)
             {
                 return NotFound();
@@ -50,9 +50,9 @@ namespace WebApp.Controllers
         // GET: PersonForm/Create
         public IActionResult Create()
         {
-            ViewData["FormId"] = new SelectList(_context.Forms, "FormId", "FormId");
-            ViewData["FormRoleId"] = new SelectList(_context.FormRoles, "FormRoleId", "FormRoleId");
-            ViewData["PersonId"] = new SelectList(_context.Persons, "PersonId", "PersonId");
+            ViewData["FormId"] = new SelectList(_context.Forms, "Id", "Id");
+            ViewData["FormRoleId"] = new SelectList(_context.FormRoles, "Id", "Id");
+            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Id");
             return View();
         }
 
@@ -61,22 +61,23 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PersonFormId,FormId,FormRoleId,PersonId,From,To")] PersonForm personForm)
+        public async Task<IActionResult> Create([Bind("FormId,FormRoleId,PersonId,From,To,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] PersonForm personForm)
         {
             if (ModelState.IsValid)
             {
+                personForm.Id = Guid.NewGuid();
                 _context.Add(personForm);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FormId"] = new SelectList(_context.Forms, "FormId", "FormId", personForm.FormId);
-            ViewData["FormRoleId"] = new SelectList(_context.FormRoles, "FormRoleId", "FormRoleId", personForm.FormRoleId);
-            ViewData["PersonId"] = new SelectList(_context.Persons, "PersonId", "PersonId", personForm.PersonId);
+            ViewData["FormId"] = new SelectList(_context.Forms, "Id", "Id", personForm.FormId);
+            ViewData["FormRoleId"] = new SelectList(_context.FormRoles, "Id", "Id", personForm.FormRoleId);
+            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Id", personForm.PersonId);
             return View(personForm);
         }
 
         // GET: PersonForm/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -88,9 +89,9 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["FormId"] = new SelectList(_context.Forms, "FormId", "FormId", personForm.FormId);
-            ViewData["FormRoleId"] = new SelectList(_context.FormRoles, "FormRoleId", "FormRoleId", personForm.FormRoleId);
-            ViewData["PersonId"] = new SelectList(_context.Persons, "PersonId", "PersonId", personForm.PersonId);
+            ViewData["FormId"] = new SelectList(_context.Forms, "Id", "Id", personForm.FormId);
+            ViewData["FormRoleId"] = new SelectList(_context.FormRoles, "Id", "Id", personForm.FormRoleId);
+            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Id", personForm.PersonId);
             return View(personForm);
         }
 
@@ -99,9 +100,9 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PersonFormId,FormId,FormRoleId,PersonId,From,To")] PersonForm personForm)
+        public async Task<IActionResult> Edit(Guid id, [Bind("FormId,FormRoleId,PersonId,From,To,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] PersonForm personForm)
         {
-            if (id != personForm.PersonFormId)
+            if (id != personForm.Id)
             {
                 return NotFound();
             }
@@ -115,7 +116,7 @@ namespace WebApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PersonFormExists(personForm.PersonFormId))
+                    if (!PersonFormExists(personForm.Id))
                     {
                         return NotFound();
                     }
@@ -126,14 +127,14 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FormId"] = new SelectList(_context.Forms, "FormId", "FormId", personForm.FormId);
-            ViewData["FormRoleId"] = new SelectList(_context.FormRoles, "FormRoleId", "FormRoleId", personForm.FormRoleId);
-            ViewData["PersonId"] = new SelectList(_context.Persons, "PersonId", "PersonId", personForm.PersonId);
+            ViewData["FormId"] = new SelectList(_context.Forms, "Id", "Id", personForm.FormId);
+            ViewData["FormRoleId"] = new SelectList(_context.FormRoles, "Id", "Id", personForm.FormRoleId);
+            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Id", personForm.PersonId);
             return View(personForm);
         }
 
         // GET: PersonForm/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -144,7 +145,7 @@ namespace WebApp.Controllers
                 .Include(p => p.Form)
                 .Include(p => p.FormRole)
                 .Include(p => p.Person)
-                .FirstOrDefaultAsync(m => m.PersonFormId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (personForm == null)
             {
                 return NotFound();
@@ -156,7 +157,7 @@ namespace WebApp.Controllers
         // POST: PersonForm/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var personForm = await _context.PersonForms.FindAsync(id);
             _context.PersonForms.Remove(personForm);
@@ -164,9 +165,9 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PersonFormExists(int id)
+        private bool PersonFormExists(Guid id)
         {
-            return _context.PersonForms.Any(e => e.PersonFormId == id);
+            return _context.PersonForms.Any(e => e.Id == id);
         }
     }
 }

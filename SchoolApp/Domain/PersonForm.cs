@@ -1,17 +1,14 @@
 ﻿using System;
+using DAL.Base;
 
 namespace Domain {
 
-    public class PersonForm {
-        public int PersonFormId { get; set; }
-        
-        public int FormId { get; set; }
-        
+    public class PersonForm : DomainEntity {
+        public Guid FormId { get; set; }
         public Form Form { get; set; }
-        
-        public int FormRoleId { get; set; }
+        public Guid FormRoleId { get; set; }
         public FormRole FormRole { get; set; }
-        public int PersonId { get; set; }
+        public Guid PersonId { get; set; }
         public Person Person { get; set; }
         public DateTime From { get; set; }
         public DateTime To { get; set; }

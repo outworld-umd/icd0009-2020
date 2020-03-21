@@ -26,7 +26,7 @@ namespace WebApp.Controllers
         }
 
         // GET: RemarkType/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -34,7 +34,7 @@ namespace WebApp.Controllers
             }
 
             var remarkType = await _context.RemarkTypes
-                .FirstOrDefaultAsync(m => m.RemarkTypeId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (remarkType == null)
             {
                 return NotFound();
@@ -54,10 +54,11 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RemarkTypeId,Name")] RemarkType remarkType)
+        public async Task<IActionResult> Create([Bind("Name,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] RemarkType remarkType)
         {
             if (ModelState.IsValid)
             {
+                remarkType.Id = Guid.NewGuid();
                 _context.Add(remarkType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -66,7 +67,7 @@ namespace WebApp.Controllers
         }
 
         // GET: RemarkType/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -86,9 +87,9 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RemarkTypeId,Name")] RemarkType remarkType)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] RemarkType remarkType)
         {
-            if (id != remarkType.RemarkTypeId)
+            if (id != remarkType.Id)
             {
                 return NotFound();
             }
@@ -102,7 +103,7 @@ namespace WebApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RemarkTypeExists(remarkType.RemarkTypeId))
+                    if (!RemarkTypeExists(remarkType.Id))
                     {
                         return NotFound();
                     }
@@ -117,7 +118,7 @@ namespace WebApp.Controllers
         }
 
         // GET: RemarkType/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -125,7 +126,7 @@ namespace WebApp.Controllers
             }
 
             var remarkType = await _context.RemarkTypes
-                .FirstOrDefaultAsync(m => m.RemarkTypeId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (remarkType == null)
             {
                 return NotFound();
@@ -137,7 +138,7 @@ namespace WebApp.Controllers
         // POST: RemarkType/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var remarkType = await _context.RemarkTypes.FindAsync(id);
             _context.RemarkTypes.Remove(remarkType);
@@ -145,9 +146,9 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RemarkTypeExists(int id)
+        private bool RemarkTypeExists(Guid id)
         {
-            return _context.RemarkTypes.Any(e => e.RemarkTypeId == id);
+            return _context.RemarkTypes.Any(e => e.Id == id);
         }
     }
 }

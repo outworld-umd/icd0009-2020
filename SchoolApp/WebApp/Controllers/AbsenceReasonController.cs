@@ -27,7 +27,7 @@ namespace WebApp.Controllers
         }
 
         // GET: AbsenceReason/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -37,7 +37,7 @@ namespace WebApp.Controllers
             var absenceReason = await _context.AbsenceReasons
                 .Include(a => a.Creator)
                 .Include(a => a.Student)
-                .FirstOrDefaultAsync(m => m.AbsenceReasonId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (absenceReason == null)
             {
                 return NotFound();
@@ -49,8 +49,8 @@ namespace WebApp.Controllers
         // GET: AbsenceReason/Create
         public IActionResult Create()
         {
-            ViewData["CreatorId"] = new SelectList(_context.Persons, "PersonId", "PersonId");
-            ViewData["StudentId"] = new SelectList(_context.Persons, "PersonId", "PersonId");
+            ViewData["CreatorId"] = new SelectList(_context.Persons, "Id", "Id");
+            ViewData["StudentId"] = new SelectList(_context.Persons, "Id", "Id");
             return View();
         }
 
@@ -59,21 +59,22 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AbsenceReasonId,StudentId,CreatorId,From,To,Created,Text,IsAccepted")] AbsenceReason absenceReason)
+        public async Task<IActionResult> Create([Bind("StudentId,CreatorId,From,To,Created,Text,IsAccepted,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] AbsenceReason absenceReason)
         {
             if (ModelState.IsValid)
             {
+                absenceReason.Id = Guid.NewGuid();
                 _context.Add(absenceReason);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CreatorId"] = new SelectList(_context.Persons, "PersonId", "PersonId", absenceReason.CreatorId);
-            ViewData["StudentId"] = new SelectList(_context.Persons, "PersonId", "PersonId", absenceReason.StudentId);
+            ViewData["CreatorId"] = new SelectList(_context.Persons, "Id", "Id", absenceReason.CreatorId);
+            ViewData["StudentId"] = new SelectList(_context.Persons, "Id", "Id", absenceReason.StudentId);
             return View(absenceReason);
         }
 
         // GET: AbsenceReason/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -85,8 +86,8 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["CreatorId"] = new SelectList(_context.Persons, "PersonId", "PersonId", absenceReason.CreatorId);
-            ViewData["StudentId"] = new SelectList(_context.Persons, "PersonId", "PersonId", absenceReason.StudentId);
+            ViewData["CreatorId"] = new SelectList(_context.Persons, "Id", "Id", absenceReason.CreatorId);
+            ViewData["StudentId"] = new SelectList(_context.Persons, "Id", "Id", absenceReason.StudentId);
             return View(absenceReason);
         }
 
@@ -95,9 +96,9 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AbsenceReasonId,StudentId,CreatorId,From,To,Created,Text,IsAccepted")] AbsenceReason absenceReason)
+        public async Task<IActionResult> Edit(Guid id, [Bind("StudentId,CreatorId,From,To,Created,Text,IsAccepted,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] AbsenceReason absenceReason)
         {
-            if (id != absenceReason.AbsenceReasonId)
+            if (id != absenceReason.Id)
             {
                 return NotFound();
             }
@@ -111,7 +112,7 @@ namespace WebApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AbsenceReasonExists(absenceReason.AbsenceReasonId))
+                    if (!AbsenceReasonExists(absenceReason.Id))
                     {
                         return NotFound();
                     }
@@ -122,13 +123,13 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CreatorId"] = new SelectList(_context.Persons, "PersonId", "PersonId", absenceReason.CreatorId);
-            ViewData["StudentId"] = new SelectList(_context.Persons, "PersonId", "PersonId", absenceReason.StudentId);
+            ViewData["CreatorId"] = new SelectList(_context.Persons, "Id", "Id", absenceReason.CreatorId);
+            ViewData["StudentId"] = new SelectList(_context.Persons, "Id", "Id", absenceReason.StudentId);
             return View(absenceReason);
         }
 
         // GET: AbsenceReason/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -138,7 +139,7 @@ namespace WebApp.Controllers
             var absenceReason = await _context.AbsenceReasons
                 .Include(a => a.Creator)
                 .Include(a => a.Student)
-                .FirstOrDefaultAsync(m => m.AbsenceReasonId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (absenceReason == null)
             {
                 return NotFound();
@@ -150,7 +151,7 @@ namespace WebApp.Controllers
         // POST: AbsenceReason/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var absenceReason = await _context.AbsenceReasons.FindAsync(id);
             _context.AbsenceReasons.Remove(absenceReason);
@@ -158,9 +159,9 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AbsenceReasonExists(int id)
+        private bool AbsenceReasonExists(Guid id)
         {
-            return _context.AbsenceReasons.Any(e => e.AbsenceReasonId == id);
+            return _context.AbsenceReasons.Any(e => e.Id == id);
         }
     }
 }

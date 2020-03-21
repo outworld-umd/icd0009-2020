@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using DAL.Base;
 
 namespace Domain {
 
-    public class Form {
-        public int FormId { get; set; }
+    public class Form : DomainEntity {
         public int Year { get; set; }
         public int FormNumber { get; set; }
         [MaxLength(10)]

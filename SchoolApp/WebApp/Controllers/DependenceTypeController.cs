@@ -26,7 +26,7 @@ namespace WebApp.Controllers
         }
 
         // GET: DependenceType/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -34,7 +34,7 @@ namespace WebApp.Controllers
             }
 
             var dependenceType = await _context.DependenceTypes
-                .FirstOrDefaultAsync(m => m.DependenceTypeId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (dependenceType == null)
             {
                 return NotFound();
@@ -54,10 +54,11 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DependenceTypeId,ParentToChildName,ChildToParentName")] DependenceType dependenceType)
+        public async Task<IActionResult> Create([Bind("ParentToChildName,ChildToParentName,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] DependenceType dependenceType)
         {
             if (ModelState.IsValid)
             {
+                dependenceType.Id = Guid.NewGuid();
                 _context.Add(dependenceType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -66,7 +67,7 @@ namespace WebApp.Controllers
         }
 
         // GET: DependenceType/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -86,9 +87,9 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DependenceTypeId,ParentToChildName,ChildToParentName")] DependenceType dependenceType)
+        public async Task<IActionResult> Edit(Guid id, [Bind("ParentToChildName,ChildToParentName,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] DependenceType dependenceType)
         {
-            if (id != dependenceType.DependenceTypeId)
+            if (id != dependenceType.Id)
             {
                 return NotFound();
             }
@@ -102,7 +103,7 @@ namespace WebApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DependenceTypeExists(dependenceType.DependenceTypeId))
+                    if (!DependenceTypeExists(dependenceType.Id))
                     {
                         return NotFound();
                     }
@@ -117,7 +118,7 @@ namespace WebApp.Controllers
         }
 
         // GET: DependenceType/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -125,7 +126,7 @@ namespace WebApp.Controllers
             }
 
             var dependenceType = await _context.DependenceTypes
-                .FirstOrDefaultAsync(m => m.DependenceTypeId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (dependenceType == null)
             {
                 return NotFound();
@@ -137,7 +138,7 @@ namespace WebApp.Controllers
         // POST: DependenceType/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var dependenceType = await _context.DependenceTypes.FindAsync(id);
             _context.DependenceTypes.Remove(dependenceType);
@@ -145,9 +146,9 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DependenceTypeExists(int id)
+        private bool DependenceTypeExists(Guid id)
         {
-            return _context.DependenceTypes.Any(e => e.DependenceTypeId == id);
+            return _context.DependenceTypes.Any(e => e.Id == id);
         }
     }
 }

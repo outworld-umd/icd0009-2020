@@ -27,7 +27,7 @@ namespace WebApp.Controllers
         }
 
         // GET: Homework/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -37,7 +37,7 @@ namespace WebApp.Controllers
             var homework = await _context.Homeworks
                 .Include(h => h.SubjectGroup)
                 .Include(h => h.Teacher)
-                .FirstOrDefaultAsync(m => m.HomeworkId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (homework == null)
             {
                 return NotFound();
@@ -49,8 +49,8 @@ namespace WebApp.Controllers
         // GET: Homework/Create
         public IActionResult Create()
         {
-            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "SubjectGroupId", "SubjectGroupId");
-            ViewData["TeacherId"] = new SelectList(_context.Persons, "PersonId", "PersonId");
+            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "Id", "Id");
+            ViewData["TeacherId"] = new SelectList(_context.Persons, "Id", "Id");
             return View();
         }
 
@@ -59,21 +59,22 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("HomeworkId,SubjectGroupId,Added,Deadline,TeacherId")] Homework homework)
+        public async Task<IActionResult> Create([Bind("SubjectGroupId,Added,Deadline,TeacherId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Homework homework)
         {
             if (ModelState.IsValid)
             {
+                homework.Id = Guid.NewGuid();
                 _context.Add(homework);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "SubjectGroupId", "SubjectGroupId", homework.SubjectGroupId);
-            ViewData["TeacherId"] = new SelectList(_context.Persons, "PersonId", "PersonId", homework.TeacherId);
+            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "Id", "Id", homework.SubjectGroupId);
+            ViewData["TeacherId"] = new SelectList(_context.Persons, "Id", "Id", homework.TeacherId);
             return View(homework);
         }
 
         // GET: Homework/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -85,8 +86,8 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "SubjectGroupId", "SubjectGroupId", homework.SubjectGroupId);
-            ViewData["TeacherId"] = new SelectList(_context.Persons, "PersonId", "PersonId", homework.TeacherId);
+            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "Id", "Id", homework.SubjectGroupId);
+            ViewData["TeacherId"] = new SelectList(_context.Persons, "Id", "Id", homework.TeacherId);
             return View(homework);
         }
 
@@ -95,9 +96,9 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("HomeworkId,SubjectGroupId,Added,Deadline,TeacherId")] Homework homework)
+        public async Task<IActionResult> Edit(Guid id, [Bind("SubjectGroupId,Added,Deadline,TeacherId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Homework homework)
         {
-            if (id != homework.HomeworkId)
+            if (id != homework.Id)
             {
                 return NotFound();
             }
@@ -111,7 +112,7 @@ namespace WebApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!HomeworkExists(homework.HomeworkId))
+                    if (!HomeworkExists(homework.Id))
                     {
                         return NotFound();
                     }
@@ -122,13 +123,13 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "SubjectGroupId", "SubjectGroupId", homework.SubjectGroupId);
-            ViewData["TeacherId"] = new SelectList(_context.Persons, "PersonId", "PersonId", homework.TeacherId);
+            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "Id", "Id", homework.SubjectGroupId);
+            ViewData["TeacherId"] = new SelectList(_context.Persons, "Id", "Id", homework.TeacherId);
             return View(homework);
         }
 
         // GET: Homework/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -138,7 +139,7 @@ namespace WebApp.Controllers
             var homework = await _context.Homeworks
                 .Include(h => h.SubjectGroup)
                 .Include(h => h.Teacher)
-                .FirstOrDefaultAsync(m => m.HomeworkId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (homework == null)
             {
                 return NotFound();
@@ -150,7 +151,7 @@ namespace WebApp.Controllers
         // POST: Homework/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var homework = await _context.Homeworks.FindAsync(id);
             _context.Homeworks.Remove(homework);
@@ -158,9 +159,9 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool HomeworkExists(int id)
+        private bool HomeworkExists(Guid id)
         {
-            return _context.Homeworks.Any(e => e.HomeworkId == id);
+            return _context.Homeworks.Any(e => e.Id == id);
         }
     }
 }

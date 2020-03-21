@@ -27,7 +27,7 @@ namespace WebApp.Controllers
         }
 
         // GET: PersonGroup/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -37,7 +37,7 @@ namespace WebApp.Controllers
             var personGroup = await _context.PersonGroups
                 .Include(p => p.Person)
                 .Include(p => p.SubjectGroup)
-                .FirstOrDefaultAsync(m => m.PersonGroupId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (personGroup == null)
             {
                 return NotFound();
@@ -49,8 +49,8 @@ namespace WebApp.Controllers
         // GET: PersonGroup/Create
         public IActionResult Create()
         {
-            ViewData["PersonId"] = new SelectList(_context.Persons, "PersonId", "PersonId");
-            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "SubjectGroupId", "SubjectGroupId");
+            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Id");
+            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "Id", "Id");
             return View();
         }
 
@@ -59,21 +59,22 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PersonGroupId,PersonId,SubjectGroupId,From,To,Comment")] PersonGroup personGroup)
+        public async Task<IActionResult> Create([Bind("PersonId,SubjectGroupId,From,To,Comment,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] PersonGroup personGroup)
         {
             if (ModelState.IsValid)
             {
+                personGroup.Id = Guid.NewGuid();
                 _context.Add(personGroup);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PersonId"] = new SelectList(_context.Persons, "PersonId", "PersonId", personGroup.PersonId);
-            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "SubjectGroupId", "SubjectGroupId", personGroup.SubjectGroupId);
+            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Id", personGroup.PersonId);
+            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "Id", "Id", personGroup.SubjectGroupId);
             return View(personGroup);
         }
 
         // GET: PersonGroup/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -85,8 +86,8 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["PersonId"] = new SelectList(_context.Persons, "PersonId", "PersonId", personGroup.PersonId);
-            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "SubjectGroupId", "SubjectGroupId", personGroup.SubjectGroupId);
+            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Id", personGroup.PersonId);
+            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "Id", "Id", personGroup.SubjectGroupId);
             return View(personGroup);
         }
 
@@ -95,9 +96,9 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PersonGroupId,PersonId,SubjectGroupId,From,To,Comment")] PersonGroup personGroup)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PersonId,SubjectGroupId,From,To,Comment,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] PersonGroup personGroup)
         {
-            if (id != personGroup.PersonGroupId)
+            if (id != personGroup.Id)
             {
                 return NotFound();
             }
@@ -111,7 +112,7 @@ namespace WebApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PersonGroupExists(personGroup.PersonGroupId))
+                    if (!PersonGroupExists(personGroup.Id))
                     {
                         return NotFound();
                     }
@@ -122,13 +123,13 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PersonId"] = new SelectList(_context.Persons, "PersonId", "PersonId", personGroup.PersonId);
-            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "SubjectGroupId", "SubjectGroupId", personGroup.SubjectGroupId);
+            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Id", personGroup.PersonId);
+            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "Id", "Id", personGroup.SubjectGroupId);
             return View(personGroup);
         }
 
         // GET: PersonGroup/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -138,7 +139,7 @@ namespace WebApp.Controllers
             var personGroup = await _context.PersonGroups
                 .Include(p => p.Person)
                 .Include(p => p.SubjectGroup)
-                .FirstOrDefaultAsync(m => m.PersonGroupId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (personGroup == null)
             {
                 return NotFound();
@@ -150,7 +151,7 @@ namespace WebApp.Controllers
         // POST: PersonGroup/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var personGroup = await _context.PersonGroups.FindAsync(id);
             _context.PersonGroups.Remove(personGroup);
@@ -158,9 +159,9 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PersonGroupExists(int id)
+        private bool PersonGroupExists(Guid id)
         {
-            return _context.PersonGroups.Any(e => e.PersonGroupId == id);
+            return _context.PersonGroups.Any(e => e.Id == id);
         }
     }
 }

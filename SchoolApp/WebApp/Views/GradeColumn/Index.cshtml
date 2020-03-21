@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.GradeType)
+                @Html.DisplayNameFor(model => model.GradeTypeId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Date)
@@ -27,6 +27,18 @@
             <th>
                 @Html.DisplayNameFor(model => model.SubjectGroup)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ChangedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ChangedAt)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -34,7 +46,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.GradeType.GradeTypeId)
+                @Html.DisplayFor(modelItem => item.GradeTypeId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Date)
@@ -46,12 +58,24 @@
                 @Html.DisplayFor(modelItem => item.Theme)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SubjectGroup.SubjectGroupId)
+                @Html.DisplayFor(modelItem => item.SubjectGroup.Id)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.GradeColumnId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.GradeColumnId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.GradeColumnId">Delete</a>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChangedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChangedAt)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

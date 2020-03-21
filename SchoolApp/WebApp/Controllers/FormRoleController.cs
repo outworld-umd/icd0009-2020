@@ -26,7 +26,7 @@ namespace WebApp.Controllers
         }
 
         // GET: FormRole/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -34,7 +34,7 @@ namespace WebApp.Controllers
             }
 
             var formRole = await _context.FormRoles
-                .FirstOrDefaultAsync(m => m.FormRoleId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (formRole == null)
             {
                 return NotFound();
@@ -54,10 +54,11 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FormRoleId,Name")] FormRole formRole)
+        public async Task<IActionResult> Create([Bind("Name,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] FormRole formRole)
         {
             if (ModelState.IsValid)
             {
+                formRole.Id = Guid.NewGuid();
                 _context.Add(formRole);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -66,7 +67,7 @@ namespace WebApp.Controllers
         }
 
         // GET: FormRole/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -86,9 +87,9 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FormRoleId,Name")] FormRole formRole)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] FormRole formRole)
         {
-            if (id != formRole.FormRoleId)
+            if (id != formRole.Id)
             {
                 return NotFound();
             }
@@ -102,7 +103,7 @@ namespace WebApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FormRoleExists(formRole.FormRoleId))
+                    if (!FormRoleExists(formRole.Id))
                     {
                         return NotFound();
                     }
@@ -117,7 +118,7 @@ namespace WebApp.Controllers
         }
 
         // GET: FormRole/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -125,7 +126,7 @@ namespace WebApp.Controllers
             }
 
             var formRole = await _context.FormRoles
-                .FirstOrDefaultAsync(m => m.FormRoleId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (formRole == null)
             {
                 return NotFound();
@@ -137,7 +138,7 @@ namespace WebApp.Controllers
         // POST: FormRole/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var formRole = await _context.FormRoles.FindAsync(id);
             _context.FormRoles.Remove(formRole);
@@ -145,9 +146,9 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool FormRoleExists(int id)
+        private bool FormRoleExists(Guid id)
         {
-            return _context.FormRoles.Any(e => e.FormRoleId == id);
+            return _context.FormRoles.Any(e => e.Id == id);
         }
     }
 }

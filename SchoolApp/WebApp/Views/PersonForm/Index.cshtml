@@ -27,6 +27,18 @@
             <th>
                 @Html.DisplayNameFor(model => model.To)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ChangedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ChangedAt)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -34,13 +46,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Form.FormId)
+                @Html.DisplayFor(modelItem => item.Form.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FormRole.FormRoleId)
+                @Html.DisplayFor(modelItem => item.FormRole.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Person.PersonId)
+                @Html.DisplayFor(modelItem => item.Person.Id)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.From)
@@ -49,9 +61,21 @@
                 @Html.DisplayFor(modelItem => item.To)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.PersonFormId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PersonFormId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PersonFormId">Delete</a>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChangedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChangedAt)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }
