@@ -1,4 +1,4 @@
-@model Domain.Dependence
+@model DependenceCreateEditViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -13,46 +13,46 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="ParentId" class="control-label"></label>
-                <select asp-for="ParentId" class ="form-control" asp-items="ViewBag.ParentId"></select>
+                <label asp-for="Dependence.ParentId" class="control-label"></label>
+                <select asp-for="Dependence.ParentId" class ="form-control" asp-items="Model.Parents"></select>
             </div>
             <div class="form-group">
-                <label asp-for="ChildId" class="control-label"></label>
-                <select asp-for="ChildId" class ="form-control" asp-items="ViewBag.ChildId"></select>
+                <label asp-for="Dependence.ChildId" class="control-label"></label>
+                <select asp-for="Dependence.ChildId" class ="form-control" asp-items="Model.Children"></select>
             </div>
             <div class="form-group">
-                <label asp-for="DependenceTypeId" class="control-label"></label>
-                <select asp-for="DependenceTypeId" class ="form-control" asp-items="ViewBag.DependenceTypeId"></select>
+                <label asp-for="Dependence.DependenceTypeId" class="control-label"></label>
+                <select asp-for="Dependence.DependenceTypeId" class ="form-control" asp-items="Model.Types"></select>
             </div>
             <div class="form-group">
-                <label asp-for="From" class="control-label"></label>
-                <input asp-for="From" class="form-control" />
-                <span asp-validation-for="From" class="text-danger"></span>
+                <label asp-for="Dependence.From" class="control-label"></label>
+                <input asp-for="Dependence.From" class="form-control" />
+                <span asp-validation-for="Dependence.From" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="To" class="control-label"></label>
-                <input asp-for="To" class="form-control" />
-                <span asp-validation-for="To" class="text-danger"></span>
+                <label asp-for="Dependence.To" class="control-label"></label>
+                <input asp-for="Dependence.To" class="form-control" />
+                <span asp-validation-for="Dependence.To" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CreatedBy" class="control-label"></label>
-                <input asp-for="CreatedBy" class="form-control" />
-                <span asp-validation-for="CreatedBy" class="text-danger"></span>
+                <label asp-for="Dependence.CreatedBy" class="control-label"></label>
+                <input asp-for="Dependence.CreatedBy" class="form-control" />
+                <span asp-validation-for="Dependence.CreatedBy" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
+                <label asp-for="Dependence.CreatedAt" class="control-label"></label>
+                <input asp-for="Dependence.CreatedAt" class="form-control" />
+                <span asp-validation-for="Dependence.CreatedAt" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ChangedBy" class="control-label"></label>
-                <input asp-for="ChangedBy" class="form-control" />
-                <span asp-validation-for="ChangedBy" class="text-danger"></span>
+                <label asp-for="Dependence.ChangedBy" class="control-label"></label>
+                <input asp-for="Dependence.ChangedBy" class="form-control" />
+                <span asp-validation-for="Dependence.ChangedBy" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ChangedAt" class="control-label"></label>
-                <input asp-for="ChangedAt" class="form-control" />
-                <span asp-validation-for="ChangedAt" class="text-danger"></span>
+                <label asp-for="Dependence.ChangedAt" class="control-label"></label>
+                <input asp-for="Dependence.ChangedAt" class="form-control" />
+                <span asp-validation-for="Dependence.ChangedAt" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

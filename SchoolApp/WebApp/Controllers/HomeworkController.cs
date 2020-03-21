@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using WebApp.Models;
 
 namespace WebApp.Controllers
 {
@@ -49,9 +50,12 @@ namespace WebApp.Controllers
         // GET: Homework/Create
         public IActionResult Create()
         {
-            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "Id", "Id");
-            ViewData["TeacherId"] = new SelectList(_context.Persons, "Id", "Id");
-            return View();
+            var vm = new HomeworkCreateEditViewModel {
+                SubjectGroups = new SelectList(_context.SubjectGroups, nameof(SubjectGroup.Id),
+                    nameof(SubjectGroup.Name)),
+                Teachers = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName))
+            };
+            return View(vm);
         }
 
         // POST: Homework/Create
@@ -59,18 +63,18 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SubjectGroupId,Added,Deadline,TeacherId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Homework homework)
+        public async Task<IActionResult> Create(HomeworkCreateEditViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                homework.Id = Guid.NewGuid();
-                _context.Add(homework);
+                vm.Homework.Id = Guid.NewGuid();
+                _context.Add(vm.Homework);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "Id", "Id", homework.SubjectGroupId);
-            ViewData["TeacherId"] = new SelectList(_context.Persons, "Id", "Id", homework.TeacherId);
-            return View(homework);
+            vm.SubjectGroups = new SelectList(_context.SubjectGroups, nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Homework.SubjectGroupId);
+            vm.Teachers = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Homework.TeacherId);
+            return View(vm);
         }
 
         // GET: Homework/Edit/5
@@ -80,15 +84,14 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
-            var homework = await _context.Homeworks.FindAsync(id);
-            if (homework == null)
+            var vm = new HomeworkCreateEditViewModel {Homework = await _context.Homeworks.FindAsync(id)};
+            if (vm.Homework == null)
             {
                 return NotFound();
             }
-            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "Id", "Id", homework.SubjectGroupId);
-            ViewData["TeacherId"] = new SelectList(_context.Persons, "Id", "Id", homework.TeacherId);
-            return View(homework);
+            vm.SubjectGroups = new SelectList(_context.SubjectGroups, nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Homework.SubjectGroupId);
+            vm.Teachers = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Homework.TeacherId);
+            return View(vm);
         }
 
         // POST: Homework/Edit/5
@@ -96,9 +99,9 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("SubjectGroupId,Added,Deadline,TeacherId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Homework homework)
-        {
-            if (id != homework.Id)
+        public async Task<IActionResult> Edit(Guid id, HomeworkCreateEditViewModel vm) {
+            vm.Homework.Id = id;
+            if (id != vm.Homework.Id)
             {
                 return NotFound();
             }
@@ -107,12 +110,12 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(homework);
+                    _context.Update(vm.Homework);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!HomeworkExists(homework.Id))
+                    if (!HomeworkExists(vm.Homework.Id))
                     {
                         return NotFound();
                     }
@@ -123,9 +126,9 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "Id", "Id", homework.SubjectGroupId);
-            ViewData["TeacherId"] = new SelectList(_context.Persons, "Id", "Id", homework.TeacherId);
-            return View(homework);
+            vm.SubjectGroups = new SelectList(_context.SubjectGroups, nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Homework.SubjectGroupId);
+            vm.Teachers = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Homework.TeacherId);
+            return View(vm);
         }
 
         // GET: Homework/Delete/5

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using WebApp.Models;
 
 namespace WebApp.Controllers
 {
@@ -50,10 +51,12 @@ namespace WebApp.Controllers
         // GET: PersonForm/Create
         public IActionResult Create()
         {
-            ViewData["FormId"] = new SelectList(_context.Forms, "Id", "Id");
-            ViewData["FormRoleId"] = new SelectList(_context.FormRoles, "Id", "Id");
-            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Id");
-            return View();
+            var vm = new PersonFormCreateEditViewModel {
+                Forms = new SelectList(_context.Forms, nameof(Form.Id), nameof(Form.Name)),
+                FormRoles = new SelectList(_context.FormRoles, nameof(FormRole.Id), nameof(FormRole.Name)),
+                Persons = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName))
+            };
+            return View(vm);
         }
 
         // POST: PersonForm/Create
@@ -61,19 +64,19 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FormId,FormRoleId,PersonId,From,To,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] PersonForm personForm)
+        public async Task<IActionResult> Create(PersonFormCreateEditViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                personForm.Id = Guid.NewGuid();
-                _context.Add(personForm);
+                vm.PersonForm.Id = Guid.NewGuid();
+                _context.Add(vm.PersonForm);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FormId"] = new SelectList(_context.Forms, "Id", "Id", personForm.FormId);
-            ViewData["FormRoleId"] = new SelectList(_context.FormRoles, "Id", "Id", personForm.FormRoleId);
-            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Id", personForm.PersonId);
-            return View(personForm);
+            vm.Forms = new SelectList(_context.Forms, nameof(Form.Id), nameof(Form.Name), vm.PersonForm.FormId);
+            vm.FormRoles = new SelectList(_context.FormRoles, nameof(FormRole.Id), nameof(FormRole.Name), vm.PersonForm.FormRoleId);
+            vm.Persons = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.PersonForm.FormRoleId);
+            return View(vm);
         }
 
         // GET: PersonForm/Edit/5
@@ -83,16 +86,16 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
-            var personForm = await _context.PersonForms.FindAsync(id);
-            if (personForm == null)
+            var vm = new PersonFormCreateEditViewModel();
+            vm.PersonForm = await _context.PersonForms.FindAsync(id);
+            if (vm.PersonForm == null)
             {
                 return NotFound();
             }
-            ViewData["FormId"] = new SelectList(_context.Forms, "Id", "Id", personForm.FormId);
-            ViewData["FormRoleId"] = new SelectList(_context.FormRoles, "Id", "Id", personForm.FormRoleId);
-            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Id", personForm.PersonId);
-            return View(personForm);
+            vm.Forms = new SelectList(_context.Forms, nameof(Form.Id), nameof(Form.Name), vm.PersonForm.FormId);
+            vm.FormRoles = new SelectList(_context.FormRoles, nameof(FormRole.Id), nameof(FormRole.Name), vm.PersonForm.FormRoleId);
+            vm.Persons = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.PersonForm.FormRoleId);
+            return View(vm);
         }
 
         // POST: PersonForm/Edit/5
@@ -100,9 +103,9 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("FormId,FormRoleId,PersonId,From,To,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] PersonForm personForm)
-        {
-            if (id != personForm.Id)
+        public async Task<IActionResult> Edit(Guid id, PersonFormCreateEditViewModel vm) {
+            vm.PersonForm.Id = id;
+            if (id != vm.PersonForm.Id)
             {
                 return NotFound();
             }
@@ -111,12 +114,12 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(personForm);
+                    _context.Update(vm.PersonForm);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PersonFormExists(personForm.Id))
+                    if (!PersonFormExists(vm.PersonForm.Id))
                     {
                         return NotFound();
                     }
@@ -127,10 +130,10 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FormId"] = new SelectList(_context.Forms, "Id", "Id", personForm.FormId);
-            ViewData["FormRoleId"] = new SelectList(_context.FormRoles, "Id", "Id", personForm.FormRoleId);
-            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Id", personForm.PersonId);
-            return View(personForm);
+            vm.Forms = new SelectList(_context.Forms, nameof(Form.Id), nameof(Form.Name), vm.PersonForm.FormId);
+            vm.FormRoles = new SelectList(_context.FormRoles, nameof(FormRole.Id), nameof(FormRole.Name), vm.PersonForm.FormRoleId);
+            vm.Persons = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.PersonForm.FormRoleId);
+            return View(vm);
         }
 
         // GET: PersonForm/Delete/5

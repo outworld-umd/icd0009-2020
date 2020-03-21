@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using WebApp.Models;
 
 namespace WebApp.Controllers
 {
@@ -50,10 +51,13 @@ namespace WebApp.Controllers
         // GET: Grade/Create
         public IActionResult Create()
         {
-            ViewData["AbsenceReasonId"] = new SelectList(_context.AbsenceReasons, "Id", "Id");
-            ViewData["StudentId"] = new SelectList(_context.Persons, "Id", "FirstName");
-            ViewData["TeacherId"] = new SelectList(_context.Persons, "Id", "FirstName");
-            return View();
+            var vm = new GradeCreateEditViewModel {
+                AbsenceReasons = new SelectList(_context.AbsenceReasons, nameof(AbsenceReason.Id),
+                    nameof(AbsenceReason.Id)),
+                Students = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName)),
+                Teachers = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName))
+            };
+            return View(vm);
         }
 
         // POST: Grade/Create
@@ -61,19 +65,19 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Value,IsAbsent,Description,Created,AbsenceReasonId,StudentId,TeacherId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Grade grade)
+        public async Task<IActionResult> Create(GradeCreateEditViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                grade.Id = Guid.NewGuid();
-                _context.Add(grade);
+                vm.Grade.Id = Guid.NewGuid();
+                _context.Add(vm.Grade);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AbsenceReasonId"] = new SelectList(_context.AbsenceReasons, "Id", "Id", grade.AbsenceReasonId);
-            ViewData["StudentId"] = new SelectList(_context.Persons, "Id", "Id", grade.StudentId);
-            ViewData["TeacherId"] = new SelectList(_context.Persons, "Id", "Id", grade.TeacherId);
-            return View(grade);
+            vm.AbsenceReasons = new SelectList(_context.AbsenceReasons, nameof(AbsenceReason.Id), nameof(AbsenceReason.Id), vm.Grade.AbsenceReason);
+            vm.Students = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Grade.Student);
+            vm.Teachers = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Grade.Teacher);
+            return View(vm);
         }
 
         // GET: Grade/Edit/5
@@ -83,16 +87,15 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
-            var grade = await _context.Grades.FindAsync(id);
-            if (grade == null)
+            var vm = new GradeCreateEditViewModel { Grade = await _context.Grades.FindAsync(id) };
+            if (vm.Grade == null)
             {
                 return NotFound();
             }
-            ViewData["AbsenceReasonId"] = new SelectList(_context.AbsenceReasons, "Id", "Id", grade.AbsenceReasonId);
-            ViewData["StudentId"] = new SelectList(_context.Persons, "Id", "Id", grade.StudentId);
-            ViewData["TeacherId"] = new SelectList(_context.Persons, "Id", "Id", grade.TeacherId);
-            return View(grade);
+            vm.AbsenceReasons = new SelectList(_context.AbsenceReasons, nameof(AbsenceReason.Id), nameof(AbsenceReason.Id), vm.Grade.AbsenceReason);
+            vm.Students = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Grade.Student);
+            vm.Teachers = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Grade.Teacher);
+            return View(vm);
         }
 
         // POST: Grade/Edit/5
@@ -100,9 +103,9 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Value,IsAbsent,Description,Created,AbsenceReasonId,StudentId,TeacherId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Grade grade)
-        {
-            if (id != grade.Id)
+        public async Task<IActionResult> Edit(Guid id, GradeCreateEditViewModel vm) {
+            vm.Grade.Id = id;
+            if (id != vm.Grade.Id)
             {
                 return NotFound();
             }
@@ -111,12 +114,12 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(grade);
+                    _context.Update(vm.Grade);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GradeExists(grade.Id))
+                    if (!GradeExists(vm.Grade.Id))
                     {
                         return NotFound();
                     }
@@ -127,10 +130,10 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AbsenceReasonId"] = new SelectList(_context.AbsenceReasons, "Id", "Id", grade.AbsenceReasonId);
-            ViewData["StudentId"] = new SelectList(_context.Persons, "Id", "Id", grade.StudentId);
-            ViewData["TeacherId"] = new SelectList(_context.Persons, "Id", "Id", grade.TeacherId);
-            return View(grade);
+            vm.AbsenceReasons = new SelectList(_context.AbsenceReasons, nameof(AbsenceReason.Id), nameof(AbsenceReason.Id), vm.Grade.AbsenceReason);
+            vm.Students = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Grade.Student);
+            vm.Teachers = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Grade.Teacher);
+            return View(vm);
         }
 
         // GET: Grade/Delete/5

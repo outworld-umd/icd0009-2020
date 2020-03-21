@@ -11,8 +11,8 @@ namespace Domain {
         [MaxLength(200)]
         public string Description { get; set; }
         public DateTime Created { get; set; }
-        public Guid AbsenceReasonId { get; set; }
-        public AbsenceReason AbsenceReason { get; set; }
+        public Guid? AbsenceReasonId { get; set; }
+        public AbsenceReason? AbsenceReason { get; set; }
         [ForeignKey(nameof(Student))]
         public Guid StudentId { get; set; }
         public Person Student { get; set; }

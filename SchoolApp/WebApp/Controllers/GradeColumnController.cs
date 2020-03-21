@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using WebApp.Models;
 
 namespace WebApp.Controllers
 {
@@ -48,8 +49,10 @@ namespace WebApp.Controllers
         // GET: GradeColumn/Create
         public IActionResult Create()
         {
-            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "Id", "Id");
-            return View();
+            var vm = new GradeColumnCreateEditViewModel {
+                Groups = new SelectList(_context.SubjectGroups, nameof(SubjectGroup.Id), nameof(SubjectGroup.Name))
+            };
+            return View(vm);
         }
 
         // POST: GradeColumn/Create
@@ -57,17 +60,17 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("GradeTypeId,Date,LessonNumber,Theme,SubjectGroupId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] GradeColumn gradeColumn)
+        public async Task<IActionResult> Create(GradeColumnCreateEditViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                gradeColumn.Id = Guid.NewGuid();
-                _context.Add(gradeColumn);
+                vm.Column.Id = Guid.NewGuid();
+                _context.Add(vm.Column);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "Id", "Id", gradeColumn.SubjectGroupId);
-            return View(gradeColumn);
+            vm.Groups = new SelectList(_context.SubjectGroups, nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Column.Id);
+            return View(vm);
         }
 
         // GET: GradeColumn/Edit/5
@@ -77,14 +80,13 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
-            var gradeColumn = await _context.GradeColumns.FindAsync(id);
-            if (gradeColumn == null)
+            var vm = new GradeColumnCreateEditViewModel {Column = await _context.GradeColumns.FindAsync(id)};
+            if (vm.Column == null)
             {
                 return NotFound();
             }
-            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "Id", "Id", gradeColumn.SubjectGroupId);
-            return View(gradeColumn);
+            vm.Groups = new SelectList(_context.SubjectGroups, nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Column.Id);
+            return View(vm);
         }
 
         // POST: GradeColumn/Edit/5
@@ -92,9 +94,9 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("GradeTypeId,Date,LessonNumber,Theme,SubjectGroupId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] GradeColumn gradeColumn)
-        {
-            if (id != gradeColumn.Id)
+        public async Task<IActionResult> Edit(Guid id, GradeColumnCreateEditViewModel vm) {
+            vm.Column.Id = id;
+            if (id != vm.Column.Id)
             {
                 return NotFound();
             }
@@ -103,12 +105,12 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(gradeColumn);
+                    _context.Update(vm.Column);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GradeColumnExists(gradeColumn.Id))
+                    if (!GradeColumnExists(vm.Column.Id))
                     {
                         return NotFound();
                     }
@@ -119,8 +121,8 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "Id", "Id", gradeColumn.SubjectGroupId);
-            return View(gradeColumn);
+            vm.Groups = new SelectList(_context.SubjectGroups, nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Column.Id);
+            return View(vm);
         }
 
         // GET: GradeColumn/Delete/5

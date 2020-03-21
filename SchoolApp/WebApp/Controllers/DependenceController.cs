@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using WebApp.Models;
 
 namespace WebApp.Controllers
 {
@@ -50,10 +51,13 @@ namespace WebApp.Controllers
         // GET: Dependence/Create
         public IActionResult Create()
         {
-            ViewData["ChildId"] = new SelectList(_context.Persons, "Id", "Id");
-            ViewData["DependenceTypeId"] = new SelectList(_context.DependenceTypes, "Id", "Id");
-            ViewData["ParentId"] = new SelectList(_context.Persons, "Id", "Id");
-            return View();
+            var vm = new DependenceCreateEditViewModel {
+                Children = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName)),
+                Types = new SelectList(_context.DependenceTypes, nameof(DependenceType.Id),
+                    nameof(DependenceType.ChildToParentName)),
+                Parents = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName))
+            };
+            return View(vm);
         }
 
         // POST: Dependence/Create
@@ -61,19 +65,19 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ParentId,ChildId,DependenceTypeId,From,To,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Dependence dependence)
+        public async Task<IActionResult> Create(DependenceCreateEditViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                dependence.Id = Guid.NewGuid();
-                _context.Add(dependence);
+                vm.Dependence.Id = Guid.NewGuid();
+                _context.Add(vm.Dependence);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ChildId"] = new SelectList(_context.Persons, "Id", "Id", dependence.ChildId);
-            ViewData["DependenceTypeId"] = new SelectList(_context.DependenceTypes, "Id", "Id", dependence.DependenceTypeId);
-            ViewData["ParentId"] = new SelectList(_context.Persons, "Id", "Id", dependence.ParentId);
-            return View(dependence);
+            vm.Children = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Dependence.ChildId);
+            vm.Types = new SelectList(_context.DependenceTypes, nameof(DependenceType.Id), nameof(DependenceType.ChildToParentName), vm.Dependence.DependenceTypeId);
+            vm.Parents = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Dependence.ParentId);
+            return View(vm);
         }
 
         // GET: Dependence/Edit/5
@@ -83,16 +87,15 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
-            var dependence = await _context.Dependences.FindAsync(id);
-            if (dependence == null)
+            var vm = new DependenceCreateEditViewModel {Dependence = await _context.Dependences.FindAsync(id)};
+            if (vm.Dependence == null)
             {
                 return NotFound();
             }
-            ViewData["ChildId"] = new SelectList(_context.Persons, "Id", "Id", dependence.ChildId);
-            ViewData["DependenceTypeId"] = new SelectList(_context.DependenceTypes, "Id", "Id", dependence.DependenceTypeId);
-            ViewData["ParentId"] = new SelectList(_context.Persons, "Id", "Id", dependence.ParentId);
-            return View(dependence);
+            vm.Children = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Dependence.ChildId);
+            vm.Types = new SelectList(_context.DependenceTypes, nameof(DependenceType.Id), nameof(DependenceType.ChildToParentName), vm.Dependence.DependenceTypeId);
+            vm.Parents = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Dependence.ParentId);
+            return View(vm);
         }
 
         // POST: Dependence/Edit/5
@@ -100,9 +103,10 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("ParentId,ChildId,DependenceTypeId,From,To,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Dependence dependence)
+        public async Task<IActionResult> Edit(Guid id, DependenceCreateEditViewModel vm)
         {
-            if (id != dependence.Id)
+            vm.Dependence.Id = id;
+            if (id != vm.Dependence.Id)
             {
                 return NotFound();
             }
@@ -111,12 +115,12 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(dependence);
+                    _context.Update(vm.Dependence);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DependenceExists(dependence.Id))
+                    if (!DependenceExists(vm.Dependence.Id))
                     {
                         return NotFound();
                     }
@@ -127,10 +131,10 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ChildId"] = new SelectList(_context.Persons, "Id", "Id", dependence.ChildId);
-            ViewData["DependenceTypeId"] = new SelectList(_context.DependenceTypes, "Id", "Id", dependence.DependenceTypeId);
-            ViewData["ParentId"] = new SelectList(_context.Persons, "Id", "Id", dependence.ParentId);
-            return View(dependence);
+            vm.Children = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Dependence.ChildId);
+            vm.Types = new SelectList(_context.DependenceTypes, nameof(DependenceType.Id), nameof(DependenceType.ChildToParentName), vm.Dependence.DependenceTypeId);
+            vm.Parents = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Dependence.ParentId);
+            return View(vm);
         }
 
         // GET: Dependence/Delete/5
