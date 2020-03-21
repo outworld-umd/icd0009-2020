@@ -22,7 +22,7 @@ namespace WebApp.Controllers
         // GET: PersonForm
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.PersonForms.Include(p => p.FormRole).Include(p => p.Person);
+            var appDbContext = _context.PersonForms.Include(p => p.Form).Include(p => p.FormRole).Include(p => p.Person);
             return View(await appDbContext.ToListAsync());
         }
 
@@ -35,6 +35,7 @@ namespace WebApp.Controllers
             }
 
             var personForm = await _context.PersonForms
+                .Include(p => p.Form)
                 .Include(p => p.FormRole)
                 .Include(p => p.Person)
                 .FirstOrDefaultAsync(m => m.PersonFormId == id);
@@ -49,6 +50,7 @@ namespace WebApp.Controllers
         // GET: PersonForm/Create
         public IActionResult Create()
         {
+            ViewData["FormId"] = new SelectList(_context.Forms, "FormId", "FormId");
             ViewData["FormRoleId"] = new SelectList(_context.FormRoles, "FormRoleId", "FormRoleId");
             ViewData["PersonId"] = new SelectList(_context.Persons, "PersonId", "PersonId");
             return View();
@@ -59,7 +61,7 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PersonFormId,FormRoleId,PersonId,From,To")] PersonForm personForm)
+        public async Task<IActionResult> Create([Bind("PersonFormId,FormId,FormRoleId,PersonId,From,To")] PersonForm personForm)
         {
             if (ModelState.IsValid)
             {
@@ -67,6 +69,7 @@ namespace WebApp.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["FormId"] = new SelectList(_context.Forms, "FormId", "FormId", personForm.FormId);
             ViewData["FormRoleId"] = new SelectList(_context.FormRoles, "FormRoleId", "FormRoleId", personForm.FormRoleId);
             ViewData["PersonId"] = new SelectList(_context.Persons, "PersonId", "PersonId", personForm.PersonId);
             return View(personForm);
@@ -85,6 +88,7 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
+            ViewData["FormId"] = new SelectList(_context.Forms, "FormId", "FormId", personForm.FormId);
             ViewData["FormRoleId"] = new SelectList(_context.FormRoles, "FormRoleId", "FormRoleId", personForm.FormRoleId);
             ViewData["PersonId"] = new SelectList(_context.Persons, "PersonId", "PersonId", personForm.PersonId);
             return View(personForm);
@@ -95,7 +99,7 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PersonFormId,FormRoleId,PersonId,From,To")] PersonForm personForm)
+        public async Task<IActionResult> Edit(int id, [Bind("PersonFormId,FormId,FormRoleId,PersonId,From,To")] PersonForm personForm)
         {
             if (id != personForm.PersonFormId)
             {
@@ -122,6 +126,7 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["FormId"] = new SelectList(_context.Forms, "FormId", "FormId", personForm.FormId);
             ViewData["FormRoleId"] = new SelectList(_context.FormRoles, "FormRoleId", "FormRoleId", personForm.FormRoleId);
             ViewData["PersonId"] = new SelectList(_context.Persons, "PersonId", "PersonId", personForm.PersonId);
             return View(personForm);
@@ -136,6 +141,7 @@ namespace WebApp.Controllers
             }
 
             var personForm = await _context.PersonForms
+                .Include(p => p.Form)
                 .Include(p => p.FormRole)
                 .Include(p => p.Person)
                 .FirstOrDefaultAsync(m => m.PersonFormId == id);

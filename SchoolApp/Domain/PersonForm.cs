@@ -4,6 +4,11 @@ namespace Domain {
 
     public class PersonForm {
         public int PersonFormId { get; set; }
+        
+        public int FormId { get; set; }
+        
+        public Form Form { get; set; }
+        
         public int FormRoleId { get; set; }
         public FormRole FormRole { get; set; }
         public int PersonId { get; set; }

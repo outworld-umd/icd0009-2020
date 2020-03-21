@@ -12,8 +12,8 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="DAL.App.EF.csproj" t="IncludeRecursive" />
         <e p="Migrations" t="Include">
-          <e p="20200223132953_InitialDbCreation.cs" t="Include" />
-          <e p="20200223132953_InitialDbCreation.Designer.cs" t="Include" />
+          <e p="20200321102934_InitialDbCreation.cs" t="Include" />
+          <e p="20200321102934_InitialDbCreation.Designer.cs" t="Include" />
           <e p="AppDbContextModelSnapshot.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
@@ -146,6 +146,7 @@
           <e p="FormRoleController.cs" t="Include" />
           <e p="GradeColumnController.cs" t="Include" />
           <e p="GradeController.cs" t="Include" />
+          <e p="GradeTypeController.cs" t="Include" />
           <e p="HomeController.cs" t="Include" />
           <e p="HomeworkController.cs" t="Include" />
           <e p="PersonController.cs" t="Include" />
@@ -219,6 +220,13 @@
             <e p="Index.cshtml" t="Include" />
           </e>
           <e p="GradeColumn" t="Include">
+            <e p="Create.cshtml" t="Include" />
+            <e p="Delete.cshtml" t="Include" />
+            <e p="Details.cshtml" t="Include" />
+            <e p="Edit.cshtml" t="Include" />
+            <e p="Index.cshtml" t="Include" />
+          </e>
+          <e p="GradeType" t="Include">
             <e p="Create.cshtml" t="Include" />
             <e p="Delete.cshtml" t="Include" />
             <e p="Details.cshtml" t="Include" />

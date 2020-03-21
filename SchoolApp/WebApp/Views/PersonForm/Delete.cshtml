@@ -12,17 +12,23 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Form)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Form.FormId)
+        </dd>
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.FormRole)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.FormRole.FormRoleId)
-        </dd >
+        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Person)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Person.PersonId)
-        </dd >
+        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.From)
         </dt>
