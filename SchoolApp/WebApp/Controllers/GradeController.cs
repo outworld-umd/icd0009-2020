@@ -51,8 +51,8 @@ namespace WebApp.Controllers
         public IActionResult Create()
         {
             ViewData["AbsenceReasonId"] = new SelectList(_context.AbsenceReasons, "Id", "Id");
-            ViewData["StudentId"] = new SelectList(_context.Persons, "Id", "Id");
-            ViewData["TeacherId"] = new SelectList(_context.Persons, "Id", "Id");
+            ViewData["StudentId"] = new SelectList(_context.Persons, "Id", "FirstName");
+            ViewData["TeacherId"] = new SelectList(_context.Persons, "Id", "FirstName");
             return View();
         }
 
