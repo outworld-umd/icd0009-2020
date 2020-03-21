@@ -284,6 +284,11 @@
       <UpToDateCheckInput Remove="Views\Subject\Index.cshtml" />
       <UpToDateCheckInput Remove="Views\_ViewImports.cshtml" />
       <UpToDateCheckInput Remove="Views\_ViewStart.cshtml" />
+      <UpToDateCheckInput Remove="Views\GradeColumn\Create.cshtml" />
+      <UpToDateCheckInput Remove="Views\GradeColumn\Delete.cshtml" />
+      <UpToDateCheckInput Remove="Views\GradeColumn\Details.cshtml" />
+      <UpToDateCheckInput Remove="Views\GradeColumn\Edit.cshtml" />
+      <UpToDateCheckInput Remove="Views\GradeColumn\Index.cshtml" />
     </ItemGroup>
 
 </Project>

@@ -240,7 +240,12 @@
           <e p="SubjectGroupController.cs" t="Include" />
         </e>
         <e p="Models" t="Include">
+          <e p="DependenceCreateEditViewModel.cs" t="Include" />
           <e p="ErrorViewModel.cs" t="Include" />
+          <e p="GradeColumnCreateEditViewModel.cs" t="Include" />
+          <e p="GradeCreateEditViewModel.cs" t="Include" />
+          <e p="HomeworkCreateEditViewModel.cs" t="Include" />
+          <e p="PersonFormCreateEditViewModel.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">

@@ -6,6 +6,7 @@ namespace WebApp.Models {
     public class GradeColumnCreateEditViewModel {
         public GradeColumn Column { get; set; }
         public SelectList Groups { get; set; }
+        public SelectList Types { get; set; }
     }
 
 }

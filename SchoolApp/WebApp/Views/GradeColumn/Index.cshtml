@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.GradeTypeId)
+                @Html.DisplayNameFor(model => model.GradeType)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Date)
@@ -46,7 +46,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.GradeTypeId)
+                @Html.DisplayFor(modelItem => item.GradeType.Id)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Date)

@@ -14,8 +14,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
                             <label asp-for="Column.GradeTypeId" class="control-label"></label>
-                            <input asp-for="Column.GradeTypeId" class="form-control" />
-                            <span asp-validation-for="Column.GradeTypeId" class="text-danger"></span>
+                            <select asp-for="Column.GradeTypeId" class ="form-control" asp-items="Model.Types"></select>
                         </div>
                         <div class="form-group">
                             <label asp-for="Column.Date" class="control-label"></label>

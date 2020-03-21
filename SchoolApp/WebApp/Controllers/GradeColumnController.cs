@@ -23,7 +23,7 @@ namespace WebApp.Controllers
         // GET: GradeColumn
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.GradeColumns.Include(g => g.SubjectGroup);
+            var appDbContext = _context.GradeColumns.Include(g => g.GradeType).Include(g => g.SubjectGroup);
             return View(await appDbContext.ToListAsync());
         }
 
@@ -36,6 +36,7 @@ namespace WebApp.Controllers
             }
 
             var gradeColumn = await _context.GradeColumns
+                .Include(g => g.GradeType)
                 .Include(g => g.SubjectGroup)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (gradeColumn == null)
@@ -49,9 +50,9 @@ namespace WebApp.Controllers
         // GET: GradeColumn/Create
         public IActionResult Create()
         {
-            var vm = new GradeColumnCreateEditViewModel {
-                Groups = new SelectList(_context.SubjectGroups, nameof(SubjectGroup.Id), nameof(SubjectGroup.Name))
-            };
+            var vm = new GradeColumnCreateEditViewModel();
+            vm.Types = new SelectList(_context.GradeTypes, nameof(GradeType.Id), nameof(GradeType.Name));
+            vm.Groups = new SelectList(_context.SubjectGroups, nameof(SubjectGroup.Id), nameof(SubjectGroup.Name));
             return View(vm);
         }
 
@@ -69,7 +70,8 @@ namespace WebApp.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            vm.Groups = new SelectList(_context.SubjectGroups, nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Column.Id);
+            vm.Types = new SelectList(_context.GradeTypes, nameof(GradeType.Id), nameof(GradeType.Name), vm.Column.GradeTypeId);
+            vm.Groups = new SelectList(_context.SubjectGroups, nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Column.SubjectGroupId);
             return View(vm);
         }
 
@@ -85,7 +87,8 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            vm.Groups = new SelectList(_context.SubjectGroups, nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Column.Id);
+            vm.Types = new SelectList(_context.GradeTypes, nameof(GradeType.Id), nameof(GradeType.Name), vm.Column.GradeTypeId);
+            vm.Groups = new SelectList(_context.SubjectGroups, nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Column.SubjectGroupId);
             return View(vm);
         }
 
@@ -121,7 +124,8 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            vm.Groups = new SelectList(_context.SubjectGroups, nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Column.Id);
+            vm.Types = new SelectList(_context.GradeTypes, nameof(GradeType.Id), nameof(GradeType.Name), vm.Column.GradeTypeId);
+            vm.Groups = new SelectList(_context.SubjectGroups, nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Column.SubjectGroupId);
             return View(vm);
         }
 
@@ -134,6 +138,7 @@ namespace WebApp.Controllers
             }
 
             var gradeColumn = await _context.GradeColumns
+                .Include(g => g.GradeType)
                 .Include(g => g.SubjectGroup)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (gradeColumn == null)
