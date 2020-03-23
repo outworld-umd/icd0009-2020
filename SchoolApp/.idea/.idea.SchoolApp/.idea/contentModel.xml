@@ -278,8 +278,8 @@
             <e p="Edit.cshtml" t="Include" />
             <e p="Index.cshtml" t="Include" />
             <e p="Shared" t="Include">
-              <e p="CreateEdit.cshtml" t="Include" />
-              <e p="DetailsDelete.cshtml" t="Include" />
+              <e p="_PartialCU.cshtml" t="Include" />
+              <e p="_PartialRD.cshtml" t="Include" />
             </e>
           </e>
           <e p="DependenceType" t="Include">
@@ -310,8 +310,8 @@
             <e p="Edit.cshtml" t="Include" />
             <e p="Index.cshtml" t="Include" />
             <e p="Shared" t="Include">
-              <e p="CreateEdit.cshtml" t="Include" />
-              <e p="DetailsDelete.cshtml" t="Include" />
+              <e p="_PartialCU.cshtml" t="Include" />
+              <e p="_PartialRD.cshtml" t="Include" />
             </e>
           </e>
           <e p="GradeColumn" t="Include">
@@ -321,8 +321,8 @@
             <e p="Edit.cshtml" t="Include" />
             <e p="Index.cshtml" t="Include" />
             <e p="Shared" t="Include">
-              <e p="CreateEdit.cshtml" t="Include" />
-              <e p="DetailsDelete.cshtml" t="Include" />
+              <e p="_PartialCU.cshtml" t="Include" />
+              <e p="_PartialRD.cshtml" t="Include" />
             </e>
           </e>
           <e p="GradeType" t="Include">
@@ -343,8 +343,8 @@
             <e p="Edit.cshtml" t="Include" />
             <e p="Index.cshtml" t="Include" />
             <e p="Shared" t="Include">
-              <e p="CreateEdit.cshtml" t="Include" />
-              <e p="DetailsDelete.cshtml" t="Include" />
+              <e p="_PartialCU.cshtml" t="Include" />
+              <e p="_PartialRD.cshtml" t="Include" />
             </e>
           </e>
           <e p="Person" t="Include">
@@ -361,8 +361,8 @@
             <e p="Edit.cshtml" t="Include" />
             <e p="Index.cshtml" t="Include" />
             <e p="Shared" t="Include">
-              <e p="CreateEdit.cshtml" t="Include" />
-              <e p="DetailsDelete.cshtml" t="Include" />
+              <e p="_PartialCU.cshtml" t="Include" />
+              <e p="_PartialRD.cshtml" t="Include" />
             </e>
           </e>
           <e p="PersonGroup" t="Include">
