@@ -1,0 +1,46 @@
+﻿@model GradeColumnCreateEditViewModel
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="form-group">
+    <label asp-for="Column.GradeTypeId" class="control-label"></label>
+    <select asp-for="Column.GradeTypeId" class="form-control" asp-items="Model.Types"></select>
+</div>
+<div class="form-group">
+    <label asp-for="Column.Date" class="control-label"></label>
+    <input asp-for="Column.Date" class="form-control"/>
+    <span asp-validation-for="Column.Date" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Column.LessonNumber" class="control-label"></label>
+    <input asp-for="Column.LessonNumber" class="form-control"/>
+    <span asp-validation-for="Column.LessonNumber" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Column.Theme" class="control-label"></label>
+    <input asp-for="Column.Theme" class="form-control"/>
+    <span asp-validation-for="Column.Theme" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Column.SubjectGroupId" class="control-label"></label>
+    <select asp-for="Column.SubjectGroupId" class="form-control" asp-items="Model.Groups"></select>
+</div>
+<div class="form-group">
+    <label asp-for="Column.CreatedBy" class="control-label"></label>
+    <input asp-for="Column.CreatedBy" class="form-control"/>
+    <span asp-validation-for="Column.CreatedBy" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Column.CreatedAt" class="control-label"></label>
+    <input asp-for="Column.CreatedAt" class="form-control"/>
+    <span asp-validation-for="Column.CreatedAt" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Column.ChangedBy" class="control-label"></label>
+    <input asp-for="Column.ChangedBy" class="form-control"/>
+    <span asp-validation-for="Column.ChangedBy" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Column.ChangedAt" class="control-label"></label>
+    <input asp-for="Column.ChangedAt" class="form-control"/>
+    <span asp-validation-for="Column.ChangedAt" class="text-danger"></span>
+</div>

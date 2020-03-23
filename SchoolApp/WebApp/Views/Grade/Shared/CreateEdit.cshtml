@@ -1,0 +1,55 @@
+﻿@model GradeCreateEditViewModel
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="form-group">
+    <label asp-for="Grade.Value" class="control-label"></label>
+    <input asp-for="Grade.Value" class="form-control"/>
+    <span asp-validation-for="Grade.Value" class="text-danger"></span>
+</div>
+<div class="form-group form-check">
+    <label class="form-check-label">
+        <input class="form-check-input" asp-for="Grade.IsAbsent"/> @Html.DisplayNameFor(model => Model.Grade.IsAbsent)
+    </label>
+</div>
+<div class="form-group">
+    <label asp-for="Grade.Description" class="control-label"></label>
+    <input asp-for="Grade.Description" class="form-control"/>
+    <span asp-validation-for="Grade.Description" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Grade.Created" class="control-label"></label>
+    <input asp-for="Grade.Created" class="form-control"/>
+    <span asp-validation-for="Grade.Created" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Grade.AbsenceReasonId" class="control-label"></label>
+    <select asp-for="Grade.AbsenceReasonId" class="form-control" asp-items="Model.AbsenceReasons"></select>
+</div>
+<div class="form-group">
+    <label asp-for="Grade.StudentId" class="control-label"></label>
+    <select asp-for="Grade.StudentId" class="form-control" asp-items="Model.Students"></select>
+</div>
+<div class="form-group">
+    <label asp-for="Grade.TeacherId" class="control-label"></label>
+    <select asp-for="Grade.TeacherId" class="form-control" asp-items="Model.Teachers"></select>
+</div>
+<div class="form-group">
+    <label asp-for="Grade.CreatedBy" class="control-label"></label>
+    <input asp-for="Grade.CreatedBy" class="form-control"/>
+    <span asp-validation-for="Grade.CreatedBy" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Grade.CreatedAt" class="control-label"></label>
+    <input asp-for="Grade.CreatedAt" class="form-control"/>
+    <span asp-validation-for="Grade.CreatedAt" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Grade.ChangedBy" class="control-label"></label>
+    <input asp-for="Grade.ChangedBy" class="form-control"/>
+    <span asp-validation-for="Grade.ChangedBy" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Grade.ChangedAt" class="control-label"></label>
+    <input asp-for="Grade.ChangedAt" class="form-control"/>
+    <span asp-validation-for="Grade.ChangedAt" class="text-danger"></span>
+</div>
