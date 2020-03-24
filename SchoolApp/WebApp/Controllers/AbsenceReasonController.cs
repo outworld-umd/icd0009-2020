@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -61,7 +62,7 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StudentId,CreatorId,From,To,Created,Text,IsAccepted,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] AbsenceReason absenceReason)
+        public async Task<IActionResult> Create(AbsenceReason absenceReason)
         {
             if (ModelState.IsValid)
             {
@@ -100,8 +101,7 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("StudentId,CreatorId,From,To,Created,Text,IsAccepted,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] AbsenceReason absenceReason)
-        {
+        public async Task<IActionResult> Edit(Guid id, AbsenceReason absenceReason) {
             if (id != absenceReason.Id)
             {
                 return NotFound();

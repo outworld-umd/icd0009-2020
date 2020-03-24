@@ -27,7 +27,8 @@ namespace WebApp.Controllers
             var appDbContext = _context.Grades
                 .Include(g => g.AbsenceReason)
                 .Include(g => g.Student)
-                .Include(g => g.Teacher);
+                .Include(g => g.Teacher)
+                .Include(g => g.GradeColumn);
             return View(await appDbContext.ToListAsync());
         }
 
@@ -43,6 +44,7 @@ namespace WebApp.Controllers
                 .Include(g => g.AbsenceReason)
                 .Include(g => g.Student)
                 .Include(g => g.Teacher)
+                .Include(g => g.GradeColumn)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (grade == null)
             {
@@ -59,7 +61,8 @@ namespace WebApp.Controllers
                 AbsenceReasons = new SelectList(_context.AbsenceReasons, nameof(AbsenceReason.Id),
                     nameof(AbsenceReason.Id)),
                 Students = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName)),
-                Teachers = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName))
+                Teachers = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName)),
+                GradeColumns = new SelectList(_context.GradeColumns, nameof(GradeColumn.Id), nameof(GradeColumn.Id))
             };
             return View(vm);
         }
@@ -81,6 +84,7 @@ namespace WebApp.Controllers
             vm.AbsenceReasons = new SelectList(_context.AbsenceReasons, nameof(AbsenceReason.Id), nameof(AbsenceReason.Id), vm.Grade.AbsenceReason);
             vm.Students = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Grade.Student);
             vm.Teachers = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Grade.Teacher);
+            vm.GradeColumns = new SelectList(_context.GradeColumns, nameof(GradeColumn.Id), nameof(GradeColumn.Id), vm.Grade.GradeColumn);
             return View(vm);
         }
 
@@ -99,6 +103,7 @@ namespace WebApp.Controllers
             vm.AbsenceReasons = new SelectList(_context.AbsenceReasons, nameof(AbsenceReason.Id), nameof(AbsenceReason.Id), vm.Grade.AbsenceReason);
             vm.Students = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Grade.Student);
             vm.Teachers = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Grade.Teacher);
+            vm.GradeColumns = new SelectList(_context.GradeColumns, nameof(GradeColumn.Id), nameof(GradeColumn.Id), vm.Grade.GradeColumn);
             return View(vm);
         }
 
@@ -137,6 +142,7 @@ namespace WebApp.Controllers
             vm.AbsenceReasons = new SelectList(_context.AbsenceReasons, nameof(AbsenceReason.Id), nameof(AbsenceReason.Id), vm.Grade.AbsenceReason);
             vm.Students = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Grade.Student);
             vm.Teachers = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Grade.Teacher);
+            vm.GradeColumns = new SelectList(_context.GradeColumns, nameof(GradeColumn.Id), nameof(GradeColumn.Id), vm.Grade.GradeColumn);
             return View(vm);
         }
 
@@ -152,6 +158,7 @@ namespace WebApp.Controllers
                 .Include(g => g.AbsenceReason)
                 .Include(g => g.Student)
                 .Include(g => g.Teacher)
+                .Include(g => g.GradeColumn)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (grade == null)
             {

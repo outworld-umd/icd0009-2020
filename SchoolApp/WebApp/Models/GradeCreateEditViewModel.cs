@@ -8,6 +8,7 @@ namespace WebApp.Models {
         public SelectList AbsenceReasons { get; set; }
         public SelectList Students { get; set; }
         public SelectList Teachers { get; set; }
+        public SelectList GradeColumns { get; set; }
     }
 
 }
