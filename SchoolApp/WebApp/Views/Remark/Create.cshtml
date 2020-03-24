@@ -1,5 +1,3 @@
-@model Domain.Remark
-
 @{
     ViewData["Title"] = "Create";
 }
@@ -11,49 +9,7 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="SenderId" class="control-label"></label>
-                <select asp-for="SenderId" class ="form-control" asp-items="ViewBag.SenderId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="RecipientId" class="control-label"></label>
-                <select asp-for="RecipientId" class ="form-control" asp-items="ViewBag.RecipientId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Text" class="control-label"></label>
-                <input asp-for="Text" class="form-control" />
-                <span asp-validation-for="Text" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RemarkTypeId" class="control-label"></label>
-                <select asp-for="RemarkTypeId" class ="form-control" asp-items="ViewBag.RemarkTypeId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedBy" class="control-label"></label>
-                <input asp-for="CreatedBy" class="form-control" />
-                <span asp-validation-for="CreatedBy" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ChangedBy" class="control-label"></label>
-                <input asp-for="ChangedBy" class="form-control" />
-                <span asp-validation-for="ChangedBy" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ChangedAt" class="control-label"></label>
-                <input asp-for="ChangedAt" class="form-control" />
-                <span asp-validation-for="ChangedAt" class="text-danger"></span>
-            </div>
+            <partial name="Shared/_PartialCU"/>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
