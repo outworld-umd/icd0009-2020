@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,17 +13,17 @@ namespace WebApp.Controllers
 {
     public class RemarkTypeController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public RemarkTypeController(AppDbContext context)
+        public RemarkTypeController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: RemarkType
         public async Task<IActionResult> Index()
         {
-            return View(await _context.RemarkTypes.ToListAsync());
+            return View(await _unitOfWork.RemarkTypes.AllAsync());
         }
 
         // GET: RemarkType/Details/5
@@ -33,8 +34,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var remarkType = await _context.RemarkTypes
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var remarkType = await _unitOfWork.RemarkTypes.FindAsync(id);
             if (remarkType == null)
             {
                 return NotFound();
@@ -59,8 +59,8 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 remarkType.Id = Guid.NewGuid();
-                _context.Add(remarkType);
-                await _context.SaveChangesAsync();
+                _unitOfWork.RemarkTypes.Add(remarkType);
+                await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(remarkType);
@@ -74,7 +74,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var remarkType = await _context.RemarkTypes.FindAsync(id);
+            var remarkType = await _unitOfWork.RemarkTypes.FindAsync(id);
             if (remarkType == null)
             {
                 return NotFound();
@@ -98,8 +98,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(remarkType);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.RemarkTypes.Update(remarkType);
+                    await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -125,8 +125,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var remarkType = await _context.RemarkTypes
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var remarkType = await _unitOfWork.RemarkTypes.FindAsync(id);
             if (remarkType == null)
             {
                 return NotFound();
@@ -140,15 +139,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var remarkType = await _context.RemarkTypes.FindAsync(id);
-            _context.RemarkTypes.Remove(remarkType);
-            await _context.SaveChangesAsync();
+            var remarkType = await _unitOfWork.RemarkTypes.FindAsync(id);
+            _unitOfWork.RemarkTypes.Remove(remarkType);
+            await _unitOfWork.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool RemarkTypeExists(Guid id)
         {
-            return _context.RemarkTypes.Any(e => e.Id == id);
+            return _unitOfWork.RemarkTypes.Any(e => e.Id == id);
         }
     }
 }

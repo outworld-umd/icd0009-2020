@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Contracts.DAL.Base;
 using Contracts.DAL.Base.Repositories;
@@ -44,6 +45,14 @@ namespace DAL.Base.EF.Repositories
             return await RepoDbSet.ToListAsync();
         }
 
+        public IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>>? filter = null) {
+            return RepoDbSet.Where(filter).ToList();
+        }
+
+        public async Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>>? filter = null) {
+            return await RepoDbSet.Where(filter).ToListAsync();
+        }
+
         public virtual TEntity Find(params object[] id)
         {
             return RepoDbSet.Find(id);
@@ -74,8 +83,8 @@ namespace DAL.Base.EF.Repositories
             return Remove(Find(id));
         }
 
-        public bool Any(params object[] id) {
-            return RepoDbSet.Any(e => Equals(e.Id, id));
+        public bool Any(Expression<Func<TEntity, bool>> predicate) {
+            return RepoDbSet.Any(predicate);
         }
 
     }

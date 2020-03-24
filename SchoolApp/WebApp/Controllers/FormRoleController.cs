@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,17 +13,17 @@ namespace WebApp.Controllers
 {
     public class FormRoleController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public FormRoleController(AppDbContext context)
+        public FormRoleController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: FormRole
         public async Task<IActionResult> Index()
         {
-            return View(await _context.FormRoles.ToListAsync());
+            return View(await _unitOfWork.FormRoles.AllAsync());
         }
 
         // GET: FormRole/Details/5
@@ -33,8 +34,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var formRole = await _context.FormRoles
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var formRole = await _unitOfWork.FormRoles.FindAsync(id);
             if (formRole == null)
             {
                 return NotFound();
@@ -59,8 +59,8 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 formRole.Id = Guid.NewGuid();
-                _context.Add(formRole);
-                await _context.SaveChangesAsync();
+                _unitOfWork.FormRoles.Add(formRole);
+                await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(formRole);
@@ -74,7 +74,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var formRole = await _context.FormRoles.FindAsync(id);
+            var formRole = await _unitOfWork.FormRoles.FindAsync(id);
             if (formRole == null)
             {
                 return NotFound();
@@ -98,8 +98,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(formRole);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.FormRoles.Update(formRole);
+                    await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -125,8 +125,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var formRole = await _context.FormRoles
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var formRole = await _unitOfWork.FormRoles.FindAsync(id);
             if (formRole == null)
             {
                 return NotFound();
@@ -140,15 +139,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var formRole = await _context.FormRoles.FindAsync(id);
-            _context.FormRoles.Remove(formRole);
-            await _context.SaveChangesAsync();
+            var formRole = await _unitOfWork.FormRoles.FindAsync(id);
+            _unitOfWork.FormRoles.Remove(formRole);
+            await _unitOfWork.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool FormRoleExists(Guid id)
         {
-            return _context.FormRoles.Any(e => e.Id == id);
+            return _unitOfWork.FormRoles.Any(e => e.Id == id);
         }
     }
 }

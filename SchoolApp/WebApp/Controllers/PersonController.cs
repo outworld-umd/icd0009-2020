@@ -143,7 +143,7 @@ namespace WebApp.Controllers
 
         private bool PersonExists(Guid id)
         {
-            return _unitOfWork.Persons.Any(id);
+            return _unitOfWork.Persons.Any(e => e.Id == id);
         }
     }
 }

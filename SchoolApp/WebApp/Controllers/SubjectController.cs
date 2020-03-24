@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,17 +13,17 @@ namespace WebApp.Controllers
 {
     public class SubjectController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public SubjectController(AppDbContext context)
+        public SubjectController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: Subject
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Subjects.ToListAsync());
+            return View(await _unitOfWork.Subjects.AllAsync());
         }
 
         // GET: Subject/Details/5
@@ -33,8 +34,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var subject = await _context.Subjects
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var subject = await _unitOfWork.Subjects.FindAsync(id);
             if (subject == null)
             {
                 return NotFound();
@@ -59,8 +59,8 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 subject.Id = Guid.NewGuid();
-                _context.Add(subject);
-                await _context.SaveChangesAsync();
+                _unitOfWork.Subjects.Add(subject);
+                await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(subject);
@@ -74,7 +74,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var subject = await _context.Subjects.FindAsync(id);
+            var subject = await _unitOfWork.Subjects.FindAsync(id);
             if (subject == null)
             {
                 return NotFound();
@@ -98,8 +98,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(subject);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.Subjects.Update(subject);
+                    await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -125,8 +125,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var subject = await _context.Subjects
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var subject = await _unitOfWork.Subjects.FindAsync(id);
             if (subject == null)
             {
                 return NotFound();
@@ -140,15 +139,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var subject = await _context.Subjects.FindAsync(id);
-            _context.Subjects.Remove(subject);
-            await _context.SaveChangesAsync();
+            var subject = await _unitOfWork.Subjects.FindAsync(id);
+            _unitOfWork.Subjects.Remove(subject);
+            await _unitOfWork.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool SubjectExists(Guid id)
         {
-            return _context.Subjects.Any(e => e.Id == id);
+            return _unitOfWork.Subjects.Any(e => e.Id == id);
         }
     }
 }

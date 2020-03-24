@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,17 +13,17 @@ namespace WebApp.Controllers
 {
     public class GradeTypeController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public GradeTypeController(AppDbContext context)
+        public GradeTypeController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: GradeType
         public async Task<IActionResult> Index()
         {
-            return View(await _context.GradeTypes.ToListAsync());
+            return View(await _unitOfWork.GradeTypes.AllAsync());
         }
 
         // GET: GradeType/Details/5
@@ -33,8 +34,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var gradeType = await _context.GradeTypes
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var gradeType = await _unitOfWork.GradeTypes.FindAsync(id);
             if (gradeType == null)
             {
                 return NotFound();
@@ -59,8 +59,8 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 gradeType.Id = Guid.NewGuid();
-                _context.Add(gradeType);
-                await _context.SaveChangesAsync();
+                _unitOfWork.GradeTypes.Add(gradeType);
+                await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(gradeType);
@@ -74,7 +74,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var gradeType = await _context.GradeTypes.FindAsync(id);
+            var gradeType = await _unitOfWork.GradeTypes.FindAsync(id);
             if (gradeType == null)
             {
                 return NotFound();
@@ -98,8 +98,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(gradeType);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.GradeTypes.Update(gradeType);
+                    await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -125,8 +125,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var gradeType = await _context.GradeTypes
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var gradeType = await _unitOfWork.GradeTypes.FindAsync(id);
             if (gradeType == null)
             {
                 return NotFound();
@@ -140,15 +139,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var gradeType = await _context.GradeTypes.FindAsync(id);
-            _context.GradeTypes.Remove(gradeType);
-            await _context.SaveChangesAsync();
+            var gradeType = await _unitOfWork.GradeTypes.FindAsync(id);
+            _unitOfWork.GradeTypes.Remove(gradeType);
+            await _unitOfWork.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool GradeTypeExists(Guid id)
         {
-            return _context.GradeTypes.Any(e => e.Id == id);
+            return _unitOfWork.GradeTypes.Any(e => e.Id == id);
         }
     }
 }

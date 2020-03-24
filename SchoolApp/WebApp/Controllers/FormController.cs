@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,17 +13,17 @@ namespace WebApp.Controllers
 {
     public class FormController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public FormController(AppDbContext context)
+        public FormController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: Form
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Forms.ToListAsync());
+            return View(await _unitOfWork.Forms.AllAsync());
         }
 
         // GET: Form/Details/5
@@ -33,8 +34,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var form = await _context.Forms
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var form = await _unitOfWork.Forms.FindAsync(id);
             if (form == null)
             {
                 return NotFound();
@@ -59,8 +59,8 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 form.Id = Guid.NewGuid();
-                _context.Add(form);
-                await _context.SaveChangesAsync();
+                _unitOfWork.Forms.Add(form);
+                await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(form);
@@ -74,7 +74,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var form = await _context.Forms.FindAsync(id);
+            var form = await _unitOfWork.Forms.FindAsync(id);
             if (form == null)
             {
                 return NotFound();
@@ -98,8 +98,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(form);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.Forms.Update(form);
+                    await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -125,8 +125,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var form = await _context.Forms
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var form = await _unitOfWork.Forms.FindAsync(id);
             if (form == null)
             {
                 return NotFound();
@@ -140,15 +139,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var form = await _context.Forms.FindAsync(id);
-            _context.Forms.Remove(form);
-            await _context.SaveChangesAsync();
+            var form = await _unitOfWork.Forms.FindAsync(id);
+            _unitOfWork.Forms.Remove(form);
+            await _unitOfWork.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool FormExists(Guid id)
         {
-            return _context.Forms.Any(e => e.Id == id);
+            return _unitOfWork.Forms.Any(e => e.Id == id);
         }
     }
 }

@@ -22,7 +22,9 @@ namespace WebApp.Controllers
         // GET: AbsenceReason
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.AbsenceReasons.Include(a => a.Creator).Include(a => a.Student);
+            var appDbContext = _context.AbsenceReasons
+                .Include(a => a.Creator)
+                .Include(a => a.Student);
             return View(await appDbContext.ToListAsync());
         }
 
@@ -63,11 +65,13 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                Console.Write(absenceReason.ToString());
                 absenceReason.Id = Guid.NewGuid();
                 _context.Add(absenceReason);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            Console.Write(absenceReason.ToString());
             ViewData["CreatorId"] = new SelectList(_context.Persons, "Id", "Id", absenceReason.CreatorId);
             ViewData["StudentId"] = new SelectList(_context.Persons, "Id", "Id", absenceReason.StudentId);
             return View(absenceReason);

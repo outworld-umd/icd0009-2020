@@ -23,7 +23,10 @@ namespace WebApp.Controllers
         // GET: PersonForm
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.PersonForms.Include(p => p.Form).Include(p => p.FormRole).Include(p => p.Person);
+            var appDbContext = _context.PersonForms
+                .Include(p => p.Form)
+                .Include(p => p.FormRole)
+                .Include(p => p.Person);
             return View(await appDbContext.ToListAsync());
         }
 

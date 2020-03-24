@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,17 +13,17 @@ namespace WebApp.Controllers
 {
     public class DependenceTypeController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public DependenceTypeController(AppDbContext context)
+        public DependenceTypeController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: DependenceType
         public async Task<IActionResult> Index()
         {
-            return View(await _context.DependenceTypes.ToListAsync());
+            return View(await _unitOfWork.DependenceTypes.AllAsync());
         }
 
         // GET: DependenceType/Details/5
@@ -33,8 +34,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var dependenceType = await _context.DependenceTypes
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var dependenceType = await _unitOfWork.DependenceTypes
+                .FindAsync(id);
             if (dependenceType == null)
             {
                 return NotFound();
@@ -54,13 +55,13 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ParentToChildName,ChildToParentName,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] DependenceType dependenceType)
+        public async Task<IActionResult> Create(DependenceType dependenceType)
         {
             if (ModelState.IsValid)
             {
                 dependenceType.Id = Guid.NewGuid();
-                _context.Add(dependenceType);
-                await _context.SaveChangesAsync();
+                _unitOfWork.DependenceTypes.Add(dependenceType);
+                await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(dependenceType);
@@ -74,7 +75,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var dependenceType = await _context.DependenceTypes.FindAsync(id);
+            var dependenceType = await _unitOfWork.DependenceTypes.FindAsync(id);
             if (dependenceType == null)
             {
                 return NotFound();
@@ -87,7 +88,7 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("ParentToChildName,ChildToParentName,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] DependenceType dependenceType)
+        public async Task<IActionResult> Edit(Guid id, DependenceType dependenceType)
         {
             if (id != dependenceType.Id)
             {
@@ -98,8 +99,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(dependenceType);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.DependenceTypes.Update(dependenceType);
+                    await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -125,8 +126,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var dependenceType = await _context.DependenceTypes
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var dependenceType = await _unitOfWork.DependenceTypes
+                .FindAsync(id);
             if (dependenceType == null)
             {
                 return NotFound();
@@ -140,15 +141,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var dependenceType = await _context.DependenceTypes.FindAsync(id);
-            _context.DependenceTypes.Remove(dependenceType);
-            await _context.SaveChangesAsync();
+            var dependenceType = await _unitOfWork.DependenceTypes.FindAsync(id);
+            _unitOfWork.DependenceTypes.Remove(dependenceType);
+            await _unitOfWork.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool DependenceTypeExists(Guid id)
         {
-            return _context.DependenceTypes.Any(e => e.Id == id);
+            return _unitOfWork.DependenceTypes.Any(e => e.Id == id);
         }
     }
 }
