@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,17 +13,17 @@ namespace WebApp.Controllers
 {
     public class PersonController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public PersonController(AppDbContext context)
+        public PersonController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: Person
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Persons.ToListAsync());
+            return View(await _unitOfWork.Persons.AllAsync());
         }
 
         // GET: Person/Details/5
@@ -33,8 +34,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var person = await _context.Persons
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var person = await _unitOfWork.Persons.FindAsync(id);
             if (person == null)
             {
                 return NotFound();
@@ -54,13 +54,13 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FirstName,LastName,PersonalCode,Sex,Birthdate,Role,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Person person)
+        public async Task<IActionResult> Create(Person person)
         {
             if (ModelState.IsValid)
             {
                 person.Id = Guid.NewGuid();
-                _context.Add(person);
-                await _context.SaveChangesAsync();
+                _unitOfWork.Persons.Add(person);
+                await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(person);
@@ -74,7 +74,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var person = await _context.Persons.FindAsync(id);
+            var person = await _unitOfWork.Persons.FindAsync(id);
             if (person == null)
             {
                 return NotFound();
@@ -87,7 +87,7 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("FirstName,LastName,PersonalCode,Sex,Birthdate,Role,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Person person)
+        public async Task<IActionResult> Edit(Guid id, Person person)
         {
             if (id != person.Id)
             {
@@ -98,19 +98,15 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(person);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.Persons.Update(person);
+                    await _unitOfWork.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
-                {
+                catch (DbUpdateConcurrencyException) {
                     if (!PersonExists(person.Id))
                     {
                         return NotFound();
                     }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -125,8 +121,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var person = await _context.Persons
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var person = await _unitOfWork.Persons.FindAsync(id);
             if (person == null)
             {
                 return NotFound();
@@ -140,15 +135,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var person = await _context.Persons.FindAsync(id);
-            _context.Persons.Remove(person);
-            await _context.SaveChangesAsync();
+            var person = await _unitOfWork.Persons.FindAsync(id);
+            _unitOfWork.Persons.Remove(person);
+            await _unitOfWork.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PersonExists(Guid id)
         {
-            return _context.Persons.Any(e => e.Id == id);
+            return _unitOfWork.Persons.Any(id);
         }
     }
 }

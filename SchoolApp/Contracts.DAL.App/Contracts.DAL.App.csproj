@@ -6,6 +6,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Contracts.DAL.Base\Contracts.DAL.Base.csproj" />
+      <ProjectReference Include="..\DAL.Base.EF\DAL.Base.EF.csproj" />
       <ProjectReference Include="..\Domain\Domain.csproj" />
     </ItemGroup>
 

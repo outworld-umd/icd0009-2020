@@ -74,6 +74,10 @@ namespace DAL.Base.EF.Repositories
             return Remove(Find(id));
         }
 
+        public bool Any(params object[] id) {
+            return RepoDbSet.Any(e => Equals(e.Id, id));
+        }
+
     }
     
 }

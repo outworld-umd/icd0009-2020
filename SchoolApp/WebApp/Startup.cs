@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using DAL.App.EF;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -27,6 +28,7 @@ namespace WebApp {
             services.AddDbContext<AppDbContext>(options =>
                 options.UseMySql(
                     Configuration.GetConnectionString("MySqlConnection")));
+            services.AddScoped<IAppUnitOfWork, AppUnitOfWork>();
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<AppDbContext>();
             services.AddControllersWithViews();
