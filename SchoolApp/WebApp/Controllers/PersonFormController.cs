@@ -49,7 +49,7 @@ namespace WebApp.Controllers
             var vm = new PersonFormCreateEditViewModel {
                 Forms = new SelectList(_unitOfWork.Forms.All(), nameof(Form.Id), nameof(Form.Name)),
                 FormRoles = new SelectList(_unitOfWork.FormRoles.All(), nameof(FormRole.Id), nameof(FormRole.Name)),
-                Persons = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName))
+                Persons = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.FirstLastName))
             };
             return View(vm);
         }
@@ -70,7 +70,7 @@ namespace WebApp.Controllers
             }
             vm.Forms = new SelectList(_unitOfWork.Forms.All(), nameof(Form.Id), nameof(Form.Name), vm.PersonForm.FormId);
             vm.FormRoles = new SelectList(_unitOfWork.FormRoles.All(), nameof(FormRole.Id), nameof(FormRole.Name), vm.PersonForm.FormRoleId);
-            vm.Persons = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.PersonForm.FormRoleId);
+            vm.Persons = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.FirstLastName), vm.PersonForm.FormRoleId);
             return View(vm);
         }
 
@@ -89,7 +89,7 @@ namespace WebApp.Controllers
             }
             vm.Forms = new SelectList(_unitOfWork.Forms.All(), nameof(Form.Id), nameof(Form.Name), vm.PersonForm.FormId);
             vm.FormRoles = new SelectList(_unitOfWork.FormRoles.All(), nameof(FormRole.Id), nameof(FormRole.Name), vm.PersonForm.FormRoleId);
-            vm.Persons = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.PersonForm.FormRoleId);
+            vm.Persons = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.FirstLastName), vm.PersonForm.FormRoleId);
             return View(vm);
         }
 
@@ -127,7 +127,7 @@ namespace WebApp.Controllers
             }
             vm.Forms = new SelectList(_unitOfWork.Forms.All(), nameof(Form.Id), nameof(Form.Name), vm.PersonForm.FormId);
             vm.FormRoles = new SelectList(_unitOfWork.FormRoles.All(), nameof(FormRole.Id), nameof(FormRole.Name), vm.PersonForm.FormRoleId);
-            vm.Persons = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.PersonForm.FormRoleId);
+            vm.Persons = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.FirstLastName), vm.PersonForm.FormRoleId);
             return View(vm);
         }
 

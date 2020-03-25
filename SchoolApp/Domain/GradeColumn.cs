@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using DAL.Base;
 
@@ -13,6 +14,7 @@ namespace Domain {
         public string Theme { get; set; }
         public Guid SubjectGroupId { get; set; }
         public SubjectGroup? SubjectGroup { get; set; }
+        public ICollection<Grade>? Grades { get; set; }
     }
 
 }

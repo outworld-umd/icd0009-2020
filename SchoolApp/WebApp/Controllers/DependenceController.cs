@@ -48,10 +48,10 @@ namespace WebApp.Controllers
         public IActionResult Create()
         {
             var vm = new DependenceCreateEditViewModel {
-                Children = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName)),
+                Children = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.FirstLastName)),
                 Types = new SelectList(_unitOfWork.DependenceTypes.All(), nameof(DependenceType.Id),
                     nameof(DependenceType.ChildToParentName)),
-                Parents = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName))
+                Parents = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.FirstLastName))
             };
             return View(vm);
         }
@@ -70,9 +70,9 @@ namespace WebApp.Controllers
                 await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            vm.Children = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.Dependence.ChildId);
+            vm.Children = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.FirstLastName), vm.Dependence.ChildId);
             vm.Types = new SelectList(_unitOfWork.DependenceTypes.All(), nameof(DependenceType.Id), nameof(DependenceType.ChildToParentName), vm.Dependence.DependenceTypeId);
-            vm.Parents = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.Dependence.ParentId);
+            vm.Parents = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.FirstLastName), vm.Dependence.ParentId);
             return View(vm);
         }
 
@@ -88,9 +88,9 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            vm.Children = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.Dependence.ChildId);
+            vm.Children = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.FirstLastName), vm.Dependence.ChildId);
             vm.Types = new SelectList(_unitOfWork.DependenceTypes.All(), nameof(DependenceType.Id), nameof(DependenceType.ChildToParentName), vm.Dependence.DependenceTypeId);
-            vm.Parents = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.Dependence.ParentId);
+            vm.Parents = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.FirstLastName), vm.Dependence.ParentId);
             return View(vm);
         }
 
@@ -127,9 +127,9 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            vm.Children = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.Dependence.ChildId);
+            vm.Children = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.FirstLastName), vm.Dependence.ChildId);
             vm.Types = new SelectList(_unitOfWork.DependenceTypes.All(), nameof(DependenceType.Id), nameof(DependenceType.ChildToParentName), vm.Dependence.DependenceTypeId);
-            vm.Parents = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.Dependence.ParentId);
+            vm.Parents = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.FirstLastName), vm.Dependence.ParentId);
             return View(vm);
         }
 

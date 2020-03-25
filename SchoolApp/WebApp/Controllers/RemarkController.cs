@@ -45,9 +45,9 @@ namespace WebApp.Controllers
         // GET: Remark/Create
         public IActionResult Create()
         {
-            ViewData["RecipientId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id");
+            ViewData["RecipientId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "FirstLastName");
             ViewData["RemarkTypeId"] = new SelectList(_unitOfWork.RemarkTypes.All(), "Id", "Id");
-            ViewData["SenderId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id");
+            ViewData["SenderId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "FirstLastName");
             return View();
         }
 
@@ -65,9 +65,9 @@ namespace WebApp.Controllers
                 await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RecipientId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", remark.RecipientId);
+            ViewData["RecipientId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "FirstLastName", remark.RecipientId);
             ViewData["RemarkTypeId"] = new SelectList(_unitOfWork.RemarkTypes.All(), "Id", "Id", remark.RemarkTypeId);
-            ViewData["SenderId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", remark.SenderId);
+            ViewData["SenderId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "FirstLastName", remark.SenderId);
             return View(remark);
         }
 
@@ -84,9 +84,9 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["RecipientId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", remark.RecipientId);
+            ViewData["RecipientId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "FirstLastName", remark.RecipientId);
             ViewData["RemarkTypeId"] = new SelectList(_unitOfWork.RemarkTypes.All(), "Id", "Id", remark.RemarkTypeId);
-            ViewData["SenderId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", remark.SenderId);
+            ViewData["SenderId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "FirstLastName", remark.SenderId);
             return View(remark);
         }
 
@@ -122,9 +122,9 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RecipientId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", remark.RecipientId);
+            ViewData["RecipientId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "FirstLastName", remark.RecipientId);
             ViewData["RemarkTypeId"] = new SelectList(_unitOfWork.RemarkTypes.All(), "Id", "Id", remark.RemarkTypeId);
-            ViewData["SenderId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", remark.SenderId);
+            ViewData["SenderId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "FirstLastName", remark.SenderId);
             return View(remark);
         }
 

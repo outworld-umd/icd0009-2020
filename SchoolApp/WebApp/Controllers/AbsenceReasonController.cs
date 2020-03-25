@@ -46,8 +46,8 @@ namespace WebApp.Controllers
         // GET: AbsenceReason/Create
         public IActionResult Create()
         {
-            ViewData["CreatorId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id");
-            ViewData["StudentId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id");
+            ViewData["CreatorId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "FirstLastName");
+            ViewData["StudentId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "FirstLastName");
             return View();
         }
 
@@ -67,8 +67,8 @@ namespace WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             Console.Write(absenceReason.ToString());
-            ViewData["CreatorId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", absenceReason.CreatorId);
-            ViewData["StudentId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", absenceReason.StudentId);
+            ViewData["CreatorId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "FirstLastName", absenceReason.CreatorId);
+            ViewData["StudentId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "FirstLastName", absenceReason.StudentId);
             return View(absenceReason);
         }
 
@@ -85,8 +85,8 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["CreatorId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", absenceReason.CreatorId);
-            ViewData["StudentId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", absenceReason.StudentId);
+            ViewData["CreatorId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "FirstLastName", absenceReason.CreatorId);
+            ViewData["StudentId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "FirstLastName", absenceReason.StudentId);
             return View(absenceReason);
         }
 
@@ -121,8 +121,8 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CreatorId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", absenceReason.CreatorId);
-            ViewData["StudentId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", absenceReason.StudentId);
+            ViewData["CreatorId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "FirstLastName", absenceReason.CreatorId);
+            ViewData["StudentId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "FirstLastName", absenceReason.StudentId);
             return View(absenceReason);
         }
 

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using DAL.Base;
 
 namespace Domain {
@@ -8,6 +9,7 @@ namespace Domain {
         public string ParentToChildName { get; set; }
         [MaxLength(30)]
         public string ChildToParentName { get; set; }
+        public ICollection<Dependence>? Dependences { get; set; }
     }
 
 }

@@ -49,7 +49,7 @@ namespace WebApp.Controllers
             var vm = new HomeworkCreateEditViewModel {
                 SubjectGroups = new SelectList(_unitOfWork.SubjectGroups.All(), nameof(SubjectGroup.Id),
                     nameof(SubjectGroup.Name)),
-                Teachers = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName))
+                Teachers = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.FirstLastName))
             };
             return View(vm);
         }
@@ -69,7 +69,7 @@ namespace WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             vm.SubjectGroups = new SelectList(_unitOfWork.SubjectGroups.All(), nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Homework.SubjectGroupId);
-            vm.Teachers = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.Homework.TeacherId);
+            vm.Teachers = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.FirstLastName), vm.Homework.TeacherId);
             return View(vm);
         }
 
@@ -86,7 +86,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
             vm.SubjectGroups = new SelectList(_unitOfWork.SubjectGroups.All(), nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Homework.SubjectGroupId);
-            vm.Teachers = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.Homework.TeacherId);
+            vm.Teachers = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.FirstLastName), vm.Homework.TeacherId);
             return View(vm);
         }
 
@@ -123,7 +123,7 @@ namespace WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             vm.SubjectGroups = new SelectList(_unitOfWork.SubjectGroups.All(), nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Homework.SubjectGroupId);
-            vm.Teachers = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.Homework.TeacherId);
+            vm.Teachers = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.FirstLastName), vm.Homework.TeacherId);
             return View(vm);
         }
 

@@ -45,7 +45,7 @@ namespace WebApp.Controllers
         // GET: PersonGroup/Create
         public IActionResult Create()
         {
-            ViewData["PersonId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id");
+            ViewData["PersonId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "FirstLastName");
             ViewData["SubjectGroupId"] = new SelectList(_unitOfWork.SubjectGroups.All(), "Id", "Id");
             return View();
         }
@@ -64,7 +64,7 @@ namespace WebApp.Controllers
                 await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PersonId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", personGroup.PersonId);
+            ViewData["PersonId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "FirstLastName", personGroup.PersonId);
             ViewData["SubjectGroupId"] = new SelectList(_unitOfWork.SubjectGroups.All(), "Id", "Id", personGroup.SubjectGroupId);
             return View(personGroup);
         }
@@ -82,7 +82,7 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["PersonId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", personGroup.PersonId);
+            ViewData["PersonId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "FirstLastName", personGroup.PersonId);
             ViewData["SubjectGroupId"] = new SelectList(_unitOfWork.SubjectGroups.All(), "Id", "Id", personGroup.SubjectGroupId);
             return View(personGroup);
         }
@@ -119,7 +119,7 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PersonId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", personGroup.PersonId);
+            ViewData["PersonId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "FirstLastName", personGroup.PersonId);
             ViewData["SubjectGroupId"] = new SelectList(_unitOfWork.SubjectGroups.All(), "Id", "Id", personGroup.SubjectGroupId);
             return View(personGroup);
         }
