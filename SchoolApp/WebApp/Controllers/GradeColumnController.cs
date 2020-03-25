@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,18 +14,16 @@ namespace WebApp.Controllers
 {
     public class GradeColumnController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public GradeColumnController(AppDbContext context)
+        public GradeColumnController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: GradeColumn
-        public async Task<IActionResult> Index()
-        {
-            var appDbContext = _context.GradeColumns.Include(g => g.GradeType).Include(g => g.SubjectGroup);
-            return View(await appDbContext.ToListAsync());
+        public async Task<IActionResult> Index() {
+            return View(await _unitOfWork.GradeColumns.AllAsync());
         }
 
         // GET: GradeColumn/Details/5
@@ -35,10 +34,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var gradeColumn = await _context.GradeColumns
-                .Include(g => g.GradeType)
-                .Include(g => g.SubjectGroup)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var gradeColumn = await _unitOfWork.GradeColumns.FindAsync(id);
             if (gradeColumn == null)
             {
                 return NotFound();
@@ -51,8 +47,8 @@ namespace WebApp.Controllers
         public IActionResult Create()
         {
             var vm = new GradeColumnCreateEditViewModel();
-            vm.Types = new SelectList(_context.GradeTypes, nameof(GradeType.Id), nameof(GradeType.Name));
-            vm.Groups = new SelectList(_context.SubjectGroups, nameof(SubjectGroup.Id), nameof(SubjectGroup.Name));
+            vm.Types = new SelectList(_unitOfWork.GradeTypes.All(), nameof(GradeType.Id), nameof(GradeType.Name));
+            vm.Groups = new SelectList(_unitOfWork.SubjectGroups.All(), nameof(SubjectGroup.Id), nameof(SubjectGroup.Name));
             return View(vm);
         }
 
@@ -66,12 +62,12 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 vm.Column.Id = Guid.NewGuid();
-                _context.Add(vm.Column);
-                await _context.SaveChangesAsync();
+                _unitOfWork.GradeColumns.Add(vm.Column);
+                await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            vm.Types = new SelectList(_context.GradeTypes, nameof(GradeType.Id), nameof(GradeType.Name), vm.Column.GradeTypeId);
-            vm.Groups = new SelectList(_context.SubjectGroups, nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Column.SubjectGroupId);
+            vm.Types = new SelectList(_unitOfWork.GradeTypes.All(), nameof(GradeType.Id), nameof(GradeType.Name), vm.Column.GradeTypeId);
+            vm.Groups = new SelectList(_unitOfWork.SubjectGroups.All(), nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Column.SubjectGroupId);
             return View(vm);
         }
 
@@ -82,13 +78,13 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            var vm = new GradeColumnCreateEditViewModel {Column = await _context.GradeColumns.FindAsync(id)};
+            var vm = new GradeColumnCreateEditViewModel {Column = await _unitOfWork.GradeColumns.FindAsync(id)};
             if (vm.Column == null)
             {
                 return NotFound();
             }
-            vm.Types = new SelectList(_context.GradeTypes, nameof(GradeType.Id), nameof(GradeType.Name), vm.Column.GradeTypeId);
-            vm.Groups = new SelectList(_context.SubjectGroups, nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Column.SubjectGroupId);
+            vm.Types = new SelectList(_unitOfWork.GradeTypes.All(), nameof(GradeType.Id), nameof(GradeType.Name), vm.Column.GradeTypeId);
+            vm.Groups = new SelectList(_unitOfWork.SubjectGroups.All(), nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Column.SubjectGroupId);
             return View(vm);
         }
 
@@ -108,8 +104,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(vm.Column);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.GradeColumns.Update(vm.Column);
+                    await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -124,8 +120,8 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            vm.Types = new SelectList(_context.GradeTypes, nameof(GradeType.Id), nameof(GradeType.Name), vm.Column.GradeTypeId);
-            vm.Groups = new SelectList(_context.SubjectGroups, nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Column.SubjectGroupId);
+            vm.Types = new SelectList(_unitOfWork.GradeTypes.All(), nameof(GradeType.Id), nameof(GradeType.Name), vm.Column.GradeTypeId);
+            vm.Groups = new SelectList(_unitOfWork.SubjectGroups.All(), nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Column.SubjectGroupId);
             return View(vm);
         }
 
@@ -137,10 +133,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var gradeColumn = await _context.GradeColumns
-                .Include(g => g.GradeType)
-                .Include(g => g.SubjectGroup)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var gradeColumn = await _unitOfWork.GradeColumns.FindAsync(id);
             if (gradeColumn == null)
             {
                 return NotFound();
@@ -154,15 +147,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var gradeColumn = await _context.GradeColumns.FindAsync(id);
-            _context.GradeColumns.Remove(gradeColumn);
-            await _context.SaveChangesAsync();
+            var gradeColumn = await _unitOfWork.GradeColumns.FindAsync(id);
+            _unitOfWork.GradeColumns.Remove(gradeColumn);
+            await _unitOfWork.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool GradeColumnExists(Guid id)
         {
-            return _context.GradeColumns.Any(e => e.Id == id);
+            return _unitOfWork.GradeColumns.Any(e => e.Id == id);
         }
     }
 }

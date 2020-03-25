@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,18 +13,16 @@ namespace WebApp.Controllers
 {
     public class PersonGroupController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public PersonGroupController(AppDbContext context)
+        public PersonGroupController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: PersonGroup
-        public async Task<IActionResult> Index()
-        {
-            var appDbContext = _context.PersonGroups.Include(p => p.Person).Include(p => p.SubjectGroup);
-            return View(await appDbContext.ToListAsync());
+        public async Task<IActionResult> Index() {
+            return View(await _unitOfWork.PersonGroups.AllAsync());
         }
 
         // GET: PersonGroup/Details/5
@@ -34,10 +33,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var personGroup = await _context.PersonGroups
-                .Include(p => p.Person)
-                .Include(p => p.SubjectGroup)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var personGroup = await _unitOfWork.PersonGroups.FindAsync(id);
             if (personGroup == null)
             {
                 return NotFound();
@@ -49,8 +45,8 @@ namespace WebApp.Controllers
         // GET: PersonGroup/Create
         public IActionResult Create()
         {
-            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Id");
-            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "Id", "Id");
+            ViewData["PersonId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id");
+            ViewData["SubjectGroupId"] = new SelectList(_unitOfWork.SubjectGroups.All(), "Id", "Id");
             return View();
         }
 
@@ -64,12 +60,12 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 personGroup.Id = Guid.NewGuid();
-                _context.Add(personGroup);
-                await _context.SaveChangesAsync();
+                _unitOfWork.PersonGroups.Add(personGroup);
+                await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Id", personGroup.PersonId);
-            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "Id", "Id", personGroup.SubjectGroupId);
+            ViewData["PersonId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", personGroup.PersonId);
+            ViewData["SubjectGroupId"] = new SelectList(_unitOfWork.SubjectGroups.All(), "Id", "Id", personGroup.SubjectGroupId);
             return View(personGroup);
         }
 
@@ -81,13 +77,13 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var personGroup = await _context.PersonGroups.FindAsync(id);
+            var personGroup = await _unitOfWork.PersonGroups.FindAsync(id);
             if (personGroup == null)
             {
                 return NotFound();
             }
-            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Id", personGroup.PersonId);
-            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "Id", "Id", personGroup.SubjectGroupId);
+            ViewData["PersonId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", personGroup.PersonId);
+            ViewData["SubjectGroupId"] = new SelectList(_unitOfWork.SubjectGroups.All(), "Id", "Id", personGroup.SubjectGroupId);
             return View(personGroup);
         }
 
@@ -107,8 +103,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(personGroup);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.PersonGroups.Update(personGroup);
+                    await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -123,8 +119,8 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Id", personGroup.PersonId);
-            ViewData["SubjectGroupId"] = new SelectList(_context.SubjectGroups, "Id", "Id", personGroup.SubjectGroupId);
+            ViewData["PersonId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", personGroup.PersonId);
+            ViewData["SubjectGroupId"] = new SelectList(_unitOfWork.SubjectGroups.All(), "Id", "Id", personGroup.SubjectGroupId);
             return View(personGroup);
         }
 
@@ -136,10 +132,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var personGroup = await _context.PersonGroups
-                .Include(p => p.Person)
-                .Include(p => p.SubjectGroup)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var personGroup = await _unitOfWork.PersonGroups.FindAsync(id);
             if (personGroup == null)
             {
                 return NotFound();
@@ -153,15 +146,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var personGroup = await _context.PersonGroups.FindAsync(id);
-            _context.PersonGroups.Remove(personGroup);
-            await _context.SaveChangesAsync();
+            var personGroup = await _unitOfWork.PersonGroups.FindAsync(id);
+            _unitOfWork.PersonGroups.Remove(personGroup);
+            await _unitOfWork.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PersonGroupExists(Guid id)
         {
-            return _context.PersonGroups.Any(e => e.Id == id);
+            return _unitOfWork.PersonGroups.Any(e => e.Id == id);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,20 +14,16 @@ namespace WebApp.Controllers
 {
     public class AbsenceReasonController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public AbsenceReasonController(AppDbContext context)
+        public AbsenceReasonController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: AbsenceReason
-        public async Task<IActionResult> Index()
-        {
-            var appDbContext = _context.AbsenceReasons
-                .Include(a => a.Creator)
-                .Include(a => a.Student);
-            return View(await appDbContext.ToListAsync());
+        public async Task<IActionResult> Index() {
+            return View(await _unitOfWork.AbsenceReasons.AllAsync());
         }
 
         // GET: AbsenceReason/Details/5
@@ -37,10 +34,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var absenceReason = await _context.AbsenceReasons
-                .Include(a => a.Creator)
-                .Include(a => a.Student)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var absenceReason = await _unitOfWork.AbsenceReasons.FindAsync(id);
             if (absenceReason == null)
             {
                 return NotFound();
@@ -52,8 +46,8 @@ namespace WebApp.Controllers
         // GET: AbsenceReason/Create
         public IActionResult Create()
         {
-            ViewData["CreatorId"] = new SelectList(_context.Persons, "Id", "Id");
-            ViewData["StudentId"] = new SelectList(_context.Persons, "Id", "Id");
+            ViewData["CreatorId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id");
+            ViewData["StudentId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id");
             return View();
         }
 
@@ -68,13 +62,13 @@ namespace WebApp.Controllers
             {
                 Console.Write(absenceReason.ToString());
                 absenceReason.Id = Guid.NewGuid();
-                _context.Add(absenceReason);
-                await _context.SaveChangesAsync();
+                _unitOfWork.AbsenceReasons.Add(absenceReason);
+                await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             Console.Write(absenceReason.ToString());
-            ViewData["CreatorId"] = new SelectList(_context.Persons, "Id", "Id", absenceReason.CreatorId);
-            ViewData["StudentId"] = new SelectList(_context.Persons, "Id", "Id", absenceReason.StudentId);
+            ViewData["CreatorId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", absenceReason.CreatorId);
+            ViewData["StudentId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", absenceReason.StudentId);
             return View(absenceReason);
         }
 
@@ -86,13 +80,13 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var absenceReason = await _context.AbsenceReasons.FindAsync(id);
+            var absenceReason = await _unitOfWork.AbsenceReasons.FindAsync(id);
             if (absenceReason == null)
             {
                 return NotFound();
             }
-            ViewData["CreatorId"] = new SelectList(_context.Persons, "Id", "Id", absenceReason.CreatorId);
-            ViewData["StudentId"] = new SelectList(_context.Persons, "Id", "Id", absenceReason.StudentId);
+            ViewData["CreatorId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", absenceReason.CreatorId);
+            ViewData["StudentId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", absenceReason.StudentId);
             return View(absenceReason);
         }
 
@@ -111,8 +105,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(absenceReason);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.AbsenceReasons.Update(absenceReason);
+                    await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -127,8 +121,8 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CreatorId"] = new SelectList(_context.Persons, "Id", "Id", absenceReason.CreatorId);
-            ViewData["StudentId"] = new SelectList(_context.Persons, "Id", "Id", absenceReason.StudentId);
+            ViewData["CreatorId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", absenceReason.CreatorId);
+            ViewData["StudentId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", absenceReason.StudentId);
             return View(absenceReason);
         }
 
@@ -140,10 +134,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var absenceReason = await _context.AbsenceReasons
-                .Include(a => a.Creator)
-                .Include(a => a.Student)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var absenceReason = await _unitOfWork.AbsenceReasons.FindAsync(id);
             if (absenceReason == null)
             {
                 return NotFound();
@@ -157,15 +148,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var absenceReason = await _context.AbsenceReasons.FindAsync(id);
-            _context.AbsenceReasons.Remove(absenceReason);
-            await _context.SaveChangesAsync();
+            var absenceReason = await _unitOfWork.AbsenceReasons.FindAsync(id);
+            _unitOfWork.AbsenceReasons.Remove(absenceReason);
+            await _unitOfWork.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool AbsenceReasonExists(Guid id)
         {
-            return _context.AbsenceReasons.Any(e => e.Id == id);
+            return _unitOfWork.AbsenceReasons.Any(e => e.Id == id);
         }
     }
 }

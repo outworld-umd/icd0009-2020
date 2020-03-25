@@ -14,22 +14,16 @@ namespace WebApp.Controllers
 {
     public class GradeController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public GradeController(AppDbContext context)
+        public GradeController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: Grade
-        public async Task<IActionResult> Index()
-        {
-            var appDbContext = _context.Grades
-                .Include(g => g.AbsenceReason)
-                .Include(g => g.Student)
-                .Include(g => g.Teacher)
-                .Include(g => g.GradeColumn);
-            return View(await appDbContext.ToListAsync());
+        public async Task<IActionResult> Index() {
+            return View(await _unitOfWork.Grades.AllAsync());
         }
 
         // GET: Grade/Details/5
@@ -40,12 +34,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var grade = await _context.Grades
-                .Include(g => g.AbsenceReason)
-                .Include(g => g.Student)
-                .Include(g => g.Teacher)
-                .Include(g => g.GradeColumn)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var grade = await _unitOfWork.Grades.FindAsync(id);
             if (grade == null)
             {
                 return NotFound();
@@ -58,11 +47,11 @@ namespace WebApp.Controllers
         public IActionResult Create()
         {
             var vm = new GradeCreateEditViewModel {
-                AbsenceReasons = new SelectList(_context.AbsenceReasons, nameof(AbsenceReason.Id),
+                AbsenceReasons = new SelectList(_unitOfWork.AbsenceReasons.All(), nameof(AbsenceReason.Id),
                     nameof(AbsenceReason.Id)),
-                Students = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName)),
-                Teachers = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName)),
-                GradeColumns = new SelectList(_context.GradeColumns, nameof(GradeColumn.Id), nameof(GradeColumn.Id))
+                Students = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName)),
+                Teachers = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName)),
+                GradeColumns = new SelectList(_unitOfWork.GradeColumns.All(), nameof(GradeColumn.Id), nameof(GradeColumn.Id))
             };
             return View(vm);
         }
@@ -77,14 +66,14 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 vm.Grade.Id = Guid.NewGuid();
-                _context.Add(vm.Grade);
-                await _context.SaveChangesAsync();
+                _unitOfWork.Grades.Add(vm.Grade);
+                await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            vm.AbsenceReasons = new SelectList(_context.AbsenceReasons, nameof(AbsenceReason.Id), nameof(AbsenceReason.Id), vm.Grade.AbsenceReason);
-            vm.Students = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Grade.Student);
-            vm.Teachers = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Grade.Teacher);
-            vm.GradeColumns = new SelectList(_context.GradeColumns, nameof(GradeColumn.Id), nameof(GradeColumn.Id), vm.Grade.GradeColumn);
+            vm.AbsenceReasons = new SelectList(_unitOfWork.AbsenceReasons.All(), nameof(AbsenceReason.Id), nameof(AbsenceReason.Id), vm.Grade.AbsenceReason);
+            vm.Students = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.Grade.Student);
+            vm.Teachers = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.Grade.Teacher);
+            vm.GradeColumns = new SelectList(_unitOfWork.GradeColumns.All(), nameof(GradeColumn.Id), nameof(GradeColumn.Id), vm.Grade.GradeColumn);
             return View(vm);
         }
 
@@ -95,15 +84,15 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            var vm = new GradeCreateEditViewModel { Grade = await _context.Grades.FindAsync(id) };
+            var vm = new GradeCreateEditViewModel { Grade = await _unitOfWork.Grades.FindAsync(id) };
             if (vm.Grade == null)
             {
                 return NotFound();
             }
-            vm.AbsenceReasons = new SelectList(_context.AbsenceReasons, nameof(AbsenceReason.Id), nameof(AbsenceReason.Id), vm.Grade.AbsenceReason);
-            vm.Students = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Grade.Student);
-            vm.Teachers = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Grade.Teacher);
-            vm.GradeColumns = new SelectList(_context.GradeColumns, nameof(GradeColumn.Id), nameof(GradeColumn.Id), vm.Grade.GradeColumn);
+            vm.AbsenceReasons = new SelectList(_unitOfWork.AbsenceReasons.All(), nameof(AbsenceReason.Id), nameof(AbsenceReason.Id), vm.Grade.AbsenceReason);
+            vm.Students = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.Grade.Student);
+            vm.Teachers = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.Grade.Teacher);
+            vm.GradeColumns = new SelectList(_unitOfWork.GradeColumns.All(), nameof(GradeColumn.Id), nameof(GradeColumn.Id), vm.Grade.GradeColumn);
             return View(vm);
         }
 
@@ -123,8 +112,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(vm.Grade);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.Grades.Update(vm.Grade);
+                    await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -139,10 +128,10 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            vm.AbsenceReasons = new SelectList(_context.AbsenceReasons, nameof(AbsenceReason.Id), nameof(AbsenceReason.Id), vm.Grade.AbsenceReason);
-            vm.Students = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Grade.Student);
-            vm.Teachers = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Grade.Teacher);
-            vm.GradeColumns = new SelectList(_context.GradeColumns, nameof(GradeColumn.Id), nameof(GradeColumn.Id), vm.Grade.GradeColumn);
+            vm.AbsenceReasons = new SelectList(_unitOfWork.AbsenceReasons.All(), nameof(AbsenceReason.Id), nameof(AbsenceReason.Id), vm.Grade.AbsenceReason);
+            vm.Students = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.Grade.Student);
+            vm.Teachers = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.Grade.Teacher);
+            vm.GradeColumns = new SelectList(_unitOfWork.GradeColumns.All(), nameof(GradeColumn.Id), nameof(GradeColumn.Id), vm.Grade.GradeColumn);
             return View(vm);
         }
 
@@ -154,12 +143,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var grade = await _context.Grades
-                .Include(g => g.AbsenceReason)
-                .Include(g => g.Student)
-                .Include(g => g.Teacher)
-                .Include(g => g.GradeColumn)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var grade = await _unitOfWork.Grades.FindAsync(id);
             if (grade == null)
             {
                 return NotFound();
@@ -173,15 +157,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var grade = await _context.Grades.FindAsync(id);
-            _context.Grades.Remove(grade);
-            await _context.SaveChangesAsync();
+            var grade = await _unitOfWork.Grades.FindAsync(id);
+            _unitOfWork.Grades.Remove(grade);
+            await _unitOfWork.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool GradeExists(Guid id)
         {
-            return _context.Grades.Any(e => e.Id == id);
+            return _unitOfWork.Grades.Any(e => e.Id == id);
         }
     }
 }

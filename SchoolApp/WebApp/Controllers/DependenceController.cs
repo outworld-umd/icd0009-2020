@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,18 +14,17 @@ namespace WebApp.Controllers
 {
     public class DependenceController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public DependenceController(AppDbContext context)
+        public DependenceController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: Dependence
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Dependences.Include(d => d.Child).Include(d => d.DependenceType).Include(d => d.Parent);
-            return View(await appDbContext.ToListAsync());
+            return View(await _unitOfWork.Dependences.AllAsync());
         }
 
         // GET: Dependence/Details/5
@@ -35,11 +35,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var dependence = await _context.Dependences
-                .Include(d => d.Child)
-                .Include(d => d.DependenceType)
-                .Include(d => d.Parent)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var dependence = await _unitOfWork.Dependences.FindAsync(id);
             if (dependence == null)
             {
                 return NotFound();
@@ -52,10 +48,10 @@ namespace WebApp.Controllers
         public IActionResult Create()
         {
             var vm = new DependenceCreateEditViewModel {
-                Children = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName)),
-                Types = new SelectList(_context.DependenceTypes, nameof(DependenceType.Id),
+                Children = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName)),
+                Types = new SelectList(_unitOfWork.DependenceTypes.All(), nameof(DependenceType.Id),
                     nameof(DependenceType.ChildToParentName)),
-                Parents = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName))
+                Parents = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName))
             };
             return View(vm);
         }
@@ -70,13 +66,13 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 vm.Dependence.Id = Guid.NewGuid();
-                _context.Add(vm.Dependence);
-                await _context.SaveChangesAsync();
+                _unitOfWork.Dependences.Add(vm.Dependence);
+                await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            vm.Children = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Dependence.ChildId);
-            vm.Types = new SelectList(_context.DependenceTypes, nameof(DependenceType.Id), nameof(DependenceType.ChildToParentName), vm.Dependence.DependenceTypeId);
-            vm.Parents = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Dependence.ParentId);
+            vm.Children = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.Dependence.ChildId);
+            vm.Types = new SelectList(_unitOfWork.DependenceTypes.All(), nameof(DependenceType.Id), nameof(DependenceType.ChildToParentName), vm.Dependence.DependenceTypeId);
+            vm.Parents = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.Dependence.ParentId);
             return View(vm);
         }
 
@@ -87,14 +83,14 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            var vm = new DependenceCreateEditViewModel {Dependence = await _context.Dependences.FindAsync(id)};
+            var vm = new DependenceCreateEditViewModel {Dependence = await _unitOfWork.Dependences.FindAsync(id)};
             if (vm.Dependence == null)
             {
                 return NotFound();
             }
-            vm.Children = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Dependence.ChildId);
-            vm.Types = new SelectList(_context.DependenceTypes, nameof(DependenceType.Id), nameof(DependenceType.ChildToParentName), vm.Dependence.DependenceTypeId);
-            vm.Parents = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Dependence.ParentId);
+            vm.Children = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.Dependence.ChildId);
+            vm.Types = new SelectList(_unitOfWork.DependenceTypes.All(), nameof(DependenceType.Id), nameof(DependenceType.ChildToParentName), vm.Dependence.DependenceTypeId);
+            vm.Parents = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.Dependence.ParentId);
             return View(vm);
         }
 
@@ -115,8 +111,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(vm.Dependence);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.Dependences.Update(vm.Dependence);
+                    await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -131,9 +127,9 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            vm.Children = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Dependence.ChildId);
-            vm.Types = new SelectList(_context.DependenceTypes, nameof(DependenceType.Id), nameof(DependenceType.ChildToParentName), vm.Dependence.DependenceTypeId);
-            vm.Parents = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Dependence.ParentId);
+            vm.Children = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.Dependence.ChildId);
+            vm.Types = new SelectList(_unitOfWork.DependenceTypes.All(), nameof(DependenceType.Id), nameof(DependenceType.ChildToParentName), vm.Dependence.DependenceTypeId);
+            vm.Parents = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.Dependence.ParentId);
             return View(vm);
         }
 
@@ -145,11 +141,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var dependence = await _context.Dependences
-                .Include(d => d.Child)
-                .Include(d => d.DependenceType)
-                .Include(d => d.Parent)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var dependence = await _unitOfWork.Dependences.FindAsync(id);
             if (dependence == null)
             {
                 return NotFound();
@@ -163,15 +155,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var dependence = await _context.Dependences.FindAsync(id);
-            _context.Dependences.Remove(dependence);
-            await _context.SaveChangesAsync();
+            var dependence = await _unitOfWork.Dependences.FindAsync(id);
+            _unitOfWork.Dependences.Remove(dependence);
+            await _unitOfWork.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool DependenceExists(Guid id)
         {
-            return _context.Dependences.Any(e => e.Id == id);
+            return _unitOfWork.Dependences.Any(e => e.Id == id);
         }
     }
 }

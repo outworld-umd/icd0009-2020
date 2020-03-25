@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,21 +14,16 @@ namespace WebApp.Controllers
 {
     public class PersonFormController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public PersonFormController(AppDbContext context)
+        public PersonFormController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: PersonForm
-        public async Task<IActionResult> Index()
-        {
-            var appDbContext = _context.PersonForms
-                .Include(p => p.Form)
-                .Include(p => p.FormRole)
-                .Include(p => p.Person);
-            return View(await appDbContext.ToListAsync());
+        public async Task<IActionResult> Index() {
+            return View(await _unitOfWork.PersonForms.AllAsync());
         }
 
         // GET: PersonForm/Details/5
@@ -38,11 +34,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var personForm = await _context.PersonForms
-                .Include(p => p.Form)
-                .Include(p => p.FormRole)
-                .Include(p => p.Person)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var personForm = await _unitOfWork.PersonForms.FindAsync(id);
             if (personForm == null)
             {
                 return NotFound();
@@ -55,9 +47,9 @@ namespace WebApp.Controllers
         public IActionResult Create()
         {
             var vm = new PersonFormCreateEditViewModel {
-                Forms = new SelectList(_context.Forms, nameof(Form.Id), nameof(Form.Name)),
-                FormRoles = new SelectList(_context.FormRoles, nameof(FormRole.Id), nameof(FormRole.Name)),
-                Persons = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName))
+                Forms = new SelectList(_unitOfWork.Forms.All(), nameof(Form.Id), nameof(Form.Name)),
+                FormRoles = new SelectList(_unitOfWork.FormRoles.All(), nameof(FormRole.Id), nameof(FormRole.Name)),
+                Persons = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName))
             };
             return View(vm);
         }
@@ -72,13 +64,13 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 vm.PersonForm.Id = Guid.NewGuid();
-                _context.Add(vm.PersonForm);
-                await _context.SaveChangesAsync();
+                _unitOfWork.PersonForms.Add(vm.PersonForm);
+                await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            vm.Forms = new SelectList(_context.Forms, nameof(Form.Id), nameof(Form.Name), vm.PersonForm.FormId);
-            vm.FormRoles = new SelectList(_context.FormRoles, nameof(FormRole.Id), nameof(FormRole.Name), vm.PersonForm.FormRoleId);
-            vm.Persons = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.PersonForm.FormRoleId);
+            vm.Forms = new SelectList(_unitOfWork.Forms.All(), nameof(Form.Id), nameof(Form.Name), vm.PersonForm.FormId);
+            vm.FormRoles = new SelectList(_unitOfWork.FormRoles.All(), nameof(FormRole.Id), nameof(FormRole.Name), vm.PersonForm.FormRoleId);
+            vm.Persons = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.PersonForm.FormRoleId);
             return View(vm);
         }
 
@@ -90,14 +82,14 @@ namespace WebApp.Controllers
                 return NotFound();
             }
             var vm = new PersonFormCreateEditViewModel();
-            vm.PersonForm = await _context.PersonForms.FindAsync(id);
+            vm.PersonForm = await _unitOfWork.PersonForms.FindAsync(id);
             if (vm.PersonForm == null)
             {
                 return NotFound();
             }
-            vm.Forms = new SelectList(_context.Forms, nameof(Form.Id), nameof(Form.Name), vm.PersonForm.FormId);
-            vm.FormRoles = new SelectList(_context.FormRoles, nameof(FormRole.Id), nameof(FormRole.Name), vm.PersonForm.FormRoleId);
-            vm.Persons = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.PersonForm.FormRoleId);
+            vm.Forms = new SelectList(_unitOfWork.Forms.All(), nameof(Form.Id), nameof(Form.Name), vm.PersonForm.FormId);
+            vm.FormRoles = new SelectList(_unitOfWork.FormRoles.All(), nameof(FormRole.Id), nameof(FormRole.Name), vm.PersonForm.FormRoleId);
+            vm.Persons = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.PersonForm.FormRoleId);
             return View(vm);
         }
 
@@ -117,8 +109,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(vm.PersonForm);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.PersonForms.Update(vm.PersonForm);
+                    await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -133,9 +125,9 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            vm.Forms = new SelectList(_context.Forms, nameof(Form.Id), nameof(Form.Name), vm.PersonForm.FormId);
-            vm.FormRoles = new SelectList(_context.FormRoles, nameof(FormRole.Id), nameof(FormRole.Name), vm.PersonForm.FormRoleId);
-            vm.Persons = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.PersonForm.FormRoleId);
+            vm.Forms = new SelectList(_unitOfWork.Forms.All(), nameof(Form.Id), nameof(Form.Name), vm.PersonForm.FormId);
+            vm.FormRoles = new SelectList(_unitOfWork.FormRoles.All(), nameof(FormRole.Id), nameof(FormRole.Name), vm.PersonForm.FormRoleId);
+            vm.Persons = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.PersonForm.FormRoleId);
             return View(vm);
         }
 
@@ -147,11 +139,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var personForm = await _context.PersonForms
-                .Include(p => p.Form)
-                .Include(p => p.FormRole)
-                .Include(p => p.Person)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var personForm = await _unitOfWork.PersonForms.FindAsync(id);
             if (personForm == null)
             {
                 return NotFound();
@@ -165,15 +153,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var personForm = await _context.PersonForms.FindAsync(id);
-            _context.PersonForms.Remove(personForm);
-            await _context.SaveChangesAsync();
+            var personForm = await _unitOfWork.PersonForms.FindAsync(id);
+            _unitOfWork.PersonForms.Remove(personForm);
+            await _unitOfWork.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PersonFormExists(Guid id)
         {
-            return _context.PersonForms.Any(e => e.Id == id);
+            return _unitOfWork.PersonForms.Any(e => e.Id == id);
         }
     }
 }

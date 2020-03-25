@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,18 +13,16 @@ namespace WebApp.Controllers
 {
     public class RemarkController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public RemarkController(AppDbContext context)
+        public RemarkController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: Remark
-        public async Task<IActionResult> Index()
-        {
-            var appDbContext = _context.Remarks.Include(r => r.Recipient).Include(r => r.RemarkType).Include(r => r.Sender);
-            return View(await appDbContext.ToListAsync());
+        public async Task<IActionResult> Index() {
+            return View(await _unitOfWork.Remarks.AllAsync());
         }
 
         // GET: Remark/Details/5
@@ -34,11 +33,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var remark = await _context.Remarks
-                .Include(r => r.Recipient)
-                .Include(r => r.RemarkType)
-                .Include(r => r.Sender)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var remark = await _unitOfWork.Remarks.FindAsync(id);
             if (remark == null)
             {
                 return NotFound();
@@ -50,9 +45,9 @@ namespace WebApp.Controllers
         // GET: Remark/Create
         public IActionResult Create()
         {
-            ViewData["RecipientId"] = new SelectList(_context.Persons, "Id", "Id");
-            ViewData["RemarkTypeId"] = new SelectList(_context.RemarkTypes, "Id", "Id");
-            ViewData["SenderId"] = new SelectList(_context.Persons, "Id", "Id");
+            ViewData["RecipientId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id");
+            ViewData["RemarkTypeId"] = new SelectList(_unitOfWork.RemarkTypes.All(), "Id", "Id");
+            ViewData["SenderId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id");
             return View();
         }
 
@@ -66,13 +61,13 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 remark.Id = Guid.NewGuid();
-                _context.Add(remark);
-                await _context.SaveChangesAsync();
+                _unitOfWork.Remarks.Add(remark);
+                await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RecipientId"] = new SelectList(_context.Persons, "Id", "Id", remark.RecipientId);
-            ViewData["RemarkTypeId"] = new SelectList(_context.RemarkTypes, "Id", "Id", remark.RemarkTypeId);
-            ViewData["SenderId"] = new SelectList(_context.Persons, "Id", "Id", remark.SenderId);
+            ViewData["RecipientId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", remark.RecipientId);
+            ViewData["RemarkTypeId"] = new SelectList(_unitOfWork.RemarkTypes.All(), "Id", "Id", remark.RemarkTypeId);
+            ViewData["SenderId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", remark.SenderId);
             return View(remark);
         }
 
@@ -84,14 +79,14 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var remark = await _context.Remarks.FindAsync(id);
+            var remark = await _unitOfWork.Remarks.FindAsync(id);
             if (remark == null)
             {
                 return NotFound();
             }
-            ViewData["RecipientId"] = new SelectList(_context.Persons, "Id", "Id", remark.RecipientId);
-            ViewData["RemarkTypeId"] = new SelectList(_context.RemarkTypes, "Id", "Id", remark.RemarkTypeId);
-            ViewData["SenderId"] = new SelectList(_context.Persons, "Id", "Id", remark.SenderId);
+            ViewData["RecipientId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", remark.RecipientId);
+            ViewData["RemarkTypeId"] = new SelectList(_unitOfWork.RemarkTypes.All(), "Id", "Id", remark.RemarkTypeId);
+            ViewData["SenderId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", remark.SenderId);
             return View(remark);
         }
 
@@ -111,8 +106,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(remark);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.Remarks.Update(remark);
+                    await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -127,9 +122,9 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RecipientId"] = new SelectList(_context.Persons, "Id", "Id", remark.RecipientId);
-            ViewData["RemarkTypeId"] = new SelectList(_context.RemarkTypes, "Id", "Id", remark.RemarkTypeId);
-            ViewData["SenderId"] = new SelectList(_context.Persons, "Id", "Id", remark.SenderId);
+            ViewData["RecipientId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", remark.RecipientId);
+            ViewData["RemarkTypeId"] = new SelectList(_unitOfWork.RemarkTypes.All(), "Id", "Id", remark.RemarkTypeId);
+            ViewData["SenderId"] = new SelectList(_unitOfWork.Persons.All(), "Id", "Id", remark.SenderId);
             return View(remark);
         }
 
@@ -141,11 +136,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var remark = await _context.Remarks
-                .Include(r => r.Recipient)
-                .Include(r => r.RemarkType)
-                .Include(r => r.Sender)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var remark = await _unitOfWork.Remarks.FindAsync(id);
             if (remark == null)
             {
                 return NotFound();
@@ -159,15 +150,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var remark = await _context.Remarks.FindAsync(id);
-            _context.Remarks.Remove(remark);
-            await _context.SaveChangesAsync();
+            var remark = await _unitOfWork.Remarks.FindAsync(id);
+            _unitOfWork.Remarks.Remove(remark);
+            await _unitOfWork.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool RemarkExists(Guid id)
         {
-            return _context.Remarks.Any(e => e.Id == id);
+            return _unitOfWork.Remarks.Any(e => e.Id == id);
         }
     }
 }

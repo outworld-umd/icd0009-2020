@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,18 +14,16 @@ namespace WebApp.Controllers
 {
     public class HomeworkController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public HomeworkController(AppDbContext context)
+        public HomeworkController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: Homework
-        public async Task<IActionResult> Index()
-        {
-            var appDbContext = _context.Homeworks.Include(h => h.SubjectGroup).Include(h => h.Teacher);
-            return View(await appDbContext.ToListAsync());
+        public async Task<IActionResult> Index() {
+            return View(await _unitOfWork.Homeworks.AllAsync());
         }
 
         // GET: Homework/Details/5
@@ -35,10 +34,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var homework = await _context.Homeworks
-                .Include(h => h.SubjectGroup)
-                .Include(h => h.Teacher)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var homework = await _unitOfWork.Homeworks.FindAsync(id);
             if (homework == null)
             {
                 return NotFound();
@@ -51,9 +47,9 @@ namespace WebApp.Controllers
         public IActionResult Create()
         {
             var vm = new HomeworkCreateEditViewModel {
-                SubjectGroups = new SelectList(_context.SubjectGroups, nameof(SubjectGroup.Id),
+                SubjectGroups = new SelectList(_unitOfWork.SubjectGroups.All(), nameof(SubjectGroup.Id),
                     nameof(SubjectGroup.Name)),
-                Teachers = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName))
+                Teachers = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName))
             };
             return View(vm);
         }
@@ -68,12 +64,12 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 vm.Homework.Id = Guid.NewGuid();
-                _context.Add(vm.Homework);
-                await _context.SaveChangesAsync();
+                _unitOfWork.Homeworks.Add(vm.Homework);
+                await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            vm.SubjectGroups = new SelectList(_context.SubjectGroups, nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Homework.SubjectGroupId);
-            vm.Teachers = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Homework.TeacherId);
+            vm.SubjectGroups = new SelectList(_unitOfWork.SubjectGroups.All(), nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Homework.SubjectGroupId);
+            vm.Teachers = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.Homework.TeacherId);
             return View(vm);
         }
 
@@ -84,13 +80,13 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            var vm = new HomeworkCreateEditViewModel {Homework = await _context.Homeworks.FindAsync(id)};
+            var vm = new HomeworkCreateEditViewModel {Homework = await _unitOfWork.Homeworks.FindAsync(id)};
             if (vm.Homework == null)
             {
                 return NotFound();
             }
-            vm.SubjectGroups = new SelectList(_context.SubjectGroups, nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Homework.SubjectGroupId);
-            vm.Teachers = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Homework.TeacherId);
+            vm.SubjectGroups = new SelectList(_unitOfWork.SubjectGroups.All(), nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Homework.SubjectGroupId);
+            vm.Teachers = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.Homework.TeacherId);
             return View(vm);
         }
 
@@ -110,8 +106,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(vm.Homework);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.Homeworks.Update(vm.Homework);
+                    await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -126,8 +122,8 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            vm.SubjectGroups = new SelectList(_context.SubjectGroups, nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Homework.SubjectGroupId);
-            vm.Teachers = new SelectList(_context.Persons, nameof(Person.Id), nameof(Person.LastName), vm.Homework.TeacherId);
+            vm.SubjectGroups = new SelectList(_unitOfWork.SubjectGroups.All(), nameof(SubjectGroup.Id), nameof(SubjectGroup.Name), vm.Homework.SubjectGroupId);
+            vm.Teachers = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.LastName), vm.Homework.TeacherId);
             return View(vm);
         }
 
@@ -139,10 +135,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var homework = await _context.Homeworks
-                .Include(h => h.SubjectGroup)
-                .Include(h => h.Teacher)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var homework = await _unitOfWork.Homeworks.FindAsync(id);
             if (homework == null)
             {
                 return NotFound();
@@ -156,15 +149,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var homework = await _context.Homeworks.FindAsync(id);
-            _context.Homeworks.Remove(homework);
-            await _context.SaveChangesAsync();
+            var homework = await _unitOfWork.Homeworks.FindAsync(id);
+            _unitOfWork.Homeworks.Remove(homework);
+            await _unitOfWork.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool HomeworkExists(Guid id)
         {
-            return _context.Homeworks.Any(e => e.Id == id);
+            return _unitOfWork.Homeworks.Any(e => e.Id == id);
         }
     }
 }

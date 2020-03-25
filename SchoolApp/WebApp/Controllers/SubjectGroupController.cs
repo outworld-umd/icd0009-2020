@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,18 +13,16 @@ namespace WebApp.Controllers
 {
     public class SubjectGroupController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public SubjectGroupController(AppDbContext context)
+        public SubjectGroupController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: SubjectGroup
-        public async Task<IActionResult> Index()
-        {
-            var appDbContext = _context.SubjectGroups.Include(s => s.Subject);
-            return View(await appDbContext.ToListAsync());
+        public async Task<IActionResult> Index() {
+            return View(await _unitOfWork.SubjectGroups.AllAsync());
         }
 
         // GET: SubjectGroup/Details/5
@@ -34,9 +33,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var subjectGroup = await _context.SubjectGroups
-                .Include(s => s.Subject)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var subjectGroup = await _unitOfWork.SubjectGroups.FindAsync(id);
             if (subjectGroup == null)
             {
                 return NotFound();
@@ -48,7 +45,7 @@ namespace WebApp.Controllers
         // GET: SubjectGroup/Create
         public IActionResult Create()
         {
-            ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Id");
+            ViewData["SubjectId"] = new SelectList(_unitOfWork.Subjects.All(), "Id", "Id");
             return View();
         }
 
@@ -62,11 +59,11 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 subjectGroup.Id = Guid.NewGuid();
-                _context.Add(subjectGroup);
-                await _context.SaveChangesAsync();
+                _unitOfWork.SubjectGroups.Add(subjectGroup);
+                await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Id", subjectGroup.SubjectId);
+            ViewData["SubjectId"] = new SelectList(_unitOfWork.Subjects.All(), "Id", "Id", subjectGroup.SubjectId);
             return View(subjectGroup);
         }
 
@@ -78,12 +75,12 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var subjectGroup = await _context.SubjectGroups.FindAsync(id);
+            var subjectGroup = await _unitOfWork.SubjectGroups.FindAsync(id);
             if (subjectGroup == null)
             {
                 return NotFound();
             }
-            ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Id", subjectGroup.SubjectId);
+            ViewData["SubjectId"] = new SelectList(_unitOfWork.Subjects.All(), "Id", "Id", subjectGroup.SubjectId);
             return View(subjectGroup);
         }
 
@@ -103,8 +100,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(subjectGroup);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.SubjectGroups.Update(subjectGroup);
+                    await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -119,7 +116,7 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Id", subjectGroup.SubjectId);
+            ViewData["SubjectId"] = new SelectList(_unitOfWork.Subjects.All(), "Id", "Id", subjectGroup.SubjectId);
             return View(subjectGroup);
         }
 
@@ -131,9 +128,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var subjectGroup = await _context.SubjectGroups
-                .Include(s => s.Subject)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var subjectGroup = await _unitOfWork.SubjectGroups.FindAsync(id);
             if (subjectGroup == null)
             {
                 return NotFound();
@@ -147,15 +142,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var subjectGroup = await _context.SubjectGroups.FindAsync(id);
-            _context.SubjectGroups.Remove(subjectGroup);
-            await _context.SaveChangesAsync();
+            var subjectGroup = await _unitOfWork.SubjectGroups.FindAsync(id);
+            _unitOfWork.SubjectGroups.Remove(subjectGroup);
+            await _unitOfWork.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool SubjectGroupExists(Guid id)
         {
-            return _context.SubjectGroups.Any(e => e.Id == id);
+            return _unitOfWork.SubjectGroups.Any(e => e.Id == id);
         }
     }
 }
