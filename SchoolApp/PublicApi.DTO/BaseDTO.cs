@@ -1,4 +1,6 @@
 ﻿using System;
+using Contracts.DAL.Base;
+using Domain;
 
 namespace PublicApi.DTO {
 

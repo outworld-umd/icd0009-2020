@@ -13,16 +13,17 @@ namespace Domain {
         public DateTime Created { get; set; }
         public Guid? AbsenceReasonId { get; set; }
         public AbsenceReason? AbsenceReason { get; set; }
-        [ForeignKey(nameof(Student))]
-        public Guid StudentId { get; set; }
-        public Person? Student { get; set; }
+        [ForeignKey(nameof(StudentGroup))]
+        public Guid StudentGroupId { get; set; }
+        public PersonGroup? StudentGroup { get; set; }
         [ForeignKey(nameof(Teacher))]
         public Guid TeacherId { get; set; }
         public Person? Teacher { get; set; }
         [ForeignKey(nameof(GradeColumn))]
         public Guid GradeColumnId { get; set; }
         public GradeColumn? GradeColumn { get; set; }
-        
+
+        public string? TeachersName => Teacher?.FirstLastName;
     }
 
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
@@ -47,9 +48,8 @@ namespace WebApp.Controllers
         public IActionResult Create()
         {
             var vm = new GradeCreateEditViewModel {
-                AbsenceReasons = new SelectList(_unitOfWork.AbsenceReasons.All(), nameof(AbsenceReason.Id),
-                    nameof(AbsenceReason.Id)),
-                Students = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.FirstLastName)),
+                AbsenceReasons = new SelectList(_unitOfWork.AbsenceReasons.All(), nameof(AbsenceReason.Id),nameof(AbsenceReason.Id)),
+                StudentGroups = new SelectList(_unitOfWork.PersonGroups.All(), nameof(PersonGroup.Id), nameof(PersonGroup.PersonName)),
                 Teachers = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.FirstLastName)),
                 GradeColumns = new SelectList(_unitOfWork.GradeColumns.All(), nameof(GradeColumn.Id), nameof(GradeColumn.Id))
             };
@@ -71,7 +71,7 @@ namespace WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             vm.AbsenceReasons = new SelectList(_unitOfWork.AbsenceReasons.All(), nameof(AbsenceReason.Id), nameof(AbsenceReason.Id), vm.Grade.AbsenceReason);
-            vm.Students = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.FirstLastName), vm.Grade.Student);
+            vm.StudentGroups = new SelectList(_unitOfWork.PersonGroups.All(), nameof(PersonGroup.Id), nameof(PersonGroup.PersonName), vm.Grade.StudentGroup);
             vm.Teachers = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.FirstLastName), vm.Grade.Teacher);
             vm.GradeColumns = new SelectList(_unitOfWork.GradeColumns.All(), nameof(GradeColumn.Id), nameof(GradeColumn.Id), vm.Grade.GradeColumn);
             return View(vm);
@@ -90,7 +90,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
             vm.AbsenceReasons = new SelectList(_unitOfWork.AbsenceReasons.All(), nameof(AbsenceReason.Id), nameof(AbsenceReason.Id), vm.Grade.AbsenceReason);
-            vm.Students = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.FirstLastName), vm.Grade.Student);
+            vm.StudentGroups = new SelectList(_unitOfWork.PersonGroups.All(), nameof(PersonGroup.Id), nameof(PersonGroup.PersonName), vm.Grade.StudentGroup);
             vm.Teachers = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.FirstLastName), vm.Grade.Teacher);
             vm.GradeColumns = new SelectList(_unitOfWork.GradeColumns.All(), nameof(GradeColumn.Id), nameof(GradeColumn.Id), vm.Grade.GradeColumn);
             return View(vm);
@@ -129,7 +129,7 @@ namespace WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             vm.AbsenceReasons = new SelectList(_unitOfWork.AbsenceReasons.All(), nameof(AbsenceReason.Id), nameof(AbsenceReason.Id), vm.Grade.AbsenceReason);
-            vm.Students = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.FirstLastName), vm.Grade.Student);
+            vm.StudentGroups = new SelectList(_unitOfWork.PersonGroups.All(), nameof(PersonGroup.Id), nameof(PersonGroup.PersonName), vm.Grade.StudentGroup);
             vm.Teachers = new SelectList(_unitOfWork.Persons.All(), nameof(Person.Id), nameof(Person.FirstLastName), vm.Grade.Teacher);
             vm.GradeColumns = new SelectList(_unitOfWork.GradeColumns.All(), nameof(GradeColumn.Id), nameof(GradeColumn.Id), vm.Grade.GradeColumn);
             return View(vm);

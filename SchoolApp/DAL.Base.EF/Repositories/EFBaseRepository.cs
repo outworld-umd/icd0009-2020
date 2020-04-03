@@ -87,6 +87,10 @@ namespace DAL.Base.EF.Repositories
             return RepoDbSet.Any(predicate);
         }
 
+        public void SetModified(TEntity entity) {
+            RepoDbContext.Entry(entity).State = EntityState.Modified;
+        }
+
     }
     
 }

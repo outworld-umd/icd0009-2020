@@ -16,7 +16,7 @@ namespace Contracts.DAL.App
         public IGradeRepository Grades { get; }
         public IBaseRepository<GradeType> GradeTypes { get; }
         public IHomeworkRepository Homeworks { get; }
-        public IBaseRepository<Person> Persons { get; }
+        public IPersonRepository Persons { get; }
         public IPersonFormRepository PersonForms { get; }
         public IPersonGroupRepository PersonGroups { get; }
         public IRemarkRepository Remarks { get; }

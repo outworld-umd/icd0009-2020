@@ -25,8 +25,6 @@ namespace Domain {
         public ICollection<Dependence>? Children { get; set; }
         [InverseProperty(nameof(Dependence.Child))]
         public ICollection<Dependence>? Parents { get; set; }
-        [InverseProperty(nameof(Grade.Student))]
-        public ICollection<Grade>? GottenGrades { get; set; }
         [InverseProperty(nameof(Grade.Teacher))]
         public ICollection<Grade>? GivenGrades { get; set; }
         [InverseProperty(nameof(Homework.Teacher))]

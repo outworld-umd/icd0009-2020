@@ -23,7 +23,7 @@ namespace DAL.App.EF {
         public IGradeRepository Grades => GetRepository(() => new GradeRepository(UOWDbContext));
         public IBaseRepository<GradeType> GradeTypes => GetRepository(() => new EFBaseRepository<GradeType, DbContext>(UOWDbContext));
         public IHomeworkRepository Homeworks => GetRepository(() => new HomeworkRepository(UOWDbContext));
-        public IBaseRepository<Person> Persons => GetRepository(() => new EFBaseRepository<Person, DbContext>(UOWDbContext));
+        public IPersonRepository Persons => GetRepository(() => new PersonRepository(UOWDbContext));
         public IPersonFormRepository PersonForms => GetRepository(() => new PersonFormRepository(UOWDbContext));
         public IPersonGroupRepository PersonGroups => GetRepository(() => new PersonGroupRepository(UOWDbContext));
         public IRemarkRepository Remarks => GetRepository(() => new RemarkRepository(UOWDbContext));

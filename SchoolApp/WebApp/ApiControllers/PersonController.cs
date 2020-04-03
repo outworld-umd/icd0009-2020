@@ -2,11 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using PublicApi.DTO;
+using PublicApi.DTO.DTOs;
 
 namespace WebApp.ApiControllers
 {
@@ -14,32 +17,30 @@ namespace WebApp.ApiControllers
     [ApiController]
     public class PersonController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public PersonController(AppDbContext context)
+        public PersonController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: api/Person
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Person>>> GetPersons()
-        {
-            return await _context.Persons.ToListAsync();
+        public async Task<ActionResult<IEnumerable<PersonDTO>>> GetPersons() {
+            return Ok((await _unitOfWork.Persons.AllAsync()).Select(DTOFactory.GetPersonDTOForList));
         }
 
         // GET: api/Person/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Person>> GetPerson(Guid id)
-        {
-            var person = await _context.Persons.FindAsync(id);
+        public async Task<ActionResult<PersonDTO>> GetPerson(Guid id) {
+            var person = await _unitOfWork.Persons.FindAsync(id);
 
             if (person == null)
             {
                 return NotFound();
             }
 
-            return person;
+            return DTOFactory.GetPersonDTOSingle(person);
         }
 
         // PUT: api/Person/5
@@ -53,11 +54,11 @@ namespace WebApp.ApiControllers
                 return BadRequest();
             }
 
-            _context.Entry(person).State = EntityState.Modified;
+            _unitOfWork.Persons.SetModified(person);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _unitOfWork.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -80,8 +81,8 @@ namespace WebApp.ApiControllers
         [HttpPost]
         public async Task<ActionResult<Person>> PostPerson(Person person)
         {
-            _context.Persons.Add(person);
-            await _context.SaveChangesAsync();
+            _unitOfWork.Persons.Add(person);
+            await _unitOfWork.SaveChangesAsync();
 
             return CreatedAtAction("GetPerson", new { id = person.Id }, person);
         }
@@ -90,21 +91,21 @@ namespace WebApp.ApiControllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Person>> DeletePerson(Guid id)
         {
-            var person = await _context.Persons.FindAsync(id);
+            var person = await _unitOfWork.Persons.FindAsync(id);
             if (person == null)
             {
                 return NotFound();
             }
 
-            _context.Persons.Remove(person);
-            await _context.SaveChangesAsync();
+            _unitOfWork.Persons.Remove(person);
+            await _unitOfWork.SaveChangesAsync();
 
             return person;
         }
 
         private bool PersonExists(Guid id)
         {
-            return _context.Persons.Any(e => e.Id == id);
+            return _unitOfWork.Persons.Any(e => e.Id == id);
         }
     }
 }

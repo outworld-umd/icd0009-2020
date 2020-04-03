@@ -15,16 +15,16 @@ namespace DAL.App.EF.Repositories {
 
         public override async Task<IEnumerable<Grade>> AllAsync() {
             return await RepoDbSet.Include(g => g.AbsenceReason)
-                .Include(g => g.Student)
+                .Include(g => g.StudentGroup).ThenInclude(g => g.Person)
                 .Include(g => g.Teacher)
-                .Include(g => g.GradeColumn).ToListAsync();
+                .Include(g => g.GradeColumn).ThenInclude(gc => gc.GradeType).ToListAsync();
         }
         
         public override async Task<Grade> FindAsync(params object[] id) {
             return await RepoDbSet.Include(g => g.AbsenceReason)
-                .Include(g => g.Student)
+                .Include(g => g.StudentGroup).ThenInclude(g => g.Person)
                 .Include(g => g.Teacher)
-                .Include(g => g.GradeColumn).FirstOrDefaultAsync(m => m.Id.Equals((Guid) id[0]));
+                .Include(g => g.GradeColumn).ThenInclude(gc => gc.GradeType).FirstOrDefaultAsync(m => m.Id.Equals((Guid) id[0]));
         }
     }
 

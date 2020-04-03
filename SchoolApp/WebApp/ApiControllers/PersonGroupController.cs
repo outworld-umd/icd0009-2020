@@ -2,11 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using PublicApi.DTO;
+using PublicApi.DTO.DTOs;
 
 namespace WebApp.ApiControllers
 {
@@ -14,32 +17,31 @@ namespace WebApp.ApiControllers
     [ApiController]
     public class PersonGroupController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public PersonGroupController(AppDbContext context)
+        public PersonGroupController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: api/PersonGroup
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PersonGroup>>> GetPersonGroups()
+        public async Task<ActionResult<IEnumerable<PersonGroupDTO>>> GetPersonGroups() 
         {
-            return await _context.PersonGroups.ToListAsync();
+            return Ok((await _unitOfWork.PersonGroups.AllAsync()).Select(DTOFactory.GetPersonGroupDTOForList));
         }
 
         // GET: api/PersonGroup/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<PersonGroup>> GetPersonGroup(Guid id)
-        {
-            var personGroup = await _context.PersonGroups.FindAsync(id);
+        public async Task<ActionResult<PersonGroupDTO>> GetPersonGroup(Guid id) {
+            var personGroup = await _unitOfWork.PersonGroups.FindAsync(id);
 
             if (personGroup == null)
             {
                 return NotFound();
             }
 
-            return personGroup;
+            return DTOFactory.GetPersonGroupDTOSingle(personGroup);
         }
 
         // PUT: api/PersonGroup/5
@@ -53,11 +55,11 @@ namespace WebApp.ApiControllers
                 return BadRequest();
             }
 
-            _context.Entry(personGroup).State = EntityState.Modified;
+            _unitOfWork.PersonGroups.SetModified(personGroup);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _unitOfWork.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -80,8 +82,8 @@ namespace WebApp.ApiControllers
         [HttpPost]
         public async Task<ActionResult<PersonGroup>> PostPersonGroup(PersonGroup personGroup)
         {
-            _context.PersonGroups.Add(personGroup);
-            await _context.SaveChangesAsync();
+            _unitOfWork.PersonGroups.Add(personGroup);
+            await _unitOfWork.SaveChangesAsync();
 
             return CreatedAtAction("GetPersonGroup", new { id = personGroup.Id }, personGroup);
         }
@@ -90,21 +92,21 @@ namespace WebApp.ApiControllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<PersonGroup>> DeletePersonGroup(Guid id)
         {
-            var personGroup = await _context.PersonGroups.FindAsync(id);
+            var personGroup = await _unitOfWork.PersonGroups.FindAsync(id);
             if (personGroup == null)
             {
                 return NotFound();
             }
 
-            _context.PersonGroups.Remove(personGroup);
-            await _context.SaveChangesAsync();
+            _unitOfWork.PersonGroups.Remove(personGroup);
+            await _unitOfWork.SaveChangesAsync();
 
             return personGroup;
         }
 
         private bool PersonGroupExists(Guid id)
         {
-            return _context.PersonGroups.Any(e => e.Id == id);
+            return _unitOfWork.PersonGroups.Any(e => e.Id == id);
         }
     }
 }

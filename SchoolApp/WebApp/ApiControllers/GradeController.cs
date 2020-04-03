@@ -2,11 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using PublicApi.DTO;
+using PublicApi.DTO.DTOs;
 
 namespace WebApp.ApiControllers
 {
@@ -14,32 +17,31 @@ namespace WebApp.ApiControllers
     [ApiController]
     public class GradeController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public GradeController(AppDbContext context)
+        public GradeController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: api/Grade
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Grade>>> GetGrades()
-        {
-            return await _context.Grades.ToListAsync();
+        public async Task<ActionResult<IEnumerable<GradeDTO>>> GetGrades() {
+            return Ok((await _unitOfWork.Grades.AllAsync()).Select(DTOFactory.GetGradeDTO));
         }
 
         // GET: api/Grade/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Grade>> GetGrade(Guid id)
+        public async Task<ActionResult<GradeDTO>> GetGrade(Guid id)
         {
-            var grade = await _context.Grades.FindAsync(id);
+            var grade = await _unitOfWork.Grades.FindAsync(id);
 
             if (grade == null)
             {
                 return NotFound();
             }
 
-            return grade;
+            return DTOFactory.GetGradeDTO(grade);
         }
 
         // PUT: api/Grade/5
@@ -53,11 +55,11 @@ namespace WebApp.ApiControllers
                 return BadRequest();
             }
 
-            _context.Entry(grade).State = EntityState.Modified;
+            _unitOfWork.Grades.SetModified(grade);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _unitOfWork.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -80,8 +82,8 @@ namespace WebApp.ApiControllers
         [HttpPost]
         public async Task<ActionResult<Grade>> PostGrade(Grade grade)
         {
-            _context.Grades.Add(grade);
-            await _context.SaveChangesAsync();
+            _unitOfWork.Grades.Add(grade);
+            await _unitOfWork.SaveChangesAsync();
 
             return CreatedAtAction("GetGrade", new { id = grade.Id }, grade);
         }
@@ -90,21 +92,21 @@ namespace WebApp.ApiControllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Grade>> DeleteGrade(Guid id)
         {
-            var grade = await _context.Grades.FindAsync(id);
+            var grade = await _unitOfWork.Grades.FindAsync(id);
             if (grade == null)
             {
                 return NotFound();
             }
 
-            _context.Grades.Remove(grade);
-            await _context.SaveChangesAsync();
+            _unitOfWork.Grades.Remove(grade);
+            await _unitOfWork.SaveChangesAsync();
 
             return grade;
         }
 
         private bool GradeExists(Guid id)
         {
-            return _context.Grades.Any(e => e.Id == id);
+            return _unitOfWork.Grades.Any(e => e.Id == id);
         }
     }
 }

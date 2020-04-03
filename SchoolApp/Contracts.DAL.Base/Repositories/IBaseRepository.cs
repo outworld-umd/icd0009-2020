@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -26,5 +27,6 @@ namespace Contracts.DAL.Base.Repositories
         TEntity Remove(TEntity entity);
         TEntity Remove(params object[] id);
         public bool Any(Expression<Func<TEntity, bool>> predicate);
+        public void SetModified(TEntity entity);
     }
 }
