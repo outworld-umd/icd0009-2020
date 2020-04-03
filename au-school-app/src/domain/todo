@@ -1,0 +1,12 @@
+here goes:
+
+export interface I%name%(Create/Edit/(blank for index)) {
+  (for index and edit) id: string;
+  (for all) ...
+  (for index) additional fields;
+}
+
+for dependencies:
+1. import { I%name% } from "./I%name%";
+2. %name%Id: string;
+   %name%: I%name%;

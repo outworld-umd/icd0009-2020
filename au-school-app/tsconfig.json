@@ -25,9 +25,9 @@
     "allowJs": true
   },
   "include": [
-    "./src/**/*.ts",
-    "./test/**/*.ts",
-    "./types/**/*.d.ts"
+    "src/**/*.ts",
+    "test/**/*.ts",
+    "types/**/*.d.ts"
   ],
   "atom": {
     "rewriteTsconfig": false
