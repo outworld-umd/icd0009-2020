@@ -1,7 +1,8 @@
-﻿namespace Domain {
+﻿using DAL.Base;
 
-    public class Restaurant {
-        
+namespace Domain
+{
+    public class Restaurant : DomainEntityBaseMetadata
+    {
     }
-
 }

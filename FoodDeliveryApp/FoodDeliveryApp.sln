@@ -14,6 +14,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL.App.EF", "DAL.App.EF\DAL.App.EF.csproj", "{F5F8580F-CB5D-4A1E-9E16-BEF2E7C91763}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{217FF93B-222C-40A5-AFD9-9BF2003B88DD}"
+ProjectSection(SolutionItems) = preProject
+	..\.gitignore = ..\.gitignore
+	Directory.Build.props = Directory.Build.props
+	KoltFood ERD.pdf = KoltFood ERD.pdf
+	README.md = README.md
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
