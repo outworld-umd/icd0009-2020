@@ -11,6 +11,6 @@ namespace Domain
         public DateTime ClosingTime { get; set; } = default!;
 
         [MaxLength(36)] public Guid RestaurantId { get; set; }
-        public Restaurant Restaurant { get; set; } = default!;
+        public Restaurant? Restaurant { get; set; } = default!;
     }
 }

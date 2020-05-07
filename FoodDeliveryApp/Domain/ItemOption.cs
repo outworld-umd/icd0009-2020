@@ -13,7 +13,7 @@ namespace Domain
 
 
         [MaxLength(36)] public Guid ItemId { get; set; }
-        public Item Item { get; set; } = default!;
+        public Item? Item { get; set; }
         public ICollection<ItemChoice>? ItemChoices { get; set; }
     }
 }

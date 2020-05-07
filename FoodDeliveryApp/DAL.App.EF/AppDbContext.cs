@@ -17,7 +17,6 @@ namespace DAL.App.EF {
         public DbSet<ItemType> ItemTypes { get; set; } = default!;
         public DbSet<NutritionInfo> NutritionInfos { get; set; } = default!;
         public DbSet<Order> Orders { get; set; } = default!;
-        public DbSet<OrderAddress> OrderAddresses { get; set; } = default!;
         public DbSet<OrderItemChoice> OrderItemChoices { get; set; } = default!;
         public DbSet<OrderRow> OrderRows { get; set; } = default!;
         public DbSet<Restaurant> Restaurants { get; set; } = default!;
