@@ -62,11 +62,6 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 itemType.Id = Guid.NewGuid();
-                Console.WriteLine("=====================" + "\n");
-                Console.WriteLine("Rest id:" + itemType.RestaurantId);
-                Console.WriteLine("=====================" + "\n");
-                Console.WriteLine("ItemType id: " + itemType.Id);
-
                 _context.Add(itemType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

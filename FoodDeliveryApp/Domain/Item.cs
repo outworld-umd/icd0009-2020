@@ -13,7 +13,7 @@ namespace Domain
         [Column(TypeName = "decimal(6,2)")]public decimal Price { get; set; } = default!;
         [MaxLength(512)] public string? Description { get; set; }
         
-        [MaxLength(36)] public Guid ItemTypeId { get; set; }
+        public Guid ItemTypeId { get; set; }
         public ItemType? ItemType { get; set; }
 
         public ICollection<OrderRow>? OrderRows { get; set; }

@@ -18,10 +18,10 @@ namespace Domain
         [MaxLength(512)] public string? Comment { get; set; }
 
 
-        [MaxLength(36)] public Guid CustomerId { get; set; }
+        public Guid CustomerId { get; set; }
         public Customer? Customer { get; set; } = default!;
 
-        [MaxLength(36)] public Guid RestaurantId { get; set; }
+        public Guid RestaurantId { get; set; }
         public Restaurant? Restaurant { get; set; } = default!;
 
         public ICollection<OrderRow>? OrderRows { get; set; }

@@ -14,7 +14,7 @@ namespace Domain
         [MinLength(2)] [MaxLength(64)] public string BuildingNumber { get; set; } = default!;
         [MaxLength(256)] public string Comment { get; set; } = default!;
 
-        [MaxLength(36)] public Guid CustomerId { get; set; }
+        public Guid CustomerId { get; set; }
         public Customer? Customer { get; set; }
 
     }

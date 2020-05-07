@@ -7,7 +7,7 @@ namespace Domain
 {
     public class NutritionInfo : DomainEntityBaseMetadata
     {
-        [MaxLength(36)] public Guid ItemId { get; set; }
+        public Guid ItemId { get; set; }
         public Item? Item { get; set; } = default!;
         [MinLength(2)] [MaxLength(64)] public string Name { get; set; } = default!;
         [Column(TypeName = "decimal(7,3)")]public decimal Amount { get; set; } = default!;
