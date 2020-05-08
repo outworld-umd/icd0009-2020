@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,18 +13,17 @@ namespace WebApp.Controllers
 {
     public class WorkingHoursesController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public WorkingHoursesController(AppDbContext context)
+        public WorkingHoursesController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: WorkingHourses
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.WorkingHourses.Include(w => w.Restaurant);
-            return View(await appDbContext.ToListAsync());
+            return View(await _unitOfWork.WorkingHourses.AllAsync());
         }
 
         // GET: WorkingHourses/Details/5
@@ -34,9 +34,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var workingHours = await _context.WorkingHourses
-                .Include(w => w.Restaurant)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var workingHours = await _unitOfWork.WorkingHourses.FindAsync(id);
             if (workingHours == null)
             {
                 return NotFound();
@@ -48,7 +46,7 @@ namespace WebApp.Controllers
         // GET: WorkingHourses/Create
         public IActionResult Create()
         {
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Address");
+            ViewData["RestaurantId"] = new SelectList(_unitOfWork.Restaurants.All(), "Id", "Address");
             return View();
         }
 
@@ -62,11 +60,11 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 workingHours.Id = Guid.NewGuid();
-                _context.Add(workingHours);
-                await _context.SaveChangesAsync();
+                _unitOfWork.WorkingHourses.Add(workingHours);
+                await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Address", workingHours.RestaurantId);
+            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Address", workingHours.RestaurantId);
             return View(workingHours);
         }
 
@@ -78,12 +76,12 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var workingHours = await _context.WorkingHourses.FindAsync(id);
+            var workingHours = await _unitOfWork.WorkingHourses.FindAsync(id);
             if (workingHours == null)
             {
                 return NotFound();
             }
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Address", workingHours.RestaurantId);
+            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Address", workingHours.RestaurantId);
             return View(workingHours);
         }
 
@@ -103,8 +101,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(workingHours);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.WorkingHourses.Update(workingHours);
+                    await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -119,7 +117,7 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Address", workingHours.RestaurantId);
+            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Address", workingHours.RestaurantId);
             return View(workingHours);
         }
 
@@ -131,9 +129,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var workingHours = await _context.WorkingHourses
-                .Include(w => w.Restaurant)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var workingHours = await _unitOfWork.WorkingHourses.FindAsync(id);
             if (workingHours == null)
             {
                 return NotFound();
@@ -147,15 +143,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var workingHours = await _context.WorkingHourses.FindAsync(id);
-            _context.WorkingHourses.Remove(workingHours);
-            await _context.SaveChangesAsync();
+            var workingHours = await _unitOfWork.WorkingHourses.FindAsync(id);
+            _unitOfWork.WorkingHourses.Remove(workingHours);
+            await _unitOfWork.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool WorkingHoursExists(Guid id)
         {
-            return _context.WorkingHourses.Any(e => e.Id == id);
+            return _unitOfWork.WorkingHourses.Any(e => e.Id == id);
         }
     }
 }

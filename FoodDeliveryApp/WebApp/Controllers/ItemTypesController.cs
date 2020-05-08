@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,18 +13,17 @@ namespace WebApp.Controllers
 {
     public class ItemTypesController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public ItemTypesController(AppDbContext context)
+        public ItemTypesController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: ItemTypes
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.ItemTypes.Include(i => i.Restaurant);
-            return View(await appDbContext.ToListAsync());
+            return View(await _unitOfWork.ItemTypes.AllAsync());
         }
 
         // GET: ItemTypes/Details/5
@@ -34,9 +34,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var itemType = await _context.ItemTypes
-                .Include(i => i.Restaurant)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var itemType = await _unitOfWork.ItemTypes.FindAsync(id);
             if (itemType == null)
             {
                 return NotFound();
@@ -48,7 +46,7 @@ namespace WebApp.Controllers
         // GET: ItemTypes/Create
         public IActionResult Create()
         {
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Name");
+            ViewData["RestaurantId"] = new SelectList(_unitOfWork.Restaurants.All(), "Id", "Name");
             return View();
         }
 
@@ -62,11 +60,11 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 itemType.Id = Guid.NewGuid();
-                _context.Add(itemType);
-                await _context.SaveChangesAsync();
+                _unitOfWork.ItemTypes.Add(itemType);
+                await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Name", itemType.RestaurantId);
+            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Name", itemType.RestaurantId);
             return View(itemType);
         }
 
@@ -78,12 +76,12 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var itemType = await _context.ItemTypes.FindAsync(id);
+            var itemType = await _unitOfWork.ItemTypes.FindAsync(id);
             if (itemType == null)
             {
                 return NotFound();
             }
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Address", itemType.RestaurantId);
+            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Address", itemType.RestaurantId);
             return View(itemType);
         }
 
@@ -103,8 +101,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(itemType);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.ItemTypes.Update(itemType);
+                    await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -119,7 +117,7 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Address", itemType.RestaurantId);
+            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Address", itemType.RestaurantId);
             return View(itemType);
         }
 
@@ -131,9 +129,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var itemType = await _context.ItemTypes
-                .Include(i => i.Restaurant)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var itemType = await _unitOfWork.ItemTypes.FindAsync(id);
             if (itemType == null)
             {
                 return NotFound();
@@ -147,15 +143,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var itemType = await _context.ItemTypes.FindAsync(id);
-            _context.ItemTypes.Remove(itemType);
-            await _context.SaveChangesAsync();
+            var itemType = await _unitOfWork.ItemTypes.FindAsync(id);
+            _unitOfWork.ItemTypes.Remove(itemType);
+            await _unitOfWork.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ItemTypeExists(Guid id)
         {
-            return _context.ItemTypes.Any(e => e.Id == id);
+            return _unitOfWork.ItemTypes.Any(e => e.Id == id);
         }
     }
 }

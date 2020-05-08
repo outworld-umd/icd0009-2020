@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using DAL.App.EF;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -29,6 +30,7 @@ namespace WebApp {
                     Configuration.GetConnectionString("MsSqlConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<AppDbContext>();
+            services.AddScoped<IAppUnitOfWork, AppUnitOfWork>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

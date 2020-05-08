@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,18 +13,17 @@ namespace WebApp.Controllers
 {
     public class OrdersController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public OrdersController(AppDbContext context)
+        public OrdersController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Orders.Include(o => o.Customer).Include(o => o.Restaurant);
-            return View(await appDbContext.ToListAsync());
+            return View(await _unitOfWork.Orders.AllAsync());
         }
 
         // GET: Orders/Details/5
@@ -34,10 +34,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Orders
-                .Include(o => o.Customer)
-                .Include(o => o.Restaurant)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var order = await _unitOfWork.Orders.FindAsync(id);
             if (order == null)
             {
                 return NotFound();
@@ -49,8 +46,8 @@ namespace WebApp.Controllers
         // GET: Orders/Create
         public IActionResult Create()
         {
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Email");
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Address");
+            ViewData["CustomerId"] = new SelectList(_unitOfWork.Customers.All(), "Id", "Email");
+            ViewData["RestaurantId"] = new SelectList(_unitOfWork.Restaurants.All(), "Id", "Address");
             return View();
         }
 
@@ -64,12 +61,12 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 order.Id = Guid.NewGuid();
-                _context.Add(order);
-                await _context.SaveChangesAsync();
+                _unitOfWork.Orders.Add(order);
+                await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Email", order.CustomerId);
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Address", order.RestaurantId);
+            ViewData["CustomerId"] = new SelectList(await _unitOfWork.Customers.AllAsync(), "Id", "Email", order.CustomerId);
+            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Address", order.RestaurantId);
             return View(order);
         }
 
@@ -81,13 +78,13 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Orders.FindAsync(id);
+            var order = await _unitOfWork.Orders.FindAsync(id);
             if (order == null)
             {
                 return NotFound();
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Email", order.CustomerId);
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Address", order.RestaurantId);
+            ViewData["CustomerId"] = new SelectList(await _unitOfWork.Customers.AllAsync(), "Id", "Email", order.CustomerId);
+            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Address", order.RestaurantId);
             return View(order);
         }
 
@@ -107,8 +104,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(order);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.Orders.Update(order);
+                    await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -123,8 +120,8 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Email", order.CustomerId);
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Address", order.RestaurantId);
+            ViewData["CustomerId"] = new SelectList(await _unitOfWork.Customers.AllAsync(), "Id", "Email", order.CustomerId);
+            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Address", order.RestaurantId);
             return View(order);
         }
 
@@ -136,10 +133,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Orders
-                .Include(o => o.Customer)
-                .Include(o => o.Restaurant)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var order = await _unitOfWork.Orders.FindAsync(id);
             if (order == null)
             {
                 return NotFound();
@@ -153,15 +147,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var order = await _context.Orders.FindAsync(id);
-            _context.Orders.Remove(order);
-            await _context.SaveChangesAsync();
+            var order = await _unitOfWork.Orders.FindAsync(id);
+            _unitOfWork.Orders.Remove(order);
+            await _unitOfWork.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool OrderExists(Guid id)
         {
-            return _context.Orders.Any(e => e.Id == id);
+            return _unitOfWork.Orders.Any(e => e.Id == id);
         }
     }
 }

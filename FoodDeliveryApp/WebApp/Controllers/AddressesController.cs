@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,18 +13,17 @@ namespace WebApp.Controllers
 {
     public class AddressesController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public AddressesController(AppDbContext context)
+        public AddressesController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: Addresses
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Addresses.Include(a => a.Customer);
-            return View(await appDbContext.ToListAsync());
+            return View(await _unitOfWork.Addresses.AllAsync());
         }
 
         // GET: Addresses/Details/5
@@ -34,9 +34,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var address = await _context.Addresses
-                .Include(a => a.Customer)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var address = await _unitOfWork.Addresses.FindAsync(id);
             if (address == null)
             {
                 return NotFound();
@@ -48,7 +46,7 @@ namespace WebApp.Controllers
         // GET: Addresses/Create
         public IActionResult Create()
         {
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Email");
+            ViewData["CustomerId"] = new SelectList(_unitOfWork.Customers.All(), "Id", "Email");
             return View();
         }
 
@@ -62,11 +60,11 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 address.Id = Guid.NewGuid();
-                _context.Add(address);
-                await _context.SaveChangesAsync();
+                _unitOfWork.Addresses.Add(address);
+                await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Email", address.CustomerId);
+            ViewData["CustomerId"] = new SelectList(await _unitOfWork.Customers.AllAsync(), "Id", "Email", address.CustomerId);
             return View(address);
         }
 
@@ -78,12 +76,12 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var address = await _context.Addresses.FindAsync(id);
+            var address = await _unitOfWork.Addresses.FindAsync(id);
             if (address == null)
             {
                 return NotFound();
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Email", address.CustomerId);
+            ViewData["CustomerId"] = new SelectList(await _unitOfWork.Customers.AllAsync(), "Id", "Email", address.CustomerId);
             return View(address);
         }
 
@@ -103,8 +101,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(address);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.Addresses.Update(address);
+                    await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -119,7 +117,7 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Email", address.CustomerId);
+            ViewData["CustomerId"] = new SelectList(await _unitOfWork.Customers.AllAsync(), "Id", "Email", address.CustomerId);
             return View(address);
         }
 
@@ -131,9 +129,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var address = await _context.Addresses
-                .Include(a => a.Customer)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var address = await _unitOfWork.Addresses.FindAsync(id);
             if (address == null)
             {
                 return NotFound();
@@ -147,15 +143,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var address = await _context.Addresses.FindAsync(id);
-            _context.Addresses.Remove(address);
-            await _context.SaveChangesAsync();
+            var address = await _unitOfWork.Addresses.FindAsync(id);
+            _unitOfWork.Addresses.Remove(address);
+            await _unitOfWork.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool AddressExists(Guid id)
         {
-            return _context.Addresses.Any(e => e.Id == id);
+            return _unitOfWork.Addresses.Any(e => e.Id == id);
         }
     }
 }

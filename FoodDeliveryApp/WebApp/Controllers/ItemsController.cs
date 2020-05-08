@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,18 +13,17 @@ namespace WebApp.Controllers
 {
     public class ItemsController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public ItemsController(AppDbContext context)
+        public ItemsController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: Items
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Items.Include(i => i.ItemType);
-            return View(await appDbContext.ToListAsync());
+            return View(await _unitOfWork.Items.AllAsync());
         }
 
         // GET: Items/Details/5
@@ -34,9 +34,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var item = await _context.Items
-                .Include(i => i.ItemType)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var item = await _unitOfWork.Items.FindAsync(id);
             if (item == null)
             {
                 return NotFound();
@@ -48,7 +46,7 @@ namespace WebApp.Controllers
         // GET: Items/Create
         public IActionResult Create()
         {
-            ViewData["ItemTypeId"] = new SelectList(_context.ItemTypes, "Id", "Name");
+            ViewData["ItemTypeId"] = new SelectList(_unitOfWork.ItemTypes.All(), "Id", "Name");
             return View();
         }
 
@@ -62,11 +60,11 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 item.Id = Guid.NewGuid();
-                _context.Add(item);
-                await _context.SaveChangesAsync();
+                _unitOfWork.Items.Add(item);
+                await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ItemTypeId"] = new SelectList(_context.ItemTypes, "Id", "Name", item.ItemTypeId);
+            ViewData["ItemTypeId"] = new SelectList(await _unitOfWork.ItemTypes.AllAsync(), "Id", "Name", item.ItemTypeId);
             return View(item);
         }
 
@@ -78,12 +76,12 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var item = await _context.Items.FindAsync(id);
+            var item = await _unitOfWork.Items.FindAsync(id);
             if (item == null)
             {
                 return NotFound();
             }
-            ViewData["ItemTypeId"] = new SelectList(_context.ItemTypes, "Id", "Name", item.ItemTypeId);
+            ViewData["ItemTypeId"] = new SelectList(await _unitOfWork.ItemTypes.AllAsync(), "Id", "Name", item.ItemTypeId);
             return View(item);
         }
 
@@ -103,8 +101,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(item);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.Items.Update(item);
+                    await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -119,7 +117,7 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ItemTypeId"] = new SelectList(_context.ItemTypes, "Id", "Name", item.ItemTypeId);
+            ViewData["ItemTypeId"] = new SelectList(await _unitOfWork.ItemTypes.AllAsync(), "Id", "Name", item.ItemTypeId);
             return View(item);
         }
 
@@ -131,9 +129,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var item = await _context.Items
-                .Include(i => i.ItemType)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var item = await _unitOfWork.Items.FindAsync(id);
             if (item == null)
             {
                 return NotFound();
@@ -147,15 +143,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var item = await _context.Items.FindAsync(id);
-            _context.Items.Remove(item);
-            await _context.SaveChangesAsync();
+            var item = await _unitOfWork.Items.FindAsync(id);
+            _unitOfWork.Items.Remove(item);
+            await _unitOfWork.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ItemExists(Guid id)
         {
-            return _context.Items.Any(e => e.Id == id);
+            return _unitOfWork.Items.Any(e => e.Id == id);
         }
     }
 }

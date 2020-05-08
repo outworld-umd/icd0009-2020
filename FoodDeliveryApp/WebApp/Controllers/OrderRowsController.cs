@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,18 +13,17 @@ namespace WebApp.Controllers
 {
     public class OrderRowsController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public OrderRowsController(AppDbContext context)
+        public OrderRowsController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: OrderRows
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.OrderRows.Include(o => o.Item).Include(o => o.Order);
-            return View(await appDbContext.ToListAsync());
+            return View(await _unitOfWork.OrderRows.AllAsync());
         }
 
         // GET: OrderRows/Details/5
@@ -34,10 +34,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var orderRow = await _context.OrderRows
-                .Include(o => o.Item)
-                .Include(o => o.Order)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var orderRow = await _unitOfWork.OrderRows.FindAsync(id);
             if (orderRow == null)
             {
                 return NotFound();
@@ -49,8 +46,8 @@ namespace WebApp.Controllers
         // GET: OrderRows/Create
         public IActionResult Create()
         {
-            ViewData["ItemId"] = new SelectList(_context.Items, "Id", "Name");
-            ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "Address");
+            ViewData["ItemId"] = new SelectList(_unitOfWork.Items.All(), "Id", "Name");
+            ViewData["OrderId"] = new SelectList(_unitOfWork.Orders.All(), "Id", "Address");
             return View();
         }
 
@@ -64,12 +61,12 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 orderRow.Id = Guid.NewGuid();
-                _context.Add(orderRow);
-                await _context.SaveChangesAsync();
+                _unitOfWork.OrderRows.Add(orderRow);
+                await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ItemId"] = new SelectList(_context.Items, "Id", "Name", orderRow.ItemId);
-            ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "Address", orderRow.OrderId);
+            ViewData["ItemId"] = new SelectList(await _unitOfWork.Items.AllAsync(), "Id", "Name", orderRow.ItemId);
+            ViewData["OrderId"] = new SelectList(await _unitOfWork.Orders.AllAsync(), "Id", "Address", orderRow.OrderId);
             return View(orderRow);
         }
 
@@ -81,13 +78,13 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var orderRow = await _context.OrderRows.FindAsync(id);
+            var orderRow = await _unitOfWork.OrderRows.FindAsync(id);
             if (orderRow == null)
             {
                 return NotFound();
             }
-            ViewData["ItemId"] = new SelectList(_context.Items, "Id", "Name", orderRow.ItemId);
-            ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "Address", orderRow.OrderId);
+            ViewData["ItemId"] = new SelectList(await _unitOfWork.Items.AllAsync(), "Id", "Name", orderRow.ItemId);
+            ViewData["OrderId"] = new SelectList(await _unitOfWork.Orders.AllAsync(), "Id", "Address", orderRow.OrderId);
             return View(orderRow);
         }
 
@@ -107,8 +104,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(orderRow);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.OrderRows.Update(orderRow);
+                    await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -123,8 +120,8 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ItemId"] = new SelectList(_context.Items, "Id", "Name", orderRow.ItemId);
-            ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "Address", orderRow.OrderId);
+            ViewData["ItemId"] = new SelectList(await _unitOfWork.Items.AllAsync(), "Id", "Name", orderRow.ItemId);
+            ViewData["OrderId"] = new SelectList(await _unitOfWork.Orders.AllAsync(), "Id", "Address", orderRow.OrderId);
             return View(orderRow);
         }
 
@@ -136,10 +133,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var orderRow = await _context.OrderRows
-                .Include(o => o.Item)
-                .Include(o => o.Order)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var orderRow = await _unitOfWork.OrderRows.FindAsync(id);
             if (orderRow == null)
             {
                 return NotFound();
@@ -153,15 +147,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var orderRow = await _context.OrderRows.FindAsync(id);
-            _context.OrderRows.Remove(orderRow);
-            await _context.SaveChangesAsync();
+            var orderRow = await _unitOfWork.OrderRows.FindAsync(id);
+            _unitOfWork.OrderRows.Remove(orderRow);
+            await _unitOfWork.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool OrderRowExists(Guid id)
         {
-            return _context.OrderRows.Any(e => e.Id == id);
+            return _unitOfWork.OrderRows.Any(e => e.Id == id);
         }
     }
 }

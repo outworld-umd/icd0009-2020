@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,18 +13,17 @@ namespace WebApp.Controllers
 {
     public class ItemChoicesController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public ItemChoicesController(AppDbContext context)
+        public ItemChoicesController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: ItemChoices
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.ItemChoices.Include(i => i.ItemOption);
-            return View(await appDbContext.ToListAsync());
+            return View(await _unitOfWork.ItemChoices.AllAsync());
         }
 
         // GET: ItemChoices/Details/5
@@ -34,9 +34,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var itemChoice = await _context.ItemChoices
-                .Include(i => i.ItemOption)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var itemChoice = await _unitOfWork.ItemChoices.FindAsync(id);
             if (itemChoice == null)
             {
                 return NotFound();
@@ -48,7 +46,7 @@ namespace WebApp.Controllers
         // GET: ItemChoices/Create
         public IActionResult Create()
         {
-            ViewData["ItemOptionId"] = new SelectList(_context.ItemOptions, "Id", "Name");
+            ViewData["ItemOptionId"] = new SelectList(_unitOfWork.ItemOptions.All(), "Id", "Name");
             return View();
         }
 
@@ -62,11 +60,11 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 itemChoice.Id = Guid.NewGuid();
-                _context.Add(itemChoice);
-                await _context.SaveChangesAsync();
+                _unitOfWork.ItemChoices.Add(itemChoice);
+                await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ItemOptionId"] = new SelectList(_context.ItemOptions, "Id", "Name", itemChoice.ItemOptionId);
+            ViewData["ItemOptionId"] = new SelectList(await _unitOfWork.ItemOptions.AllAsync(), "Id", "Name", itemChoice.ItemOptionId);
             return View(itemChoice);
         }
 
@@ -78,12 +76,12 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var itemChoice = await _context.ItemChoices.FindAsync(id);
+            var itemChoice = await _unitOfWork.ItemChoices.FindAsync(id);
             if (itemChoice == null)
             {
                 return NotFound();
             }
-            ViewData["ItemOptionId"] = new SelectList(_context.ItemOptions, "Id", "Name", itemChoice.ItemOptionId);
+            ViewData["ItemOptionId"] = new SelectList(await _unitOfWork.ItemOptions.AllAsync(), "Id", "Name", itemChoice.ItemOptionId);
             return View(itemChoice);
         }
 
@@ -103,8 +101,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(itemChoice);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.ItemChoices.Update(itemChoice);
+                    await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -119,7 +117,7 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ItemOptionId"] = new SelectList(_context.ItemOptions, "Id", "Name", itemChoice.ItemOptionId);
+            ViewData["ItemOptionId"] = new SelectList(await _unitOfWork.ItemOptions.AllAsync(), "Id", "Name", itemChoice.ItemOptionId);
             return View(itemChoice);
         }
 
@@ -131,9 +129,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var itemChoice = await _context.ItemChoices
-                .Include(i => i.ItemOption)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var itemChoice = await _unitOfWork.ItemChoices.FindAsync(id);
             if (itemChoice == null)
             {
                 return NotFound();
@@ -147,15 +143,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var itemChoice = await _context.ItemChoices.FindAsync(id);
-            _context.ItemChoices.Remove(itemChoice);
-            await _context.SaveChangesAsync();
+            var itemChoice = await _unitOfWork.ItemChoices.FindAsync(id);
+            _unitOfWork.ItemChoices.Remove(itemChoice);
+            await _unitOfWork.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ItemChoiceExists(Guid id)
         {
-            return _context.ItemChoices.Any(e => e.Id == id);
+            return _unitOfWork.ItemChoices.Any(e => e.Id == id);
         }
     }
 }
