@@ -9,11 +9,11 @@ using Domain.Identity;
 namespace Domain
 {
 
-    public class Address : Address<Guid, AppUser>, IDomainEntityBaseMetadata, IDomainEntityUser<AppUser> {
+    public class Address : Address<Guid, AppUser>, IDomainEntityBaseMetadata {
         
     }
     
-    public class Address<TKey, TUser> : DomainEntityBaseMetadata<TKey>, IDomainEntityUser<TKey, TUser>
+    public class Address<TKey, TUser> : DomainEntityBaseMetadata<TKey>
         where TKey : IEquatable<TKey> 
         where TUser : AppUser<TKey>
     {
@@ -23,7 +23,6 @@ namespace Domain
         [MinLength(2)] [MaxLength(64)] public string BuildingNumber { get; set; } = default!;
         [MaxLength(256)] public string Comment { get; set; } = default!;
 
-        public TKey AppUserId { get; set; } = default!;
-        public TUser? AppUser { get; set; }
+        
     }
 }

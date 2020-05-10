@@ -7,11 +7,11 @@ using Domain.Identity;
 
 namespace Domain
 {
-    public class NutritionInfo : NutritionInfo<Guid, AppUser>, IDomainEntityBaseMetadata, IDomainEntityUser<AppUser> {
+    public class NutritionInfo : NutritionInfo<Guid, AppUser>, IDomainEntityBaseMetadata {
         
     }
     
-    public class NutritionInfo<TKey, TUser> : DomainEntityBaseMetadata<TKey>, IDomainEntityUser<TKey, TUser>
+    public class NutritionInfo<TKey, TUser> : DomainEntityBaseMetadata<TKey>
         where TKey : IEquatable<TKey> 
         where TUser : AppUser<TKey> {
         public TKey ItemId { get; set; } = default!;
@@ -19,7 +19,6 @@ namespace Domain
         [MinLength(2)] [MaxLength(64)] public string Name { get; set; } = default!;
         [Column(TypeName = "decimal(7,3)")]public decimal Amount { get; set; }
         [MinLength(2)] [MaxLength(64)] public string Unit { get; set; } = default!;
-        public TKey AppUserId { get; set; } = default!;
-        public TUser? AppUser { get; set; }
+        
     }
 }

@@ -7,11 +7,11 @@ using Domain.Identity;
 
 namespace Domain
 {
-    public class ItemOption : ItemOption<Guid, AppUser>, IDomainEntityBaseMetadata, IDomainEntityUser<AppUser> {
+    public class ItemOption : ItemOption<Guid, AppUser>, IDomainEntityBaseMetadata {
         
     }
     
-    public class ItemOption<TKey, TUser> : DomainEntityBaseMetadata<TKey>, IDomainEntityUser<TKey, TUser>
+    public class ItemOption<TKey, TUser> : DomainEntityBaseMetadata<TKey>
         where TKey : IEquatable<TKey> 
         where TUser : AppUser<TKey>
     {
@@ -23,7 +23,6 @@ namespace Domain
         public TKey ItemId { get; set; } = default!;
         public Item? Item { get; set; }
         public ICollection<ItemChoice>? ItemChoices { get; set; }
-        public TKey AppUserId { get; set; } = default!;
-        public TUser? AppUser { get; set; }
+        
     }
 }

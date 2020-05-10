@@ -9,10 +9,10 @@ using Domain.Identity;
 namespace Domain
 {
     
-    public class Item : Item<Guid, AppUser>, IDomainEntityBaseMetadata, IDomainEntityUser<AppUser> {
+    public class Item : Item<Guid, AppUser>, IDomainEntityBaseMetadata {
    
     }
-    public class Item<TKey, TUser> : DomainEntityBaseMetadata<TKey>, IDomainEntityUser<TKey, TUser>
+    public class Item<TKey, TUser> : DomainEntityBaseMetadata<TKey>
         where TKey : IEquatable<TKey> 
         where TUser : AppUser<TKey>
     {
@@ -27,7 +27,6 @@ namespace Domain
         public ICollection<ItemInType>? ItemInTypes { get; set; }
         public ICollection<NutritionInfo>? NutritionInfos { get; set; }
         public ICollection<ItemOption>? ItemOptions { get; set; }
-        public TKey AppUserId { get; set; } = default!;
-        public TUser? AppUser { get; set; }
+        
     }
 }
