@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using DAL.Base;
 
@@ -12,5 +13,7 @@ namespace Domain
 
         public Guid RestaurantId { get; set; }
         public Restaurant? Restaurant { get; set; }
+        
+        public ICollection<ItemInType>? ItemInTypes { get; set; }
     }
 }

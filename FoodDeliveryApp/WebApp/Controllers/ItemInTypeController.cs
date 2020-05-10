@@ -11,22 +11,22 @@ using Domain;
 
 namespace WebApp.Controllers
 {
-    public class ItemTypesController : Controller
+    public class ItemInTypeController : Controller
     {
         private readonly IAppUnitOfWork _unitOfWork;
-
-        public ItemTypesController(IAppUnitOfWork unitOfWork)
+        
+        public ItemInTypeController(IAppUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-        // GET: ItemTypes
+        // GET: ItemInType
         public async Task<IActionResult> Index()
         {
-            return View(await _unitOfWork.ItemTypes.AllAsync());
+            return View(await _unitOfWork.ItemInTypes.AllAsync());
         }
 
-        // GET: ItemTypes/Details/5
+        // GET: ItemInType/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -34,41 +34,43 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var itemType = await _unitOfWork.ItemTypes.FindAsync(id);
-            if (itemType == null)
+            var itemInType = await _unitOfWork.ItemInTypes.FindAsync(id);
+            if (itemInType == null)
             {
                 return NotFound();
             }
 
-            return View(itemType);
+            return View(itemInType);
         }
 
-        // GET: ItemTypes/Create
+        // GET: ItemInType/Create
         public IActionResult Create()
         {
-            ViewData["RestaurantId"] = new SelectList(_unitOfWork.Restaurants.All(), "Id", "Address");
+            ViewData["ItemId"] = new SelectList(_unitOfWork.Items.All(), "Id", "Name");
+            ViewData["ItemTypeId"] = new SelectList(_unitOfWork.ItemTypes.All(), "Id", "Name");
             return View();
         }
 
-        // POST: ItemTypes/Create
+        // POST: ItemInType/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,IsSpecial,Description,RestaurantId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] ItemType itemType)
+        public async Task<IActionResult> Create([Bind("ItemTypeId,ItemId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] ItemInType itemInType)
         {
             if (ModelState.IsValid)
             {
-                itemType.Id = Guid.NewGuid();
-                _unitOfWork.ItemTypes.Add(itemType);
+                itemInType.Id = Guid.NewGuid();
+                _unitOfWork.ItemInTypes.Add(itemInType);
                 await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Address", "Id");
-            return View(itemType);
+            ViewData["ItemId"] = new SelectList(await _unitOfWork.Items.AllAsync(), "Id", "Name", itemInType.ItemId);
+            ViewData["ItemTypeId"] = new SelectList(await _unitOfWork.ItemTypes.AllAsync(), "Id", "Name", itemInType.ItemTypeId);
+            return View(itemInType);
         }
 
-        // GET: ItemTypes/Edit/5
+        // GET: ItemInType/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -76,23 +78,24 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var itemType = await _unitOfWork.ItemTypes.FindAsync(id);
-            if (itemType == null)
+            var itemInType = await _unitOfWork.ItemInTypes.FindAsync(id);
+            if (itemInType == null)
             {
                 return NotFound();
             }
-            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Address", "Id");
-            return View(itemType);
+            ViewData["ItemId"] = new SelectList(await _unitOfWork.Items.AllAsync(), "Id", "Name", itemInType.ItemId);
+            ViewData["ItemTypeId"] = new SelectList(await _unitOfWork.ItemTypes.AllAsync(), "Id", "Name", itemInType.ItemTypeId);
+            return View(itemInType);
         }
 
-        // POST: ItemTypes/Edit/5
+        // POST: ItemInType/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Name,IsSpecial,Description,RestaurantId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] ItemType itemType)
+        public async Task<IActionResult> Edit(Guid id, [Bind("ItemTypeId,ItemId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] ItemInType itemInType)
         {
-            if (id != itemType.Id)
+            if (id != itemInType.Id)
             {
                 return NotFound();
             }
@@ -101,12 +104,12 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _unitOfWork.ItemTypes.Update(itemType);
+                    _unitOfWork.ItemInTypes.Update(itemInType);
                     await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ItemTypeExists(itemType.Id))
+                    if (!ItemInTypeExists(itemInType.Id))
                     {
                         return NotFound();
                     }
@@ -117,11 +120,12 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Address", "Id");
-            return View(itemType);
+            ViewData["ItemId"] = new SelectList(await _unitOfWork.Items.AllAsync(), "Id", "Name", itemInType.ItemId);
+            ViewData["ItemTypeId"] = new SelectList(await _unitOfWork.ItemTypes.AllAsync(), "Id", "Name", itemInType.ItemTypeId);
+            return View(itemInType);
         }
 
-        // GET: ItemTypes/Delete/5
+        // GET: ItemInType/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -129,29 +133,30 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var itemType = await _unitOfWork.ItemTypes.FindAsync(id);
-            if (itemType == null)
+            var itemInType = await _unitOfWork.ItemInTypes.FindAsync(id);
+
+            if (itemInType == null)
             {
                 return NotFound();
             }
 
-            return View(itemType);
+            return View(itemInType);
         }
 
-        // POST: ItemTypes/Delete/5
+        // POST: ItemInType/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var itemType = await _unitOfWork.ItemTypes.FindAsync(id);
-            _unitOfWork.ItemTypes.Remove(itemType);
+            var itemInType = await _unitOfWork.ItemInTypes.FindAsync(id);
+            _unitOfWork.ItemInTypes.Remove(itemInType);
             await _unitOfWork.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ItemTypeExists(Guid id)
+        private bool ItemInTypeExists(Guid id)
         {
-            return _unitOfWork.ItemTypes.Any(e => e.Id == id);
+            return _unitOfWork.ItemInTypes.Any(e => e.Id == id);
         }
     }
 }

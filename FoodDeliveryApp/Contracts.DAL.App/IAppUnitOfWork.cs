@@ -10,6 +10,7 @@ namespace Contracts.DAL.App {
         public ICustomerRepository Customers { get; }
         public IItemRepository Items { get; }
         public IItemChoiceRepository ItemChoices { get; }
+        public IItemInTypeRepository ItemInTypes { get; }
         public IItemOptionRepository ItemOptions { get; }
         public IItemTypeRepository ItemTypes { get; }
         public INutritionInfoRepository NutritionInfos { get; }

@@ -13,10 +13,10 @@ namespace Domain
         [Column(TypeName = "decimal(6,2)")]public decimal Price { get; set; } = default!;
         [MaxLength(512)] public string? Description { get; set; }
         
-        public Guid ItemTypeId { get; set; }
-        public ItemType? ItemType { get; set; }
+
 
         public ICollection<OrderRow>? OrderRows { get; set; }
+        public ICollection<ItemInType>? ItemInTypes { get; set; }
         public ICollection<NutritionInfo>? NutritionInfos { get; set; }
         public ICollection<ItemOption>? ItemOptions { get; set; }
     }

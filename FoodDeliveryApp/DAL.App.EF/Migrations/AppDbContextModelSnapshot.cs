@@ -58,8 +58,7 @@ namespace DAL.App.EF.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("CustomerId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasMaxLength(36);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Street")
                         .IsRequired()
@@ -166,10 +165,6 @@ namespace DAL.App.EF.Migrations
                         .HasColumnType("nvarchar(512)")
                         .HasMaxLength(512);
 
-                    b.Property<Guid>("ItemTypeId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasMaxLength(36);
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(64)")
@@ -183,8 +178,6 @@ namespace DAL.App.EF.Migrations
                         .HasColumnType("decimal(6,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ItemTypeId");
 
                     b.ToTable("Items");
                 });
@@ -211,8 +204,7 @@ namespace DAL.App.EF.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("ItemOptionId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasMaxLength(36);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -224,6 +216,39 @@ namespace DAL.App.EF.Migrations
                     b.HasIndex("ItemOptionId");
 
                     b.ToTable("ItemChoices");
+                });
+
+            modelBuilder.Entity("Domain.ItemInType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ChangedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ChangedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ItemTypeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("ItemTypeId");
+
+                    b.ToTable("ItemInTypes");
                 });
 
             modelBuilder.Entity("Domain.ItemOption", b =>
@@ -251,8 +276,7 @@ namespace DAL.App.EF.Migrations
                         .HasColumnType("bit");
 
                     b.Property<Guid>("ItemId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasMaxLength(36);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -297,8 +321,7 @@ namespace DAL.App.EF.Migrations
                         .HasMaxLength(64);
 
                     b.Property<Guid>("RestaurantId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasMaxLength(36);
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -329,8 +352,7 @@ namespace DAL.App.EF.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("ItemId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasMaxLength(36);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -381,8 +403,7 @@ namespace DAL.App.EF.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("CustomerId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasMaxLength(36);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("DeliveryCost")
                         .HasColumnType("decimal(6,2)");
@@ -396,9 +417,12 @@ namespace DAL.App.EF.Migrations
                     b.Property<int>("PaymentMethod")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("RestaurantId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasMaxLength(36);
+                    b.Property<Guid?>("RestaurantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("RestaurantName")
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
 
                     b.HasKey("Id");
 
@@ -434,12 +458,10 @@ namespace DAL.App.EF.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("ItemChoiceId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasMaxLength(36);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("OrderRowId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasMaxLength(36);
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -479,12 +501,10 @@ namespace DAL.App.EF.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("ItemId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasMaxLength(36);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("OrderId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasMaxLength(36);
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -544,8 +564,7 @@ namespace DAL.App.EF.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CategoryId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasMaxLength(36);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("ChangedAt")
                         .HasColumnType("datetime2");
@@ -560,8 +579,7 @@ namespace DAL.App.EF.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("RestaurantId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasMaxLength(36);
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -597,8 +615,7 @@ namespace DAL.App.EF.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<Guid>("RestaurantId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasMaxLength(36);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("WeekDay")
                         .HasColumnType("int");
@@ -819,20 +836,26 @@ namespace DAL.App.EF.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Item", b =>
-                {
-                    b.HasOne("Domain.ItemType", "ItemType")
-                        .WithMany()
-                        .HasForeignKey("ItemTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Domain.ItemChoice", b =>
                 {
                     b.HasOne("Domain.ItemOption", "ItemOption")
                         .WithMany("ItemChoices")
                         .HasForeignKey("ItemOptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.ItemInType", b =>
+                {
+                    b.HasOne("Domain.Item", "Item")
+                        .WithMany("ItemInTypes")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.ItemType", "ItemType")
+                        .WithMany("ItemInTypes")
+                        .HasForeignKey("ItemTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -875,8 +898,7 @@ namespace DAL.App.EF.Migrations
                     b.HasOne("Domain.Restaurant", "Restaurant")
                         .WithMany("Orders")
                         .HasForeignKey("RestaurantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("Domain.OrderItemChoice", b =>

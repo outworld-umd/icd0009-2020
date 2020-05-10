@@ -6,11 +6,15 @@ using DAL.Base.EF.Repositories;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAL.App.EF.Repositories {
+namespace DAL.App.EF.Repositories
+{
+    public class ItemRepository : EFBaseRepository<Item, AppDbContext>, IItemRepository
+    {
+        public ItemRepository(AppDbContext dbContext) : base(dbContext)
+        {
+        }
 
-    public class ItemRepository : EFBaseRepository<Item, AppDbContext>, IItemRepository {
-        public ItemRepository(AppDbContext dbContext) : base(dbContext) { }
-        
+        /**
         public override async Task<IEnumerable<Item>> AllAsync() {
             return await RepoDbSet.Include(i => i.ItemType).ToListAsync();
         }
@@ -19,6 +23,6 @@ namespace DAL.App.EF.Repositories {
             return await RepoDbSet.Include(i => i.ItemType)
                 .FirstOrDefaultAsync(m => m.Id == (Guid) id[0]);
         }
+        **/
     }
-
 }

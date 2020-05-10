@@ -82,6 +82,25 @@ namespace DAL.App.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Items",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    ChangedBy = table.Column<string>(nullable: true),
+                    ChangedAt = table.Column<DateTime>(nullable: false),
+                    Name = table.Column<string>(maxLength: 64, nullable: false),
+                    PictureLink = table.Column<string>(maxLength: 512, nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(6,2)", nullable: false),
+                    Description = table.Column<string>(maxLength: 512, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Items", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Restaurants",
                 columns: table => new
                 {
@@ -220,7 +239,7 @@ namespace DAL.App.EF.Migrations
                     Street = table.Column<string>(maxLength: 64, nullable: false),
                     BuildingNumber = table.Column<string>(maxLength: 64, nullable: false),
                     Comment = table.Column<string>(maxLength: 256, nullable: false),
-                    CustomerId = table.Column<Guid>(maxLength: 36, nullable: false)
+                    CustomerId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -229,6 +248,56 @@ namespace DAL.App.EF.Migrations
                         name: "FK_Addresses_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ItemOptions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    ChangedBy = table.Column<string>(nullable: true),
+                    ChangedAt = table.Column<DateTime>(nullable: false),
+                    Name = table.Column<string>(maxLength: 64, nullable: false),
+                    IsRequired = table.Column<bool>(nullable: false),
+                    IsSingle = table.Column<bool>(nullable: false),
+                    ItemId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ItemOptions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ItemOptions_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NutritionInfos",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    ChangedBy = table.Column<string>(nullable: true),
+                    ChangedAt = table.Column<DateTime>(nullable: false),
+                    ItemId = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(maxLength: 64, nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(7,3)", nullable: false),
+                    Unit = table.Column<string>(maxLength: 64, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NutritionInfos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_NutritionInfos_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -245,7 +314,7 @@ namespace DAL.App.EF.Migrations
                     Name = table.Column<string>(maxLength: 64, nullable: false),
                     IsSpecial = table.Column<bool>(nullable: false),
                     Description = table.Column<string>(maxLength: 512, nullable: true),
-                    RestaurantId = table.Column<Guid>(maxLength: 36, nullable: false)
+                    RestaurantId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -273,9 +342,10 @@ namespace DAL.App.EF.Migrations
                     DeliveryCost = table.Column<decimal>(type: "decimal(6,2)", nullable: false),
                     Address = table.Column<string>(maxLength: 512, nullable: false),
                     Apartment = table.Column<string>(maxLength: 512, nullable: true),
+                    RestaurantName = table.Column<string>(maxLength: 64, nullable: true),
                     Comment = table.Column<string>(maxLength: 512, nullable: true),
-                    CustomerId = table.Column<Guid>(maxLength: 36, nullable: false),
-                    RestaurantId = table.Column<Guid>(maxLength: 36, nullable: false)
+                    CustomerId = table.Column<Guid>(nullable: false),
+                    RestaurantId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -291,7 +361,7 @@ namespace DAL.App.EF.Migrations
                         column: x => x.RestaurantId,
                         principalTable: "Restaurants",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -303,8 +373,8 @@ namespace DAL.App.EF.Migrations
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     ChangedBy = table.Column<string>(nullable: true),
                     ChangedAt = table.Column<DateTime>(nullable: false),
-                    CategoryId = table.Column<Guid>(maxLength: 36, nullable: false),
-                    RestaurantId = table.Column<Guid>(maxLength: 36, nullable: false)
+                    CategoryId = table.Column<Guid>(nullable: false),
+                    RestaurantId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -335,7 +405,7 @@ namespace DAL.App.EF.Migrations
                     WeekDay = table.Column<int>(nullable: false),
                     OpeningTime = table.Column<DateTime>(nullable: false),
                     ClosingTime = table.Column<DateTime>(nullable: false),
-                    RestaurantId = table.Column<Guid>(maxLength: 36, nullable: false)
+                    RestaurantId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -349,7 +419,7 @@ namespace DAL.App.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Items",
+                name: "ItemChoices",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -358,68 +428,45 @@ namespace DAL.App.EF.Migrations
                     ChangedBy = table.Column<string>(nullable: true),
                     ChangedAt = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(maxLength: 64, nullable: false),
-                    PictureLink = table.Column<string>(maxLength: 512, nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(6,2)", nullable: false),
-                    Description = table.Column<string>(maxLength: 512, nullable: true),
-                    ItemTypeId = table.Column<Guid>(maxLength: 36, nullable: false)
+                    AdditionalPrice = table.Column<decimal>(type: "decimal(6,2)", nullable: false),
+                    ItemOptionId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Items", x => x.Id);
+                    table.PrimaryKey("PK_ItemChoices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Items_ItemTypes_ItemTypeId",
+                        name: "FK_ItemChoices_ItemOptions_ItemOptionId",
+                        column: x => x.ItemOptionId,
+                        principalTable: "ItemOptions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ItemInTypes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    ChangedBy = table.Column<string>(nullable: true),
+                    ChangedAt = table.Column<DateTime>(nullable: false),
+                    ItemTypeId = table.Column<Guid>(nullable: false),
+                    ItemId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ItemInTypes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ItemInTypes_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ItemInTypes_ItemTypes_ItemTypeId",
                         column: x => x.ItemTypeId,
                         principalTable: "ItemTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ItemOptions",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    CreatedBy = table.Column<string>(nullable: true),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    ChangedBy = table.Column<string>(nullable: true),
-                    ChangedAt = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(maxLength: 64, nullable: false),
-                    IsRequired = table.Column<bool>(nullable: false),
-                    IsSingle = table.Column<bool>(nullable: false),
-                    ItemId = table.Column<Guid>(maxLength: 36, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ItemOptions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ItemOptions_Items_ItemId",
-                        column: x => x.ItemId,
-                        principalTable: "Items",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "NutritionInfos",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    CreatedBy = table.Column<string>(nullable: true),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    ChangedBy = table.Column<string>(nullable: true),
-                    ChangedAt = table.Column<DateTime>(nullable: false),
-                    ItemId = table.Column<Guid>(maxLength: 36, nullable: false),
-                    Name = table.Column<string>(maxLength: 64, nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(7,3)", nullable: false),
-                    Unit = table.Column<string>(maxLength: 64, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_NutritionInfos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_NutritionInfos_Items_ItemId",
-                        column: x => x.ItemId,
-                        principalTable: "Items",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -433,8 +480,8 @@ namespace DAL.App.EF.Migrations
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     ChangedBy = table.Column<string>(nullable: true),
                     ChangedAt = table.Column<DateTime>(nullable: false),
-                    ItemId = table.Column<Guid>(maxLength: 36, nullable: true),
-                    OrderId = table.Column<Guid>(maxLength: 36, nullable: false),
+                    ItemId = table.Column<Guid>(nullable: true),
+                    OrderId = table.Column<Guid>(nullable: false),
                     Amount = table.Column<int>(nullable: false),
                     Cost = table.Column<decimal>(type: "decimal(6,2)", nullable: false),
                     Comment = table.Column<string>(maxLength: 512, nullable: true)
@@ -457,30 +504,6 @@ namespace DAL.App.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ItemChoices",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    CreatedBy = table.Column<string>(nullable: true),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    ChangedBy = table.Column<string>(nullable: true),
-                    ChangedAt = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(maxLength: 64, nullable: false),
-                    AdditionalPrice = table.Column<decimal>(type: "decimal(6,2)", nullable: false),
-                    ItemOptionId = table.Column<Guid>(maxLength: 36, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ItemChoices", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ItemChoices_ItemOptions_ItemOptionId",
-                        column: x => x.ItemOptionId,
-                        principalTable: "ItemOptions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "OrderItemChoices",
                 columns: table => new
                 {
@@ -491,8 +514,8 @@ namespace DAL.App.EF.Migrations
                     ChangedAt = table.Column<DateTime>(nullable: false),
                     Amount = table.Column<int>(nullable: false),
                     Cost = table.Column<decimal>(type: "decimal(6,2)", nullable: false),
-                    OrderRowId = table.Column<Guid>(maxLength: 36, nullable: true),
-                    ItemChoiceId = table.Column<Guid>(maxLength: 36, nullable: false)
+                    OrderRowId = table.Column<Guid>(nullable: true),
+                    ItemChoiceId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -561,14 +584,19 @@ namespace DAL.App.EF.Migrations
                 column: "ItemOptionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ItemOptions_ItemId",
-                table: "ItemOptions",
+                name: "IX_ItemInTypes_ItemId",
+                table: "ItemInTypes",
                 column: "ItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Items_ItemTypeId",
-                table: "Items",
+                name: "IX_ItemInTypes_ItemTypeId",
+                table: "ItemInTypes",
                 column: "ItemTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemOptions_ItemId",
+                table: "ItemOptions",
+                column: "ItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ItemTypes_RestaurantId",
@@ -647,6 +675,9 @@ namespace DAL.App.EF.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ItemInTypes");
+
+            migrationBuilder.DropTable(
                 name: "NutritionInfos");
 
             migrationBuilder.DropTable(
@@ -663,6 +694,9 @@ namespace DAL.App.EF.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "ItemTypes");
 
             migrationBuilder.DropTable(
                 name: "ItemChoices");
@@ -684,9 +718,6 @@ namespace DAL.App.EF.Migrations
 
             migrationBuilder.DropTable(
                 name: "Customers");
-
-            migrationBuilder.DropTable(
-                name: "ItemTypes");
 
             migrationBuilder.DropTable(
                 name: "Restaurants");

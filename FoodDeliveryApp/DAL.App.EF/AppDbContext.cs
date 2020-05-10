@@ -13,6 +13,7 @@ namespace DAL.App.EF {
         public DbSet<Customer> Customers { get; set; } = default!;
         public DbSet<Item> Items { get; set; } = default!;
         public DbSet<ItemChoice> ItemChoices { get; set; } = default!;
+        public DbSet<ItemInType> ItemInTypes { get; set; } = default!;
         public DbSet<ItemOption> ItemOptions { get; set; } = default!;
         public DbSet<ItemType> ItemTypes { get; set; } = default!;
         public DbSet<NutritionInfo> NutritionInfos { get; set; } = default!;
@@ -22,9 +23,19 @@ namespace DAL.App.EF {
         public DbSet<Restaurant> Restaurants { get; set; } = default!;
         public DbSet<RestaurantCategory> RestaurantCategories { get; set; } = default!;
         public DbSet<WorkingHours> WorkingHourses { get; set; } = default!;
+        
+        
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
-        
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Order>()
+                .HasOne(p => p.Restaurant)
+                .WithMany(b => b.Orders)
+                .OnDelete(DeleteBehavior.SetNull);
+        }
     }
 
 }

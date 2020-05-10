@@ -12,6 +12,7 @@ namespace DAL.App.EF {
         public ICustomerRepository Customers => GetRepository(() => new CustomerRepository(UOWDbContext));
         public IItemRepository Items => GetRepository(() => new ItemRepository(UOWDbContext));
         public IItemChoiceRepository ItemChoices => GetRepository(() => new ItemChoiceRepository(UOWDbContext));
+        public IItemInTypeRepository ItemInTypes => GetRepository(() => new ItemInTypeRepository(UOWDbContext));
         public IItemOptionRepository ItemOptions => GetRepository(() => new ItemOptionRepository(UOWDbContext));
         public IItemTypeRepository ItemTypes => GetRepository(() => new ItemTypeRepository(UOWDbContext));
         public INutritionInfoRepository NutritionInfos => GetRepository(() => new NutritionInfoRepository(UOWDbContext));

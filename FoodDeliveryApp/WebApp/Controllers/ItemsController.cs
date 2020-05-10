@@ -14,7 +14,7 @@ namespace WebApp.Controllers
     public class ItemsController : Controller
     {
         private readonly IAppUnitOfWork _unitOfWork;
-
+        
         public ItemsController(IAppUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
@@ -46,7 +46,6 @@ namespace WebApp.Controllers
         // GET: Items/Create
         public IActionResult Create()
         {
-            ViewData["ItemTypeId"] = new SelectList(_unitOfWork.ItemTypes.All(), "Id", "Name");
             return View();
         }
 
@@ -55,7 +54,7 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,PictureLink,Price,Description,ItemTypeId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Item item)
+        public async Task<IActionResult> Create([Bind("Name,PictureLink,Price,Description,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Item item)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +63,6 @@ namespace WebApp.Controllers
                 await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ItemTypeId"] = new SelectList(await _unitOfWork.ItemTypes.AllAsync(), "Id", "Name", item.ItemTypeId);
             return View(item);
         }
 
@@ -81,7 +79,6 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["ItemTypeId"] = new SelectList(await _unitOfWork.ItemTypes.AllAsync(), "Id", "Name", item.ItemTypeId);
             return View(item);
         }
 
@@ -90,7 +87,7 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Name,PictureLink,Price,Description,ItemTypeId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Item item)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Name,PictureLink,Price,Description,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Item item)
         {
             if (id != item.Id)
             {
@@ -117,7 +114,6 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ItemTypeId"] = new SelectList(await _unitOfWork.ItemTypes.AllAsync(), "Id", "Name", item.ItemTypeId);
             return View(item);
         }
 

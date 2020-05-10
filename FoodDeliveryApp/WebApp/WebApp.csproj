@@ -20,4 +20,17 @@
       <ProjectReference Include="..\DAL.App.EF\DAL.App.EF.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Items\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Items\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Items\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Items\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Items\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemTypes\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemTypes\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemTypes\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemTypes\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemTypes\Index.cshtml" />
+    </ItemGroup>
+
 </Project>
