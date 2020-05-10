@@ -46,7 +46,6 @@ namespace WebApp.Controllers
         // GET: Orders/Create
         public IActionResult Create()
         {
-            ViewData["CustomerId"] = new SelectList(_unitOfWork.Customers.All(), "Id", "Email");
             ViewData["RestaurantId"] = new SelectList(_unitOfWork.Restaurants.All(), "Id", "Address");
             return View();
         }
@@ -65,7 +64,6 @@ namespace WebApp.Controllers
                 await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(await _unitOfWork.Customers.AllAsync(), "Id", "Email", order.CustomerId);
             ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Address", order.RestaurantId);
             return View(order);
         }
@@ -83,7 +81,6 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["CustomerId"] = new SelectList(await _unitOfWork.Customers.AllAsync(), "Id", "Email", order.CustomerId);
             ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Address", order.RestaurantId);
             return View(order);
         }
@@ -120,7 +117,6 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(await _unitOfWork.Customers.AllAsync(), "Id", "Email", order.CustomerId);
             ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Address", order.RestaurantId);
             return View(order);
         }

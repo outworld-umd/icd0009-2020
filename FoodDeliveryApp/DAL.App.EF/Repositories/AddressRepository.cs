@@ -12,11 +12,11 @@ namespace DAL.App.EF.Repositories {
         public AddressRepository(AppDbContext dbContext) : base(dbContext) { }
 
         public override async Task<IEnumerable<Address>> AllAsync() {
-            return await RepoDbSet.Include(a => a.Customer).ToListAsync();
+            return await RepoDbSet.ToListAsync();
         }
 
         public override async Task<Address> FindAsync(params object[] id) {
-            return await RepoDbSet.Include(a => a.Customer)
+            return await RepoDbSet
                 .FirstOrDefaultAsync(m => m.Id == (Guid) id[0]);
         }
 

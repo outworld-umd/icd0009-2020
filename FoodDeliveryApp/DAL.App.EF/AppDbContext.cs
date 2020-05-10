@@ -10,7 +10,6 @@ namespace DAL.App.EF {
 
         public DbSet<Address> Addresses { get; set; } = default!;
         public DbSet<Category> Categories { get; set; } = default!;
-        public DbSet<Customer> Customers { get; set; } = default!;
         public DbSet<Item> Items { get; set; } = default!;
         public DbSet<ItemChoice> ItemChoices { get; set; } = default!;
         public DbSet<ItemInType> ItemInTypes { get; set; } = default!;

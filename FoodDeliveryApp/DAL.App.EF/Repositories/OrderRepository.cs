@@ -13,13 +13,11 @@ namespace DAL.App.EF.Repositories {
         
         public override async Task<IEnumerable<Order>> AllAsync() {
             return await RepoDbSet
-                .Include(o => o.Customer)
                 .Include(o => o.Restaurant).ToListAsync();
         }
 
         public override async Task<Order> FindAsync(params object[] id) {
             return await RepoDbSet
-                .Include(o => o.Customer)
                 .Include(o => o.Restaurant)
                 .FirstOrDefaultAsync(m => m.Id == (Guid) id[0]);
         }

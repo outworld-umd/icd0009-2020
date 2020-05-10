@@ -7,7 +7,6 @@ namespace Contracts.DAL.App {
 
         public IAddressRepository Addresses { get; }
         public ICategoryRepository Categories { get; }
-        public ICustomerRepository Customers { get; }
         public IItemRepository Items { get; }
         public IItemChoiceRepository ItemChoices { get; }
         public IItemInTypeRepository ItemInTypes { get; }

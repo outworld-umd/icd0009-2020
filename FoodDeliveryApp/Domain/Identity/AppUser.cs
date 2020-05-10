@@ -1,15 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using DAL.Base;
+using Microsoft.AspNetCore.Identity;
 
-namespace Domain
+namespace Domain.Identity
 {
-    //Temporary entity, will be replaced with CustomerUser or smth like that
-    public class Customer : DomainEntityBaseMetadata
+    public class AppUser : AppUser<Guid>
     {
-        [MaxLength(64)]
-        [EmailAddress(ErrorMessage = "Wrong email blyat")]
-        public string Email { get; set; } = default!;
+        
+    }
+
+    public class AppUser<TKey> : IdentityUser<TKey> 
+        where TKey : IEquatable<TKey>
+    {
 
         [MinLength(2)] [MaxLength(64)] public string FirstName { get; set; } = default!;
         [MinLength(2)] [MaxLength(64)] public string LastName { get; set; } = default!;

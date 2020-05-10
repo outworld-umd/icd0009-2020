@@ -46,7 +46,6 @@ namespace WebApp.Controllers
         // GET: Addresses/Create
         public IActionResult Create()
         {
-            ViewData["CustomerId"] = new SelectList(_unitOfWork.Customers.All(), "Id", "Email");
             return View();
         }
 
@@ -64,7 +63,6 @@ namespace WebApp.Controllers
                 await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(await _unitOfWork.Customers.AllAsync(), "Id", "Email", address.CustomerId);
             return View(address);
         }
 
@@ -81,7 +79,6 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["CustomerId"] = new SelectList(await _unitOfWork.Customers.AllAsync(), "Id", "Email", address.CustomerId);
             return View(address);
         }
 
@@ -117,7 +114,6 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(await _unitOfWork.Customers.AllAsync(), "Id", "Email", address.CustomerId);
             return View(address);
         }
 
