@@ -24,6 +24,7 @@ namespace DAL.App.EF {
         public DbSet<WorkingHours> WorkingHourses { get; set; } = default!;
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+        
     }
 
 }
