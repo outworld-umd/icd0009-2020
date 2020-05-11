@@ -8,11 +8,11 @@ using Domain.Identity;
 
 namespace Domain
 {
-    public class Restaurant : Restaurant<Guid, AppUser>, IDomainEntityBaseMetadata {
+    public class Restaurant : Restaurant<Guid, AppUser>, IDomainEntityBaseMetadata, IDomainEntityUser<AppUser> {
         
     }
     
-    public class Restaurant<TKey, TUser> : DomainEntityBaseMetadata<TKey>
+    public class Restaurant<TKey, TUser> : DomainEntityBaseMetadata<TKey>, IDomainEntityUser<TKey, TUser>
                                    where TKey : IEquatable<TKey> 
                                    where TUser : AppUser<TKey>
     {
@@ -25,6 +25,8 @@ namespace Domain
         public ICollection<RestaurantCategory>? RestaurantCategories { get; set; }
         public ICollection<Order>? Orders { get; set; }
         public ICollection<ItemType>? ItemTypes { get; set; }
-        
+
+        public TKey AppUserId { get; set; } = default!;
+        public TUser? AppUser { get; set; }
     }
 }

@@ -18,8 +18,5 @@ namespace Domain.Identity
         [MinLength(2)] [MaxLength(64)] public string LastName { get; set; } = default!;
         [MinLength(2)] [MaxLength(64)] public string Phone { get; set; } = default!;
 
-
-        public ICollection<Address>? Addresses { get; set; }
-        public ICollection<Order>? Orders { get; set; }
     }
 }
