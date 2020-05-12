@@ -21,6 +21,7 @@ namespace DAL.App.EF {
         public DbSet<OrderItemChoice> OrderItemChoices { get; set; } = default!;
         public DbSet<OrderRow> OrderRows { get; set; } = default!;
         public DbSet<Restaurant> Restaurants { get; set; } = default!;
+        public DbSet<RestaurantUser> RestaurantUsers { get; set; } = default!;
         public DbSet<RestaurantCategory> RestaurantCategories { get; set; } = default!;
         public DbSet<WorkingHours> WorkingHourses { get; set; } = default!;
         
@@ -35,7 +36,6 @@ namespace DAL.App.EF {
                 .HasOne(p => p.Restaurant)
                 .WithMany(b => b.Orders)
                 .OnDelete(DeleteBehavior.SetNull);
-            
         }
     }
 

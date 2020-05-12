@@ -85,6 +85,25 @@ namespace DAL.App.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Restaurants",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    ChangedBy = table.Column<string>(nullable: true),
+                    ChangedAt = table.Column<DateTime>(nullable: false),
+                    Name = table.Column<string>(maxLength: 64, nullable: false),
+                    Phone = table.Column<string>(maxLength: 64, nullable: false),
+                    Address = table.Column<string>(maxLength: 512, nullable: false),
+                    Description = table.Column<string>(maxLength: 512, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Restaurants", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -212,32 +231,6 @@ namespace DAL.App.EF.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Restaurants",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    CreatedBy = table.Column<string>(nullable: true),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    ChangedBy = table.Column<string>(nullable: true),
-                    ChangedAt = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(maxLength: 64, nullable: false),
-                    Phone = table.Column<string>(maxLength: 64, nullable: false),
-                    Address = table.Column<string>(maxLength: 512, nullable: false),
-                    Description = table.Column<string>(maxLength: 512, nullable: true),
-                    AppUserId = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Restaurants", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Restaurants_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -378,6 +371,35 @@ namespace DAL.App.EF.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_RestaurantCategories_Restaurants_RestaurantId",
+                        column: x => x.RestaurantId,
+                        principalTable: "Restaurants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RestaurantUsers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    ChangedBy = table.Column<string>(nullable: true),
+                    ChangedAt = table.Column<DateTime>(nullable: false),
+                    RestaurantId = table.Column<Guid>(nullable: false),
+                    AppUserId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RestaurantUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RestaurantUsers_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RestaurantUsers_Restaurants_RestaurantId",
                         column: x => x.RestaurantId,
                         principalTable: "Restaurants",
                         principalColumn: "Id",
@@ -640,9 +662,14 @@ namespace DAL.App.EF.Migrations
                 column: "RestaurantId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Restaurants_AppUserId",
-                table: "Restaurants",
+                name: "IX_RestaurantUsers_AppUserId",
+                table: "RestaurantUsers",
                 column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RestaurantUsers_RestaurantId",
+                table: "RestaurantUsers",
+                column: "RestaurantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_WorkingHourses_RestaurantId",
@@ -683,6 +710,9 @@ namespace DAL.App.EF.Migrations
                 name: "RestaurantCategories");
 
             migrationBuilder.DropTable(
+                name: "RestaurantUsers");
+
+            migrationBuilder.DropTable(
                 name: "WorkingHourses");
 
             migrationBuilder.DropTable(
@@ -710,10 +740,10 @@ namespace DAL.App.EF.Migrations
                 name: "Items");
 
             migrationBuilder.DropTable(
-                name: "Restaurants");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Restaurants");
         }
     }
 }

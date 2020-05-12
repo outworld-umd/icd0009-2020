@@ -5,7 +5,6 @@
 
 <p>Use this page to detail your site's privacy policy.</p>
 
-@foreach (var claim in User.Claims)
-{
+@foreach (var claim in User.Claims) {
     <p>@claim.Type - @claim.Value - @claim.ValueType</p>
 }

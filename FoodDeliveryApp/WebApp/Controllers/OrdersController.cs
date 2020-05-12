@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers
 {
-    [Authorize(Roles = "AppUser")]
+    // [Authorize(Roles = "AppUser")]
     public class OrdersController : Controller
     {
         private readonly IAppUnitOfWork _unitOfWork;
