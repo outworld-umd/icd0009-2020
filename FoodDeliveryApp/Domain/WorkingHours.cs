@@ -14,7 +14,7 @@ namespace Domain
         where TKey : IEquatable<TKey> 
         where TUser : AppUser<TKey>
     {
-        public WeekDay WeekDay { get; set; }
+        public DayOfWeek WeekDay { get; set; }
         public DateTime OpeningTime { get; set; }
         public DateTime ClosingTime { get; set; }
 

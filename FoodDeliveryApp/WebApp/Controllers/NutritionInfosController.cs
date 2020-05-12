@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using WebApp.ViewModels;
 
 namespace WebApp.Controllers
 {
@@ -44,10 +45,11 @@ namespace WebApp.Controllers
         }
 
         // GET: NutritionInfos/Create
-        public IActionResult Create()
-        {
-            ViewData["ItemId"] = new SelectList(_unitOfWork.Items.All(), "Id", "Name");
-            return View();
+        public IActionResult Create() {
+            var vm = new NutritionInfoCreateEditViewModel {
+                Items = new SelectList(_unitOfWork.Items.All(), nameof(Item.Id), nameof(Item.Name))
+            };
+            return View(vm);
         }
 
         // POST: NutritionInfos/Create
@@ -55,17 +57,17 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ItemId,Name,Amount,Unit,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] NutritionInfo nutritionInfo)
+        public async Task<IActionResult> Create(NutritionInfoCreateEditViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                nutritionInfo.Id = Guid.NewGuid();
-                _unitOfWork.NutritionInfos.Add(nutritionInfo);
+                vm.NutritionInfo.Id = Guid.NewGuid();
+                _unitOfWork.NutritionInfos.Add(vm.NutritionInfo);
                 await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ItemId"] = new SelectList(await _unitOfWork.Items.AllAsync(), "Id", "Name", nutritionInfo.ItemId);
-            return View(nutritionInfo);
+            vm.Items = new SelectList(await _unitOfWork.Items.AllAsync(), nameof(Item.Id), nameof(Item.Name), vm.NutritionInfo.ItemId);
+            return View(vm);
         }
 
         // GET: NutritionInfos/Edit/5
@@ -75,14 +77,15 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
-            var nutritionInfo = await _unitOfWork.NutritionInfos.FindAsync(id);
-            if (nutritionInfo == null)
+            var vm = new NutritionInfoCreateEditViewModel {
+                NutritionInfo = await _unitOfWork.NutritionInfos.FindAsync(id)
+            };
+            if (vm.NutritionInfo == null)
             {
                 return NotFound();
             }
-            ViewData["ItemId"] = new SelectList(await _unitOfWork.Items.AllAsync(), "Id", "Name", nutritionInfo.ItemId);
-            return View(nutritionInfo);
+            vm.Items = new SelectList(await _unitOfWork.Items.AllAsync(), nameof(Item.Id), nameof(Item.Name), vm.NutritionInfo.ItemId);
+            return View(vm);
         }
 
         // POST: NutritionInfos/Edit/5
@@ -90,9 +93,9 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("ItemId,Name,Amount,Unit,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] NutritionInfo nutritionInfo)
+        public async Task<IActionResult> Edit(Guid id, NutritionInfoCreateEditViewModel vm)
         {
-            if (id != nutritionInfo.Id)
+            if (id != vm.NutritionInfo.Id)
             {
                 return NotFound();
             }
@@ -101,12 +104,12 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _unitOfWork.NutritionInfos.Update(nutritionInfo);
+                    _unitOfWork.NutritionInfos.Update(vm.NutritionInfo);
                     await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!NutritionInfoExists(nutritionInfo.Id))
+                    if (!NutritionInfoExists(vm.NutritionInfo.Id))
                     {
                         return NotFound();
                     }
@@ -117,8 +120,8 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ItemId"] = new SelectList(await _unitOfWork.Items.AllAsync(), "Id", "Name", nutritionInfo.ItemId);
-            return View(nutritionInfo);
+            vm.Items = new SelectList(await _unitOfWork.Items.AllAsync(), nameof(Item.Id), nameof(Item.Name), vm.NutritionInfo.ItemId);
+            return View(vm);
         }
 
         // GET: NutritionInfos/Delete/5

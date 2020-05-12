@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using WebApp.ViewModels;
 
 namespace WebApp.Controllers
 {
@@ -46,9 +47,11 @@ namespace WebApp.Controllers
         // GET: RestaurantCategories/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_unitOfWork.Categories.All(), "Id", "Name");
-            ViewData["RestaurantId"] = new SelectList(_unitOfWork.Restaurants.All(), "Id", "Address");
-            return View();
+            var vm = new RestaurantCategoryCreateEditViewModel {
+                Categories = new SelectList(_unitOfWork.Categories.All(), nameof(Category.Id), nameof(Category.Name)),
+                Restaurants = new SelectList(_unitOfWork.Restaurants.All(), nameof(Restaurant.Id), nameof(Restaurant.Name))
+            };
+            return View(vm);
         }
 
         // POST: RestaurantCategories/Create
@@ -56,18 +59,18 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CategoryId,RestaurantId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] RestaurantCategory restaurantCategory)
+        public async Task<IActionResult> Create(RestaurantCategoryCreateEditViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                restaurantCategory.Id = Guid.NewGuid();
-                _unitOfWork.RestaurantCategories.Add(restaurantCategory);
+                vm.RestaurantCategory.Id = Guid.NewGuid();
+                _unitOfWork.RestaurantCategories.Add(vm.RestaurantCategory);
                 await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(await _unitOfWork.Categories.AllAsync(), "Id", "Name", restaurantCategory.CategoryId);
-            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Address", restaurantCategory.RestaurantId);
-            return View(restaurantCategory);
+            vm.Categories = new SelectList(await _unitOfWork.Categories.AllAsync(), nameof(Category.Id), nameof(Category.Name), vm.RestaurantCategory.CategoryId);
+            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.RestaurantCategory.RestaurantId);
+            return View(vm);
         }
 
         // GET: RestaurantCategories/Edit/5
@@ -77,15 +80,16 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
-            var restaurantCategory = await _unitOfWork.RestaurantCategories.FindAsync(id);
-            if (restaurantCategory == null)
+            var vm = new RestaurantCategoryCreateEditViewModel {
+                RestaurantCategory = await _unitOfWork.RestaurantCategories.FindAsync(id)
+            };
+            if (vm.RestaurantCategory == null)
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(await _unitOfWork.Categories.AllAsync(), "Id", "Name", restaurantCategory.CategoryId);
-            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Address", restaurantCategory.RestaurantId);
-            return View(restaurantCategory);
+            vm.Categories = new SelectList(await _unitOfWork.Categories.AllAsync(), nameof(Category.Id), nameof(Category.Name), vm.RestaurantCategory.CategoryId);
+            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.RestaurantCategory.RestaurantId);
+            return View(vm);
         }
 
         // POST: RestaurantCategories/Edit/5
@@ -93,9 +97,9 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("CategoryId,RestaurantId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] RestaurantCategory restaurantCategory)
+        public async Task<IActionResult> Edit(Guid id, RestaurantCategoryCreateEditViewModel vm)
         {
-            if (id != restaurantCategory.Id)
+            if (id != vm.RestaurantCategory.Id)
             {
                 return NotFound();
             }
@@ -104,12 +108,12 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _unitOfWork.RestaurantCategories.Update(restaurantCategory);
+                    _unitOfWork.RestaurantCategories.Update(vm.RestaurantCategory);
                     await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RestaurantCategoryExists(restaurantCategory.Id))
+                    if (!RestaurantCategoryExists(vm.RestaurantCategory.Id))
                     {
                         return NotFound();
                     }
@@ -120,9 +124,9 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(await _unitOfWork.Categories.AllAsync(), "Id", "Name", restaurantCategory.CategoryId);
-            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Address", restaurantCategory.RestaurantId);
-            return View(restaurantCategory);
+            vm.Categories = new SelectList(await _unitOfWork.Categories.AllAsync(), nameof(Category.Id), nameof(Category.Name), vm.RestaurantCategory.CategoryId);
+            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.RestaurantCategory.RestaurantId);
+            return View(vm);
         }
 
         // GET: RestaurantCategories/Delete/5

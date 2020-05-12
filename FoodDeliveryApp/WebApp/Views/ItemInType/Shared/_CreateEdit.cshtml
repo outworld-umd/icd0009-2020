@@ -1,31 +1,31 @@
-﻿@model Domain.ItemInType
+﻿@model WebApp.ViewModels.ItemInTypeCreateEditViewModel
 
 <div asp-validation-summary="All" class="text-danger"></div>
 <div class="form-group">
-    <label asp-for="ItemTypeId" class="control-label"></label>
-    <select asp-for="ItemTypeId" class="form-control" asp-items="ViewBag.ItemTypeId"></select>
+    <label asp-for="ItemInType.ItemTypeId" class="control-label"></label>
+    <select asp-for="ItemInType.ItemTypeId" class="form-control" asp-items="Model.ItemTypes"></select>
 </div>
 <div class="form-group">
-    <label asp-for="ItemId" class="control-label"></label>
-    <select asp-for="ItemId" class="form-control" asp-items="ViewBag.ItemId"></select>
+    <label asp-for="ItemInType.ItemId" class="control-label"></label>
+    <select asp-for="ItemInType.ItemId" class="form-control" asp-items="Model.Items"></select>
 </div>
 <div class="form-group">
-    <label asp-for="CreatedBy" class="control-label"></label>
-    <input asp-for="CreatedBy" class="form-control"/>
-    <span asp-validation-for="CreatedBy" class="text-danger"></span>
+    <label asp-for="ItemInType.CreatedBy" class="control-label"></label>
+    <input asp-for="ItemInType.CreatedBy" class="form-control"/>
+    <span asp-validation-for="ItemInType.CreatedBy" class="text-danger"></span>
 </div>
 <div class="form-group">
-    <label asp-for="CreatedAt" class="control-label"></label>
-    <input asp-for="CreatedAt" class="form-control"/>
-    <span asp-validation-for="CreatedAt" class="text-danger"></span>
+    <label asp-for="ItemInType.CreatedAt" class="control-label"></label>
+    <input asp-for="ItemInType.CreatedAt" class="form-control"/>
+    <span asp-validation-for="ItemInType.CreatedAt" class="text-danger"></span>
 </div>
 <div class="form-group">
-    <label asp-for="ChangedBy" class="control-label"></label>
-    <input asp-for="ChangedBy" class="form-control"/>
-    <span asp-validation-for="ChangedBy" class="text-danger"></span>
+    <label asp-for="ItemInType.ChangedBy" class="control-label"></label>
+    <input asp-for="ItemInType.ChangedBy" class="form-control"/>
+    <span asp-validation-for="ItemInType.ChangedBy" class="text-danger"></span>
 </div>
 <div class="form-group">
-    <label asp-for="ChangedAt" class="control-label"></label>
-    <input asp-for="ChangedAt" class="form-control"/>
-    <span asp-validation-for="ChangedAt" class="text-danger"></span>
+    <label asp-for="ItemInType.ChangedAt" class="control-label"></label>
+    <input asp-for="ItemInType.ChangedAt" class="form-control"/>
+    <span asp-validation-for="ItemInType.ChangedAt" class="text-danger"></span>
 </div>

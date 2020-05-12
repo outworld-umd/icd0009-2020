@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using WebApp.ViewModels;
 
 namespace WebApp.Controllers
 {
@@ -44,11 +45,12 @@ namespace WebApp.Controllers
         }
 
         // GET: ItemInType/Create
-        public IActionResult Create()
-        {
-            ViewData["ItemId"] = new SelectList(_unitOfWork.Items.All(), "Id", "Name");
-            ViewData["ItemTypeId"] = new SelectList(_unitOfWork.ItemTypes.All(), "Id", "Name");
-            return View();
+        public IActionResult Create() {
+            var vm = new ItemInTypeCreateEditViewModel {
+                Items = new SelectList(_unitOfWork.Items.All(), nameof(Item.Id), nameof(Item.Name)),
+                ItemTypes = new SelectList(_unitOfWork.ItemTypes.All(), nameof(ItemType.Id), nameof(ItemType.Name))
+            };
+            return View(vm);
         }
 
         // POST: ItemInType/Create
@@ -56,18 +58,18 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ItemTypeId,ItemId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] ItemInType itemInType)
+        public async Task<IActionResult> Create(ItemInTypeCreateEditViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                itemInType.Id = Guid.NewGuid();
-                _unitOfWork.ItemInTypes.Add(itemInType);
+                vm.ItemInType.Id = Guid.NewGuid();
+                _unitOfWork.ItemInTypes.Add(vm.ItemInType);
                 await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ItemId"] = new SelectList(await _unitOfWork.Items.AllAsync(), "Id", "Name", itemInType.ItemId);
-            ViewData["ItemTypeId"] = new SelectList(await _unitOfWork.ItemTypes.AllAsync(), "Id", "Name", itemInType.ItemTypeId);
-            return View(itemInType);
+            vm.Items = new SelectList(await _unitOfWork.Items.AllAsync(), nameof(Item.Id), nameof(Item.Name), vm.ItemInType.ItemId);
+            vm.ItemTypes = new SelectList(await _unitOfWork.ItemTypes.AllAsync(), nameof(ItemType.Id), nameof(ItemType.Name), vm.ItemInType.ItemTypeId);
+            return View(vm);
         }
 
         // GET: ItemInType/Edit/5
@@ -77,15 +79,16 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
-            var itemInType = await _unitOfWork.ItemInTypes.FindAsync(id);
-            if (itemInType == null)
+            var vm = new ItemInTypeCreateEditViewModel {
+                ItemInType = await _unitOfWork.ItemInTypes.FindAsync(id)
+            };
+            if (vm.ItemInType == null)
             {
                 return NotFound();
             }
-            ViewData["ItemId"] = new SelectList(await _unitOfWork.Items.AllAsync(), "Id", "Name", itemInType.ItemId);
-            ViewData["ItemTypeId"] = new SelectList(await _unitOfWork.ItemTypes.AllAsync(), "Id", "Name", itemInType.ItemTypeId);
-            return View(itemInType);
+            vm.Items = new SelectList(await _unitOfWork.Items.AllAsync(), nameof(Item.Id), nameof(Item.Name), vm.ItemInType.ItemId);
+            vm.ItemTypes = new SelectList(await _unitOfWork.ItemTypes.AllAsync(), nameof(ItemType.Id), nameof(ItemType.Name), vm.ItemInType.ItemTypeId);
+            return View(vm);
         }
 
         // POST: ItemInType/Edit/5
@@ -93,9 +96,9 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("ItemTypeId,ItemId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] ItemInType itemInType)
+        public async Task<IActionResult> Edit(Guid id, ItemInTypeCreateEditViewModel vm)
         {
-            if (id != itemInType.Id)
+            if (id != vm.ItemInType.Id)
             {
                 return NotFound();
             }
@@ -104,12 +107,12 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _unitOfWork.ItemInTypes.Update(itemInType);
+                    _unitOfWork.ItemInTypes.Update(vm.ItemInType);
                     await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ItemInTypeExists(itemInType.Id))
+                    if (!ItemInTypeExists(vm.ItemInType.Id))
                     {
                         return NotFound();
                     }
@@ -120,9 +123,9 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ItemId"] = new SelectList(await _unitOfWork.Items.AllAsync(), "Id", "Name", itemInType.ItemId);
-            ViewData["ItemTypeId"] = new SelectList(await _unitOfWork.ItemTypes.AllAsync(), "Id", "Name", itemInType.ItemTypeId);
-            return View(itemInType);
+            vm.Items = new SelectList(await _unitOfWork.Items.AllAsync(), nameof(Item.Id), nameof(Item.Name), vm.ItemInType.ItemId);
+            vm.ItemTypes = new SelectList(await _unitOfWork.ItemTypes.AllAsync(), nameof(ItemType.Id), nameof(ItemType.Name), vm.ItemInType.ItemTypeId);
+            return View(vm);
         }
 
         // GET: ItemInType/Delete/5

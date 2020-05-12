@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using Domain.Identity;
+using WebApp.ViewModels;
 
 namespace WebApp.Controllers
 {
@@ -46,9 +48,11 @@ namespace WebApp.Controllers
         // GET: RestaurantUser/Create
         public IActionResult Create()
         {
-            ViewData["AppUserId"] = new SelectList(_unitOfWork.Users.All(), "Id", "FirstName");
-            ViewData["RestaurantId"] = new SelectList(_unitOfWork.Restaurants.All(), "Id", "Address");
-            return View();
+            var vm = new RestaurantUserCreateEditViewModel {
+                Users = new SelectList(_unitOfWork.Users.All(), nameof(AppUser.Id), nameof(AppUser.FullName)),
+                Restaurants = new SelectList(_unitOfWork.Restaurants.All(), nameof(Restaurant.Id), nameof(Restaurant.Name))
+            };
+            return View(vm);
         }
 
         // POST: RestaurantUser/Create
@@ -56,18 +60,18 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RestaurantId,AppUserId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] RestaurantUser restaurantUser)
+        public async Task<IActionResult> Create(RestaurantUserCreateEditViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                restaurantUser.Id = Guid.NewGuid();
-                _unitOfWork.RestaurantUsers.Add(restaurantUser);
+                vm.RestaurantUser.Id = Guid.NewGuid();
+                _unitOfWork.RestaurantUsers.Add(vm.RestaurantUser);
                 await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppUserId"] = new SelectList(await _unitOfWork.Users.AllAsync(), "Id", "FirstName");
-            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Address", restaurantUser.RestaurantId);
-            return View(restaurantUser);
+            vm.Users = new SelectList(await _unitOfWork.Users.AllAsync(), nameof(AppUser.Id), nameof(AppUser.FullName), vm.RestaurantUser.AppUserId);
+            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.RestaurantUser.RestaurantId);
+            return View(vm);
         }
 
         // GET: RestaurantUser/Edit/5
@@ -77,15 +81,16 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
-            var restaurantUser = await _unitOfWork.RestaurantUsers.FindAsync(id);
-            if (restaurantUser == null)
+            var vm = new RestaurantUserCreateEditViewModel {
+                RestaurantUser = await _unitOfWork.RestaurantUsers.FindAsync(id)
+            };
+            if (vm.RestaurantUser == null)
             {
                 return NotFound();
             }
-            ViewData["AppUserId"] = new SelectList(await _unitOfWork.Users.AllAsync(), "Id", "FirstName");
-            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Address", restaurantUser.RestaurantId);
-            return View(restaurantUser);
+            vm.Users = new SelectList(await _unitOfWork.Users.AllAsync(), nameof(AppUser.Id), nameof(AppUser.FullName), vm.RestaurantUser.AppUserId);
+            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.RestaurantUser.RestaurantId);
+            return View(vm);
         }
 
         // POST: RestaurantUser/Edit/5
@@ -93,9 +98,9 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("RestaurantId,AppUserId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] RestaurantUser restaurantUser)
+        public async Task<IActionResult> Edit(Guid id, RestaurantUserCreateEditViewModel vm)
         {
-            if (id != restaurantUser.Id)
+            if (id != vm.RestaurantUser.Id)
             {
                 return NotFound();
             }
@@ -104,12 +109,12 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _unitOfWork.RestaurantUsers.Update(restaurantUser);
+                    _unitOfWork.RestaurantUsers.Update(vm.RestaurantUser);
                     await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RestaurantUserExists(restaurantUser.Id))
+                    if (!RestaurantUserExists(vm.RestaurantUser.Id))
                     {
                         return NotFound();
                     }
@@ -120,9 +125,9 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppUserId"] = new SelectList(await _unitOfWork.Users.AllAsync(), "Id", "FirstName");
-            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Address", restaurantUser.RestaurantId);
-            return View(restaurantUser);
+            vm.Users = new SelectList(await _unitOfWork.Users.AllAsync(), nameof(AppUser.Id), nameof(AppUser.FullName), vm.RestaurantUser.AppUserId);
+            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.RestaurantUser.RestaurantId);
+            return View(vm);
         }
 
         // GET: RestaurantUser/Delete/5

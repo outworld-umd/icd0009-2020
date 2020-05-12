@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using WebApp.ViewModels;
 
 namespace WebApp.Controllers
 {
@@ -46,9 +47,11 @@ namespace WebApp.Controllers
         // GET: OrderItemChoices/Create
         public IActionResult Create()
         {
-            ViewData["ItemChoiceId"] = new SelectList(_unitOfWork.ItemChoices.All(), "Id", "Name");
-            ViewData["OrderRowId"] = new SelectList(_unitOfWork.OrderRows.All(), "Id", "Id");
-            return View();
+            var vm = new OrderItemChoiceCreateEditViewModel {
+                ItemChoices = new SelectList(_unitOfWork.ItemChoices.All(), nameof(ItemChoice.Id), nameof(ItemChoice.Name)),
+                OrderRows = new SelectList(_unitOfWork.OrderRows.All(), nameof(OrderRow.Id), nameof(OrderRow.Id))
+            };
+            return View(vm);
         }
 
         // POST: OrderItemChoices/Create
@@ -56,18 +59,18 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Amount,Cost,OrderRowId,ItemChoiceId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] OrderItemChoice orderItemChoice)
+        public async Task<IActionResult> Create(OrderItemChoiceCreateEditViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                orderItemChoice.Id = Guid.NewGuid();
-                _unitOfWork.OrderItemChoices.Add(orderItemChoice);
+                vm.OrderItemChoice.Id = Guid.NewGuid();
+                _unitOfWork.OrderItemChoices.Add(vm.OrderItemChoice);
                 await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ItemChoiceId"] = new SelectList(await _unitOfWork.ItemChoices.AllAsync(), "Id", "Name", orderItemChoice.ItemChoiceId);
-            ViewData["OrderRowId"] = new SelectList(await _unitOfWork.OrderRows.AllAsync(), "Id", "Id", orderItemChoice.OrderRowId);
-            return View(orderItemChoice);
+            vm.ItemChoices = new SelectList(await _unitOfWork.ItemChoices.AllAsync(), nameof(ItemChoice.Id), nameof(ItemChoice.Name), vm.OrderItemChoice.ItemChoiceId);
+            vm.OrderRows = new SelectList(await _unitOfWork.OrderRows.AllAsync(), nameof(OrderRow.Id), nameof(OrderRow.Id), vm.OrderItemChoice.OrderRowId);
+            return View(vm);
         }
 
         // GET: OrderItemChoices/Edit/5
@@ -77,15 +80,16 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
-            var orderItemChoice = await _unitOfWork.OrderItemChoices.FindAsync(id);
-            if (orderItemChoice == null)
+            var vm = new OrderItemChoiceCreateEditViewModel {
+                OrderItemChoice = await _unitOfWork.OrderItemChoices.FindAsync(id)
+            };
+            if (vm.OrderItemChoice == null)
             {
                 return NotFound();
             }
-            ViewData["ItemChoiceId"] = new SelectList(await _unitOfWork.ItemChoices.AllAsync(), "Id", "Name", orderItemChoice.ItemChoiceId);
-            ViewData["OrderRowId"] = new SelectList(await _unitOfWork.OrderRows.AllAsync(), "Id", "Id", orderItemChoice.OrderRowId);
-            return View(orderItemChoice);
+            vm.ItemChoices = new SelectList(await _unitOfWork.ItemChoices.AllAsync(), nameof(ItemChoice.Id), nameof(ItemChoice.Name), vm.OrderItemChoice.ItemChoiceId);
+            vm.OrderRows = new SelectList(await _unitOfWork.OrderRows.AllAsync(), nameof(OrderRow.Id), nameof(OrderRow.Id), vm.OrderItemChoice.OrderRowId);
+            return View(vm);
         }
 
         // POST: OrderItemChoices/Edit/5
@@ -93,9 +97,9 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Amount,Cost,OrderRowId,ItemChoiceId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] OrderItemChoice orderItemChoice)
+        public async Task<IActionResult> Edit(Guid id, OrderItemChoiceCreateEditViewModel vm)
         {
-            if (id != orderItemChoice.Id)
+            if (id != vm.OrderItemChoice.Id)
             {
                 return NotFound();
             }
@@ -104,12 +108,12 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _unitOfWork.OrderItemChoices.Update(orderItemChoice);
+                    _unitOfWork.OrderItemChoices.Update(vm.OrderItemChoice);
                     await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OrderItemChoiceExists(orderItemChoice.Id))
+                    if (!OrderItemChoiceExists(vm.OrderItemChoice.Id))
                     {
                         return NotFound();
                     }
@@ -120,9 +124,9 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ItemChoiceId"] = new SelectList(await _unitOfWork.ItemChoices.AllAsync(), "Id", "Name", orderItemChoice.ItemChoiceId);
-            ViewData["OrderRowId"] = new SelectList(await _unitOfWork.OrderRows.AllAsync(), "Id", "Id", orderItemChoice.OrderRowId);
-            return View(orderItemChoice);
+            vm.ItemChoices = new SelectList(await _unitOfWork.ItemChoices.AllAsync(), nameof(ItemChoice.Id), nameof(ItemChoice.Name), vm.OrderItemChoice.ItemChoiceId);
+            vm.OrderRows = new SelectList(await _unitOfWork.OrderRows.AllAsync(), nameof(OrderRow.Id), nameof(OrderRow.Id), vm.OrderItemChoice.OrderRowId);
+            return View(vm);
         }
 
         // GET: OrderItemChoices/Delete/5

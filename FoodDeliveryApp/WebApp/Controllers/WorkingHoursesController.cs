@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using WebApp.ViewModels;
 
 namespace WebApp.Controllers
 {
@@ -46,8 +47,10 @@ namespace WebApp.Controllers
         // GET: WorkingHourses/Create
         public IActionResult Create()
         {
-            ViewData["RestaurantId"] = new SelectList(_unitOfWork.Restaurants.All(), "Id", "Address");
-            return View();
+            var vm = new WorkingHoursCreateEditViewModel {
+                Restaurants = new SelectList(_unitOfWork.Restaurants.All(), nameof(Restaurant.Id), nameof(Restaurant.Name))
+            };
+            return View(vm);
         }
 
         // POST: WorkingHourses/Create
@@ -55,17 +58,17 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("WeekDay,OpeningTime,ClosingTime,RestaurantId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] WorkingHours workingHours)
+        public async Task<IActionResult> Create(WorkingHoursCreateEditViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                workingHours.Id = Guid.NewGuid();
-                _unitOfWork.WorkingHourses.Add(workingHours);
+                vm.WorkingHours.Id = Guid.NewGuid();
+                _unitOfWork.WorkingHourses.Add(vm.WorkingHours);
                 await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Address", workingHours.RestaurantId);
-            return View(workingHours);
+            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.WorkingHours.RestaurantId);
+            return View(vm);
         }
 
         // GET: WorkingHourses/Edit/5
@@ -75,14 +78,15 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
-            var workingHours = await _unitOfWork.WorkingHourses.FindAsync(id);
-            if (workingHours == null)
+            var vm = new WorkingHoursCreateEditViewModel {
+                WorkingHours = await _unitOfWork.WorkingHourses.FindAsync(id)
+            };
+            if (vm.WorkingHours == null)
             {
                 return NotFound();
             }
-            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Address", workingHours.RestaurantId);
-            return View(workingHours);
+            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.WorkingHours.RestaurantId);
+            return View(vm);
         }
 
         // POST: WorkingHourses/Edit/5
@@ -90,9 +94,9 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("WeekDay,OpeningTime,ClosingTime,RestaurantId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] WorkingHours workingHours)
+        public async Task<IActionResult> Edit(Guid id, WorkingHoursCreateEditViewModel vm)
         {
-            if (id != workingHours.Id)
+            if (id != vm.WorkingHours.Id)
             {
                 return NotFound();
             }
@@ -101,12 +105,12 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _unitOfWork.WorkingHourses.Update(workingHours);
+                    _unitOfWork.WorkingHourses.Update(vm.WorkingHours);
                     await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!WorkingHoursExists(workingHours.Id))
+                    if (!WorkingHoursExists(vm.WorkingHours.Id))
                     {
                         return NotFound();
                     }
@@ -117,8 +121,8 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Address", workingHours.RestaurantId);
-            return View(workingHours);
+            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.WorkingHours.RestaurantId);
+            return View(vm);
         }
 
         // GET: WorkingHourses/Delete/5

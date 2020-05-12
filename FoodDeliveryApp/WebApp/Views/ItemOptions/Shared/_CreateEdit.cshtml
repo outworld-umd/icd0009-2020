@@ -1,42 +1,42 @@
-﻿@model Domain.ItemOption
+﻿@model WebApp.ViewModels.ItemOptionCreateEditViewModel
 
 <div asp-validation-summary="All" class="text-danger"></div>
 <div class="form-group">
-    <label asp-for="Name" class="control-label"></label>
-    <input asp-for="Name" class="form-control"/>
-    <span asp-validation-for="Name" class="text-danger"></span>
+    <label asp-for="ItemOption.Name" class="control-label"></label>
+    <input asp-for="ItemOption.Name" class="form-control"/>
+    <span asp-validation-for="ItemOption.Name" class="text-danger"></span>
 </div>
 <div class="form-group form-check">
     <label class="form-check-label">
-        <input class="form-check-input" asp-for="IsRequired"/> @Html.DisplayNameFor(model => model.IsRequired)
+        <input class="form-check-input" asp-for="ItemOption.IsRequired"/> @Html.DisplayNameFor(model => model.ItemOption.IsRequired)
     </label>
 </div>
 <div class="form-group form-check">
     <label class="form-check-label">
-        <input class="form-check-input" asp-for="IsSingle"/> @Html.DisplayNameFor(model => model.IsSingle)
+        <input class="form-check-input" asp-for="ItemOption.IsSingle"/> @Html.DisplayNameFor(model => model.ItemOption.IsSingle)
     </label>
 </div>
 <div class="form-group">
-    <label asp-for="ItemId" class="control-label"></label>
-    <select asp-for="ItemId" class="form-control" asp-items="ViewBag.ItemId"></select>
+    <label asp-for="ItemOption.ItemId" class="control-label"></label>
+    <select asp-for="ItemOption.ItemId" class="form-control" asp-items="ViewBag.ItemId"></select>
 </div>
 <div class="form-group">
-    <label asp-for="CreatedBy" class="control-label"></label>
-    <input asp-for="CreatedBy" class="form-control"/>
-    <span asp-validation-for="CreatedBy" class="text-danger"></span>
+    <label asp-for="ItemOption.CreatedBy" class="control-label"></label>
+    <input asp-for="ItemOption.CreatedBy" class="form-control"/>
+    <span asp-validation-for="ItemOption.CreatedBy" class="text-danger"></span>
 </div>
 <div class="form-group">
-    <label asp-for="CreatedAt" class="control-label"></label>
-    <input asp-for="CreatedAt" class="form-control"/>
-    <span asp-validation-for="CreatedAt" class="text-danger"></span>
+    <label asp-for="ItemOption.CreatedAt" class="control-label"></label>
+    <input asp-for="ItemOption.CreatedAt" class="form-control"/>
+    <span asp-validation-for="ItemOption.CreatedAt" class="text-danger"></span>
 </div>
 <div class="form-group">
-    <label asp-for="ChangedBy" class="control-label"></label>
-    <input asp-for="ChangedBy" class="form-control"/>
-    <span asp-validation-for="ChangedBy" class="text-danger"></span>
+    <label asp-for="ItemOption.ChangedBy" class="control-label"></label>
+    <input asp-for="ItemOption.ChangedBy" class="form-control"/>
+    <span asp-validation-for="ItemOption.ChangedBy" class="text-danger"></span>
 </div>
 <div class="form-group">
-    <label asp-for="ChangedAt" class="control-label"></label>
-    <input asp-for="ChangedAt" class="form-control"/>
-    <span asp-validation-for="ChangedAt" class="text-danger"></span>
+    <label asp-for="ItemOption.ChangedAt" class="control-label"></label>
+    <input asp-for="ItemOption.ChangedAt" class="form-control"/>
+    <span asp-validation-for="ItemOption.ChangedAt" class="text-danger"></span>
 </div>

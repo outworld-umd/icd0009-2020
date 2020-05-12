@@ -1,41 +1,41 @@
-﻿@model Domain.OrderItemChoice
+﻿@model WebApp.ViewModels.OrderItemChoiceCreateEditViewModel
 
 <div asp-validation-summary="All" class="text-danger"></div>
 <div class="form-group">
-    <label asp-for="Amount" class="control-label"></label>
-    <input asp-for="Amount" class="form-control"/>
-    <span asp-validation-for="Amount" class="text-danger"></span>
+    <label asp-for="OrderItemChoice.Amount" class="control-label"></label>
+    <input asp-for="OrderItemChoice.Amount" class="form-control"/>
+    <span asp-validation-for="OrderItemChoice.Amount" class="text-danger"></span>
 </div>
 <div class="form-group">
-    <label asp-for="Cost" class="control-label"></label>
-    <input asp-for="Cost" class="form-control"/>
-    <span asp-validation-for="Cost" class="text-danger"></span>
+    <label asp-for="OrderItemChoice.Cost" class="control-label"></label>
+    <input asp-for="OrderItemChoice.Cost" class="form-control"/>
+    <span asp-validation-for="OrderItemChoice.Cost" class="text-danger"></span>
 </div>
 <div class="form-group">
-    <label asp-for="OrderRowId" class="control-label"></label>
-    <select asp-for="OrderRowId" class="form-control" asp-items="ViewBag.OrderRowId"></select>
+    <label asp-for="OrderItemChoice.OrderRowId" class="control-label"></label>
+    <select asp-for="OrderItemChoice.OrderRowId" class="form-control" asp-items="Model.OrderRows"></select>
 </div>
 <div class="form-group">
-    <label asp-for="ItemChoiceId" class="control-label"></label>
-    <select asp-for="ItemChoiceId" class="form-control" asp-items="ViewBag.ItemChoiceId"></select>
+    <label asp-for="OrderItemChoice.ItemChoiceId" class="control-label"></label>
+    <select asp-for="OrderItemChoice.ItemChoiceId" class="form-control" asp-items="Model.ItemChoices"></select>
 </div>
 <div class="form-group">
-    <label asp-for="CreatedBy" class="control-label"></label>
-    <input asp-for="CreatedBy" class="form-control"/>
-    <span asp-validation-for="CreatedBy" class="text-danger"></span>
+    <label asp-for="OrderItemChoice.CreatedBy" class="control-label"></label>
+    <input asp-for="OrderItemChoice.CreatedBy" class="form-control"/>
+    <span asp-validation-for="OrderItemChoice.CreatedBy" class="text-danger"></span>
 </div>
 <div class="form-group">
-    <label asp-for="CreatedAt" class="control-label"></label>
-    <input asp-for="CreatedAt" class="form-control"/>
-    <span asp-validation-for="CreatedAt" class="text-danger"></span>
+    <label asp-for="OrderItemChoice.CreatedAt" class="control-label"></label>
+    <input asp-for="OrderItemChoice.CreatedAt" class="form-control"/>
+    <span asp-validation-for="OrderItemChoice.CreatedAt" class="text-danger"></span>
 </div>
 <div class="form-group">
-    <label asp-for="ChangedBy" class="control-label"></label>
-    <input asp-for="ChangedBy" class="form-control"/>
-    <span asp-validation-for="ChangedBy" class="text-danger"></span>
+    <label asp-for="OrderItemChoice.ChangedBy" class="control-label"></label>
+    <input asp-for="OrderItemChoice.ChangedBy" class="form-control"/>
+    <span asp-validation-for="OrderItemChoice.ChangedBy" class="text-danger"></span>
 </div>
 <div class="form-group">
-    <label asp-for="ChangedAt" class="control-label"></label>
-    <input asp-for="ChangedAt" class="form-control"/>
-    <span asp-validation-for="ChangedAt" class="text-danger"></span>
+    <label asp-for="OrderItemChoice.ChangedAt" class="control-label"></label>
+    <input asp-for="OrderItemChoice.ChangedAt" class="form-control"/>
+    <span asp-validation-for="OrderItemChoice.ChangedAt" class="text-danger"></span>
 </div>

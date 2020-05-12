@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using WebApp.ViewModels;
 
 namespace WebApp.Controllers
 {
@@ -46,8 +47,10 @@ namespace WebApp.Controllers
         // GET: ItemTypes/Create
         public IActionResult Create()
         {
-            ViewData["RestaurantId"] = new SelectList(_unitOfWork.Restaurants.All(), "Id", "Address");
-            return View();
+            var vm = new ItemTypeCreateEditViewModel {
+                Restaurants = new SelectList(_unitOfWork.Restaurants.All(), nameof(Restaurant.Id), nameof(Restaurant.Name))
+            };
+            return View(vm);
         }
 
         // POST: ItemTypes/Create
@@ -55,17 +58,17 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,IsSpecial,Description,RestaurantId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] ItemType itemType)
+        public async Task<IActionResult> Create(ItemTypeCreateEditViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                itemType.Id = Guid.NewGuid();
-                _unitOfWork.ItemTypes.Add(itemType);
+                vm.ItemType.Id = Guid.NewGuid();
+                _unitOfWork.ItemTypes.Add(vm.ItemType);
                 await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Address", "Id");
-            return View(itemType);
+            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name));
+            return View(vm);
         }
 
         // GET: ItemTypes/Edit/5
@@ -75,14 +78,15 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
-            var itemType = await _unitOfWork.ItemTypes.FindAsync(id);
-            if (itemType == null)
+            var vm = new ItemTypeCreateEditViewModel {
+                ItemType = await _unitOfWork.ItemTypes.FindAsync(id)
+            };
+            if (vm.ItemType == null)
             {
                 return NotFound();
             }
-            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Address", "Id");
-            return View(itemType);
+            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name));
+            return View(vm);
         }
 
         // POST: ItemTypes/Edit/5
@@ -90,9 +94,9 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Name,IsSpecial,Description,RestaurantId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] ItemType itemType)
+        public async Task<IActionResult> Edit(Guid id, ItemTypeCreateEditViewModel vm)
         {
-            if (id != itemType.Id)
+            if (id != vm.ItemType.Id)
             {
                 return NotFound();
             }
@@ -101,12 +105,12 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _unitOfWork.ItemTypes.Update(itemType);
+                    _unitOfWork.ItemTypes.Update(vm.ItemType);
                     await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ItemTypeExists(itemType.Id))
+                    if (!ItemTypeExists(vm.ItemType.Id))
                     {
                         return NotFound();
                     }
@@ -117,8 +121,8 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Address", "Id");
-            return View(itemType);
+            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name));
+            return View(vm);
         }
 
         // GET: ItemTypes/Delete/5

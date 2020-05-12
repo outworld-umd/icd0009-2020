@@ -10,6 +10,7 @@ using DAL.App.EF;
 using Domain;
 using Extensions;
 using Microsoft.AspNetCore.Authorization;
+using WebApp.ViewModels;
 
 namespace WebApp.Controllers
 {
@@ -49,8 +50,10 @@ namespace WebApp.Controllers
         // GET: Orders/Create
         public IActionResult Create()
         {
-            ViewData["RestaurantId"] = new SelectList(_unitOfWork.Restaurants.All(), "Id", "Address");
-            return View();
+            var vm = new OrderCreateEditViewModel {
+                Restaurants = new SelectList(_unitOfWork.Restaurants.All(), nameof(Restaurant.Id), nameof(Restaurant.Name))
+            };
+            return View(vm);
         }
 
         // POST: Orders/Create
@@ -58,18 +61,18 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrderStatus,PaymentMethod,FoodCost,DeliveryCost,Address,Apartment,Comment,CustomerId,RestaurantId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Order order)
+        public async Task<IActionResult> Create(OrderCreateEditViewModel vm)
         {
-            order.AppUserId = User.UserGuidId();
+            vm.Order.AppUserId = User.UserGuidId();
             if (ModelState.IsValid)
             {
-                order.Id = Guid.NewGuid();
-                _unitOfWork.Orders.Add(order);
+                vm.Order.Id = Guid.NewGuid();
+                _unitOfWork.Orders.Add(vm.Order);
                 await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Address", order.RestaurantId);
-            return View(order);
+            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.Order.RestaurantId);
+            return View(vm);
         }
 
         // GET: Orders/Edit/5
@@ -79,14 +82,15 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
-            var order = await _unitOfWork.Orders.FindAsync(id);
-            if (order == null)
+            var vm = new OrderCreateEditViewModel {
+                Order = await _unitOfWork.Orders.FindAsync(id)
+            };
+            if (vm.Order == null)
             {
                 return NotFound();
             }
-            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Address", order.RestaurantId);
-            return View(order);
+            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.Order.RestaurantId);
+            return View(vm);
         }
 
         // POST: Orders/Edit/5
@@ -94,9 +98,9 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("OrderStatus,PaymentMethod,FoodCost,DeliveryCost,Address,Apartment,Comment,CustomerId,RestaurantId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Order order)
+        public async Task<IActionResult> Edit(Guid id, OrderCreateEditViewModel vm)
         {
-            if (id != order.Id)
+            if (id != vm.Order.Id)
             {
                 return NotFound();
             }
@@ -105,12 +109,12 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _unitOfWork.Orders.Update(order);
+                    _unitOfWork.Orders.Update(vm.Order);
                     await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OrderExists(order.Id))
+                    if (!OrderExists(vm.Order.Id))
                     {
                         return NotFound();
                     }
@@ -121,8 +125,8 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Address", order.RestaurantId);
-            return View(order);
+            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.Order.RestaurantId);
+            return View(vm);
         }
 
         // GET: Orders/Delete/5
