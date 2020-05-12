@@ -19,6 +19,7 @@ namespace DAL.App.EF {
         public IOrderItemChoiceRepository OrderItemChoices => GetRepository(() => new OrderItemChoiceRepository(UOWDbContext));
         public IOrderRowRepository OrderRows => GetRepository(() => new OrderRowRepository(UOWDbContext));
         public IRestaurantRepository Restaurants => GetRepository(() => new RestaurantRepository(UOWDbContext));
+        public IRestaurantUserRepository RestaurantUsers => GetRepository(() => new RestaurantUserRepository(UOWDbContext));
         public IRestaurantCategoryRepository RestaurantCategories => GetRepository(() => new RestaurantCategoryRepository(UOWDbContext));
         public IWorkingHoursRepository WorkingHourses => GetRepository(() => new WorkingHoursRepository(UOWDbContext));
         

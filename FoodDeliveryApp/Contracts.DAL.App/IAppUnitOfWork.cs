@@ -1,5 +1,6 @@
 ﻿using Contracts.DAL.App.Repositories;
 using Contracts.DAL.Base;
+using Domain.Identity;
 
 namespace Contracts.DAL.App {
 
@@ -17,6 +18,7 @@ namespace Contracts.DAL.App {
         public IOrderItemChoiceRepository OrderItemChoices { get; }
         public IOrderRowRepository OrderRows { get; }
         public IRestaurantRepository Restaurants { get; }
+        public IRestaurantUserRepository RestaurantUsers { get; }
         public IRestaurantCategoryRepository RestaurantCategories { get; }
         public IWorkingHoursRepository WorkingHourses { get; }
 

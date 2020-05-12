@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,18 +13,17 @@ namespace WebApp.Controllers
 {
     public class RestaurantUserController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public RestaurantUserController(AppDbContext context)
+        public RestaurantUserController(IAppUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: RestaurantUser
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.RestaurantUsers.Include(r => r.AppUser).Include(r => r.Restaurant);
-            return View(await appDbContext.ToListAsync());
+            return View(await _unitOfWork.RestaurantUsers.AllAsync());
         }
 
         // GET: RestaurantUser/Details/5
@@ -34,10 +34,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var restaurantUser = await _context.RestaurantUsers
-                .Include(r => r.AppUser)
-                .Include(r => r.Restaurant)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var restaurantUser = await _unitOfWork.RestaurantUsers.FindAsync(id);
             if (restaurantUser == null)
             {
                 return NotFound();
@@ -49,8 +46,7 @@ namespace WebApp.Controllers
         // GET: RestaurantUser/Create
         public IActionResult Create()
         {
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "FirstName");
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Address");
+            ViewData["RestaurantId"] = new SelectList(_unitOfWork.Restaurants.All(), "Id", "Address");
             return View();
         }
 
@@ -64,12 +60,11 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 restaurantUser.Id = Guid.NewGuid();
-                _context.Add(restaurantUser);
-                await _context.SaveChangesAsync();
+                _unitOfWork.RestaurantUsers.Add(restaurantUser);
+                await _unitOfWork.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "FirstName", restaurantUser.AppUserId);
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Address", restaurantUser.RestaurantId);
+            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Address", restaurantUser.RestaurantId);
             return View(restaurantUser);
         }
 
@@ -81,13 +76,12 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var restaurantUser = await _context.RestaurantUsers.FindAsync(id);
+            var restaurantUser = await _unitOfWork.RestaurantUsers.FindAsync(id);
             if (restaurantUser == null)
             {
                 return NotFound();
             }
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "FirstName", restaurantUser.AppUserId);
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Address", restaurantUser.RestaurantId);
+            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Address", restaurantUser.RestaurantId);
             return View(restaurantUser);
         }
 
@@ -107,8 +101,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(restaurantUser);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.RestaurantUsers.Update(restaurantUser);
+                    await _unitOfWork.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -123,8 +117,7 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "FirstName", restaurantUser.AppUserId);
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Address", restaurantUser.RestaurantId);
+            ViewData["RestaurantId"] = new SelectList(await _unitOfWork.Restaurants.AllAsync(), "Id", "Address", restaurantUser.RestaurantId);
             return View(restaurantUser);
         }
 
@@ -136,10 +129,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var restaurantUser = await _context.RestaurantUsers
-                .Include(r => r.AppUser)
-                .Include(r => r.Restaurant)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var restaurantUser = await _unitOfWork.RestaurantUsers.FindAsync(id);
             if (restaurantUser == null)
             {
                 return NotFound();
@@ -153,15 +143,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var restaurantUser = await _context.RestaurantUsers.FindAsync(id);
-            _context.RestaurantUsers.Remove(restaurantUser);
-            await _context.SaveChangesAsync();
+            var restaurantUser = await _unitOfWork.RestaurantUsers.FindAsync(id);
+            _unitOfWork.RestaurantUsers.Remove(restaurantUser);
+            await _unitOfWork.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool RestaurantUserExists(Guid id)
         {
-            return _context.RestaurantUsers.Any(e => e.Id == id);
+            return _unitOfWork.RestaurantUsers.Any(e => e.Id == id);
         }
     }
 }

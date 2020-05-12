@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Contracts.DAL.Base;
 using Microsoft.AspNetCore.Identity;
 
 namespace Domain.Identity
 {
-    public class AppUser : AppUser<Guid>
-    {
+    public class AppUser : AppUser<Guid>, IDomainBaseEntity<Guid> {
         
     }
 
