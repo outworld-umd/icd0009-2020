@@ -20,6 +20,7 @@ namespace Contracts.DAL.App {
         public IRestaurantRepository Restaurants { get; }
         public IRestaurantUserRepository RestaurantUsers { get; }
         public IRestaurantCategoryRepository RestaurantCategories { get; }
+        public IUserRepository Users { get; }
         public IWorkingHoursRepository WorkingHourses { get; }
 
     }
