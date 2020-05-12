@@ -8,9 +8,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using Extensions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers
 {
+    [Authorize(Roles = "AppUser")]
     public class OrdersController : Controller
     {
         private readonly IAppUnitOfWork _unitOfWork;
@@ -57,6 +60,7 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("OrderStatus,PaymentMethod,FoodCost,DeliveryCost,Address,Apartment,Comment,CustomerId,RestaurantId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Order order)
         {
+            order.AppUserId = User.UserGuidId();
             if (ModelState.IsValid)
             {
                 order.Id = Guid.NewGuid();

@@ -8,9 +8,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using Extensions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers
 {
+    [Authorize(Roles = "AppUser")]
     public class AddressesController : Controller
     {
         private readonly IAppUnitOfWork _unitOfWork;
@@ -24,6 +27,7 @@ namespace WebApp.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _unitOfWork.Addresses.AllAsync());
+            // Where(address.AppUSerId == User.UserGuidId())
         }
 
         // GET: Addresses/Details/5
@@ -56,6 +60,7 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("County,City,Street,BuildingNumber,Comment,CustomerId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Address address)
         {
+            address.AppUserId = User.UserGuidId();
             if (ModelState.IsValid)
             {
                 address.Id = Guid.NewGuid();

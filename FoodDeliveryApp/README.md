@@ -1,8 +1,10 @@
-#TODO:
-- configure delete behaviour for entities (implement soft delete?)
-- 
 
 
+Secure controllers (edit, index, details and etc) Make sure that user can't see some data and can't change some data
+User management UI ??
+User ---< Restaurants ??
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 dotnet ef migrations add InitialDbCreation --project DAL.App.EF --startup-project WebApp
 dotnet ef database update --project DAL.App.EF --startup-project WebApp
@@ -45,6 +47,12 @@ dotnet aspnet-codegenerator controller -name RestaurantCategoriesController -act
 dotnet aspnet-codegenerator controller -name WorkingHoursesController -actions -m WorkingHours -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+!!!BE CAREFUL!!! May introduce new database context to your project if your context is specified incorrectly
+
+dotnet aspnet-codegenerator identity -dc DAL.App.EF.AppDbContext -f
+ 
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 Shared, common codebase
 Contracts.DAL.Base - specs for domain metadata and PK in entities. Specs for common base repository.
