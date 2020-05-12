@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.App.EF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200512080019_InitialDbCreation")]
+    [Migration("20200512114750_InitialDbCreation")]
     partial class InitialDbCreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -594,6 +594,9 @@ namespace DAL.App.EF.Migrations
                         .HasColumnType("nvarchar(512)")
                         .HasMaxLength(512);
 
+                    b.Property<Guid>("AppUserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("ChangedAt")
                         .HasColumnType("datetime2");
 
@@ -621,6 +624,8 @@ namespace DAL.App.EF.Migrations
                         .HasMaxLength(64);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("Restaurants");
                 });
@@ -894,6 +899,15 @@ namespace DAL.App.EF.Migrations
                     b.HasOne("Domain.Order", "Order")
                         .WithMany("OrderRows")
                         .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Restaurant", b =>
+                {
+                    b.HasOne("Domain.Identity.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

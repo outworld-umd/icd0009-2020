@@ -31,7 +31,7 @@ namespace WebApp {
         public void ConfigureServices(IServiceCollection services) {
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("MsSqlConnection")));
+                    Configuration.GetConnectionString("MySqlConnection")));
             services.AddIdentity<AppUser, AppRole>()
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<AppDbContext>()

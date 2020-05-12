@@ -31,7 +31,7 @@ namespace Domain
         public ICollection<Order>? Orders { get; set; }
         public ICollection<ItemType>? ItemTypes { get; set; }
 
-        // public TKey AppUserId { get; set; } = default!;
-        // public TUser? AppUser { get; set; }
+        public TKey AppUserId { get; set; } = default!;
+        public TUser? AppUser { get; set; }
     }
 }

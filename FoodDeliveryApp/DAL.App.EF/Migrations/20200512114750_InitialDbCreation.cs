@@ -85,25 +85,6 @@ namespace DAL.App.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Restaurants",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    CreatedBy = table.Column<string>(nullable: true),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    ChangedBy = table.Column<string>(nullable: true),
-                    ChangedAt = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(maxLength: 64, nullable: false),
-                    Phone = table.Column<string>(maxLength: 64, nullable: false),
-                    Address = table.Column<string>(maxLength: 512, nullable: false),
-                    Description = table.Column<string>(maxLength: 512, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Restaurants", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -231,6 +212,32 @@ namespace DAL.App.EF.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Restaurants",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    ChangedBy = table.Column<string>(nullable: true),
+                    ChangedAt = table.Column<DateTime>(nullable: false),
+                    Name = table.Column<string>(maxLength: 64, nullable: false),
+                    Phone = table.Column<string>(maxLength: 64, nullable: false),
+                    Address = table.Column<string>(maxLength: 512, nullable: false),
+                    Description = table.Column<string>(maxLength: 512, nullable: true),
+                    AppUserId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Restaurants", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Restaurants_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -633,6 +640,11 @@ namespace DAL.App.EF.Migrations
                 column: "RestaurantId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Restaurants_AppUserId",
+                table: "Restaurants",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_WorkingHourses_RestaurantId",
                 table: "WorkingHourses",
                 column: "RestaurantId");
@@ -698,10 +710,10 @@ namespace DAL.App.EF.Migrations
                 name: "Items");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Restaurants");
 
             migrationBuilder.DropTable(
-                name: "Restaurants");
+                name: "AspNetUsers");
         }
     }
 }
