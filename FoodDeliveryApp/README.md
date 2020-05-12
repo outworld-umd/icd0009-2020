@@ -11,7 +11,7 @@ dotnet ef database update --project DAL.App.EF --startup-project WebApp
 dotnet ef database drop --project DAL.App.EF --startup-project WebApp
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 dotnet aspnet-codegenerator controller -name AddressesController -actions -m Address -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
 dotnet aspnet-codegenerator controller -name CategoriesController -actions -m Category -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
 dotnet aspnet-codegenerator controller -name CustomersController -actions -m Customer -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
@@ -27,7 +27,7 @@ dotnet aspnet-codegenerator controller -name OrderRowsController -actions -m Ord
 dotnet aspnet-codegenerator controller -name RestaurantUserController -actions -m RestaurantUser -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
 dotnet aspnet-codegenerator controller -name RestaurantCategoriesController -actions -m RestaurantCategory -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
 dotnet aspnet-codegenerator controller -name WorkingHoursesController -actions -m WorkingHours -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 dotnet aspnet-codegenerator controller -name AddressesController -actions -m Address -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
@@ -48,7 +48,7 @@ dotnet aspnet-codegenerator controller -name WorkingHoursesController -actions -
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 !!!BE CAREFUL!!! May introduce new database context to your project if your context is specified incorrectly
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 dotnet aspnet-codegenerator identity -dc DAL.App.EF.AppDbContext -f
  
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
