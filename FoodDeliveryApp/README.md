@@ -1,10 +1,10 @@
-## Food Delivery App
-### TODOs
+# Food Delivery App
+## TODOs
 * Internationalization
 * Admin UI (UserManager/RoleManager)
 * Make API Controllers use repos
 * Create initial projects for mappers
-### Useful Commands
+## Useful Commands
 ##### To generate database:
 ```
 dotnet ef database drop -f --project DAL.App.EF --startup-project WebApp
@@ -26,7 +26,7 @@ dotnet aspnet-codegenerator controller -name {entity}Controller -actions -m {ent
 dotnet aspnet-codegenerator identity -dc DAL.App.EF.AppDbContext -f
 ```
 
-### Project structure
+## Project structure
 **Contracts.DAL.App** - specs for repositories
 
 **Contracts.DAL.Base** - specs for domain metadata and PK in entities. Specs for common base repository.
