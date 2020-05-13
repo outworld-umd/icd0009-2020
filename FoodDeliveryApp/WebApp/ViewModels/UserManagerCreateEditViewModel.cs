@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace WebApp.ViewModels
 {
-    public class UserManagerModel
+    public class UserManagerCreateEditViewModel
     {
         public AppUser User { get; set; } = default!;
 

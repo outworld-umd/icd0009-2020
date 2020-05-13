@@ -12,7 +12,7 @@ using WebApp.ViewModels;
 
 namespace WebApp.Controllers
 {
-    public class UserManagerController
+    public class UserManagerController : Controller
     {
         private readonly UserManager<AppUser> userManager;
         private readonly RoleManager<AppRole> roleManager;
@@ -88,7 +88,7 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            vm.Items = new SelectList(roleManager.Roles, nameof(AppRole.Id), nameof(AppRole.Name));
+            vm.Roles = new SelectList(roleManager.Roles, nameof(AppRole.Id), nameof(AppRole.Name));
             return View(vm);
         }
 
@@ -112,7 +112,7 @@ namespace WebApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(vm.NutritionInfo.Id))
+                    if (!UserExists(vm.User.Id))
                     {
                         return NotFound();
                     }
@@ -123,7 +123,7 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            vm.Items = new SelectList(roleManager.Roles, nameof(AppRole.Id), nameof(AppRole.Name));
+            vm.Roles = new SelectList(roleManager.Roles, nameof(AppRole.Id), nameof(AppRole.Name));
             return View(vm);
         }
 
