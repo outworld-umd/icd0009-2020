@@ -99,6 +99,7 @@ namespace WebApp.Areas.Identity.Pages.Account
                     LastName = Input.LastName
                     
                 };
+                await _userManager.AddToRoleAsync(user,"Customer");
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

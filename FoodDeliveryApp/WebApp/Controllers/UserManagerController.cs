@@ -14,19 +14,19 @@ namespace WebApp.Controllers
 {
     public class UserManagerController : Controller
     {
-        private readonly UserManager<AppUser> userManager;
-        private readonly RoleManager<AppRole> roleManager;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<AppRole> _roleManager;
 
         public UserManagerController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
-            this.userManager = userManager;
-            this.roleManager = roleManager;
+            this._userManager = userManager;
+            this._roleManager = roleManager;
         }
 
         // GET: RestaurantUser
         public async Task<IActionResult> Index()
         {
-           var users = await userManager.Users.ToListAsync();
+           var users = await _userManager.Users.ToListAsync();
            return View(users);
         }
 
@@ -38,7 +38,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var user = await userManager.Users.FirstAsync(u => u.Id == id);
+            var user = await _userManager.Users.FirstAsync(u => u.Id == id);
             if (user == null)
             {
                 return NotFound();
@@ -51,12 +51,12 @@ namespace WebApp.Controllers
         public IActionResult Create()
         {
             var vm = new UserManagerCreateEditViewModel {
-                Roles = new SelectList(roleManager.Roles, nameof(AppRole.Id), nameof(AppRole.Name))
+                Roles = new SelectList(_roleManager.Roles, nameof(AppRole.Id), nameof(AppRole.Name))
             };
             return View(vm);
         }
 
-        // POST: RestaurantUser/Create
+        // POST: User/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -66,11 +66,11 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 vm.User.Id = Guid.NewGuid();
-                await userManager.CreateAsync(vm.User);
+                await _userManager.CreateAsync(vm.User);
                 return RedirectToAction(nameof(Index));
             }
 
-            vm.Roles = new SelectList(roleManager.Roles, nameof(AppRole.Id), nameof(AppRole.Name));
+            vm.Roles = new SelectList(_roleManager.Roles, nameof(AppRole.Id), nameof(AppRole.Name));
             return View(vm);;
         }
 
@@ -82,13 +82,13 @@ namespace WebApp.Controllers
                 return NotFound();
             }
             var vm = new UserManagerCreateEditViewModel {
-                User = await userManager.Users.FirstAsync(u => u.Id == id)
+                User = await _userManager.Users.FirstAsync(u => u.Id == id)
             };
             if (vm.User == null)
             {
                 return NotFound();
             }
-            vm.Roles = new SelectList(roleManager.Roles, nameof(AppRole.Id), nameof(AppRole.Name));
+            vm.Roles = new SelectList(_roleManager.Roles, nameof(AppRole.Id), nameof(AppRole.Name));
             return View(vm);
         }
 
@@ -101,6 +101,7 @@ namespace WebApp.Controllers
         {
             if (id != vm.User.Id)
             {
+                Console.WriteLine("LOLKEK");
                 return NotFound();
             }
 
@@ -108,7 +109,7 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    await userManager.UpdateAsync(vm.User);
+                    await _userManager.UpdateAsync(vm.User);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -123,7 +124,7 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            vm.Roles = new SelectList(roleManager.Roles, nameof(AppRole.Id), nameof(AppRole.Name));
+            vm.Roles = new SelectList(_roleManager.Roles, nameof(AppRole.Id), nameof(AppRole.Name));
             return View(vm);
         }
 
@@ -135,7 +136,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var user = await userManager.Users.FirstAsync(u => u.Id == id);
+            var user = await _userManager.Users.FirstAsync(u => u.Id == id);
             if (user == null)
             {
                 return NotFound();
@@ -149,14 +150,14 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var user = await userManager.Users.FirstAsync(u => u.Id == id);
-            await userManager.DeleteAsync(user);
+            var user = await _userManager.Users.FirstAsync(u => u.Id == id);
+            await _userManager.DeleteAsync(user);
             return RedirectToAction(nameof(Index));
         }
 
         private bool UserExists(Guid id)
         {
-            return userManager.Users.Any(u => u.Id == id);
+            return _userManager.Users.Any(u => u.Id == id);
         }
     }
 }

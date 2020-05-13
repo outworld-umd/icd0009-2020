@@ -1,7 +1,7 @@
 # Food Delivery App
 ## TODOs
 * Internationalization
-* Admin UI (UserManager/RoleManager)
+* Admin UI (UserManager) - FIX USER EDIT. Also add Roles to all operations!!!
 * Make API Controllers use repos
 * Create initial projects for mappers
 ## Useful Commands

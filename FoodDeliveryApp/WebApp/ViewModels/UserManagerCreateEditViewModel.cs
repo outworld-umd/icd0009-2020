@@ -8,5 +8,7 @@ namespace WebApp.ViewModels
         public AppUser User { get; set; } = default!;
 
         public SelectList? Roles { get; set; }
+
+        public AppRole? Role { get; set; }
     }
 }

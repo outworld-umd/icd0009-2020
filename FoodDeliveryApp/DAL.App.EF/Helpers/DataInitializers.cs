@@ -19,7 +19,7 @@ namespace DAL.App.EF.Helpers
 
         public static void SeedIdentity(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
-            var roleNames = new string[] {"AppUser", "Admin"};
+            var roleNames = new string[] {"Customer", "Admin", "Restaurant", "Artjom GAY"};
             foreach (var roleName in roleNames)
             {
                 var role = roleManager.FindByNameAsync(roleName).Result;
