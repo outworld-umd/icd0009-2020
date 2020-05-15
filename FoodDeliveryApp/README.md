@@ -1,9 +1,18 @@
 # Food Delivery App
 ## TODOs
+### Layered Architecture 101
+1. **DAL.App.DTO** -> Address, Category, Item etc.
+2. **DAL.App.EF/Repositories** -> change to EFBaseRepository<AppDbContext, Domain.{_entity_}, DAL.App.DTO.{_entity_}>, add to constructor base(dbContext, new BaseDALMapper<Domain.{_entity_}, DTO.{_entity_}>())
+3. **Contracts.DAL.App/Repositories** -> change in every class: using ~~Domain~~DAL.App.DTO;
+4. **BLL.App.DTO** -> Address, Category, Item etc.
+5. **Contracts.BLL.App/Services** -> add interface I{_entity_}Service : BaseEntityService<BLL.App.DTO.{_entity_}>
+6. **BLL.App** -> add {entity}Service with right inheritance etc.
+7. **Contracts.BLL.App/IAppBLL.cs** -> add properties for service
+8. **BLL.App/AppBLL.cs** -> implement them
+9. **BLL.App/Mappers** -> later...
+### Other stuff
 * Internationalization
-* Admin UI (UserManager) - FIX USER EDIT. Also add Roles to all operations!!!
 * Make API Controllers use repos
-* Create initial projects for mappers
 ## Useful Commands
 ##### To generate database:
 ```

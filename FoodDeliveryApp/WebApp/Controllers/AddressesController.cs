@@ -7,13 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
-using Domain;
+using DAL.App.DTO;
 using Extensions;
 using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers
 {
-    [Authorize(Roles = "AppUser")]
+    [Authorize(Roles = "Customer")]
     public class AddressesController : Controller
     {
         private readonly IAppUnitOfWork _unitOfWork;
@@ -26,8 +26,7 @@ namespace WebApp.Controllers
         // GET: Addresses
         public async Task<IActionResult> Index()
         {
-            return View(await _unitOfWork.Addresses.AllAsync());
-            // Where(address.AppUSerId == User.UserGuidId())
+            return View(await _unitOfWork.Addresses.AllAsync(User.UserGuidId()));
         }
 
         // GET: Addresses/Details/5
@@ -38,7 +37,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var address = await _unitOfWork.Addresses.FindAsync(id);
+            var address = await _unitOfWork.Addresses.FindAsync(User.UserGuidId(), id);
             if (address == null)
             {
                 return NotFound();
@@ -130,7 +129,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var address = await _unitOfWork.Addresses.FindAsync(id);
+            var address = await _unitOfWork.Addresses.FindAsync(User.UserGuidId(), id);
             if (address == null)
             {
                 return NotFound();
@@ -144,7 +143,7 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var address = await _unitOfWork.Addresses.FindAsync(id);
+            var address = await _unitOfWork.Addresses.FindAsync(User.UserGuidId(), id);
             _unitOfWork.Addresses.Remove(address);
             await _unitOfWork.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
