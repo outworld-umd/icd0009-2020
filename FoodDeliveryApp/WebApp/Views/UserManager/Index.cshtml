@@ -1,4 +1,4 @@
-@model IEnumerable<Domain.Identity.AppUser>
+@model WebApp.ViewModels.UserManagerIndexViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -13,19 +13,23 @@
     <thead>
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.UserName)
+            Username
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FullName)
+            Full Name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Phone)
+            Phone
+        </th>
+        <th>
+            Role
         </th>
         <th></th>
     </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model) {
+    @foreach (var item in Model.Users)
+    {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.UserName)
@@ -35,6 +39,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.UserRoles[item].Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

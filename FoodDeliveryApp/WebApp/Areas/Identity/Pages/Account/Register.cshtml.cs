@@ -99,8 +99,8 @@ namespace WebApp.Areas.Identity.Pages.Account
                     LastName = Input.LastName
                     
                 };
-                await _userManager.AddToRoleAsync(user,"Customer");
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                await _userManager.AddToRoleAsync(user, "Admin");
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");

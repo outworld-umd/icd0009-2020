@@ -1,4 +1,4 @@
-@model Domain.Identity.AppUser
+@model WebApp.ViewModels.UserManagerDetailsDeleteViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -10,6 +10,6 @@
     <partial name="Shared/_DetailsDelete"/>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.User.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

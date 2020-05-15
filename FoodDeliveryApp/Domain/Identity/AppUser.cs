@@ -14,9 +14,9 @@ namespace Domain.Identity
         where TKey : IEquatable<TKey>
     {
 
-        [MinLength(2)] [MaxLength(64)] public string FirstName { get; set; } = default!;
-        [MinLength(2)] [MaxLength(64)] public string LastName { get; set; } = default!;
-        [MinLength(2)] [MaxLength(64)] public string Phone { get; set; } = default!;
+        [MinLength(2)] [MaxLength(64)] [Display(Name = "First Name")] public string FirstName { get; set; } = default!;
+        [MinLength(2)] [MaxLength(64)] [Display(Name = "Last Name")] public string LastName { get; set; } = default!;
+        [MinLength(2)] [MaxLength(64)] [Display(Name = "Phone")] public string Phone { get; set; } = default!;
 
         public string FullName => FirstName + " " + LastName;
 

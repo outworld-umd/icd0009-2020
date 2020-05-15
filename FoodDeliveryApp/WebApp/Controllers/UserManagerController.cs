@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts.DAL.App;
@@ -19,15 +20,33 @@ namespace WebApp.Controllers
 
         public UserManagerController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
-            this._userManager = userManager;
-            this._roleManager = roleManager;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         // GET: RestaurantUser
         public async Task<IActionResult> Index()
         {
-           var users = await _userManager.Users.ToListAsync();
-           return View(users);
+            var users = await _userManager.Users.ToListAsync();
+            var vm = new UserManagerIndexViewModel
+            {
+                Users = users,
+                UserRoles = GetUserRoles(users)
+            };
+            return View(vm);
+        }
+
+        private Dictionary<AppUser, AppRole> GetUserRoles(List<AppUser> users)
+        {
+            var userRoles = new Dictionary<AppUser, AppRole>();
+            foreach (var user in users)
+            {
+                var roles =  _userManager.GetRolesAsync(user).Result;
+                var role = _roleManager.FindByNameAsync(roles.First()).Result;
+                userRoles.Add(user, role);
+            }
+
+            return userRoles;
         }
 
         // GET: RestaurantUser/Details/5
@@ -37,21 +56,28 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
             var user = await _userManager.Users.FirstAsync(u => u.Id == id);
+            var roles = await _userManager.GetRolesAsync(user);
+            var role = _roleManager.FindByNameAsync(roles.First()).Result;
+            var vm = new UserManagerDetailsDeleteViewModel
+            {
+                User = user,
+                Role = role
+            };
             if (user == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(vm);
         }
 
         // GET: RestaurantUser/Create
         public IActionResult Create()
         {
-            var vm = new UserManagerCreateEditViewModel {
-                Roles = new SelectList(_roleManager.Roles, nameof(AppRole.Id), nameof(AppRole.Name))
+            var vm = new UserManagerCreateViewModel
+            {
+                Roles = new SelectList(_roleManager.Roles, nameof(AppRole.Name), nameof(AppRole.Name))
             };
             return View(vm);
         }
@@ -61,17 +87,22 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(UserManagerCreateEditViewModel vm)
+        public async Task<IActionResult> Create(UserManagerCreateViewModel vm)
         {
             if (ModelState.IsValid)
             {
                 vm.User.Id = Guid.NewGuid();
-                await _userManager.CreateAsync(vm.User);
+                vm.User.UserName = vm.Email;
+                vm.User.Email = vm.Email;
+
+                await _userManager.CreateAsync(vm.User, vm.Password);
+                await _userManager.AddToRoleAsync(vm.User, vm.Role.Name);
                 return RedirectToAction(nameof(Index));
             }
 
-            vm.Roles = new SelectList(_roleManager.Roles, nameof(AppRole.Id), nameof(AppRole.Name));
-            return View(vm);;
+            vm.Roles = new SelectList(_roleManager.Roles, nameof(AppRole.Name), nameof(AppRole.Name));
+            return View(vm);
+            ;
         }
 
         // GET: RestaurantUser/Edit/5
@@ -81,14 +112,16 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            var vm = new UserManagerCreateEditViewModel {
-                User = await _userManager.Users.FirstAsync(u => u.Id == id)
-            };
-            if (vm.User == null)
+
+
+            var roles = await _userManager.GetRolesAsync(await _userManager.Users.FirstAsync(u => u.Id == id));
+            var vm = new UserManagerEditViewModel
             {
-                return NotFound();
-            }
-            vm.Roles = new SelectList(_roleManager.Roles, nameof(AppRole.Id), nameof(AppRole.Name));
+                User = await _userManager.Users.FirstAsync(u => u.Id == id),
+                Role = _roleManager.FindByNameAsync(roles.First()).Result,
+                Roles = new SelectList(_roleManager.Roles, nameof(AppRole.Name), nameof(AppRole.Name))
+            };
+
             return View(vm);
         }
 
@@ -97,11 +130,11 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, UserManagerCreateEditViewModel vm)
+        public async Task<IActionResult> Edit(Guid id, UserManagerEditViewModel vm)
         {
-            if (id != vm.User.Id)
+            var user = await _userManager.Users.FirstAsync(u => u.Id == id);
+            if (id == null)
             {
-                Console.WriteLine("LOLKEK");
                 return NotFound();
             }
 
@@ -109,11 +142,26 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    await _userManager.UpdateAsync(vm.User);
+                    var roles = await _userManager.GetRolesAsync(user);
+                    var role = _roleManager.FindByNameAsync(roles.First()).Result;
+                    user.UserName = vm.User.Email;
+                    user.Email = vm.User.Email;
+                    user.Phone = vm.User.Phone;
+                    user.FirstName = vm.User.FirstName;
+                    user.LastName = vm.User.LastName;
+                    Console.WriteLine(role.Name + "Current role");
+                    Console.WriteLine(vm.Role.Name + "New role");
+                    if (role.Name != vm.Role.Name)
+                    {
+                        await _userManager.RemoveFromRolesAsync(user, roles);
+                        await _userManager.AddToRoleAsync(user, vm.Role.Name);
+                    }
+
+                    await _userManager.UpdateAsync(user);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(vm.User.Id))
+                    if (!UserExists(user.Id))
                     {
                         return NotFound();
                     }
@@ -122,9 +170,11 @@ namespace WebApp.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
-            vm.Roles = new SelectList(_roleManager.Roles, nameof(AppRole.Id), nameof(AppRole.Name));
+
+            vm.Roles = new SelectList(_roleManager.Roles, nameof(AppRole.Name), nameof(AppRole.Name));
             return View(vm);
         }
 
@@ -137,12 +187,19 @@ namespace WebApp.Controllers
             }
 
             var user = await _userManager.Users.FirstAsync(u => u.Id == id);
+            var roles = await _userManager.GetRolesAsync(user);
+            var role = _roleManager.FindByNameAsync(roles.First()).Result;
+            var vm = new UserManagerDetailsDeleteViewModel
+            {
+                User = user,
+                Role = role
+            };
             if (user == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(vm);
         }
 
         // POST: RestaurantUser/Delete/5

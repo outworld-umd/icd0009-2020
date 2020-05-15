@@ -1,4 +1,4 @@
-@model Domain.Identity.AppUser
+@model WebApp.ViewModels.UserManagerDetailsDeleteViewModel
 
 @{
     ViewData["Title"] = "Delete";
@@ -10,7 +10,7 @@
 <div>
     <partial name="Shared/_DetailsDelete"/>
     <form asp-action="Delete">
-        <input type="hidden" asp-for="Id"/>
+        <input type="hidden" asp-for="User.Id"/>
         <input type="submit" value="Delete" class="btn btn-danger"/> |
         <a asp-action="Index">Back to List</a>
     </form>
