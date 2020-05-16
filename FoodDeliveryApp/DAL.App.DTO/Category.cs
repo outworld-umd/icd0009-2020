@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Contracts.DAL.Base;
 using DAL.App.DTO.Identity;
 
@@ -15,6 +16,7 @@ namespace DAL.App.DTO {
 
             public TKey Id { get; set; } = default!;
             public string Name { get; set; } = default!;
+            public ICollection<RestaurantCategory>? RestaurantCategories { get; set; }
         }
 
 }
