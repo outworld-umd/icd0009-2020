@@ -1,7 +1,8 @@
 # Food Delivery App
 ## TODOs
 ### Layered Architecture 101
-1. **BLL.App/Mappers** -> later...
+**BLL.App/Mappers** -> think about custom mappers
+**WebApp** -> make controllers use bll
 ### Other stuff
 * Internationalization
 * Make API Controllers use repos
