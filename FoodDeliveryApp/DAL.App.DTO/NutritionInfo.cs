@@ -4,7 +4,7 @@ using DAL.App.DTO.Identity;
 
 namespace DAL.App.DTO
 {
-    public class NutritionInfo : Address<Guid, AppUser>, IDomainBaseEntity
+    public class NutritionInfo : NutritionInfo<Guid, AppUser>, IDomainBaseEntity
     {
         
     }

@@ -2,15 +2,17 @@ using System;
 using System.Collections.Generic;
 using Contracts.DAL.Base;
 using Domain;
+using Domain.Identity;
 
 namespace BLL.App.DTO
 {
-    public class Order : Order<Guid>, IDomainBaseEntity
+    public class Order : Order<Guid, AppUser>, IDomainBaseEntity
     {
     }
 
-    public class Order<TKey> : IDomainBaseEntity<TKey>
+    public class Order<TKey, TUser> : IDomainBaseEntity<TKey>
         where TKey: IEquatable<TKey>
+        where TUser : AppUser<TKey>
     {
         public TKey Id { get; set; } = default!;
         public OrderStatus OrderStatus { get; set; }

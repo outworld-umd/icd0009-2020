@@ -5,7 +5,7 @@ using DAL.App.DTO.Identity;
 
 namespace DAL.App.DTO
 {
-    public class ItemType : Address<Guid, AppUser>, IDomainBaseEntity
+    public class ItemType : ItemType<Guid, AppUser>, IDomainBaseEntity
     {
         
     }

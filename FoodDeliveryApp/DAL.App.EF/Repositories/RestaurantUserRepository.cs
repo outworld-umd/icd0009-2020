@@ -12,16 +12,16 @@ namespace DAL.App.EF.Repositories {
     public class RestaurantUserRepository : EFBaseRepository<AppDbContext, Domain.RestaurantUser, DTO.RestaurantUser>, IRestaurantUserRepository {
 
         public RestaurantUserRepository(AppDbContext dbContext) : base(dbContext, new BaseDALMapper<Domain.RestaurantUser, DTO.RestaurantUser>()) { }
-        public override async Task<IEnumerable<RestaurantUser>> AllAsync() {
-            return await RepoDbSet.Include(r => r.AppUser)
-                .Include(r => r.Restaurant).ToListAsync();
-        }
-
-        public override async Task<RestaurantUser> FindAsync(params object[] id) {
-            return await RepoDbSet.Include(r => r.AppUser)
-                .Include(r => r.Restaurant)
-                .FirstOrDefaultAsync(m => m.Id == (Guid) id[0]);
-        }
+        // public override async Task<IEnumerable<RestaurantUser>> AllAsync() {
+        //     return await RepoDbSet.Include(r => r.AppUser)
+        //         .Include(r => r.Restaurant).ToListAsync();
+        // }
+        //
+        // public override async Task<RestaurantUser> FindAsync(params object[] id) {
+        //     return await RepoDbSet.Include(r => r.AppUser)
+        //         .Include(r => r.Restaurant)
+        //         .FirstOrDefaultAsync(m => m.Id == (Guid) id[0]);
+        // }
     }
 
 }

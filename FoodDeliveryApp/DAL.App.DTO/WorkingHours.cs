@@ -4,7 +4,7 @@ using DAL.App.DTO.Identity;
 
 namespace DAL.App.DTO
 {
-    public class WorkingHours : Address<Guid, AppUser>, IDomainBaseEntity
+    public class WorkingHours : WorkingHours<Guid, AppUser>, IDomainBaseEntity
     {
         
     }

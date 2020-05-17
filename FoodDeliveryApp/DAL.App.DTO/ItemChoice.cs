@@ -5,8 +5,7 @@ using DAL.App.DTO.Identity;
 
 namespace DAL.App.DTO
 {
-    public class ItemChoice
-    {
+    public class ItemChoice : ItemChoice<Guid, AppUser>, IDomainBaseEntity<Guid> {
         
     }
     

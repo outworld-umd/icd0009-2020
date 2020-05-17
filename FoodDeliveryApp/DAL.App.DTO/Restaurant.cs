@@ -5,7 +5,7 @@ using DAL.App.DTO.Identity;
 
 namespace DAL.App.DTO
 {
-    public class Restaurant : Address<Guid, AppUser>, IDomainBaseEntity
+    public class Restaurant : Restaurant<Guid, AppUser>, IDomainBaseEntity
     {
         
     }

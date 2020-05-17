@@ -1,16 +1,18 @@
 using System;
+using BLL.App.DTO.Identity;
 using Contracts.DAL.Base;
 
 namespace BLL.App.DTO
 {
-    public class RestaurantUser : RestaurantUser<Guid>, IDomainBaseEntity
+    public class RestaurantUser : RestaurantUser<Guid, AppUser>, IDomainBaseEntity
     {
         
     }
     
     
-    public class RestaurantUser<TKey> : IDomainBaseEntity<TKey>
-        where TKey: IEquatable<TKey>
+    public class RestaurantUser<TKey, TUser> : IDomainBaseEntity<TKey>
+        where TKey : IEquatable<TKey>
+        where TUser : AppUser<TKey>
     {
         public TKey Id { get; set; } = default!;
         public Guid RestaurantId { get; set; }

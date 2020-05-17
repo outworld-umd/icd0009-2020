@@ -6,7 +6,7 @@ using Domain;
 
 namespace DAL.App.DTO
 {
-    public class Order : Address<Guid, AppUser>, IDomainBaseEntity
+    public class Order : Order<Guid, AppUser>, IDomainBaseEntity
     {
     }
 

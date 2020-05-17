@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Contracts.DAL.Base;
 
-namespace BLL.App.DTO.Identity
+namespace BLL.App.DTO
 {
     public class Item : Item<Guid>, IDomainBaseEntity
     {

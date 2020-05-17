@@ -3,7 +3,7 @@ using Contracts.BLL.Base.Services;
 
 namespace Contracts.BLL.App.Services
 {
-    public class IRestaurantCategoryService : IBaseEntityService<RestaurantCategory>
+    public interface IRestaurantCategoryService : IBaseEntityService<RestaurantCategory>
     {
         
     }

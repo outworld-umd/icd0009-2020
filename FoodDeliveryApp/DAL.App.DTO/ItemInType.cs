@@ -4,8 +4,7 @@ using DAL.App.DTO.Identity;
 
 namespace DAL.App.DTO
 {
-    public class ItemInType
-    {
+    public class ItemInType : ItemInType<Guid, AppUser>, IDomainBaseEntity<Guid> {
         
     }
     

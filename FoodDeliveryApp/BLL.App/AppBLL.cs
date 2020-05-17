@@ -17,5 +17,20 @@ namespace BLL.App
         }
 
         public IAddressService Addresses => GetService<IAddressService>(() => new AddressService(UnitOfWork));
+        public ICategoryService Categories => GetService<ICategoryService>(() => new CategoryService(UnitOfWork));
+        public IItemChoiceService ItemChoices => GetService<IItemChoiceService>(() => new ItemChoiceService(UnitOfWork));
+        public IItemInTypeService ItemInTypes => GetService<IItemInTypeService>(() => new ItemInTypeService(UnitOfWork));
+        public IItemOptionService ItemOptions => GetService<IItemOptionService>(() => new ItemOptionService(UnitOfWork));
+        public IItemService Items => GetService<IItemService>(() => new ItemService(UnitOfWork));
+        public IItemTypeService ItemTypes => GetService<IItemTypeService>(() => new ItemTypeService(UnitOfWork));
+        public INutritionInfoService NutritionInfos => GetService<INutritionInfoService>(() => new NutritionInfoService(UnitOfWork));
+        public IOrderItemChoiceService OrderItemChoices => GetService<IOrderItemChoiceService>(() => new OrderItemChoiceService(UnitOfWork));
+        public IOrderRowService OrderRows => GetService<IOrderRowService>(() => new OrderRowService(UnitOfWork));
+        public IOrderService Orders => GetService<IOrderService>(() => new OrderService(UnitOfWork));
+        public IRestaurantCategoryService RestaurantCategories => GetService<IRestaurantCategoryService>(() => new RestaurantCategoryService(UnitOfWork));
+        public IRestaurantService Restaurants => GetService<IRestaurantService>(() => new RestaurantService(UnitOfWork));
+        public IRestaurantUserService RestaurantUsers => GetService<IRestaurantUserService>(() => new RestaurantUserService(UnitOfWork));
+        public IWorkingHoursService WorkingHourses => GetService<IWorkingHoursService>(() => new WorkingHoursService(UnitOfWork));
+        
     }
 }

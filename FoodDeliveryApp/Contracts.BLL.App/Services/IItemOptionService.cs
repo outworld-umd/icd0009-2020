@@ -3,7 +3,7 @@ using Contracts.BLL.Base.Services;
 
 namespace Contracts.BLL.App.Services
 {
-    public class IItemOptionService : IBaseEntityService<ItemOption>
+    public interface IItemOptionService : IBaseEntityService<ItemOption>
     {
         
     }

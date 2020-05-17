@@ -12,14 +12,14 @@ namespace DAL.App.EF.Repositories {
     public class NutritionInfoRepository : EFBaseRepository<AppDbContext, Domain.NutritionInfo, DTO.NutritionInfo>, INutritionInfoRepository {
         public NutritionInfoRepository(AppDbContext dbContext) : base(dbContext, new BaseDALMapper<Domain.NutritionInfo, DTO.NutritionInfo>()) { }
         
-        public override async Task<IEnumerable<NutritionInfo>> AllAsync() {
-            return await RepoDbSet.Include(n => n.Item).ToListAsync();
-        }
-
-        public override async Task<NutritionInfo> FindAsync(params object[] id) {
-            return await RepoDbSet.Include(n => n.Item)
-                .FirstOrDefaultAsync(m => m.Id == (Guid) id[0]);
-        }
+        // public override async Task<IEnumerable<NutritionInfo>> AllAsync() {
+        //     return await RepoDbSet.Include(n => n.Item).ToListAsync();
+        // }
+        //
+        // public override async Task<NutritionInfo> FindAsync(params object[] id) {
+        //     return await RepoDbSet.Include(n => n.Item)
+        //         .FirstOrDefaultAsync(m => m.Id == (Guid) id[0]);
+        // }
     }
 
 }

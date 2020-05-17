@@ -1,14 +1,16 @@
 using System;
+using BLL.App.DTO.Identity;
 using Contracts.DAL.Base;
 
 namespace BLL.App.DTO {
 
-    public class Address : Address<Guid>, IDomainBaseEntity
+    public class Address : Address<Guid, AppUser>, IDomainBaseEntity
     {
     }
     
-    public class Address<TKey> : IDomainBaseEntity<TKey>
-        where TKey: IEquatable<TKey>
+    public class Address<TKey, TUser> : IDomainBaseEntity<TKey>
+        where TKey : IEquatable<TKey>
+        where TUser : AppUser<TKey>
     {
         public TKey Id { get; set; } = default!;
         public string County { get; set; } = default!;

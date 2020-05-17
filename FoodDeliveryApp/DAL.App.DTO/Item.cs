@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Contracts.DAL.Base;
+using DAL.App.DTO.Identity;
 
-namespace DAL.App.DTO.Identity
+namespace DAL.App.DTO
 {
     public class Item : Item<Guid, AppUser>, IDomainBaseEntity
     {

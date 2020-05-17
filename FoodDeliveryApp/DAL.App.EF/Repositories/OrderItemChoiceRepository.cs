@@ -12,18 +12,18 @@ namespace DAL.App.EF.Repositories {
     public class OrderItemChoiceRepository : EFBaseRepository<AppDbContext, Domain.OrderItemChoice, DTO.OrderItemChoice>, IOrderItemChoiceRepository {
         public OrderItemChoiceRepository(AppDbContext dbContext) : base(dbContext, new BaseDALMapper<Domain.OrderItemChoice, DTO.OrderItemChoice>()) { }
         
-        public override async Task<IEnumerable<OrderItemChoice>> AllAsync() {
-            return await RepoDbSet
-                .Include(o => o.ItemChoice)
-                .Include(o => o.OrderRow).ToListAsync();
-        }
-
-        public override async Task<OrderItemChoice> FindAsync(params object[] id) {
-            return await RepoDbSet
-                .Include(o => o.ItemChoice)
-                .Include(o => o.OrderRow)
-                .FirstOrDefaultAsync(m => m.Id == (Guid) id[0]);
-        }
+        // public override async Task<IEnumerable<OrderItemChoice>> AllAsync() {
+        //     return await RepoDbSet
+        //         .Include(o => o.ItemChoice)
+        //         .Include(o => o.OrderRow).ToListAsync();
+        // }
+        //
+        // public override async Task<OrderItemChoice> FindAsync(params object[] id) {
+        //     return await RepoDbSet
+        //         .Include(o => o.ItemChoice)
+        //         .Include(o => o.OrderRow)
+        //         .FirstOrDefaultAsync(m => m.Id == (Guid) id[0]);
+        // }
     }
 
 }

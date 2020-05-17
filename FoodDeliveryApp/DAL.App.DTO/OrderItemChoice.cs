@@ -4,7 +4,7 @@ using DAL.App.DTO.Identity;
 
 namespace DAL.App.DTO
 {
-    public class OrderItemChoice : Address<Guid, AppUser>, IDomainBaseEntity
+    public class OrderItemChoice : OrderItemChoice<Guid, AppUser>, IDomainBaseEntity
     {
         
     }
