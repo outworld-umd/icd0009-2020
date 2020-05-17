@@ -5,7 +5,6 @@
 * **WebApp** -> make controllers use bll
 ### Other stuff
 * Internationalization
-* Make API Controllers use repos
 ## Useful Commands
 ##### To generate database:
 ```
