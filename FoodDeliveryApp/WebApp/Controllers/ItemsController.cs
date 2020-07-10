@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.BLL.App;
 using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,17 +14,17 @@ namespace WebApp.Controllers
 {
     public class ItemsController : Controller
     {
-        private readonly IAppUnitOfWork _unitOfWork;
+        private readonly IAppBLL _bll;
         
-        public ItemsController(IAppUnitOfWork unitOfWork)
+        public ItemsController(IAppBLL bll)
         {
-            _unitOfWork = unitOfWork;
+            _bll = bll;
         }
 
         // GET: Items
         public async Task<IActionResult> Index()
         {
-            return View(await _unitOfWork.Items.AllAsync());
+            return View(await _bll.Items.AllAsync());
         }
 
         // GET: Items/Details/5
@@ -34,7 +35,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var item = await _unitOfWork.Items.FindAsync(id);
+            var item = await _bll.Items.FindAsync(id);
             if (item == null)
             {
                 return NotFound();
@@ -59,8 +60,8 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 item.Id = Guid.NewGuid();
-                _unitOfWork.Items.Add(item);
-                await _unitOfWork.SaveChangesAsync();
+                _bll.Items.Add(item);
+                await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(item);
@@ -74,7 +75,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var item = await _unitOfWork.Items.FindAsync(id);
+            var item = await _bll.Items.FindAsync(id);
             if (item == null)
             {
                 return NotFound();
@@ -98,8 +99,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _unitOfWork.Items.Update(item);
-                    await _unitOfWork.SaveChangesAsync();
+                    _bll.Items.Update(item);
+                    await _bll.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -125,7 +126,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var item = await _unitOfWork.Items.FindAsync(id);
+            var item = await _bll.Items.FindAsync(id);
             if (item == null)
             {
                 return NotFound();
@@ -139,15 +140,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var item = await _unitOfWork.Items.FindAsync(id);
-            _unitOfWork.Items.Remove(item);
-            await _unitOfWork.SaveChangesAsync();
+            var item = await _bll.Items.FindAsync(id);
+            _bll.Items.Remove(item);
+            await _bll.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ItemExists(Guid id)
         {
-            return _unitOfWork.Items.Any(e => e.Id == id);
+            return _bll.Items.Any(e => e.Id == id);
         }
     }
 }

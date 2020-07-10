@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.BLL.App;
 using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,17 +15,17 @@ namespace WebApp.Controllers
 {
     public class RestaurantCategoriesController : Controller
     {
-        private readonly IAppUnitOfWork _unitOfWork;
+        private readonly IAppBLL _bll;
 
-        public RestaurantCategoriesController(IAppUnitOfWork unitOfWork)
+        public RestaurantCategoriesController(IAppBLL bll)
         {
-            _unitOfWork = unitOfWork;
+            _bll = bll;
         }
 
         // GET: RestaurantCategories
         public async Task<IActionResult> Index()
         {
-            return View(await _unitOfWork.RestaurantCategories.AllAsync());
+            return View(await _bll.RestaurantCategories.AllAsync());
         }
 
         // GET: RestaurantCategories/Details/5
@@ -35,7 +36,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var restaurantCategory = await _unitOfWork.RestaurantCategories.FindAsync(id);
+            var restaurantCategory = await _bll.RestaurantCategories.FindAsync(id);
             if (restaurantCategory == null)
             {
                 return NotFound();
@@ -48,8 +49,8 @@ namespace WebApp.Controllers
         public IActionResult Create()
         {
             var vm = new RestaurantCategoryCreateEditViewModel {
-                Categories = new SelectList(_unitOfWork.Categories.All(), nameof(Category.Id), nameof(Category.Name)),
-                Restaurants = new SelectList(_unitOfWork.Restaurants.All(), nameof(Restaurant.Id), nameof(Restaurant.Name))
+                Categories = new SelectList(_bll.Categories.All(), nameof(Category.Id), nameof(Category.Name)),
+                Restaurants = new SelectList(_bll.Restaurants.All(), nameof(Restaurant.Id), nameof(Restaurant.Name))
             };
             return View(vm);
         }
@@ -64,12 +65,12 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 vm.RestaurantCategory.Id = Guid.NewGuid();
-                _unitOfWork.RestaurantCategories.Add(vm.RestaurantCategory);
-                await _unitOfWork.SaveChangesAsync();
+                _bll.RestaurantCategories.Add(vm.RestaurantCategory);
+                await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            vm.Categories = new SelectList(await _unitOfWork.Categories.AllAsync(), nameof(Category.Id), nameof(Category.Name), vm.RestaurantCategory.CategoryId);
-            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.RestaurantCategory.RestaurantId);
+            vm.Categories = new SelectList(await _bll.Categories.AllAsync(), nameof(Category.Id), nameof(Category.Name), vm.RestaurantCategory.CategoryId);
+            vm.Restaurants = new SelectList(await _bll.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.RestaurantCategory.RestaurantId);
             return View(vm);
         }
 
@@ -81,14 +82,14 @@ namespace WebApp.Controllers
                 return NotFound();
             }
             var vm = new RestaurantCategoryCreateEditViewModel {
-                RestaurantCategory = await _unitOfWork.RestaurantCategories.FindAsync(id)
+                RestaurantCategory = await _bll.RestaurantCategories.FindAsync(id)
             };
             if (vm.RestaurantCategory == null)
             {
                 return NotFound();
             }
-            vm.Categories = new SelectList(await _unitOfWork.Categories.AllAsync(), nameof(Category.Id), nameof(Category.Name), vm.RestaurantCategory.CategoryId);
-            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.RestaurantCategory.RestaurantId);
+            vm.Categories = new SelectList(await _bll.Categories.AllAsync(), nameof(Category.Id), nameof(Category.Name), vm.RestaurantCategory.CategoryId);
+            vm.Restaurants = new SelectList(await _bll.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.RestaurantCategory.RestaurantId);
             return View(vm);
         }
 
@@ -108,8 +109,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _unitOfWork.RestaurantCategories.Update(vm.RestaurantCategory);
-                    await _unitOfWork.SaveChangesAsync();
+                    _bll.RestaurantCategories.Update(vm.RestaurantCategory);
+                    await _bll.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -124,8 +125,8 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            vm.Categories = new SelectList(await _unitOfWork.Categories.AllAsync(), nameof(Category.Id), nameof(Category.Name), vm.RestaurantCategory.CategoryId);
-            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.RestaurantCategory.RestaurantId);
+            vm.Categories = new SelectList(await _bll.Categories.AllAsync(), nameof(Category.Id), nameof(Category.Name), vm.RestaurantCategory.CategoryId);
+            vm.Restaurants = new SelectList(await _bll.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.RestaurantCategory.RestaurantId);
             return View(vm);
         }
 
@@ -137,7 +138,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var restaurantCategory = await _unitOfWork.RestaurantCategories.FindAsync(id);
+            var restaurantCategory = await _bll.RestaurantCategories.FindAsync(id);
             if (restaurantCategory == null)
             {
                 return NotFound();
@@ -151,15 +152,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var restaurantCategory = await _unitOfWork.RestaurantCategories.FindAsync(id);
-            _unitOfWork.RestaurantCategories.Remove(restaurantCategory);
-            await _unitOfWork.SaveChangesAsync();
+            var restaurantCategory = await _bll.RestaurantCategories.FindAsync(id);
+            _bll.RestaurantCategories.Remove(restaurantCategory);
+            await _bll.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool RestaurantCategoryExists(Guid id)
         {
-            return _unitOfWork.RestaurantCategories.Any(e => e.Id == id);
+            return _bll.RestaurantCategories.Any(e => e.Id == id);
         }
     }
 }

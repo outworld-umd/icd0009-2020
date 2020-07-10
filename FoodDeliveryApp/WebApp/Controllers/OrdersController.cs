@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.BLL.App;
 using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -17,17 +18,17 @@ namespace WebApp.Controllers
     // [Authorize(Roles = "AppUser")]
     public class OrdersController : Controller
     {
-        private readonly IAppUnitOfWork _unitOfWork;
+        private readonly IAppBLL _bll;
 
-        public OrdersController(IAppUnitOfWork unitOfWork)
+        public OrdersController(IAppBLL bll)
         {
-            _unitOfWork = unitOfWork;
+            _bll = bll;
         }
 
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            return View(await _unitOfWork.Orders.AllAsync());
+            return View(await _bll.Orders.AllAsync());
         }
 
         // GET: Orders/Details/5
@@ -38,7 +39,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var order = await _unitOfWork.Orders.FindAsync(id);
+            var order = await _bll.Orders.FindAsync(id);
             if (order == null)
             {
                 return NotFound();
@@ -51,7 +52,7 @@ namespace WebApp.Controllers
         public IActionResult Create()
         {
             var vm = new OrderCreateEditViewModel {
-                Restaurants = new SelectList(_unitOfWork.Restaurants.All(), nameof(Restaurant.Id), nameof(Restaurant.Name))
+                Restaurants = new SelectList(_bll.Restaurants.All(), nameof(Restaurant.Id), nameof(Restaurant.Name))
             };
             return View(vm);
         }
@@ -67,11 +68,11 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 vm.Order.Id = Guid.NewGuid();
-                _unitOfWork.Orders.Add(vm.Order);
-                await _unitOfWork.SaveChangesAsync();
+                _bll.Orders.Add(vm.Order);
+                await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.Order.RestaurantId);
+            vm.Restaurants = new SelectList(await _bll.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.Order.RestaurantId);
             return View(vm);
         }
 
@@ -83,13 +84,13 @@ namespace WebApp.Controllers
                 return NotFound();
             }
             var vm = new OrderCreateEditViewModel {
-                Order = await _unitOfWork.Orders.FindAsync(id)
+                Order = await _bll.Orders.FindAsync(id)
             };
             if (vm.Order == null)
             {
                 return NotFound();
             }
-            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.Order.RestaurantId);
+            vm.Restaurants = new SelectList(await _bll.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.Order.RestaurantId);
             return View(vm);
         }
 
@@ -109,8 +110,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _unitOfWork.Orders.Update(vm.Order);
-                    await _unitOfWork.SaveChangesAsync();
+                    _bll.Orders.Update(vm.Order);
+                    await _bll.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -125,7 +126,7 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.Order.RestaurantId);
+            vm.Restaurants = new SelectList(await _bll.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.Order.RestaurantId);
             return View(vm);
         }
 
@@ -137,7 +138,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var order = await _unitOfWork.Orders.FindAsync(id);
+            var order = await _bll.Orders.FindAsync(id);
             if (order == null)
             {
                 return NotFound();
@@ -151,15 +152,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var order = await _unitOfWork.Orders.FindAsync(id);
-            _unitOfWork.Orders.Remove(order);
-            await _unitOfWork.SaveChangesAsync();
+            var order = await _bll.Orders.FindAsync(id);
+            _bll.Orders.Remove(order);
+            await _bll.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool OrderExists(Guid id)
         {
-            return _unitOfWork.Orders.Any(e => e.Id == id);
+            return _bll.Orders.Any(e => e.Id == id);
         }
     }
 }

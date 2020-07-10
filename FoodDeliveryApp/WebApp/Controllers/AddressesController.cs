@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.BLL.App;
 using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
-using DAL.App.DTO;
+using BLL.App.DTO;
 using Extensions;
 using Microsoft.AspNetCore.Authorization;
 
@@ -16,18 +17,18 @@ namespace WebApp.Controllers
     [Authorize(Roles = "Customer")]
     public class AddressesController : Controller
     {
-        private readonly IAppUnitOfWork _unitOfWork;
+        private readonly IAppBLL _bll;
 
-        public AddressesController(IAppUnitOfWork unitOfWork)
+        public AddressesController(IAppBLL bll)
         {
-            _unitOfWork = unitOfWork;
+            _bll = bll;
         }
 
         // GET: Addresses
         public async Task<IActionResult> Index()
         {
-            return View(await _unitOfWork.Addresses.AllAsync(User.UserGuidId()));
-        }
+            return View(await _bll.Addresses.AllAsync(User.UserGuidId()));
+        } 
 
         // GET: Addresses/Details/5
         public async Task<IActionResult> Details(Guid? id)
@@ -37,7 +38,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var address = await _unitOfWork.Addresses.FindAsync(User.UserGuidId(), id);
+            var address = await _bll.Addresses.FindAsync(User.UserGuidId(), id);
             if (address == null)
             {
                 return NotFound();
@@ -57,14 +58,14 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("County,City,Street,BuildingNumber,Comment,CustomerId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Address address)
+        public async Task<IActionResult> Create(Address address)
         {
             address.AppUserId = User.UserGuidId();
             if (ModelState.IsValid)
             {
                 address.Id = Guid.NewGuid();
-                _unitOfWork.Addresses.Add(address);
-                await _unitOfWork.SaveChangesAsync();
+                _bll.Addresses.Add(address);
+                await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(address);
@@ -78,7 +79,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var address = await _unitOfWork.Addresses.FindAsync(id);
+            var address = await _bll.Addresses.FindAsync(id);
             if (address == null)
             {
                 return NotFound();
@@ -91,7 +92,7 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("County,City,Street,BuildingNumber,Comment,CustomerId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Address address)
+        public async Task<IActionResult> Edit(Guid id, Address address)
         {
             if (id != address.Id)
             {
@@ -102,8 +103,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _unitOfWork.Addresses.Update(address);
-                    await _unitOfWork.SaveChangesAsync();
+                    _bll.Addresses.Update(address);
+                    await _bll.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -129,7 +130,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var address = await _unitOfWork.Addresses.FindAsync(User.UserGuidId(), id);
+            var address = await _bll.Addresses.FindAsync(User.UserGuidId(), id);
             if (address == null)
             {
                 return NotFound();
@@ -143,15 +144,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var address = await _unitOfWork.Addresses.FindAsync(User.UserGuidId(), id);
-            _unitOfWork.Addresses.Remove(address);
-            await _unitOfWork.SaveChangesAsync();
+            var address = await _bll.Addresses.FindAsync(User.UserGuidId(), id);
+            _bll.Addresses.Remove(address);
+            await _bll.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool AddressExists(Guid id)
         {
-            return _unitOfWork.Addresses.Any(e => e.Id == id);
+            return _bll.Addresses.Any(e => e.Id == id);
         }
     }
 }

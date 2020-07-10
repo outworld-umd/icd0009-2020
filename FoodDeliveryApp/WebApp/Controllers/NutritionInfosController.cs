@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.BLL.App;
 using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,17 +15,17 @@ namespace WebApp.Controllers
 {
     public class NutritionInfosController : Controller
     {
-        private readonly IAppUnitOfWork _unitOfWork;
+        private readonly IAppBLL _bll;
 
-        public NutritionInfosController(IAppUnitOfWork unitOfWork)
+        public NutritionInfosController(IAppBLL bll)
         {
-            _unitOfWork = unitOfWork;
+            _bll = bll;
         }
 
         // GET: NutritionInfos
         public async Task<IActionResult> Index()
         {
-            return View(await _unitOfWork.NutritionInfos.AllAsync());
+            return View(await _bll.NutritionInfos.AllAsync());
         }
 
         // GET: NutritionInfos/Details/5
@@ -35,7 +36,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var nutritionInfo = await _unitOfWork.NutritionInfos.FindAsync(id);
+            var nutritionInfo = await _bll.NutritionInfos.FindAsync(id);
             if (nutritionInfo == null)
             {
                 return NotFound();
@@ -47,7 +48,7 @@ namespace WebApp.Controllers
         // GET: NutritionInfos/Create
         public IActionResult Create() {
             var vm = new NutritionInfoCreateEditViewModel {
-                Items = new SelectList(_unitOfWork.Items.All(), nameof(Item.Id), nameof(Item.Name))
+                Items = new SelectList(_bll.Items.All(), nameof(Item.Id), nameof(Item.Name))
             };
             return View(vm);
         }
@@ -62,11 +63,11 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 vm.NutritionInfo.Id = Guid.NewGuid();
-                _unitOfWork.NutritionInfos.Add(vm.NutritionInfo);
-                await _unitOfWork.SaveChangesAsync();
+                _bll.NutritionInfos.Add(vm.NutritionInfo);
+                await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            vm.Items = new SelectList(await _unitOfWork.Items.AllAsync(), nameof(Item.Id), nameof(Item.Name), vm.NutritionInfo.ItemId);
+            vm.Items = new SelectList(await _bll.Items.AllAsync(), nameof(Item.Id), nameof(Item.Name), vm.NutritionInfo.ItemId);
             return View(vm);
         }
 
@@ -78,13 +79,13 @@ namespace WebApp.Controllers
                 return NotFound();
             }
             var vm = new NutritionInfoCreateEditViewModel {
-                NutritionInfo = await _unitOfWork.NutritionInfos.FindAsync(id)
+                NutritionInfo = await _bll.NutritionInfos.FindAsync(id)
             };
             if (vm.NutritionInfo == null)
             {
                 return NotFound();
             }
-            vm.Items = new SelectList(await _unitOfWork.Items.AllAsync(), nameof(Item.Id), nameof(Item.Name), vm.NutritionInfo.ItemId);
+            vm.Items = new SelectList(await _bll.Items.AllAsync(), nameof(Item.Id), nameof(Item.Name), vm.NutritionInfo.ItemId);
             return View(vm);
         }
 
@@ -104,8 +105,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _unitOfWork.NutritionInfos.Update(vm.NutritionInfo);
-                    await _unitOfWork.SaveChangesAsync();
+                    _bll.NutritionInfos.Update(vm.NutritionInfo);
+                    await _bll.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -120,7 +121,7 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            vm.Items = new SelectList(await _unitOfWork.Items.AllAsync(), nameof(Item.Id), nameof(Item.Name), vm.NutritionInfo.ItemId);
+            vm.Items = new SelectList(await _bll.Items.AllAsync(), nameof(Item.Id), nameof(Item.Name), vm.NutritionInfo.ItemId);
             return View(vm);
         }
 
@@ -132,7 +133,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var nutritionInfo = await _unitOfWork.NutritionInfos.FindAsync(id);
+            var nutritionInfo = await _bll.NutritionInfos.FindAsync(id);
             if (nutritionInfo == null)
             {
                 return NotFound();
@@ -146,15 +147,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var nutritionInfo = await _unitOfWork.NutritionInfos.FindAsync(id);
-            _unitOfWork.NutritionInfos.Remove(nutritionInfo);
-            await _unitOfWork.SaveChangesAsync();
+            var nutritionInfo = await _bll.NutritionInfos.FindAsync(id);
+            _bll.NutritionInfos.Remove(nutritionInfo);
+            await _bll.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool NutritionInfoExists(Guid id)
         {
-            return _unitOfWork.NutritionInfos.Any(e => e.Id == id);
+            return _bll.NutritionInfos.Any(e => e.Id == id);
         }
     }
 }

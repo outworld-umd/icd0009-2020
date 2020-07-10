@@ -1,4 +1,4 @@
-using Domain;
+using BLL.App.DTO;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace WebApp.ViewModels {

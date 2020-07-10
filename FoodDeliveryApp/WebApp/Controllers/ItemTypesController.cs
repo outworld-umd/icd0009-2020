@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.BLL.App;
 using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,17 +15,17 @@ namespace WebApp.Controllers
 {
     public class ItemTypesController : Controller
     {
-        private readonly IAppUnitOfWork _unitOfWork;
+        private readonly IAppBLL _bll;
 
-        public ItemTypesController(IAppUnitOfWork unitOfWork)
+        public ItemTypesController(IAppBLL bll)
         {
-            _unitOfWork = unitOfWork;
+            _bll = bll;
         }
 
         // GET: ItemTypes
         public async Task<IActionResult> Index()
         {
-            return View(await _unitOfWork.ItemTypes.AllAsync());
+            return View(await _bll.ItemTypes.AllAsync());
         }
 
         // GET: ItemTypes/Details/5
@@ -35,7 +36,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var itemType = await _unitOfWork.ItemTypes.FindAsync(id);
+            var itemType = await _bll.ItemTypes.FindAsync(id);
             if (itemType == null)
             {
                 return NotFound();
@@ -48,7 +49,7 @@ namespace WebApp.Controllers
         public IActionResult Create()
         {
             var vm = new ItemTypeCreateEditViewModel {
-                Restaurants = new SelectList(_unitOfWork.Restaurants.All(), nameof(Restaurant.Id), nameof(Restaurant.Name))
+                Restaurants = new SelectList(_bll.Restaurants.All(), nameof(Restaurant.Id), nameof(Restaurant.Name))
             };
             return View(vm);
         }
@@ -63,11 +64,11 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 vm.ItemType.Id = Guid.NewGuid();
-                _unitOfWork.ItemTypes.Add(vm.ItemType);
-                await _unitOfWork.SaveChangesAsync();
+                _bll.ItemTypes.Add(vm.ItemType);
+                await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name));
+            vm.Restaurants = new SelectList(await _bll.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name));
             return View(vm);
         }
 
@@ -79,13 +80,13 @@ namespace WebApp.Controllers
                 return NotFound();
             }
             var vm = new ItemTypeCreateEditViewModel {
-                ItemType = await _unitOfWork.ItemTypes.FindAsync(id)
+                ItemType = await _bll.ItemTypes.FindAsync(id)
             };
             if (vm.ItemType == null)
             {
                 return NotFound();
             }
-            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name));
+            vm.Restaurants = new SelectList(await _bll.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name));
             return View(vm);
         }
 
@@ -105,8 +106,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _unitOfWork.ItemTypes.Update(vm.ItemType);
-                    await _unitOfWork.SaveChangesAsync();
+                    _bll.ItemTypes.Update(vm.ItemType);
+                    await _bll.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -121,7 +122,7 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name));
+            vm.Restaurants = new SelectList(await _bll.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name));
             return View(vm);
         }
 
@@ -133,7 +134,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var itemType = await _unitOfWork.ItemTypes.FindAsync(id);
+            var itemType = await _bll.ItemTypes.FindAsync(id);
             if (itemType == null)
             {
                 return NotFound();
@@ -147,15 +148,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var itemType = await _unitOfWork.ItemTypes.FindAsync(id);
-            _unitOfWork.ItemTypes.Remove(itemType);
-            await _unitOfWork.SaveChangesAsync();
+            var itemType = await _bll.ItemTypes.FindAsync(id);
+            _bll.ItemTypes.Remove(itemType);
+            await _bll.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ItemTypeExists(Guid id)
         {
-            return _unitOfWork.ItemTypes.Any(e => e.Id == id);
+            return _bll.ItemTypes.Any(e => e.Id == id);
         }
     }
 }

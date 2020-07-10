@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.BLL.App;
 using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,17 +14,17 @@ namespace WebApp.Controllers
 {
     public class CategoriesController : Controller
     {
-        private readonly IAppUnitOfWork _unitOfWork;
+        private readonly IAppBLL _bll;
 
-        public CategoriesController(IAppUnitOfWork unitOfWork)
+        public CategoriesController(IAppBLL bll)
         {
-            _unitOfWork = unitOfWork;
+            _bll = bll;
         }
 
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-            return View(await _unitOfWork.Categories.AllAsync());
+            return View(await _bll.Categories.AllAsync());
         }
 
         // GET: Categories/Details/5
@@ -34,7 +35,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var category = await _unitOfWork.Categories.FindAsync(id);
+            var category = await _bll.Categories.FindAsync(id);
             if (category == null)
             {
                 return NotFound();
@@ -59,8 +60,8 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 category.Id = Guid.NewGuid();
-                _unitOfWork.Categories.Add(category);
-                await _unitOfWork.SaveChangesAsync();
+                _bll.Categories.Add(category);
+                await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(category);
@@ -74,7 +75,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var category = await _unitOfWork.Categories.FindAsync(id);
+            var category = await _bll.Categories.FindAsync(id);
             if (category == null)
             {
                 return NotFound();
@@ -98,8 +99,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _unitOfWork.Categories.Update(category);
-                    await _unitOfWork.SaveChangesAsync();
+                    _bll.Categories.Update(category);
+                    await _bll.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -125,7 +126,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var category = await _unitOfWork.Categories.FindAsync(id);
+            var category = await _bll.Categories.FindAsync(id);
             if (category == null)
             {
                 return NotFound();
@@ -139,15 +140,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var category = await _unitOfWork.Categories.FindAsync(id);
-            _unitOfWork.Categories.Remove(category);
-            await _unitOfWork.SaveChangesAsync();
+            var category = await _bll.Categories.FindAsync(id);
+            _bll.Categories.Remove(category);
+            await _bll.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CategoryExists(Guid id)
         {
-            return _unitOfWork.Categories.Any(e => e.Id == id);
+            return _bll.Categories.Any(e => e.Id == id);
         }
     }
 }

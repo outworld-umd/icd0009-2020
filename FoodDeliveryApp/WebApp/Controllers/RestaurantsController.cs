@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.BLL.App;
 using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,17 +15,17 @@ namespace WebApp.Controllers
 {
     public class RestaurantsController : Controller
     {
-        private readonly IAppUnitOfWork _unitOfWork;
+        private readonly IAppBLL _bll;
 
-        public RestaurantsController(IAppUnitOfWork unitOfWork)
+        public RestaurantsController(IAppBLL bll)
         {
-            _unitOfWork = unitOfWork;
+            _bll = bll;
         }
 
         // GET: Restaurants
         public async Task<IActionResult> Index()
         {
-            return View(await _unitOfWork.Restaurants.AllAsync());
+            return View(await _bll.Restaurants.AllAsync());
         }
 
         // GET: Restaurants/Details/5
@@ -35,7 +36,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var restaurant = await _unitOfWork.Restaurants.FindAsync(id);
+            var restaurant = await _bll.Restaurants.FindAsync(id);
             if (restaurant == null)
             {
                 return NotFound();
@@ -60,8 +61,8 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 restaurant.Id = Guid.NewGuid();
-                _unitOfWork.Restaurants.Add(restaurant);
-                await _unitOfWork.SaveChangesAsync();
+                _bll.Restaurants.Add(restaurant);
+                await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(restaurant);
@@ -75,7 +76,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var restaurant = await _unitOfWork.Restaurants.FindAsync(id);
+            var restaurant = await _bll.Restaurants.FindAsync(id);
             if (restaurant == null)
             {
                 return NotFound();
@@ -99,8 +100,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _unitOfWork.Restaurants.Update(restaurant);
-                    await _unitOfWork.SaveChangesAsync();
+                    _bll.Restaurants.Update(restaurant);
+                    await _bll.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -126,7 +127,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var restaurant = await _unitOfWork.Restaurants.FindAsync(id);
+            var restaurant = await _bll.Restaurants.FindAsync(id);
             if (restaurant == null)
             {
                 return NotFound();
@@ -140,15 +141,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var restaurant = await _unitOfWork.Restaurants.FindAsync(id);
-            _unitOfWork.Restaurants.Remove(restaurant);
-            await _unitOfWork.SaveChangesAsync();
+            var restaurant = await _bll.Restaurants.FindAsync(id);
+            _bll.Restaurants.Remove(restaurant);
+            await _bll.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool RestaurantExists(Guid id)
         {
-            return _unitOfWork.Restaurants.Any(e => e.Id == id);
+            return _bll.Restaurants.Any(e => e.Id == id);
         }
     }
 }

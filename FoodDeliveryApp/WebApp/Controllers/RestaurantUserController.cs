@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.BLL.App;
 using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -15,17 +16,17 @@ namespace WebApp.Controllers
 {
     public class RestaurantUserController : Controller
     {
-        private readonly IAppUnitOfWork _unitOfWork;
+        private readonly IAppBLL _bll;
 
-        public RestaurantUserController(IAppUnitOfWork unitOfWork)
+        public RestaurantUserController(IAppBLL bll)
         {
-            _unitOfWork = unitOfWork;
+            _bll = bll;
         }
 
         // GET: RestaurantUser
         public async Task<IActionResult> Index()
         {
-            return View(await _unitOfWork.RestaurantUsers.AllAsync());
+            return View(await _bll.RestaurantUsers.AllAsync());
         }
 
         // GET: RestaurantUser/Details/5
@@ -36,7 +37,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var restaurantUser = await _unitOfWork.RestaurantUsers.FindAsync(id);
+            var restaurantUser = await _bll.RestaurantUsers.FindAsync(id);
             if (restaurantUser == null)
             {
                 return NotFound();
@@ -49,8 +50,8 @@ namespace WebApp.Controllers
         public IActionResult Create()
         {
             var vm = new RestaurantUserCreateEditViewModel {
-                Users = new SelectList(_unitOfWork.Users.All(), nameof(AppUser.Id), nameof(AppUser.FullName)),
-                Restaurants = new SelectList(_unitOfWork.Restaurants.All(), nameof(Restaurant.Id), nameof(Restaurant.Name))
+                Users = new SelectList(_bll.Users.All(), nameof(AppUser.Id), nameof(AppUser.FullName)),
+                Restaurants = new SelectList(_bll.Restaurants.All(), nameof(Restaurant.Id), nameof(Restaurant.Name))
             };
             return View(vm);
         }
@@ -65,12 +66,12 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 vm.RestaurantUser.Id = Guid.NewGuid();
-                _unitOfWork.RestaurantUsers.Add(vm.RestaurantUser);
-                await _unitOfWork.SaveChangesAsync();
+                _bll.RestaurantUsers.Add(vm.RestaurantUser);
+                await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            vm.Users = new SelectList(await _unitOfWork.Users.AllAsync(), nameof(AppUser.Id), nameof(AppUser.FullName), vm.RestaurantUser.AppUserId);
-            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.RestaurantUser.RestaurantId);
+            vm.Users = new SelectList(await _bll.Users.AllAsync(), nameof(AppUser.Id), nameof(AppUser.FullName), vm.RestaurantUser.AppUserId);
+            vm.Restaurants = new SelectList(await _bll.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.RestaurantUser.RestaurantId);
             return View(vm);
         }
 
@@ -82,14 +83,14 @@ namespace WebApp.Controllers
                 return NotFound();
             }
             var vm = new RestaurantUserCreateEditViewModel {
-                RestaurantUser = await _unitOfWork.RestaurantUsers.FindAsync(id)
+                RestaurantUser = await _bll.RestaurantUsers.FindAsync(id)
             };
             if (vm.RestaurantUser == null)
             {
                 return NotFound();
             }
-            vm.Users = new SelectList(await _unitOfWork.Users.AllAsync(), nameof(AppUser.Id), nameof(AppUser.FullName), vm.RestaurantUser.AppUserId);
-            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.RestaurantUser.RestaurantId);
+            vm.Users = new SelectList(await _bll.Users.AllAsync(), nameof(AppUser.Id), nameof(AppUser.FullName), vm.RestaurantUser.AppUserId);
+            vm.Restaurants = new SelectList(await _bll.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.RestaurantUser.RestaurantId);
             return View(vm);
         }
 
@@ -109,8 +110,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _unitOfWork.RestaurantUsers.Update(vm.RestaurantUser);
-                    await _unitOfWork.SaveChangesAsync();
+                    _bll.RestaurantUsers.Update(vm.RestaurantUser);
+                    await _bll.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -125,8 +126,8 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            vm.Users = new SelectList(await _unitOfWork.Users.AllAsync(), nameof(AppUser.Id), nameof(AppUser.FullName), vm.RestaurantUser.AppUserId);
-            vm.Restaurants = new SelectList(await _unitOfWork.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.RestaurantUser.RestaurantId);
+            vm.Users = new SelectList(await _bll.Users.AllAsync(), nameof(AppUser.Id), nameof(AppUser.FullName), vm.RestaurantUser.AppUserId);
+            vm.Restaurants = new SelectList(await _bll.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.RestaurantUser.RestaurantId);
             return View(vm);
         }
 
@@ -138,7 +139,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var restaurantUser = await _unitOfWork.RestaurantUsers.FindAsync(id);
+            var restaurantUser = await _bll.RestaurantUsers.FindAsync(id);
             if (restaurantUser == null)
             {
                 return NotFound();
@@ -152,15 +153,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var restaurantUser = await _unitOfWork.RestaurantUsers.FindAsync(id);
-            _unitOfWork.RestaurantUsers.Remove(restaurantUser);
-            await _unitOfWork.SaveChangesAsync();
+            var restaurantUser = await _bll.RestaurantUsers.FindAsync(id);
+            _bll.RestaurantUsers.Remove(restaurantUser);
+            await _bll.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool RestaurantUserExists(Guid id)
         {
-            return _unitOfWork.RestaurantUsers.Any(e => e.Id == id);
+            return _bll.RestaurantUsers.Any(e => e.Id == id);
         }
     }
 }
