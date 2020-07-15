@@ -3,6 +3,6 @@ Made using Vue.js
 
 ## TODOs
 - [X] Domain interfaces
-- [ ] Services (API Consumers)
+- [X] Services (API Consumers)
 - [ ] Store state, mutations, actions
 - [ ] JWT, login, register

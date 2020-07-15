@@ -9,11 +9,23 @@ Vue.use(Vuex)
 
 @Module({ name: 'user' })
 export class UserModule extends VuexModule {
+    jwt: string | null = null;
+    role: string | null = null;
     lang: Locales = defaultLocale
 
     @Mutation
     setLanguage(lang: Locales) {
         this.lang = lang
+    }
+
+    @Mutation
+    setJwt(jwt: string) {
+        this.jwt = jwt;
+    }
+
+    @Mutation
+    setRole(role: string) {
+        this.role = role;
     }
 }
 

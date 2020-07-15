@@ -1,6 +1,6 @@
 import { IOrderRow } from "@/domain/IOrderRow";
 
-export interface IOrder {
+export interface IOrderView {
     id: string;
     orderStatus: OrderStatus;
     foodCost: number;
@@ -8,7 +8,7 @@ export interface IOrder {
     restaurantName?: string;
 }
 
-export interface IOrderSingle {
+export interface IOrder {
     id: string;
     comment?: string;
     address: string;
@@ -22,7 +22,7 @@ export interface IOrderSingle {
     restaurantName?: string;
 }
 
-export interface IOrderSingleCreate {
+export interface IOrderCreate {
     comment?: string;
     address: string;
     apartment?: string;
@@ -33,7 +33,7 @@ export interface IOrderSingleCreate {
     restaurantId: string;
 }
 
-export interface IOrderSingleEdit {
+export interface IOrderEdit {
     id: string;
     comment?: string;
     address: string;

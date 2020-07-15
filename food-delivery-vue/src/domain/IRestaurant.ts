@@ -1,7 +1,7 @@
 import { IItemType } from "@/domain/IItemType";
 import { IWorkingHours } from "@/domain/IWorkingHours";
 
-export interface IRestaurant {
+export interface IRestaurantView {
     id: string;
     name: string;
     deliveryCost: number;
@@ -9,7 +9,7 @@ export interface IRestaurant {
     isOpen: boolean;
 }
 
-export interface IRestaurantSingle {
+export interface IRestaurant {
     id: string;
     name: string;
     deliveryCost: string;
