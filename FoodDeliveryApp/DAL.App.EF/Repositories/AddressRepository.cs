@@ -10,7 +10,10 @@ using Microsoft.EntityFrameworkCore;
 namespace DAL.App.EF.Repositories {
 
     public class AddressRepository : EFBaseRepository<AppDbContext, Domain.Address, DTO.Address>, IAddressRepository {
-        public AddressRepository(AppDbContext dbContext) : base(dbContext, new BaseDALMapper<Domain.Address, DTO.Address>()) { }
+        public AddressRepository(AppDbContext dbContext) : base(dbContext,
+            new BaseDALMapper<Domain.Address, DTO.Address>())
+        {
+        }
 
         public async Task<IEnumerable<DTO.Address>> AllAsync(Guid? userId = null)
         {
@@ -47,8 +50,8 @@ namespace DAL.App.EF.Repositories {
 
         public async Task DeleteAsync(Guid id, Guid? userId = null)
         {
-            var owner = await FirstOrDefaultAsync(id, userId);
-            base.Remove(owner);
+            var address = await FirstOrDefaultAsync(id, userId);
+            base.Remove(address);
         }
 
 
