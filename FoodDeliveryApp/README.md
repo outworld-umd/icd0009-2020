@@ -16,11 +16,42 @@ dotnet ef database update --project DAL.App.EF --startup-project WebApp
 ##### To create ASP.NET controller and view:
 ```
 dotnet aspnet-codegenerator controller -name {entity}Controller -actions -m {entity} -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
+
+dotnet aspnet-codegenerator controller -name AddressController -actions -m Address -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
+dotnet aspnet-codegenerator controller -name CategoryController -actions -m Category -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
+dotnet aspnet-codegenerator controller -name ItemController -actions -m Item -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
+dotnet aspnet-codegenerator controller -name ItemChoiceController -actions -m ItemChoice -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
+dotnet aspnet-codegenerator controller -name ItemInTypeController -actions -m ItemInType -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
+dotnet aspnet-codegenerator controller -name ItemOptionController -actions -m ItemOption -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
+dotnet aspnet-codegenerator controller -name ItemTypeController -actions -m ItemType -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
+dotnet aspnet-codegenerator controller -name NutritionInfoController -actions -m NutritionInfo -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
+dotnet aspnet-codegenerator controller -name OrderController -actions -m Order -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
+dotnet aspnet-codegenerator controller -name OrderItemChoiceController -actions -m OrderItemChoice -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
+dotnet aspnet-codegenerator controller -name OrderRowController -actions -m OrderRow -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
+dotnet aspnet-codegenerator controller -name RestaurantController -actions -m Restaurant -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
+dotnet aspnet-codegenerator controller -name RestaurantCategoryController -actions -m RestaurantCategory -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
+dotnet aspnet-codegenerator controller -name RestaurantUserController -actions -m RestaurantUser -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
+dotnet aspnet-codegenerator controller -name WorkingHoursController -actions -m WorkingHours -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
 ```
 ##### To create API controller:
 ```
 dotnet aspnet-codegenerator controller -name {entity}Controller -actions -m {entity} -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
 
+dotnet aspnet-codegenerator controller -name AddressController -actions -m Address -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
+dotnet aspnet-codegenerator controller -name CategoryController -actions -m Category -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
+dotnet aspnet-codegenerator controller -name ItemController -actions -m Item -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
+dotnet aspnet-codegenerator controller -name ItemChoiceController -actions -m ItemChoice -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
+dotnet aspnet-codegenerator controller -name ItemInTypeController -actions -m ItemInType -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
+dotnet aspnet-codegenerator controller -name ItemOptionController -actions -m ItemOption -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
+dotnet aspnet-codegenerator controller -name ItemTypeController -actions -m ItemType -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
+dotnet aspnet-codegenerator controller -name NutritionInfoController -actions -m NutritionInfo -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
+dotnet aspnet-codegenerator controller -name OrderController -actions -m Order -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
+dotnet aspnet-codegenerator controller -name OrderItemChoiceController -actions -m OrderItemChoice -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
+dotnet aspnet-codegenerator controller -name OrderRowController -actions -m OrderRow -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
+dotnet aspnet-codegenerator controller -name RestaurantController -actions -m Restaurant -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
+dotnet aspnet-codegenerator controller -name RestaurantCategoryController -actions -m RestaurantCategory -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
+dotnet aspnet-codegenerator controller -name RestaurantUserController -actions -m RestaurantUser -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
+dotnet aspnet-codegenerator controller -name WorkingHoursController -actions -m WorkingHours -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
 ```
 ##### To generate Identity UI:
 ```

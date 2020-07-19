@@ -13,11 +13,11 @@ namespace DAL.Base.EF {
             UOWDbContext = uowDbContext;
         }
 
-        public int SaveChanges() {
+        public override int SaveChanges() {
             return UOWDbContext.SaveChanges();
         }
 
-        public Task<int> SaveChangesAsync() {
+        public override Task<int> SaveChangesAsync() {
             return UOWDbContext.SaveChangesAsync();
         }
     }

@@ -50,7 +50,7 @@ namespace WebApp.Controllers
         public IActionResult Create()
         {
             var vm = new RestaurantUserCreateEditViewModel {
-                Users = new SelectList(_bll.Users.All(), nameof(AppUser.Id), nameof(AppUser.FullName)),
+                RestaurantUsers = new SelectList(_bll.RestaurantUsers.All(), nameof(AppUser.Id), nameof(AppUser.FullName)),
                 Restaurants = new SelectList(_bll.Restaurants.All(), nameof(Restaurant.Id), nameof(Restaurant.Name))
             };
             return View(vm);
@@ -70,7 +70,7 @@ namespace WebApp.Controllers
                 await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            vm.Users = new SelectList(await _bll.Users.AllAsync(), nameof(AppUser.Id), nameof(AppUser.FullName), vm.RestaurantUser.AppUserId);
+            vm.RestaurantUsers = new SelectList(await _bll.RestaurantUsers.AllAsync(), nameof(AppUser.Id), nameof(AppUser.FullName), vm.RestaurantUser.AppUserId);
             vm.Restaurants = new SelectList(await _bll.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.RestaurantUser.RestaurantId);
             return View(vm);
         }
@@ -89,7 +89,7 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            vm.Users = new SelectList(await _bll.Users.AllAsync(), nameof(AppUser.Id), nameof(AppUser.FullName), vm.RestaurantUser.AppUserId);
+            vm.RestaurantUsers = new SelectList(await _bll.RestaurantUsers.AllAsync(), nameof(AppUser.Id), nameof(AppUser.FullName), vm.RestaurantUser.AppUserId);
             vm.Restaurants = new SelectList(await _bll.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.RestaurantUser.RestaurantId);
             return View(vm);
         }
@@ -126,7 +126,7 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            vm.Users = new SelectList(await _bll.Users.AllAsync(), nameof(AppUser.Id), nameof(AppUser.FullName), vm.RestaurantUser.AppUserId);
+            vm.RestaurantUsers = new SelectList(await _bll.RestaurantUsers.AllAsync(), nameof(AppUser.Id), nameof(AppUser.FullName), vm.RestaurantUser.AppUserId);
             vm.Restaurants = new SelectList(await _bll.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.RestaurantUser.RestaurantId);
             return View(vm);
         }

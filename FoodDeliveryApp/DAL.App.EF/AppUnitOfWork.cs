@@ -7,7 +7,7 @@ namespace DAL.App.EF {
 
     public class AppUnitOfWork : EFBaseUnitOfWork<AppDbContext>, IAppUnitOfWork {
         
-        public IAddressRepository Addresses => GetRepository(() => new AddressRepository(UOWDbContext));
+        public IAddressRepository Addresses => GetRepository<IAddressRepository>(() => new AddressRepository(UOWDbContext));
         public ICategoryRepository Categories => GetRepository(() => new CategoryRepository(UOWDbContext));
         public IItemRepository Items => GetRepository(() => new ItemRepository(UOWDbContext));
         public IItemChoiceRepository ItemChoices => GetRepository(() => new ItemChoiceRepository(UOWDbContext));

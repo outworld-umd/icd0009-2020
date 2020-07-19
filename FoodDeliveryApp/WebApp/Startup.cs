@@ -4,7 +4,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BLL.App;
+using Contracts.BLL.App;
 using Contracts.DAL.App;
+using Contracts.DAL.Base;
 using DAL.App.EF;
 using Domain.Identity;
 using Microsoft.AspNetCore.Builder;
@@ -17,6 +20,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using WebApp.Helpers;
 
 namespace WebApp {
 
@@ -32,15 +36,24 @@ namespace WebApp {
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("MsSqlConnection")));
+            
+
+            
+            // add as a scoped dependency
+            services.AddScoped<IUserNameProvider, UserNameProvider>();
+            services.AddScoped<IAppUnitOfWork, AppUnitOfWork>();
+            services.AddScoped<IAppBLL, AppBLL>();
+
             services.AddIdentity<AppUser, AppRole>()
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
-            // services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            //     .AddEntityFrameworkStores<AppDbContext>(); 
-            services.AddScoped<IAppUnitOfWork, AppUnitOfWork>();
+            
             services.AddControllersWithViews();
             services.AddRazorPages();
+            
+            // makes httpcontext injectable - needed to resolve username in dal layer
+            services.AddHttpContextAccessor();
             
             services.AddCors(options =>
             {
@@ -53,24 +66,24 @@ namespace WebApp {
                     });
             });
             
-            // =============== JWT support ===============
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
-            services
-                .AddAuthentication()
-                .AddCookie(options => { options.SlidingExpiration = true; })
-                .AddJwtBearer(cfg =>
-                {
-                    cfg.RequireHttpsMetadata = false;
-                    cfg.SaveToken = true;
-                    cfg.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidIssuer = Configuration["JWT:Issuer"],
-                        ValidAudience = Configuration["JWT:Issuer"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:SigningKey"])),
-                        ClockSkew = TimeSpan.Zero // remove delay of token when expire
-                    };
-                });
-
+        //     // =============== JWT support ===============
+            // JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
+            // services
+            //     .AddAuthentication()
+            //     .AddCookie(options => { options.SlidingExpiration = true; })
+            //     .AddJwtBearer(cfg =>
+            //     {
+            //         cfg.RequireHttpsMetadata = false;
+            //         cfg.SaveToken = true;
+            //         cfg.TokenValidationParameters = new TokenValidationParameters
+            //         {
+            //             ValidIssuer = Configuration["JWT:Issuer"],
+            //             ValidAudience = Configuration["JWT:Issuer"],
+            //             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:SigningKey"])),
+            //             ClockSkew = TimeSpan.Zero // remove delay of token when expire
+            //         };
+            //     });
+        
         }
         
 
@@ -89,6 +102,8 @@ namespace WebApp {
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            
+            app.UseCors("CorsAllowAll");
 
             app.UseRouting();
 

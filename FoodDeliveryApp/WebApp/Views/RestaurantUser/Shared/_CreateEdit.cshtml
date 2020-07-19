@@ -7,25 +7,5 @@
 </div>
 <div class="form-group">
     <label asp-for="RestaurantUser.AppUserId" class="control-label"></label>
-    <select asp-for="RestaurantUser.AppUserId" class="form-control" asp-items="Model.Users"></select>
-</div>
-<div class="form-group">
-    <label asp-for="RestaurantUser.CreatedBy" class="control-label"></label>
-    <input asp-for="RestaurantUser.CreatedBy" class="form-control"/>
-    <span asp-validation-for="RestaurantUser.CreatedBy" class="text-danger"></span>
-</div>
-<div class="form-group">
-    <label asp-for="RestaurantUser.CreatedAt" class="control-label"></label>
-    <input asp-for="RestaurantUser.CreatedAt" class="form-control"/>
-    <span asp-validation-for="RestaurantUser.CreatedAt" class="text-danger"></span>
-</div>
-<div class="form-group">
-    <label asp-for="RestaurantUser.ChangedBy" class="control-label"></label>
-    <input asp-for="RestaurantUser.ChangedBy" class="form-control"/>
-    <span asp-validation-for="RestaurantUser.ChangedBy" class="text-danger"></span>
-</div>
-<div class="form-group">
-    <label asp-for="RestaurantUser.ChangedAt" class="control-label"></label>
-    <input asp-for="RestaurantUser.ChangedAt" class="form-control"/>
-    <span asp-validation-for="RestaurantUser.ChangedAt" class="text-danger"></span>
+    <select asp-for="RestaurantUser.AppUserId" class="form-control" asp-items="Model.RestaurantUsers"></select>
 </div>

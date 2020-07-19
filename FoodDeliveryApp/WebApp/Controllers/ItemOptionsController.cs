@@ -78,7 +78,7 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            var vm = new ItemOption2CreateEditViewModel {
+            var vm = new ItemOptionCreateEditViewModel {
                 ItemOption = await _bll.ItemOptions.FindAsync(id)
             };
             if (vm.ItemOption == null)

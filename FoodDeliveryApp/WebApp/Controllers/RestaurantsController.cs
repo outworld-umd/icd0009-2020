@@ -56,7 +56,7 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Phone,Address,Description,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Restaurant restaurant)
+        public async Task<IActionResult> Create([Bind("Name,Phone,Address,Description,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] BLL.App.DTO.Restaurant restaurant)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +89,7 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Phone,Address,Description,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Restaurant restaurant)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Phone,Address,Description,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] BLL.App.DTO.Restaurant restaurant)
         {
             if (id != restaurant.Id)
             {
