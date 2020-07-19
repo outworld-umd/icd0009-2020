@@ -1,5 +1,9 @@
 {
   "titles": {
     "main": "Привет мир!"
+  },
+  "restaurant": {
+    "closed": "Ресторан закрыт",
+    "showMenu": "Меню"
   }
 }

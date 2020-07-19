@@ -1,8 +1,8 @@
 export interface IWorkingHours {
     id: string;
     weekday: DayOfWeek;
-    openingTime: Date;
-    closingTime: Date;
+    openingTime: string;
+    closingTime: string;
 }
 
 export enum DayOfWeek {

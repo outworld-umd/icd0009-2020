@@ -1,5 +1,9 @@
 {
   "titles": {
     "main": "Hello world!"
+  },
+  "restaurant": {
+    "closed": "Restaurant is closed",
+    "showMenu": "Menu"
   }
 }

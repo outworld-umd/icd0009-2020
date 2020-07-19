@@ -1,5 +1,9 @@
 {
   "titles": {
     "main": "Tere maailm!"
+  },
+  "restaurant": {
+    "closed": "Restoran on suletud",
+    "showMenu": "Menüü"
   }
 }

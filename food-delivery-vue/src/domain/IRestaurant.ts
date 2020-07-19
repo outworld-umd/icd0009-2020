@@ -12,7 +12,7 @@ export interface IRestaurantView {
 export interface IRestaurant {
     id: string;
     name: string;
-    deliveryCost: string;
+    deliveryCost: number;
     workingHours: IWorkingHours[];
     phone: string;
     address: string;

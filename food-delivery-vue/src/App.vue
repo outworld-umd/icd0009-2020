@@ -4,7 +4,7 @@
             <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <router-link to="/">Home</router-link>
+                        <router-link to="/">Restaurants</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link to="/about">About</router-link>
@@ -17,7 +17,7 @@
                 </ul>
             </div>
         </nav>
-        <router-view/>
+        <router-view class="container my-4"/>
     </div>
 </template>
 

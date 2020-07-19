@@ -1,14 +1,21 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
-import Home from '../views/Home.vue'
+import RestaurantIndex from '@/views/restaurants/Index.vue'
+import RestaurantMenu from '@/views/restaurants/Menu.vue'
 
 Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
     {
         path: '/',
-        name: 'Home',
-        component: Home
+        name: 'Restaurants',
+        component: RestaurantIndex
+    },
+    {
+        path: '/restaurants/:id',
+        name: 'Restaurant',
+        component: RestaurantMenu,
+        props: true
     },
     {
         path: '/about',
