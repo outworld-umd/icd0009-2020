@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories {
 
-    public class ItemOptionRepository : EFBaseRepository<AppDbContext, Domain.ItemOption, DTO.ItemOption>, IItemOptionRepository {
-        public ItemOptionRepository(AppDbContext dbContext) : base(dbContext, new BaseDALMapper<Domain.ItemOption, DTO.ItemOption>()) { }
+    public class ItemOptionRepository : EFBaseRepository<AppDbContext, Domain.App.ItemOption, DTO.ItemOption>, IItemOptionRepository {
+        public ItemOptionRepository(AppDbContext dbContext) : base(dbContext, new BaseDALMapper<Domain.App.ItemOption, DTO.ItemOption>()) { }
         
         // public override async Task<IEnumerable<ItemOption>> AllAsync() {
         //     return await RepoDbSet.Include(i => i.Item).ToListAsync();

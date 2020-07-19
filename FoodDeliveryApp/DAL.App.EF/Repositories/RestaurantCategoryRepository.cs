@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories {
 
-    public class RestaurantCategoryRepository : EFBaseRepository<AppDbContext, Domain.RestaurantCategory, DTO.RestaurantCategory>, IRestaurantCategoryRepository {
-        public RestaurantCategoryRepository(AppDbContext dbContext) : base(dbContext, new BaseDALMapper<Domain.RestaurantCategory, DTO.RestaurantCategory>()) { }
+    public class RestaurantCategoryRepository : EFBaseRepository<AppDbContext, Domain.App.RestaurantCategory, DTO.RestaurantCategory>, IRestaurantCategoryRepository {
+        public RestaurantCategoryRepository(AppDbContext dbContext) : base(dbContext, new BaseDALMapper<Domain.App.RestaurantCategory, DTO.RestaurantCategory>()) { }
         
         // public override async Task<IEnumerable<RestaurantCategory>> AllAsync() {
         //     return await RepoDbSet

@@ -9,8 +9,8 @@ using Domain;
 
 namespace DAL.App.EF.Repositories {
 
-    public class CategoryRepository : EFBaseRepository<AppDbContext, Domain.Category, DAL.App.DTO.Category>, ICategoryRepository {
-        public CategoryRepository(AppDbContext dbContext) : base(dbContext, new BaseDALMapper<Domain.Category, DTO.Category>()) { }
+    public class CategoryRepository : EFBaseRepository<AppDbContext, Domain.App.Category, DAL.App.DTO.Category>, ICategoryRepository {
+        public CategoryRepository(AppDbContext dbContext) : base(dbContext, new BaseDALMapper<Domain.App.Category, DTO.Category>()) { }
 
     }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Contracts.BLL.Base;
 using Contracts.DAL.Base;
+using Contracts.Domain;
 
 namespace BLL.Base
 {

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Contracts.Domain;
 
-namespace Contracts.DAL.Base.Repositories
+namespace Contracts.Domain.Repositories
 {
     public interface IBaseRepository<TDALEntity> : IBaseRepository<Guid, TDALEntity>
         where TDALEntity : class, IDomainBaseEntity<Guid>, new() 

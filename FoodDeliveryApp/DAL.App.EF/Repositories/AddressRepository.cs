@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories {
 
-    public class AddressRepository : EFBaseRepository<AppDbContext, Domain.Address, DTO.Address>, IAddressRepository {
+    public class AddressRepository : EFBaseRepository<AppDbContext, Domain.App.Address, DTO.Address>, IAddressRepository {
         public AddressRepository(AppDbContext dbContext) : base(dbContext,
-            new BaseDALMapper<Domain.Address, DTO.Address>())
+            new BaseDALMapper<Domain.App.Address, DTO.Address>())
         {
         }
 

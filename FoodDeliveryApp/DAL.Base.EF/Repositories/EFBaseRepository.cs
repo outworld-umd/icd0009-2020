@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Contracts.DAL.Base;
-using Contracts.DAL.Base.Mappers;
-using Contracts.DAL.Base.Repositories;
+using Contracts.Domain;
+using Contracts.Domain.Mappers;
+using Contracts.Domain.Repositories;
+using Contracts.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Base.EF.Repositories

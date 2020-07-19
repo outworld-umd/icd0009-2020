@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using Contracts.BLL.Base.Mappers;
 using Contracts.BLL.Base.Services;
 using Contracts.DAL.Base;
-using Contracts.DAL.Base.Repositories;
+using Contracts.Domain;
+using Contracts.Domain.Repositories;
+using Contracts.Domain;
 
 namespace BLL.Base.Services
 {

@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories {
 
-    public class RestaurantUserRepository : EFBaseRepository<AppDbContext, Domain.RestaurantUser, DTO.RestaurantUser>, IRestaurantUserRepository {
+    public class RestaurantUserRepository : EFBaseRepository<AppDbContext, Domain.App.RestaurantUser, DTO.RestaurantUser>, IRestaurantUserRepository {
 
-        public RestaurantUserRepository(AppDbContext dbContext) : base(dbContext, new BaseDALMapper<Domain.RestaurantUser, DTO.RestaurantUser>()) { }
+        public RestaurantUserRepository(AppDbContext dbContext) : base(dbContext, new BaseDALMapper<Domain.App.RestaurantUser, DTO.RestaurantUser>()) { }
         // public override async Task<IEnumerable<RestaurantUser>> AllAsync() {
         //     return await RepoDbSet.Include(r => r.AppUser)
         //         .Include(r => r.Restaurant).ToListAsync();

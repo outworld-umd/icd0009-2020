@@ -7,7 +7,7 @@ namespace DAL.App.EF.Repositories
 {
 
 
-    public class ItemInTypeRepository : EFBaseRepository<AppDbContext, Domain.ItemInType, DTO.ItemInType>, IItemInTypeRepository {
-        public ItemInTypeRepository(AppDbContext dbContext) : base(dbContext, new BaseDALMapper<Domain.ItemInType, DTO.ItemInType>()) { }
+    public class ItemInTypeRepository : EFBaseRepository<AppDbContext, Domain.App.ItemInType, DTO.ItemInType>, IItemInTypeRepository {
+        public ItemInTypeRepository(AppDbContext dbContext) : base(dbContext, new BaseDALMapper<Domain.App.ItemInType, DTO.ItemInType>()) { }
     }
 }

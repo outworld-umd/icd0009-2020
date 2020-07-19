@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories {
 
-    public class NutritionInfoRepository : EFBaseRepository<AppDbContext, Domain.NutritionInfo, DTO.NutritionInfo>, INutritionInfoRepository {
-        public NutritionInfoRepository(AppDbContext dbContext) : base(dbContext, new BaseDALMapper<Domain.NutritionInfo, DTO.NutritionInfo>()) { }
+    public class NutritionInfoRepository : EFBaseRepository<AppDbContext, Domain.App.NutritionInfo, DTO.NutritionInfo>, INutritionInfoRepository {
+        public NutritionInfoRepository(AppDbContext dbContext) : base(dbContext, new BaseDALMapper<Domain.App.NutritionInfo, DTO.NutritionInfo>()) { }
         
         // public override async Task<IEnumerable<NutritionInfo>> AllAsync() {
         //     return await RepoDbSet.Include(n => n.Item).ToListAsync();

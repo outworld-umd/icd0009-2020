@@ -1,4 +1,5 @@
 using Contracts.DAL.Base;
+using Contracts.Domain;
 using Microsoft.AspNetCore.Http;
 
 namespace WebApp.Helpers

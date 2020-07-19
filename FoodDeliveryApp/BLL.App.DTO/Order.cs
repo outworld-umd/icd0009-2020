@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Contracts.DAL.Base;
-using Domain;
-using Domain.Identity;
+using BLL.App.DTO.Identity;
+using Contracts.Domain;
+using Domain.App.Enums;
 
 namespace BLL.App.DTO
 {

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Domain.Identity;
+using Domain.App.Identity;
 
 namespace WebApp.ViewModels
 {

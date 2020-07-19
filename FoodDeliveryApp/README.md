@@ -61,7 +61,7 @@ dotnet aspnet-codegenerator identity -dc DAL.App.EF.AppDbContext -f
 ## Project structure
 **Contracts.DAL.App** - specs for repositories
 
-**Contracts.DAL.Base** - specs for domain metadata and PK in entities. Specs for common base repository.
+**Contracts.Domain** - specs for domain metadata and PK in entities. Specs for common base repository.
 
 **DAL.App.EF** - implementation of repositories
 

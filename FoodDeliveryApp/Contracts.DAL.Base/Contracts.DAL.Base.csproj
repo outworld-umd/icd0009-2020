@@ -8,4 +8,8 @@
         <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="3.1.6" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Domain\Contracts.Domain\Contracts.Domain.csproj" />
+    </ItemGroup>
+
 </Project>

@@ -1,4 +1,4 @@
-namespace Contracts.DAL.Base.Mappers
+namespace Contracts.Domain.Mappers
 {
     public interface IBaseDALMapper<in TInObject, out TOutObject>
         where TOutObject : class, new()

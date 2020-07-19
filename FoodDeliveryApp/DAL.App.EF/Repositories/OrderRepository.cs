@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories {
 
-    public class OrderRepository : EFBaseRepository<AppDbContext, Domain.Order, DTO.Order>, IOrderRepository {
-        public OrderRepository(AppDbContext dbContext) : base(dbContext, new BaseDALMapper<Domain.Order, DTO.Order>()) { }
+    public class OrderRepository : EFBaseRepository<AppDbContext, Domain.App.Order, DTO.Order>, IOrderRepository {
+        public OrderRepository(AppDbContext dbContext) : base(dbContext, new BaseDALMapper<Domain.App.Order, DTO.Order>()) { }
         
         // public override async Task<IEnumerable<Order>> AllAsync() {
         //     return await RepoDbSet
