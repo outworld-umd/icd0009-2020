@@ -1,18 +1,18 @@
 using System;
 using BLL.App.DTO.Identity;
 using Contracts.Domain;
+using Domain.Base;
 
 namespace BLL.App.DTO
 {
-    public class ItemInType : ItemInType<Guid>, IDomainBaseEntity
+    public class ItemInType : ItemInType<Guid>, IDomainBaseEntityMetadata
     {
         
     }
     
-    public class ItemInType<TKey> : IDomainBaseEntity<TKey>
+    public class ItemInType<TKey> : DomainBaseEntityMetadata<TKey>
         where TKey: IEquatable<TKey>
     {
-        public TKey Id { get; set; } = default!;
         public TKey ItemTypeId { get; set; } = default!;
         public ItemType? ItemType { get; set; }
 

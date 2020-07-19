@@ -1,20 +1,20 @@
 using System;
 using Contracts.Domain;
 using DAL.App.DTO.Identity;
+using Domain.Base;
 
 namespace DAL.App.DTO
 {
-    public class OrderItemChoice : OrderItemChoice<Guid, AppUser>, IDomainBaseEntity
+    public class OrderItemChoice : OrderItemChoice<Guid, AppUser>, IDomainBaseEntityMetadata
     {
         
     }
     
     
-    public class OrderItemChoice<TKey, TUser> : IDomainBaseEntity<TKey>
+    public class OrderItemChoice<TKey, TUser> : DomainBaseEntityMetadata<TKey>
         where TKey : IEquatable<TKey>
         where TUser : AppUser<TKey>
     {
-        public TKey Id { get; set; } = default!;
         
         public int Amount { get; set; }
         public decimal Cost { get; set; }

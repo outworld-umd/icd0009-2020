@@ -11,11 +11,11 @@ using Domain.Base;
 namespace Domain.App
 {
 
-    public class Address : Address<Guid, AppUser>, IDomainEntityBaseMetadata, IDomainEntityUser<AppUser> {
+    public class Address : Address<Guid, AppUser>, IDomainBaseEntityMetadata, IDomainEntityUser<AppUser> {
         
     }
     
-    public class Address<TKey, TUser> : DomainEntityBaseMetadata<TKey>, IDomainEntityUser<TKey, TUser>
+    public class Address<TKey, TUser> : DomainBaseEntityMetadata<TKey>, IDomainEntityUser<TKey, TUser>
         where TKey : IEquatable<TKey> 
         where TUser : AppUser<TKey>
     {

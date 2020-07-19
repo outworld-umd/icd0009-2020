@@ -1,18 +1,18 @@
 using System;
 using Contracts.Domain;
+using Domain.Base;
 
 namespace BLL.App.DTO
 {
-    public class OrderItemChoice : OrderItemChoice<Guid>, IDomainBaseEntity
+    public class OrderItemChoice : OrderItemChoice<Guid>, IDomainBaseEntityMetadata
     {
         
     }
     
     
-    public class OrderItemChoice<TKey> : IDomainBaseEntity<TKey>
+    public class OrderItemChoice<TKey> : DomainBaseEntityMetadata<TKey>
         where TKey: IEquatable<TKey>
     {
-        public TKey Id { get; set; } = default!;
         
         public int Amount { get; set; }
         public decimal Cost { get; set; }

@@ -2,7 +2,7 @@
 
 namespace Contracts.Domain
 {
-    public interface IDomainEntityBaseMetadata : IDomainEntityBaseMetadata<Guid>
+    public interface IDomainBaseEntityMetadata : IDomainEntityBaseMetadata<Guid>
     {
     }
 

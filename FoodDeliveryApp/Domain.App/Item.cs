@@ -10,10 +10,10 @@ using Domain.Base;
 namespace Domain.App
 {
     
-    public class Item : Item<Guid, AppUser>, IDomainEntityBaseMetadata {
+    public class Item : Item<Guid, AppUser>, IDomainBaseEntityMetadata {
    
     }
-    public class Item<TKey, TUser> : DomainEntityBaseMetadata<TKey>
+    public class Item<TKey, TUser> : DomainBaseEntityMetadata<TKey>
         where TKey : IEquatable<TKey> 
         where TUser : AppUser<TKey>
     {

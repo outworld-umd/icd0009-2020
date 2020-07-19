@@ -8,11 +8,11 @@ using Domain.App.Identity;
 namespace Domain.App
 {
     
-    public class RestaurantCategory : RestaurantCategory<Guid, AppUser>, IDomainEntityBaseMetadata {
+    public class RestaurantCategory : RestaurantCategory<Guid, AppUser>, IDomainBaseEntityMetadata {
         
     }
     
-    public class RestaurantCategory<TKey, TUser> : DomainEntityBaseMetadata<TKey>
+    public class RestaurantCategory<TKey, TUser> : DomainBaseEntityMetadata<TKey>
         where TKey : IEquatable<TKey> 
         where TUser : AppUser<TKey> {
         public TKey CategoryId { get; set; } = default!;

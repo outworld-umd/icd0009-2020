@@ -1,19 +1,19 @@
 using System;
 using Contracts.Domain;
 using DAL.App.DTO.Identity;
+using Domain.Base;
 
 namespace DAL.App.DTO
 {
-    public class NutritionInfo : NutritionInfo<Guid, AppUser>, IDomainBaseEntity
+    public class NutritionInfo : NutritionInfo<Guid, AppUser>, IDomainBaseEntityMetadata
     {
         
     }
     
-    public class NutritionInfo<TKey, TUser> : IDomainBaseEntity<TKey>
+    public class NutritionInfo<TKey, TUser> : DomainBaseEntityMetadata<TKey>
         where TKey : IEquatable<TKey>
         where TUser : AppUser<TKey>
     {
-        public TKey Id { get; set; } = default!;
         
         public TKey ItemId { get; set; } = default!;
         public Item? Item { get; set; }

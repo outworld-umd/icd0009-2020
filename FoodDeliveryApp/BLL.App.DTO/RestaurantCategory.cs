@@ -1,17 +1,17 @@
 using System;
 using Contracts.Domain;
+using Domain.Base;
 
 namespace BLL.App.DTO
 {
-    public class RestaurantCategory : RestaurantCategory<Guid>, IDomainBaseEntity
+    public class RestaurantCategory : RestaurantCategory<Guid>, IDomainBaseEntityMetadata
     {
         
     }
     
-    public class RestaurantCategory<TKey> : IDomainBaseEntity<TKey>
+    public class RestaurantCategory<TKey> : DomainBaseEntityMetadata<TKey>
         where TKey: IEquatable<TKey>
     {
-        public TKey Id { get; set; } = default!;
         
         public TKey CategoryId { get; set; } = default!;
         public Category? Category { get; set; }

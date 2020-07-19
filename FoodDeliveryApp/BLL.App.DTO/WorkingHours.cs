@@ -1,18 +1,17 @@
 using System;
 using Contracts.Domain;
+using Domain.Base;
 
 namespace BLL.App.DTO
 {
-    public class WorkingHours : WorkingHours<Guid>, IDomainBaseEntity
+    public class WorkingHours : WorkingHours<Guid>, IDomainBaseEntityMetadata
     {
         
     }
     
-    public class WorkingHours<TKey> : IDomainBaseEntity<TKey>
+    public class WorkingHours<TKey> : DomainBaseEntityMetadata<TKey>
         where TKey: IEquatable<TKey>
     {
-        public TKey Id { get; set; }= default!;
-        
         public DayOfWeek WeekDay { get; set; }
         public DateTime OpeningTime { get; set; }
         public DateTime ClosingTime { get; set; }

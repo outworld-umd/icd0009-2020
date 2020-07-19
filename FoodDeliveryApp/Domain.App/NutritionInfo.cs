@@ -8,11 +8,11 @@ using Domain.App.Identity;
 
 namespace Domain.App
 {
-    public class NutritionInfo : NutritionInfo<Guid, AppUser>, IDomainEntityBaseMetadata {
+    public class NutritionInfo : NutritionInfo<Guid, AppUser>, IDomainBaseEntityMetadata {
         
     }
     
-    public class NutritionInfo<TKey, TUser> : DomainEntityBaseMetadata<TKey>
+    public class NutritionInfo<TKey, TUser> : DomainBaseEntityMetadata<TKey>
         where TKey : IEquatable<TKey> 
         where TUser : AppUser<TKey> {
         public TKey ItemId { get; set; } = default!;

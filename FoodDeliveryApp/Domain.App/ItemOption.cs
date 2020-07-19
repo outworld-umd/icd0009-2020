@@ -9,11 +9,11 @@ using Domain.App.Identity;
 
 namespace Domain.App
 {
-    public class ItemOption : ItemOption<Guid, AppUser>, IDomainEntityBaseMetadata {
+    public class ItemOption : ItemOption<Guid, AppUser>, IDomainBaseEntityMetadata {
         
     }
     
-    public class ItemOption<TKey, TUser> : DomainEntityBaseMetadata<TKey>
+    public class ItemOption<TKey, TUser> : DomainBaseEntityMetadata<TKey>
         where TKey : IEquatable<TKey> 
         where TUser : AppUser<TKey>
     {

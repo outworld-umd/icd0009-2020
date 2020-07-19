@@ -7,10 +7,10 @@ using Domain.App.Identity;
 
 namespace Domain.App
 {
-    public class ItemInType : ItemInType<Guid, AppUser>, IDomainEntityBaseMetadata {
+    public class ItemInType : ItemInType<Guid, AppUser>, IDomainBaseEntityMetadata {
         
     }
-    public class ItemInType<TKey, TUser> : DomainEntityBaseMetadata<TKey>
+    public class ItemInType<TKey, TUser> : DomainBaseEntityMetadata<TKey>
         where TKey : IEquatable<TKey> 
         where TUser : AppUser<TKey> {
         public TKey ItemTypeId { get; set; } = default!;

@@ -8,11 +8,11 @@ using Domain.App.Identity;
 
 namespace Domain.App
 {
-    public class OrderRow : OrderRow<Guid, AppUser>, IDomainEntityBaseMetadata {
+    public class OrderRow : OrderRow<Guid, AppUser>, IDomainBaseEntityMetadata {
         
     }
     
-    public class OrderRow<TKey, TUser> : DomainEntityBaseMetadata<TKey>
+    public class OrderRow<TKey, TUser> : DomainBaseEntityMetadata<TKey>
         where TKey : IEquatable<TKey> 
         where TUser : AppUser<TKey> {
         public Guid? ItemId { get; set; }

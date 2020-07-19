@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DAL.App.EF.Repositories {
 
     public class ItemTypeRepository : EFBaseRepository<AppDbContext, Domain.App.ItemType, DTO.ItemType>, IItemTypeRepository {
-        public ItemTypeRepository(AppDbContext dbContext) : base(dbContext, new BaseDALMapper<Domain.App.ItemType, DTO.ItemType>()) { }
+        public ItemTypeRepository(AppDbContext dbContext) : base(dbContext, new BaseMapper<Domain.App.ItemType, DTO.ItemType>()) { }
         
         // public override async Task<IEnumerable<ItemType>> AllAsync() {
         //     return await RepoDbSet.Include(i => i.Restaurant).ToListAsync();

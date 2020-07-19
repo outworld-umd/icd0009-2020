@@ -9,11 +9,11 @@ using Domain.Base;
 
 namespace Domain.App
 {
-    public class Category : Category<Guid, AppUser>, IDomainEntityBaseMetadata {
+    public class Category : Category<Guid, AppUser>, IDomainBaseEntityMetadata {
         
     }
     
-    public class Category<TKey, TUser> : DomainEntityBaseMetadata<TKey>
+    public class Category<TKey, TUser> : DomainBaseEntityMetadata<TKey>
         where TKey : IEquatable<TKey> 
         where TUser : AppUser<TKey>
 

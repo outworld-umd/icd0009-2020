@@ -9,11 +9,11 @@ using Domain.App.Identity;
 
 namespace Domain.App
 {
-    public class Order : Order<Guid, AppUser>, IDomainEntityBaseMetadata, IDomainEntityUser<AppUser> {
+    public class Order : Order<Guid, AppUser>, IDomainBaseEntityMetadata, IDomainEntityUser<AppUser> {
         
     }
     
-    public class Order<TKey, TUser> : DomainEntityBaseMetadata<TKey>, IDomainEntityUser<TKey, TUser>
+    public class Order<TKey, TUser> : DomainBaseEntityMetadata<TKey>, IDomainEntityUser<TKey, TUser>
         where TKey : IEquatable<TKey> 
         where TUser : AppUser<TKey>
     {

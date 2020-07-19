@@ -1,19 +1,19 @@
 using System;
 using Contracts.Domain;
 using DAL.App.DTO.Identity;
+using Domain.Base;
 
 namespace DAL.App.DTO
 {
-    public class WorkingHours : WorkingHours<Guid, AppUser>, IDomainBaseEntity
+    public class WorkingHours : WorkingHours<Guid, AppUser>, IDomainBaseEntityMetadata
     {
         
     }
     
-    public class WorkingHours<TKey, TUser> : IDomainBaseEntity<TKey>
+    public class WorkingHours<TKey, TUser> : DomainBaseEntityMetadata<TKey>
         where TKey : IEquatable<TKey>
         where TUser : AppUser<TKey>
     {
-        public TKey Id { get; set; }= default!;
         
         public DayOfWeek WeekDay { get; set; }
         public DateTime OpeningTime { get; set; }

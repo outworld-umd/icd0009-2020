@@ -4,18 +4,18 @@ using Contracts.Domain;
 using DAL.App.DTO.Identity;
 using Domain;
 using Domain.App.Enums;
+using Domain.Base;
 
 namespace DAL.App.DTO
 {
-    public class Order : Order<Guid, AppUser>, IDomainBaseEntity
+    public class Order : Order<Guid, AppUser>, IDomainBaseEntityMetadata
     {
     }
 
-    public class Order<TKey, TUser> : IDomainBaseEntity<TKey>
+    public class Order<TKey, TUser> : DomainBaseEntityMetadata<TKey>
         where TKey : IEquatable<TKey>
         where TUser : AppUser<TKey>
     {
-        public TKey Id { get; set; } = default!;
         public OrderStatus OrderStatus { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
 

@@ -1,18 +1,18 @@
 using System;
 using BLL.App.DTO.Identity;
 using Contracts.Domain;
+using Domain.Base;
 
 namespace BLL.App.DTO
 {
-    public class OrderRow : OrderRow<Guid>, IDomainBaseEntity
+    public class OrderRow : OrderRow<Guid>, IDomainBaseEntityMetadata
     {
         
     }
     
-    public class OrderRow<TKey> : IDomainBaseEntity<TKey>
+    public class OrderRow<TKey> : DomainBaseEntityMetadata<TKey>
         where TKey: IEquatable<TKey>
     {
-        public TKey Id { get; set; } = default!;
         
         public Guid? ItemId { get; set; }
         public Item? Item { get; set; }

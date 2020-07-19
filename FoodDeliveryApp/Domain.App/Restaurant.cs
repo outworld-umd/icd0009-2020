@@ -8,12 +8,12 @@ using Domain.App.Identity;
 
 namespace Domain.App
 {
-    public class Restaurant : Restaurant<Guid, AppUser>, IDomainEntityBaseMetadata
+    public class Restaurant : Restaurant<Guid, AppUser>, IDomainBaseEntityMetadata
     {
     
     }
 
-    public class Restaurant<TKey, TUser> : DomainEntityBaseMetadata<TKey>
+    public class Restaurant<TKey, TUser> : DomainBaseEntityMetadata<TKey>
         where TKey : IEquatable<TKey>
         where TUser : AppUser<TKey>
     {

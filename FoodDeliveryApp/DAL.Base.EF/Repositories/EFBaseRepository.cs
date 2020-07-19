@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Contracts.DAL.Base.Mappers;
 using Contracts.Domain;
-using Contracts.Domain.Mappers;
 using Contracts.Domain.Repositories;
 using Contracts.Domain;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +17,7 @@ namespace DAL.Base.EF.Repositories
         where TDomainEntity : class, IDomainEntityBaseMetadata<Guid>, new()
         where TDbContext : DbContext
     {
-        public EFBaseRepository(TDbContext dbContext,  IBaseDALMapper<TDomainEntity, TDALEntity> mapper) : base(dbContext, mapper)
+        public EFBaseRepository(TDbContext dbContext,  IBaseMapper<TDomainEntity, TDALEntity> mapper) : base(dbContext, mapper)
         {
         }
     }
@@ -30,9 +30,9 @@ namespace DAL.Base.EF.Repositories
     {
         protected TDbContext RepoDbContext;
         protected DbSet<TDomainEntity> RepoDbSet;
-        protected IBaseDALMapper<TDomainEntity, TDALEntity> Mapper;
+        protected IBaseMapper<TDomainEntity, TDALEntity> Mapper;
 
-        public EFBaseRepository(TDbContext dbContext, IBaseDALMapper<TDomainEntity, TDALEntity> mapper)
+        public EFBaseRepository(TDbContext dbContext, IBaseMapper<TDomainEntity, TDALEntity> mapper)
         {
             RepoDbContext = dbContext;
             RepoDbSet = RepoDbContext.Set<TDomainEntity>();
@@ -73,17 +73,17 @@ namespace DAL.Base.EF.Repositories
 
         public virtual TDALEntity Add(TDALEntity entity)
         {
-            return Mapper.Map(RepoDbSet.Add(Mapper.Map<TDALEntity, TDomainEntity>(entity)).Entity);
+            return Mapper.Map(RepoDbSet.Add(Mapper.Map(entity)).Entity);
         }
 
         public virtual TDALEntity Update(TDALEntity entity)
         {
-            return Mapper.Map(RepoDbSet.Update(Mapper.Map<TDALEntity, TDomainEntity>(entity)).Entity);
+            return Mapper.Map(RepoDbSet.Update(Mapper.Map(entity)).Entity);
         }
 
         public virtual TDALEntity Remove(TDALEntity entity)
         {
-            return Mapper.Map(RepoDbSet.Remove(Mapper.Map<TDALEntity, TDomainEntity>(entity)).Entity);
+            return Mapper.Map(RepoDbSet.Remove(Mapper.Map(entity)).Entity);
         }
 
         public virtual TDALEntity Remove(params object[] id)

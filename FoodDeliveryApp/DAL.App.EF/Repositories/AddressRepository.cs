@@ -11,7 +11,7 @@ namespace DAL.App.EF.Repositories {
 
     public class AddressRepository : EFBaseRepository<AppDbContext, Domain.App.Address, DTO.Address>, IAddressRepository {
         public AddressRepository(AppDbContext dbContext) : base(dbContext,
-            new BaseDALMapper<Domain.App.Address, DTO.Address>())
+            new BaseMapper<Domain.App.Address, DTO.Address>())
         {
         }
 

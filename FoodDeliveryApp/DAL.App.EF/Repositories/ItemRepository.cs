@@ -12,7 +12,7 @@ namespace DAL.App.EF.Repositories
 {
     public class ItemRepository : EFBaseRepository<AppDbContext, Item, DTO.Item>, IItemRepository
     {
-        public ItemRepository(AppDbContext dbContext) : base(dbContext, new BaseDALMapper<Item, DTO.Item>()) { }
+        public ItemRepository(AppDbContext dbContext) : base(dbContext, new BaseMapper<Item, DTO.Item>()) { }
 
 
         // public override async Task<IEnumerable<Item>> AllAsync() {

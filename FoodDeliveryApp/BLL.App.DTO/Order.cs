@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using BLL.App.DTO.Identity;
 using Contracts.Domain;
 using Domain.App.Enums;
+using Domain.Base;
 
 namespace BLL.App.DTO
 {
-    public class Order : Order<Guid, AppUser>, IDomainBaseEntity
+    public class Order : Order<Guid, AppUser>, IDomainBaseEntityMetadata
     {
     }
 
-    public class Order<TKey, TUser> : IDomainBaseEntity<TKey>
+    public class Order<TKey, TUser> : DomainBaseEntityMetadata<TKey>
         where TKey: IEquatable<TKey>
         where TUser : AppUser<TKey>
     {
-        public TKey Id { get; set; } = default!;
         public OrderStatus OrderStatus { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
 

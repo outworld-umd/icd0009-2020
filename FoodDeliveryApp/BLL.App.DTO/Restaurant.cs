@@ -1,19 +1,19 @@
 using System;
 using System.Collections.Generic;
 using Contracts.Domain;
+using Domain.Base;
 
 namespace BLL.App.DTO
 {
-    public class Restaurant : Restaurant<Guid>, IDomainBaseEntity
+    public class Restaurant : Restaurant<Guid>, IDomainBaseEntityMetadata
     {
         
     }
     
     
-    public class Restaurant<TKey> : IDomainBaseEntity<TKey>
+    public class Restaurant<TKey> : DomainBaseEntityMetadata<TKey>
         where TKey: IEquatable<TKey>
     {
-        public TKey Id { get; set; } = default!;
         
         public string Name { get; set; } = default!;
         public string Phone { get; set; } = default!;

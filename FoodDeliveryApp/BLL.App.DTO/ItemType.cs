@@ -1,18 +1,18 @@
 using System;
 using System.Collections.Generic;
 using Contracts.Domain;
+using Domain.Base;
 
 namespace BLL.App.DTO
 {
-    public class ItemType : ItemType<Guid>, IDomainBaseEntity
+    public class ItemType : ItemType<Guid>, IDomainBaseEntityMetadata
     {
         
     }
     
-    public class ItemType<TKey> : IDomainBaseEntity<TKey>
+    public class ItemType<TKey> : DomainBaseEntityMetadata<TKey>
         where TKey: IEquatable<TKey>
     {
-        public TKey Id { get; set; } = default!;
         
         public string Name { get; set; } = default!;
         public bool IsSpecial { get; set; }

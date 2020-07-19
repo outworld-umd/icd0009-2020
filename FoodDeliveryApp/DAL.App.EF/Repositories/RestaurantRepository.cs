@@ -6,7 +6,7 @@ using Domain;
 namespace DAL.App.EF.Repositories {
 
     public class RestaurantRepository : EFBaseRepository<AppDbContext, Domain.App.Restaurant, DTO.Restaurant>, IRestaurantRepository {
-        public RestaurantRepository(AppDbContext dbContext) : base(dbContext, new BaseDALMapper<Domain.App.Restaurant, DTO.Restaurant>()) { }
+        public RestaurantRepository(AppDbContext dbContext) : base(dbContext, new BaseMapper<Domain.App.Restaurant, DTO.Restaurant>()) { }
     }
 
 }

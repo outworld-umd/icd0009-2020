@@ -15,3 +15,23 @@
     <label asp-for="ItemChoice.ItemOptionId" class="control-label"></label>
     <select asp-for="ItemChoice.ItemOptionId" class="form-control" asp-items="Model.ItemOptions"></select>
 </div>
+<div class="form-group">
+    <label asp-for="ItemChoice.CreatedBy" class="control-label"></label>
+    <input asp-for="ItemChoice.CreatedBy" class="form-control"/>
+    <span asp-validation-for="ItemChoice.CreatedBy" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="ItemChoice.CreatedAt" class="control-label"></label>
+    <input asp-for="ItemChoice.CreatedAt" class="form-control"/>
+    <span asp-validation-for="ItemChoice.CreatedAt" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="ItemChoice.ChangedBy" class="control-label"></label>
+    <input asp-for="ItemChoice.ChangedBy" class="form-control"/>
+    <span asp-validation-for="ItemChoice.ChangedBy" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="ItemChoice.ChangedAt" class="control-label"></label>
+    <input asp-for="ItemChoice.ChangedAt" class="form-control"/>
+    <span asp-validation-for="ItemChoice.ChangedAt" class="text-danger"></span>
+</div>

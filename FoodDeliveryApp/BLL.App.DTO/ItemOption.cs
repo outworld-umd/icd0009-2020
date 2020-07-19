@@ -2,17 +2,17 @@ using System;
 using System.Collections.Generic;
 using BLL.App.DTO.Identity;
 using Contracts.Domain;
+using Domain.Base;
 
 namespace BLL.App.DTO
 {
-    public class ItemOption : ItemOption<Guid>, IDomainBaseEntity
+    public class ItemOption : ItemOption<Guid>, IDomainBaseEntityMetadata
     {
     }
 
-    public class ItemOption<TKey> : IDomainBaseEntity<TKey>
+    public class ItemOption<TKey> : DomainBaseEntityMetadata<TKey>
         where TKey: IEquatable<TKey>
     {
-        public TKey Id { get; set; } = default!;
 
         public string Name { get; set; } = default!;
         public bool IsRequired { get; set; }

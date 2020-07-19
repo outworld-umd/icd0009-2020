@@ -68,22 +68,22 @@ namespace WebApp {
             });
             
         //     // =============== JWT support ===============
-            // JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
-            // services
-            //     .AddAuthentication()
-            //     .AddCookie(options => { options.SlidingExpiration = true; })
-            //     .AddJwtBearer(cfg =>
-            //     {
-            //         cfg.RequireHttpsMetadata = false;
-            //         cfg.SaveToken = true;
-            //         cfg.TokenValidationParameters = new TokenValidationParameters
-            //         {
-            //             ValidIssuer = Configuration["JWT:Issuer"],
-            //             ValidAudience = Configuration["JWT:Issuer"],
-            //             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:SigningKey"])),
-            //             ClockSkew = TimeSpan.Zero // remove delay of token when expire
-            //         };
-            //     });
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
+            services
+                .AddAuthentication()
+                .AddCookie(options => { options.SlidingExpiration = true; })
+                .AddJwtBearer(cfg =>
+                {
+                    cfg.RequireHttpsMetadata = false;
+                    cfg.SaveToken = true;
+                    cfg.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidIssuer = Configuration["JWT:Issuer"],
+                        ValidAudience = Configuration["JWT:Issuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:SigningKey"])),
+                        ClockSkew = TimeSpan.Zero // remove delay of token when expire
+                    };
+                });
         
         }
         

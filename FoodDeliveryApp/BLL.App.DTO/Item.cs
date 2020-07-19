@@ -1,18 +1,18 @@
 using System;
 using System.Collections.Generic;
 using Contracts.Domain;
+using Domain.Base;
 
 namespace BLL.App.DTO
 {
-    public class Item : Item<Guid>, IDomainBaseEntity
+    public class Item : Item<Guid>, IDomainBaseEntityMetadata
     {
         
     }
     
-    public class Item<TKey> : IDomainBaseEntity<TKey>
+    public class Item<TKey> : DomainBaseEntityMetadata<TKey>
         where TKey: IEquatable<TKey>
     {
-        public TKey Id { get; set; } = default!;
         public string Name { get; set; } = default!;
         public string? PictureLink { get; set; }
         public decimal Price { get; set; }

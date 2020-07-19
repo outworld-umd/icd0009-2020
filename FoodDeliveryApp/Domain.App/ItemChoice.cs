@@ -11,10 +11,10 @@ using Domain.App.Identity;
 namespace Domain.App
 {
     
-    public class ItemChoice : ItemChoice<Guid, AppUser>, IDomainEntityBaseMetadata {
+    public class ItemChoice : ItemChoice<Guid, AppUser>, IDomainBaseEntityMetadata {
         
     }
-    public class ItemChoice<TKey, TUser> : DomainEntityBaseMetadata<TKey>
+    public class ItemChoice<TKey, TUser> : DomainBaseEntityMetadata<TKey>
         where TKey : IEquatable<TKey> 
         where TUser : AppUser<TKey>
     {
