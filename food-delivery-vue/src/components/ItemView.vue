@@ -13,11 +13,12 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { IItemView } from "@/domain/IItem";
 import store from '@/store'
-import { IOrderRowCreate } from "@/domain/IOrderRow";
 
 @Component
 export default class ItemView extends Vue {
     @Prop() item!: IItemView;
+    @Prop() restaurantId!: string;
+    @Prop() restaurantName!: string;
 
     get amount(): number {
         return store.getters.amountOfItem(this.item.id);

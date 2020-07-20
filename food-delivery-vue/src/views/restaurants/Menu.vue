@@ -13,7 +13,7 @@
                     <p>{{ itemType.description }}</p>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <ItemView class="list-group-item" v-for="item in itemType.items" :key="item.id" :item="item"/>
+                    <ItemView class="list-group-item" v-for="item in itemType.items" :key="item.id" :item="item" :restaurantId="restaurant.id" :restaurantName="restaurant.name"/>
                 </ul>
             </div>
         </div>

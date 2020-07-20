@@ -62,7 +62,7 @@ export default new Vuex.Store({
     },
     getters: {
         orderHasItems(state): boolean {
-            return state.orderRows.size
+            return state.orderRows.size !== 0;
         },
         currentCost(state): string {
             return state.deliveryCost + Array.from(state.orderRows, ([k, v]) =>
