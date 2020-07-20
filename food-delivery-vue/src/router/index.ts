@@ -12,7 +12,7 @@ const routes: Array<RouteConfig> = [
         component: RestaurantIndex
     },
     {
-        path: '/restaurants/:id',
+        path: '/restaurants/:id/menu',
         name: 'Restaurant',
         component: RestaurantMenu,
         props: true

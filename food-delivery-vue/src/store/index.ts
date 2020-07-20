@@ -8,6 +8,8 @@ import { ILoginRequest } from "@/domain/identity/ILoginRequest";
 import { AccountAPI } from "@/services/AccountAPI";
 import { IRestaurant, IRestaurantView } from "@/domain/IRestaurant";
 import { DayOfWeek } from "@/domain/IWorkingHours";
+import { IOrderRowCreate } from "@/domain/IOrderRow";
+import { IOrderItemChoiceCreate } from "@/domain/IOrderItemChoice";
 
 Vue.use(Vuex)
 
@@ -52,15 +54,41 @@ export class UserModule extends VuexModule {
 export default new Vuex.Store({
     state: {
         restaurants: [] as IRestaurantView[],
-        restaurant: null as IRestaurant | null
+        restaurant: null as IRestaurant | null,
+        currentRestaurantId: null as string | null,
+        currentRestaurantName: null as string | null,
+        deliveryCost: 0 as number,
+        orderRows: new Map() as Map<IOrderRowCreate, IOrderItemChoiceCreate[]>
     },
-    getters: {},
+    getters: {
+        orderHasItems(state): boolean {
+            return state.orderRows.size
+        },
+        currentCost(state): string {
+            return state.deliveryCost + Array.from(state.orderRows, ([k, v]) =>
+                k.amount * k.cost + v.reduce((a: number, b: IOrderItemChoiceCreate) => a + b.amount * b.cost, 0)
+            ).reduce((a, b) => a + b, 0).toFixed(2)
+        },
+        amountOfItem: (state) => (id: string) => {
+            const orderRow = Array.from(state.orderRows.keys()).find(r => (r as IOrderRowCreate).itemId === id)
+            return (orderRow as IOrderRowCreate)?.amount ?? 0;
+        }
+    },
     mutations: {
         setRestaurants(state, restaurants: IRestaurantView[]) {
             state.restaurants = restaurants;
         },
         setRestaurant(state, restaurant: IRestaurant) {
             state.restaurant = restaurant;
+        },
+        addOrderRow(state, orderPair: [IOrderRowCreate, IOrderItemChoiceCreate]) {
+            for (const [key, value] of state.orderRows) {
+                if (key.itemId === orderPair[0].itemId) {
+                    value.push(orderPair[1])
+                    return state.orderRows.set(orderPair[0], value)
+                }
+            }
+            state.orderRows.set(orderPair[0], [orderPair[1]])
         }
     },
     actions: {
@@ -69,21 +97,21 @@ export default new Vuex.Store({
             const restaurants: IRestaurantView[] = [
                 {
                     id: "1",
-                    name: "Restaurant 1",
+                    name: "Testing Food",
                     isOpen: true,
                     categories: ["Mexican", "Burgers"],
                     deliveryCost: 2.34
                 },
                 {
                     id: "2",
-                    name: "Restaurant 2",
+                    name: "Not a Restaurant",
                     isOpen: true,
                     categories: ["Sushi", "Burgers"],
                     deliveryCost: 0.15
                 },
                 {
                     id: "3",
-                    name: "Restaurant 3",
+                    name: "Always Closed",
                     isOpen: false,
                     categories: ["Candies"],
                     deliveryCost: 7.34
@@ -93,15 +121,21 @@ export default new Vuex.Store({
         },
         async getRestaurant(context, id: string): Promise<void> {
             // const restaurant = RestaurantAPI.get(id);
+            context.commit('addOrderRow', [{
+                itemId: "2",
+                amount: 3,
+                cost: 3.4
+            } as IOrderRowCreate, []])
             const restaurant: IRestaurant = {
                 id: "1",
                 deliveryCost: 2.34,
-                name: "Restaurant 1",
+                name: "Testing Food",
                 itemTypes: [
                     {
                         id: "1",
                         name: "Today's offers",
                         isSpecial: true,
+                        description: "Today we have some special offers just for you!",
                         items: [
                             {
                                 id: "1",
@@ -122,21 +156,30 @@ export default new Vuex.Store({
                     },
                     {
                         id: "2",
-                        name: "Other",
+                        name: "Drinks",
                         isSpecial: false,
+                        description: "Let's drink today!",
                         items: [
                             {
                                 id: "4",
                                 name: "Large Soda",
                                 price: 2.00
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        id: "3",
+                        name: "Other",
+                        isSpecial: false,
+                        description: "Some other products you might find interesting!",
+                        items: [
                             {
-                                id: "2",
+                                id: "5",
                                 name: "Condoms",
                                 price: 9.69
                             },
                             {
-                                id: "3",
+                                id: "6",
                                 name: "Shaurma",
                                 price: 3.50
                             }

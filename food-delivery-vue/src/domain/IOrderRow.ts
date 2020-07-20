@@ -13,7 +13,7 @@ export interface IOrderRow {
 
 export interface IOrderRowCreate {
     itemId: string;
-    orderId: string;
+    orderId?: string;
     amount: number;
     cost: number;
     comment?: string;

@@ -8,7 +8,7 @@ export interface IOrderItemChoice {
 }
 
 export interface IOrderItemChoiceCreate {
-    orderRowId: string;
+    orderRowId?: string;
     itemChoiceId: string;
     amount: number;
     cost: number;

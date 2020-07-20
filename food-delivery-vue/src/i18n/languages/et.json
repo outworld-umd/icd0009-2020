@@ -1,9 +1,11 @@
 {
-  "titles": {
-    "main": "Tere maailm!"
+  "buttons": {
+    "back": "Tagasi",
+    "next": "Edasi"
   },
   "restaurant": {
     "closed": "Restoran on suletud",
-    "showMenu": "Menüü"
+    "showMenu": "Menüü",
+    "offer": "Eripakkumine!"
   }
 }

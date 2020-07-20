@@ -1,9 +1,11 @@
 {
-  "titles": {
-    "main": "Hello world!"
+  "buttons": {
+    "back": "Back",
+    "next": "Next"
   },
   "restaurant": {
     "closed": "Restaurant is closed",
-    "showMenu": "Menu"
+    "showMenu": "Menu",
+    "offer": "Special offer!"
   }
 }

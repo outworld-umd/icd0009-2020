@@ -3,7 +3,7 @@
         <div class="card text-center">
             <div class="card-body">
                 <h5 class="card-title">{{ restaurant.name }}</h5>
-                <router-link v-if="restaurant.isOpen" :to="`restaurants/${restaurant.id}`">
+                <router-link v-if="restaurant.isOpen" :to="`restaurants/${restaurant.id}/menu`">
                     <button class="btn btn-success">{{ $t('restaurant.showMenu') }}</button>
                 </router-link>
                 <div v-else class="btn text-muted">

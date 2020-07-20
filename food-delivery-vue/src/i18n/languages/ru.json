@@ -1,9 +1,11 @@
 {
-  "titles": {
-    "main": "Привет мир!"
+  "buttons": {
+    "back": "Назад",
+    "next": "Далее"
   },
   "restaurant": {
     "closed": "Ресторан закрыт",
-    "showMenu": "Меню"
+    "showMenu": "Меню",
+    "offer": "Специальное предложение!"
   }
 }
