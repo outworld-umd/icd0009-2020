@@ -1,7 +1,6 @@
 import { BaseAPI } from "@/services/BaseAPI";
 import { ILoginRequest } from "@/domain/identity/ILoginRequest";
 import { ILoginResponse } from "@/domain/identity/ILoginResponse";
-import { AxiosError, AxiosResponse } from "axios";
 
 export abstract class AccountAPI extends BaseAPI {
     static url = "account/"
@@ -18,5 +17,4 @@ export abstract class AccountAPI extends BaseAPI {
             return null;
         }
     }
-
 }

@@ -1,7 +1,10 @@
 {
   "buttons": {
     "back": "Tagasi",
-    "next": "Edasi"
+    "next": "Edasi",
+    "order": "Telli",
+    "orderDelete": "Kustuta tellimusest",
+    "orderAdd": "Lisa tellimusse"
   },
   "restaurant": {
     "closed": "Restoran on suletud",

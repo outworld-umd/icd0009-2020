@@ -1,7 +1,10 @@
 {
   "buttons": {
     "back": "Назад",
-    "next": "Далее"
+    "next": "Далее",
+    "order": "Заказать",
+    "orderDelete": "Удалить из заказа",
+    "orderAdd": "Добавить в заказ"
   },
   "restaurant": {
     "closed": "Ресторан закрыт",

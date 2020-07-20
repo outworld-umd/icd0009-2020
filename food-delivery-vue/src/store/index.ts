@@ -10,6 +10,7 @@ import { IRestaurant, IRestaurantView } from "@/domain/IRestaurant";
 import { DayOfWeek } from "@/domain/IWorkingHours";
 import { IOrderRowCreate } from "@/domain/IOrderRow";
 import { IOrderItemChoiceCreate } from "@/domain/IOrderItemChoice";
+import { IItem } from "@/domain/IItem";
 
 Vue.use(Vuex)
 
@@ -57,6 +58,7 @@ export default new Vuex.Store({
         restaurant: null as IRestaurant | null,
         currentRestaurantId: null as string | null,
         currentRestaurantName: null as string | null,
+        item: null as IItem | null,
         deliveryCost: 0 as number,
         orderRows: new Map() as Map<IOrderRowCreate, IOrderItemChoiceCreate[]>
     },
@@ -80,6 +82,9 @@ export default new Vuex.Store({
         },
         setRestaurant(state, restaurant: IRestaurant) {
             state.restaurant = restaurant;
+        },
+        setItem(state, item: IItem) {
+            state.item = item;
         },
         addOrderRow(state, orderPair: [IOrderRowCreate, IOrderItemChoiceCreate]) {
             for (const [key, value] of state.orderRows) {
@@ -204,6 +209,33 @@ export default new Vuex.Store({
                 ]
             }
             context.commit('setRestaurant', id === "1" ? restaurant : null);
+        },
+        async getItem(context, id: string): Promise<void> {
+            // const item = ItemAPI.get(id);
+            const items: IItem[] = [
+                {
+                    id: "1",
+                    name: "Burger Large Meal",
+                    price: 5.20,
+                    nutritionInfos: [],
+                    options: []
+                },
+                {
+                    id: "2",
+                    name: "Caesar Salad",
+                    price: 4.00,
+                    nutritionInfos: [],
+                    options: []
+                },
+                {
+                    id: "3",
+                    name: "Happy Meal",
+                    price: 5.20,
+                    nutritionInfos: [],
+                    options: []
+                }
+            ]
+            context.commit('setItem', items.find(i => i.id === id) ?? null)
         }
     },
     modules: {

@@ -10,10 +10,13 @@ import 'popper.js';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+import { BootstrapVue } from 'bootstrap-vue'
 
 Vue.config.productionTip = false
 
 Vue.use(VueI18n)
+Vue.use(BootstrapVue)
 
 const i18n = new VueI18n({
     messages,

@@ -1,7 +1,10 @@
 {
   "buttons": {
     "back": "Back",
-    "next": "Next"
+    "next": "Next",
+    "order": "Order",
+    "orderDelete": "Delete from order",
+    "orderAdd": "Add to order"
   },
   "restaurant": {
     "closed": "Restaurant is closed",

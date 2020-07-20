@@ -1,5 +1,5 @@
-import Axios, {AxiosError, AxiosResponse} from "axios";
-import {IFetchResponse} from "@/types/IFetchResponse";
+import Axios, { AxiosError, AxiosResponse } from "axios";
+import { IFetchResponse } from "@/types/IFetchResponse";
 import { getModule } from "vuex-module-decorators";
 import store, { UserModule } from "@/store";
 import { IMessage } from "@/types/IMessage";
@@ -16,7 +16,7 @@ export abstract class BaseAPI {
 
     static async baseGetAll<TEntity>(url: string): Promise<IFetchResponse<TEntity[]>> {
         return this.axios.get<TEntity[]>(url, {
-            headers: {'Authorization': `Bearer ${getModule(UserModule, store).jwt}`}
+            headers: { Authorization: `Bearer ${getModule(UserModule, store).jwt}` }
         }).then(function (response: AxiosResponse) {
             return {
                 isSuccessful: response.status === 200,
@@ -34,7 +34,7 @@ export abstract class BaseAPI {
 
     static async baseGet<TEntity>(url: string, id: string): Promise<IFetchResponse<TEntity>> {
         return this.axios.get<TEntity>(url + id, {
-            headers: {'Authorization': `Bearer ${getModule(UserModule, store).jwt}`}
+            headers: { Authorization: `Bearer ${getModule(UserModule, store).jwt}` }
         }).then(function (response: AxiosResponse) {
             return {
                 isSuccessful: response.status === 200,
@@ -52,7 +52,7 @@ export abstract class BaseAPI {
 
     static async basePost<TEntityCreate, TEntity>(url: string, entity: TEntityCreate): Promise<IFetchResponse<TEntity>> {
         return this.axios.post<TEntityCreate>(url, entity, {
-            headers: {'Authorization': `Bearer ${getModule(UserModule, store).jwt}`}
+            headers: { Authorization: `Bearer ${getModule(UserModule, store).jwt}` }
         }).then(function (response: AxiosResponse) {
             return {
                 isSuccessful: response.status === 201,
@@ -70,7 +70,7 @@ export abstract class BaseAPI {
 
     static async basePut<TEntityEdit>(url: string, id: string, entity: TEntityEdit): Promise<IFetchResponse> {
         return this.axios.put(url + id, entity, {
-            headers: {'Authorization': `Bearer ${getModule(UserModule, store).jwt}`}
+            headers: { Authorization: `Bearer ${getModule(UserModule, store).jwt}` }
         }).then(function (response: AxiosResponse) {
             return {
                 isSuccessful: response.status === 204,
@@ -87,7 +87,7 @@ export abstract class BaseAPI {
 
     static async baseDelete(url: string, id: string): Promise<IFetchResponse> {
         return this.axios.delete(url + id, {
-            headers: {'Authorization': `Bearer ${getModule(UserModule, store).jwt}`}
+            headers: { Authorization: `Bearer ${getModule(UserModule, store).jwt}` }
         }).then(function (response: AxiosResponse) {
             return {
                 isSuccessful: response.status === 200,
