@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using Contracts.Domain;
 using Contracts.Domain.Basic;
 

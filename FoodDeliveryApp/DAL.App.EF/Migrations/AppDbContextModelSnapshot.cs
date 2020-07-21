@@ -15,7 +15,7 @@ namespace DAL.App.EF.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.3")
+                .HasAnnotation("ProductVersion", "3.1.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -45,7 +45,6 @@ namespace DAL.App.EF.Migrations
                         .HasMaxLength(64);
 
                     b.Property<string>("Comment")
-                        .IsRequired()
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
@@ -526,7 +525,7 @@ namespace DAL.App.EF.Migrations
                     b.Property<Guid>("ItemChoiceId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("OrderRowId")
+                    b.Property<Guid?>("OrderRowId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -566,7 +565,7 @@ namespace DAL.App.EF.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("ItemId")
+                    b.Property<Guid>("ItemId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("OrderId")
@@ -911,16 +910,16 @@ namespace DAL.App.EF.Migrations
 
                     b.HasOne("Domain.App.OrderRow", "OrderRow")
                         .WithMany()
-                        .HasForeignKey("OrderRowId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OrderRowId");
                 });
 
             modelBuilder.Entity("Domain.App.OrderRow", b =>
                 {
                     b.HasOne("Domain.App.Item", "Item")
                         .WithMany("OrderRows")
-                        .HasForeignKey("ItemId");
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Domain.App.Order", "Order")
                         .WithMany("OrderRows")

@@ -4,13 +4,12 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Contracts.Domain.Combined
 {
-    
-    public interface IDomainEntityIdMetadataUser<TUser>: IDomainEntityIdMetadataUser<Guid, TUser>
+    public interface IDomainEntityIdUser<TUser>: IDomainEntityUser<Guid, TUser>
         where TUser : IdentityUser<Guid>
     {
     }
     
-    public interface IDomainEntityIdMetadataUser<TKey, TUser> : IDomainEntityId<TKey>, IDomainEntityMetadata, IDomainEntityUser<TKey, TUser>
+    public interface IDomainEntityIdUser<TKey, TUser> : IDomainEntityId<TKey>, IDomainEntityUser<TKey, TUser>
         where TKey : IEquatable<TKey>
         where TUser : IdentityUser<TKey>
     {

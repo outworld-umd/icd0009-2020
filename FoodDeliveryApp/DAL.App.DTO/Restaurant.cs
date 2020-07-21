@@ -1,21 +1,23 @@
 using System;
 using System.Collections.Generic;
 using Contracts.Domain;
+using Contracts.Domain.Combined;
 using DAL.App.DTO.Identity;
 using Domain.Base;
 
 namespace DAL.App.DTO
 {
-    public class Restaurant : Restaurant<Guid, AppUser>, IDomainBaseEntityMetadata
+    public class Restaurant : Restaurant<Guid, AppUser>, IDomainEntityIdMetadata
     {
-        
     }
     
     
-    public class Restaurant<TKey, TUser> : DomainEntityIdMetadata<TKey>
+    public class Restaurant<TKey, TUser> : IDomainEntityIdMetadata<TKey>
         where TKey : IEquatable<TKey>
         where TUser : AppUser<TKey>
     {
+        public TKey AppUserId { get; set; } = default!;
+        public TUser? AppUser { get; set; }
         
         public string Name { get; set; } = default!;
         public string Phone { get; set; } = default!;
@@ -28,5 +30,10 @@ namespace DAL.App.DTO
         public ICollection<ItemType>? ItemTypes { get; set; }
         public ICollection<RestaurantUser>? RestaurantUsers { get; set; }
 
+        public TKey Id { get; set; } = default!;
+        public string? CreatedBy { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public string? ChangedBy { get; set; }
+        public DateTime ChangedAt { get; set; }
     }
 }

@@ -29,7 +29,7 @@ namespace Domain.App
         [MinLength(2)] [MaxLength(64)] public string? RestaurantName { get; set; }
         [MaxLength(512)] public string? Comment { get; set; }
 
-        public TKey RestaurantId { get; set; } = default!;
+        public Guid? RestaurantId { get; set; }
         public Restaurant? Restaurant { get; set; }
 
         public ICollection<OrderRow>? OrderRows { get; set; }

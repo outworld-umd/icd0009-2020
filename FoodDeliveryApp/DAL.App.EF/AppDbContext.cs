@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,7 +33,8 @@ namespace DAL.App.EF {
         public DbSet<RestaurantCategory> RestaurantCategories { get; set; } = default!;
         public DbSet<WorkingHours> WorkingHourses { get; set; } = default!;
         
-        
+        private readonly Dictionary<IDomainEntityId<Guid>, IDomainEntityId<Guid>> _entityTracker =
+            new Dictionary<IDomainEntityId<Guid>, IDomainEntityId<Guid>>();
 
         public AppDbContext(DbContextOptions<AppDbContext> options, IUserNameProvider userNameProvider) : base(options)
         {
@@ -44,7 +46,7 @@ namespace DAL.App.EF {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Order>()
                 .HasOne(p => p.Restaurant)
-                .WithMany(b => b.Orders)
+                .WithMany(b => b!.Orders)
                 .OnDelete(DeleteBehavior.SetNull);
         }
         
@@ -90,7 +92,6 @@ namespace DAL.App.EF {
             SaveChangesMetadataUpdate();
             return base.SaveChangesAsync(cancellationToken);
         }
-        
     }
 
 }

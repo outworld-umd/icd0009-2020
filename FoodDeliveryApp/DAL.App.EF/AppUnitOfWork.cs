@@ -1,5 +1,7 @@
-﻿using Contracts.DAL.App;
+﻿using System;
+using Contracts.DAL.App;
 using Contracts.DAL.App.Repositories;
+using Contracts.Domain.Basic;
 using DAL.App.EF.Repositories;
 using DAL.Base.EF;
 
@@ -27,7 +29,7 @@ namespace DAL.App.EF {
         {
             
         }
-
+        
     }
 
 }

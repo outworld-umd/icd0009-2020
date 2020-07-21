@@ -8,7 +8,8 @@ namespace Contracts.DAL.Base
     {
         
     }
-    
+    // TODO implement notracking where possible
+
     public interface IBaseEntityTracker<TKey>
     where TKey: IEquatable<TKey>
     {

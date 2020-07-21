@@ -1,7 +1,5 @@
 using System;
-using Contracts.Domain;
 using Contracts.Domain.Repositories;
-using Contracts.Domain;
 using Contracts.Domain.Basic;
 
 namespace Contracts.BLL.Base.Services
