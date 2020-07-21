@@ -1,7 +1,6 @@
 <template>
     <div class="position-relative">
         <button class="d-flex btn px-4 btn-secondary position-absolute" @click="goBack">{{ $t('buttons.back') }}</button>
-        <button class="d-flex btn px-4 btn-success position-absolute" :class="{ 'disabled': !orderHasItems }" style="top: 0; right: 0">{{ $t('buttons.next') }}</button>
         <div v-if="restaurant" class="container">
             <div>
                 <h2 class="m-4 font-weight-bold">{{ restaurant.name }}</h2>
@@ -13,7 +12,7 @@
                     <p>{{ itemType.description }}</p>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <ItemView class="list-group-item" v-for="item in itemType.items" :key="item.id" :itemView="item" :restaurantId="restaurant.id" :restaurantName="restaurant.name"/>
+                    <ItemView class="list-group-item" v-for="item in itemType.items" :key="item.id" :itemView="item" :restaurant="restaurant"/>
                 </ul>
             </div>
         </div>

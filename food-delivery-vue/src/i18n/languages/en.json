@@ -2,6 +2,7 @@
   "buttons": {
     "back": "Back",
     "next": "Next",
+    "clear": "Clear",
     "order": "Order",
     "orderDelete": "Delete from order",
     "orderAdd": "Add to order"
@@ -10,5 +11,11 @@
     "closed": "Restaurant is closed",
     "showMenu": "Menu",
     "offer": "Special offer!"
+  },
+  "order": {
+    "deleteOld": "Your previous order will not be saved. Proceed?",
+    "foodCost": "Food Cost",
+    "deliveryCost": "Delivery Cost",
+    "total": "Order Total"
   }
 }

@@ -18,6 +18,7 @@
             </div>
         </nav>
         <router-view class="container my-4"/>
+        <CurrentOrder />
     </div>
 </template>
 
@@ -34,14 +35,20 @@
     #nav a.router-link-exact-active {
         color: #42b983;
     }
+
+    html {
+        margin-bottom: 7em
+    }
 </style>
 <script>
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import Language from "@/components/Language";
+import CurrentOrder from "@/components/CurrentOrder";
 
 @Component({
     components: {
+        CurrentOrder,
         Language
     }
 })

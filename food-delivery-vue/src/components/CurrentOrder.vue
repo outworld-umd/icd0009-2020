@@ -1,0 +1,60 @@
+<template>
+    <div class="fixed-bottom bg-success p-3" v-if="orderHasItems">
+        <div class="d-flex align-items-center">
+            <div class="ml-5 text-left">
+                <h6 class="text-white">{{ $t('order.foodCost') }}</h6>
+                <h6 class="text-white">{{ $t('order.deliveryCost') }}</h6>
+                <h4 class="text-white">{{ $t('order.total') }}</h4>
+            </div>
+            <div class="ml-5 text-right">
+                <h6 class="text-white">{{ foodCost.toFixed(2) }}€</h6>
+                <h6 class="text-white">{{ deliveryCost.toFixed(2) }}€</h6>
+                <h4 class="text-white">{{ orderTotal.toFixed(2) }}€</h4>
+            </div>
+            <div class="ml-auto">
+                <button class="btn mr-3 px-4 btn-light text-danger" @click="clearOrder">{{ $t('buttons.clear') }}</button>
+                <button class="btn mr-5 px-4 btn-light text-success font-weight-bold">{{ $t('buttons.next') }}</button>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script lang="ts">
+import { Component, Vue, Watch } from "vue-property-decorator";
+import store from '@/store'
+
+@Component
+export default class CurrentOrder extends Vue {
+    get currentRestaurantName(): string | null {
+        return store.state.currentRestaurantName;
+    }
+
+    get foodCost(): number {
+        return store.getters.foodCost;
+    }
+
+    get deliveryCost(): number {
+        return store.state.deliveryCost;
+    }
+
+    get orderHasItems(): boolean {
+        return store.getters.orderHasItems;
+    }
+
+    get orderTotal(): number {
+        return this.foodCost + this.deliveryCost
+    }
+
+    clearOrder(): void {
+        store.commit('clearOrders');
+    }
+
+    @Watch('orderTotal')
+    onChildChanged(val: string, oldVal: string) {
+        console.log(val, oldVal)
+    }
+}
+</script>
+
+<style scoped>
+</style>

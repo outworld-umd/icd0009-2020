@@ -2,6 +2,7 @@
   "buttons": {
     "back": "Tagasi",
     "next": "Edasi",
+    "clear": "Tühista",
     "order": "Telli",
     "orderDelete": "Kustuta tellimusest",
     "orderAdd": "Lisa tellimusse"
@@ -10,5 +11,11 @@
     "closed": "Restoran on suletud",
     "showMenu": "Menüü",
     "offer": "Eripakkumine!"
+  },
+  "order": {
+    "deleteOld": "Teie vana tellimus kustutakse ära. Soovite jätkata?",
+    "foodCost": "Toit kokku",
+    "deliveryCost": "Kohaletoomine",
+    "total": "Tellimus kokku"
   }
 }

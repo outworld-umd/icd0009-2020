@@ -1,12 +1,14 @@
 <template>
     <div class="d-flex align-items-center">
-        <div class="p-2 badge badge-success align-bottom mx-3">{{ amount }}</div>
+        <h5>
+            <span :class="{ invisible: !amount }" class="p-2 mx-3 badge badge-success align-bottom">{{ amount }}</span>
+        </h5>
         <div class="p-2 mx-3 text-left">
-            <div>{{ itemView.name }} </div>
+            <div>{{ itemView.name }}</div>
             <div class="font-weight-bold">{{ itemView.price.toFixed(2) }}€</div>
         </div>
         <b-button class="ml-auto p-2 btn btn-secondary px-4" @click="showModal(itemView.id)" v-b-modal="itemView.id">{{$t('buttons.order')}}</b-button>
-        <Item :id="itemView.id" :restaurant-id="restaurantId" :restaurant-name="restaurantName"/>
+        <Item :id="itemView.id" :restaurant-id="restaurant.id" :restaurant-name="restaurant.name" :delivery-cost="restaurant.deliveryCost" />
     </div>
 </template>
 
@@ -14,6 +16,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { IItem, IItemView } from "@/domain/IItem";
 import store from '@/store'
+import { IRestaurant } from "@/domain/IRestaurant";
 
 @Component({
     components: {
@@ -22,8 +25,7 @@ import store from '@/store'
 })
 export default class ItemView extends Vue {
     @Prop() itemView!: IItemView;
-    @Prop() restaurantId!: string;
-    @Prop() restaurantName!: string;
+    @Prop() restaurant!: IRestaurant;
 
     get amount(): number {
         return store.getters.amountOfItem(this.itemView.id);

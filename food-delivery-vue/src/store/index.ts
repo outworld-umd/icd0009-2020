@@ -8,8 +8,7 @@ import { ILoginRequest } from "@/domain/identity/ILoginRequest";
 import { AccountAPI } from "@/services/AccountAPI";
 import { IRestaurant, IRestaurantView } from "@/domain/IRestaurant";
 import { DayOfWeek } from "@/domain/IWorkingHours";
-import { IOrderRowCreate } from "@/domain/IOrderRow";
-import { IOrderItemChoiceCreate } from "@/domain/IOrderItemChoice";
+import { IOrderRowTemp } from "@/domain/IOrderRow";
 import { IItem } from "@/domain/IItem";
 
 Vue.use(Vuex)
@@ -60,20 +59,22 @@ export default new Vuex.Store({
         currentRestaurantName: null as string | null,
         item: null as IItem | null,
         deliveryCost: 0 as number,
-        orderRows: new Map() as Map<IOrderRowCreate, IOrderItemChoiceCreate[]>
+        orderRows: [] as IOrderRowTemp[]
     },
     getters: {
         orderHasItems(state): boolean {
-            return state.orderRows.size !== 0;
+            return state.orderRows.length !== 0;
         },
-        currentCost(state): string {
-            return state.deliveryCost + Array.from(state.orderRows, ([k, v]) =>
-                k.amount * k.cost + v.reduce((a: number, b: IOrderItemChoiceCreate) => a + b.amount * b.cost, 0)
-            ).reduce((a, b) => a + b, 0).toFixed(2)
+        foodCost(state): number {
+            return state.orderRows.reduce(
+                (a: number, b: IOrderRowTemp) => a + b.amount * b.cost + b.choices.reduce(
+                    (c, d) => c + d.amount * d.cost, 0), 0);
         },
         amountOfItem: (state) => (id: string) => {
-            const orderRow = Array.from(state.orderRows.keys()).find(r => (r as IOrderRowCreate).itemId === id)
-            return (orderRow as IOrderRowCreate)?.amount ?? 0;
+            return state.orderRows.filter((r: IOrderRowTemp) => r.itemId === id).reduce((a: number, b: IOrderRowTemp) => a + b.amount, 0)
+        },
+        totalAmount(state): number {
+            return state.orderRows.reduce((a: number, b: IOrderRowTemp) => a + b.amount, 0)
         }
     },
     mutations: {
@@ -83,17 +84,28 @@ export default new Vuex.Store({
         setRestaurant(state, restaurant: IRestaurant) {
             state.restaurant = restaurant;
         },
+        setCurrentRestaurantId(state, id: string) {
+            state.currentRestaurantId = id;
+        },
+        setCurrentRestaurantName(state, name: string) {
+            state.currentRestaurantName = name;
+        },
+        setDeliveryCost(state, cost: number) {
+            state.deliveryCost = cost;
+        },
+        clearOrders(state) {
+            state.orderRows = [];
+        },
+        deleteFromOrder(state, id: string) {
+            state.orderRows = state.orderRows.filter((o: IOrderRowTemp) => o.itemId !== id);
+        },
         setItem(state, item: IItem) {
             state.item = item;
         },
-        addOrderRow(state, orderPair: [IOrderRowCreate, IOrderItemChoiceCreate]) {
-            for (const [key, value] of state.orderRows) {
-                if (key.itemId === orderPair[0].itemId) {
-                    value.push(orderPair[1])
-                    return state.orderRows.set(orderPair[0], value)
-                }
+        addOrderRow(state, orderRowTemp: IOrderRowTemp) {
+            if (orderRowTemp.amount) {
+                state.orderRows.push(orderRowTemp)
             }
-            state.orderRows.set(orderPair[0], [orderPair[1]])
         }
     },
     actions: {
@@ -126,11 +138,6 @@ export default new Vuex.Store({
         },
         async getRestaurant(context, id: string): Promise<void> {
             // const restaurant = RestaurantAPI.get(id);
-            context.commit('addOrderRow', [{
-                itemId: "2",
-                amount: 3,
-                cost: 3.4
-            } as IOrderRowCreate, []])
             const restaurant: IRestaurant = {
                 id: "1",
                 deliveryCost: 2.34,
@@ -218,7 +225,8 @@ export default new Vuex.Store({
                     name: "Burger Large Meal",
                     price: 5.20,
                     nutritionInfos: [],
-                    options: []
+                    options: [],
+                    description: "Ох ебать как вкусно охуеть не встать =DDD"
                 },
                 {
                     id: "2",
