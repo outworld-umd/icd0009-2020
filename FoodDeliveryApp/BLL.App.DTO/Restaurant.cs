@@ -11,7 +11,7 @@ namespace BLL.App.DTO
     }
     
     
-    public class Restaurant<TKey> : DomainBaseEntityMetadata<TKey>
+    public class Restaurant<TKey> : DomainEntityIdMetadata<TKey>
         where TKey: IEquatable<TKey>
     {
         

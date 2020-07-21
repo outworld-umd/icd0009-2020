@@ -11,7 +11,7 @@ namespace BLL.App.DTO
     {
     }
 
-    public class Order<TKey, TUser> : DomainBaseEntityMetadata<TKey>
+    public class Order<TKey, TUser> : DomainEntityIdMetadata<TKey>
         where TKey: IEquatable<TKey>
         where TUser : AppUser<TKey>
     {

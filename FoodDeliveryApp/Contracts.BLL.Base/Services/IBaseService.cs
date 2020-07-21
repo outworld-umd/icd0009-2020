@@ -2,6 +2,7 @@ using System;
 using Contracts.Domain;
 using Contracts.Domain.Repositories;
 using Contracts.Domain;
+using Contracts.Domain.Basic;
 
 namespace Contracts.BLL.Base.Services
 {
@@ -11,7 +12,7 @@ namespace Contracts.BLL.Base.Services
     }
     
     public interface IBaseEntityService<TBLLEntity> : IBaseService, IBaseRepository<Guid, TBLLEntity> 
-        where TBLLEntity : class, IDomainBaseEntity<Guid>, new()
+        where TBLLEntity : class, IDomainEntityId<Guid>, new()
     {
     }
     

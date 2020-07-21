@@ -9,13 +9,14 @@ using Contracts.DAL.Base;
 using Contracts.Domain;
 using Contracts.Domain.Repositories;
 using Contracts.Domain;
+using Contracts.Domain.Basic;
 
 namespace BLL.Base.Services
 {
     public class BaseEntityService<TServiceRepository, TUnitOfWork, TDALEntity, TBLLEntity> : BaseService,
         IBaseEntityService<TBLLEntity>
-        where TBLLEntity : class, IDomainBaseEntity<Guid>, new()
-        where TDALEntity : class, IDomainBaseEntity<Guid>, new()
+        where TBLLEntity : class, IDomainEntityId<Guid>, new()
+        where TDALEntity : class, IDomainEntityId<Guid>, new()
         where TUnitOfWork : IBaseUnitOfWork
         where TServiceRepository : IBaseRepository<TDALEntity>
     {

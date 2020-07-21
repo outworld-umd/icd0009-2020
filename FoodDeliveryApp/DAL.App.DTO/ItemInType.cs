@@ -9,7 +9,7 @@ namespace DAL.App.DTO
         
     }
     
-    public class ItemInType<TKey, TUser> : DomainBaseEntityMetadata<TKey>
+    public class ItemInType<TKey, TUser> : DomainEntityIdMetadata<TKey>
         where TKey : IEquatable<TKey>
         where TUser : AppUser<TKey>
     {

@@ -10,7 +10,7 @@ namespace BLL.App.DTO
         
     }
     
-    public class ItemChoice<TKey> : DomainBaseEntityMetadata<TKey>
+    public class ItemChoice<TKey> : DomainEntityIdMetadata<TKey>
         where TKey: IEquatable<TKey>
     {
         

@@ -4,17 +4,18 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Contracts.Domain;
+using Contracts.Domain.Basic;
 
 namespace Contracts.Domain.Repositories
 {
     public interface IBaseRepository<TDALEntity> : IBaseRepository<Guid, TDALEntity>
-        where TDALEntity : class, IDomainBaseEntity<Guid>, new() 
+        where TDALEntity : class, IDomainEntityId<Guid>, new() 
     {
     }
 
 
     public interface IBaseRepository<TKey, TDALEntity>
-        where TDALEntity : class, IDomainBaseEntity<TKey>, new() 
+        where TDALEntity : class, IDomainEntityId<TKey>, new() 
         where TKey : IEquatable<TKey>
     {
         // crud

@@ -10,7 +10,7 @@ namespace DAL.App.DTO
         
     }
     
-    public class NutritionInfo<TKey, TUser> : DomainBaseEntityMetadata<TKey>
+    public class NutritionInfo<TKey, TUser> : DomainEntityIdMetadata<TKey>
         where TKey : IEquatable<TKey>
         where TUser : AppUser<TKey>
     {

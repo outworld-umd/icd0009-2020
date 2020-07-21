@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Contracts.Domain;
+using Contracts.Domain.Combined;
 using DAL.Base;
 using Domain.Base;
 using Domain.App.Identity;
 
 namespace Domain.App
 {
-    public class Restaurant : Restaurant<Guid, AppUser>, IDomainBaseEntityMetadata
+    public class Restaurant : Restaurant<Guid>, IDomainEntityIdMetadata
     {
     
     }
 
-    public class Restaurant<TKey, TUser> : DomainBaseEntityMetadata<TKey>
+    public class Restaurant<TKey> : DomainEntityIdMetadata<TKey>
         where TKey : IEquatable<TKey>
-        where TUser : AppUser<TKey>
     {
         [MinLength(2)] [MaxLength(64)] public string Name { get; set; } = default!;
         [MinLength(2)] [MaxLength(64)] public string Phone { get; set; } = default!;

@@ -1,13 +1,14 @@
 ﻿using System;
 using Contracts.Domain;
+using Contracts.Domain.Combined;
 
 namespace Domain.Base
 {
-    public abstract class DomainBaseEntityMetadata :  DomainBaseEntityMetadata<Guid>
+    public abstract class DomainEntityIdMetadata :  DomainEntityIdMetadata<Guid>
     {
     }
 
-    public abstract class DomainBaseEntityMetadata<TKey> :  IDomainEntityBaseMetadata<TKey> 
+    public abstract class DomainEntityIdMetadata<TKey> :  IDomainEntityIdMetadata<TKey> 
         where TKey : IEquatable<TKey>
     {
         public virtual TKey Id { get; set; } = default!;

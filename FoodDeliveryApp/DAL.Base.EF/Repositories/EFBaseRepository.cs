@@ -7,14 +7,16 @@ using Contracts.DAL.Base.Mappers;
 using Contracts.Domain;
 using Contracts.Domain.Repositories;
 using Contracts.Domain;
+using Contracts.Domain.Basic;
+using Contracts.Domain.Combined;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Base.EF.Repositories
 {
     public class EFBaseRepository<TDbContext, TDomainEntity, TDALEntity> : EFBaseRepository<Guid, TDbContext, TDomainEntity, TDALEntity>,
         IBaseRepository<TDALEntity>
-        where TDALEntity : class, IDomainBaseEntity<Guid>, new()
-        where TDomainEntity : class, IDomainEntityBaseMetadata<Guid>, new()
+        where TDALEntity : class, IDomainEntityId<Guid>, new()
+        where TDomainEntity : class, IDomainEntityIdMetadata<Guid>, new()
         where TDbContext : DbContext
     {
         public EFBaseRepository(TDbContext dbContext,  IBaseMapper<TDomainEntity, TDALEntity> mapper) : base(dbContext, mapper)
@@ -23,8 +25,8 @@ namespace DAL.Base.EF.Repositories
     }
 
     public class EFBaseRepository<TKey, TDbContext, TDomainEntity, TDALEntity> : IBaseRepository<TKey, TDALEntity>
-        where TDALEntity : class, IDomainBaseEntity<TKey>, new()
-        where TDomainEntity : class, IDomainEntityBaseMetadata<TKey>, new()
+        where TDALEntity : class, IDomainEntityId<TKey>, new()
+        where TDomainEntity : class, IDomainEntityIdMetadata<TKey>, new()
         where TKey : IEquatable<TKey>
         where TDbContext : DbContext
     {

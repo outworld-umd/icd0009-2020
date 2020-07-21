@@ -11,7 +11,7 @@ namespace DAL.App.DTO
     }
     
     
-    public class OrderItemChoice<TKey, TUser> : DomainBaseEntityMetadata<TKey>
+    public class OrderItemChoice<TKey, TUser> : DomainEntityIdMetadata<TKey>
         where TKey : IEquatable<TKey>
         where TUser : AppUser<TKey>
     {

@@ -10,7 +10,7 @@ namespace BLL.App.DTO
         
     }
     
-    public class NutritionInfo<TKey> : DomainBaseEntityMetadata<TKey>
+    public class NutritionInfo<TKey> : DomainEntityIdMetadata<TKey>
         where TKey: IEquatable<TKey>
     {
         

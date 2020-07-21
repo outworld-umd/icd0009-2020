@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Contracts.DAL.Base;
 using Contracts.Domain;
+using Contracts.Domain.Basic;
 using Domain.App;
 using Domain.App.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

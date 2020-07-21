@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Contracts.Domain
+namespace Contracts.Domain.Basic
 {
     public interface IDomainEntityMetadata
     {
@@ -11,7 +11,8 @@ namespace Contracts.Domain
         public DateTime ChangedAt { get; set; }
         
 
-        /* NO SOFT UPDATES/DELETES initially
+        /*
+        NO SOFT UPDATES/DELETES initially
         public string? DeletedBy { get; set; }
         
         public DateTime? DeletedAt { get; set; }

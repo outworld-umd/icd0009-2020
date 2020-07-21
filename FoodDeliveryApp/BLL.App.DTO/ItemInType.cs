@@ -10,7 +10,7 @@ namespace BLL.App.DTO
         
     }
     
-    public class ItemInType<TKey> : DomainBaseEntityMetadata<TKey>
+    public class ItemInType<TKey> : DomainEntityIdMetadata<TKey>
         where TKey: IEquatable<TKey>
     {
         public TKey ItemTypeId { get; set; } = default!;

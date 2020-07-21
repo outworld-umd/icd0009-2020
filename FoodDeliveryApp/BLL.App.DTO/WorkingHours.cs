@@ -9,7 +9,7 @@ namespace BLL.App.DTO
         
     }
     
-    public class WorkingHours<TKey> : DomainBaseEntityMetadata<TKey>
+    public class WorkingHours<TKey> : DomainEntityIdMetadata<TKey>
         where TKey: IEquatable<TKey>
     {
         public DayOfWeek WeekDay { get; set; }

@@ -9,7 +9,7 @@ namespace BLL.App.DTO
     {
     }
     
-    public class Category<TKey> : DomainBaseEntityMetadata<TKey>
+    public class Category<TKey> : DomainEntityIdMetadata<TKey>
         where TKey: IEquatable<TKey>
     {
         public string Name { get; set; } = default!;

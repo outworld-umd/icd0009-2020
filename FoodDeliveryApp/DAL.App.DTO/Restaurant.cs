@@ -12,7 +12,7 @@ namespace DAL.App.DTO
     }
     
     
-    public class Restaurant<TKey, TUser> : DomainBaseEntityMetadata<TKey>
+    public class Restaurant<TKey, TUser> : DomainEntityIdMetadata<TKey>
         where TKey : IEquatable<TKey>
         where TUser : AppUser<TKey>
     {

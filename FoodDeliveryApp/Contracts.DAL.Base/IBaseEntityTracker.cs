@@ -1,5 +1,6 @@
 using System;
 using Contracts.Domain;
+using Contracts.Domain.Basic;
 
 namespace Contracts.DAL.Base
 {
@@ -12,6 +13,6 @@ namespace Contracts.DAL.Base
     where TKey: IEquatable<TKey>
     {
         //Dictionary<IDomainEntityId<TKey>, IDomainEntityId<TKey>> EntityTracker { get;  }
-        void AddToEntityTracker(IDomainBaseEntity<TKey> internalEntity, IDomainBaseEntity<TKey> externalEntity);
+        void AddToEntityTracker(IDomainEntityId<TKey> internalEntityId, IDomainEntityId<TKey> externalEntityId);
     }
 }
