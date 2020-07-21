@@ -11,6 +11,7 @@ import store from '../../store'
 import { Component, Vue } from 'vue-property-decorator';
 import { IRestaurantView } from "@/domain/IRestaurant";
 import RestaurantView from '@/components/RestaurantView.vue';
+
 @Component({
     components: { RestaurantView }
 })

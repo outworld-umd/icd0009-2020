@@ -22,10 +22,12 @@
 
 <script lang="ts">
 import router from '@/router';
-import store from '@/store'
+import store from '@/store';
+import OrderModule from '@/store/modules/OrderModule';
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { IRestaurant } from "@/domain/IRestaurant";
 import ItemView from "@/components/ItemView.vue";
+import { getModule } from "vuex-module-decorators";
 
 @Component({
     components: { ItemView }
@@ -49,7 +51,7 @@ export default class RestaurantMenu extends Vue {
     }
 
     updated(): void {
-        this.orderHasItems = store.getters.orderHasItems
+        this.orderHasItems = getModule(OrderModule, store).orderHasItems
     }
 }
 </script>

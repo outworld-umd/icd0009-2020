@@ -20,9 +20,11 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import store from "@/store";
+import OrderModule from '@/store/modules/OrderModule';
 import { IItem } from "@/domain/IItem";
 import { IOrderRowTemp } from "@/domain/IOrderRow";
 import { IOrderItemChoiceTemp } from "@/domain/IOrderItemChoice";
+import { getModule } from "vuex-module-decorators";
 
 @Component
 export default class Item extends Vue {
@@ -33,7 +35,7 @@ export default class Item extends Vue {
 
     amount = 0;
     get totalAmount(): number {
-        return store.getters.totalAmount;
+        return getModule(OrderModule, store).totalAmount;
     }
 
     get item(): IItem | null {
@@ -49,24 +51,24 @@ export default class Item extends Vue {
     }
 
     addToOrder(): void {
-        if (!store.state.currentRestaurantId || (store.state.currentRestaurantId !== this.restaurantId && confirm(this.$t('order.deleteOld').toString()))) {
+        if (!getModule(OrderModule, store).currentRestaurantId || (getModule(OrderModule, store).currentRestaurantId !== this.restaurantId && confirm(this.$t('order.deleteOld').toString()))) {
             store.commit('setCurrentRestaurantId', this.restaurantId);
             store.commit('setCurrentRestaurantName', this.restaurantName);
             store.commit('setDeliveryCost', this.deliveryCost);
             store.commit('clearOrders')
         }
-        if (store.state.currentRestaurantId === this.restaurantId) {
+        if (getModule(OrderModule, store).currentRestaurantId === this.restaurantId) {
             const choices = [] as IOrderItemChoiceTemp[];
             const orderRow: IOrderRowTemp = {
                 itemId: this.id,
                 amount: this.amount,
-                cost: this.item?.price!,
+                cost: this.item?.price ?? 0,
                 choices: choices
             };
             store.commit('addOrderRow', orderRow)
         }
         this.$bvModal.hide(this.id)
-        console.log(store.state.currentRestaurantId, store.state.currentRestaurantName)
+        console.log(getModule(OrderModule, store).currentRestaurantId, getModule(OrderModule, store).currentRestaurantName)
     }
 
     beforeShown(): void {

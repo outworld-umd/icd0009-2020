@@ -22,23 +22,25 @@
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 import store from '@/store'
+import OrderModule from '@/store/modules/OrderModule'
+import { getModule } from "vuex-module-decorators";
 
 @Component
 export default class CurrentOrder extends Vue {
     get currentRestaurantName(): string | null {
-        return store.state.currentRestaurantName;
+        return getModule(OrderModule, store).currentRestaurantName;
     }
 
     get foodCost(): number {
-        return store.getters.foodCost;
+        return getModule(OrderModule, store).foodCost;
     }
 
     get deliveryCost(): number {
-        return store.state.deliveryCost;
+        return getModule(OrderModule, store).deliveryCost;
     }
 
     get orderHasItems(): boolean {
-        return store.getters.orderHasItems;
+        return getModule(OrderModule, store).orderHasItems;
     }
 
     get orderTotal(): number {

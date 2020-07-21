@@ -1,82 +1,21 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { Locales } from "@/i18n/locales";
 import createPersistedState from 'vuex-persistedstate';
-import { defaultLocale } from "@/i18n";
-import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
-import { ILoginRequest } from "@/domain/identity/ILoginRequest";
-import { AccountAPI } from "@/services/AccountAPI";
 import { IRestaurant, IRestaurantView } from "@/domain/IRestaurant";
 import { DayOfWeek } from "@/domain/IWorkingHours";
-import { IOrderRowTemp } from "@/domain/IOrderRow";
 import { IItem } from "@/domain/IItem";
+import UserModule from "@/store/modules/UserModule";
+import OrderModule from "@/store/modules/OrderModule";
 
 Vue.use(Vuex)
-
-@Module({ name: 'user' })
-export class UserModule extends VuexModule {
-    jwt: string | null = null;
-    role: string | null = null;
-    lang: Locales = defaultLocale;
-
-    get isAuthenticated(): boolean {
-        return this.jwt !== null;
-    }
-
-    @Mutation
-    setLanguage(lang: Locales) {
-        this.lang = lang
-    }
-
-    @Mutation
-    setJwt(jwt: string) {
-        this.jwt = jwt;
-    }
-
-    @Mutation
-    setRole(role: string) {
-        this.role = role;
-    }
-
-    @Mutation
-    clearJwt(): void {
-        this.jwt = null;
-    };
-
-    @Action
-    async authenticateUser(loginDTO: ILoginRequest): Promise<boolean> {
-        const jwt = await AccountAPI.login(loginDTO);
-        this.context.commit('setJwt', jwt);
-        return jwt !== null;
-    }
-}
 
 export default new Vuex.Store({
     state: {
         restaurants: [] as IRestaurantView[],
         restaurant: null as IRestaurant | null,
-        currentRestaurantId: null as string | null,
-        currentRestaurantName: null as string | null,
-        item: null as IItem | null,
-        deliveryCost: 0 as number,
-        orderRows: [] as IOrderRowTemp[]
+        item: null as IItem | null
     },
-    getters: {
-        orderHasItems(state): boolean {
-            return state.orderRows.length !== 0;
-        },
-        foodCost(state): number {
-            return state.orderRows.reduce(
-                (a: number, b: IOrderRowTemp) => a + b.amount * b.cost + b.choices.reduce(
-                    (c, d) => c + d.amount * d.cost, 0), 0);
-        },
-        amountOfItem: (state) => (id: string) => {
-            return state.orderRows.filter((r: IOrderRowTemp) => r.itemId === id).reduce((a: number, b: IOrderRowTemp) => a + b.amount, 0)
-        },
-        totalAmount(state): number {
-            return state.orderRows.reduce((a: number, b: IOrderRowTemp) => a + b.amount, 0)
-        }
-    },
+    getters: {},
     mutations: {
         setRestaurants(state, restaurants: IRestaurantView[]) {
             state.restaurants = restaurants;
@@ -84,28 +23,8 @@ export default new Vuex.Store({
         setRestaurant(state, restaurant: IRestaurant) {
             state.restaurant = restaurant;
         },
-        setCurrentRestaurantId(state, id: string) {
-            state.currentRestaurantId = id;
-        },
-        setCurrentRestaurantName(state, name: string) {
-            state.currentRestaurantName = name;
-        },
-        setDeliveryCost(state, cost: number) {
-            state.deliveryCost = cost;
-        },
-        clearOrders(state) {
-            state.orderRows = [];
-        },
-        deleteFromOrder(state, id: string) {
-            state.orderRows = state.orderRows.filter((o: IOrderRowTemp) => o.itemId !== id);
-        },
         setItem(state, item: IItem) {
             state.item = item;
-        },
-        addOrderRow(state, orderRowTemp: IOrderRowTemp) {
-            if (orderRowTemp.amount) {
-                state.orderRows.push(orderRowTemp)
-            }
         }
     },
     actions: {
@@ -247,7 +166,8 @@ export default new Vuex.Store({
         }
     },
     modules: {
-        user: UserModule
+        user: UserModule,
+        order: OrderModule
     },
     plugins: [createPersistedState({
         paths: ['user']

@@ -1,7 +1,8 @@
 import Axios, { AxiosError, AxiosResponse } from "axios";
 import { IFetchResponse } from "@/types/IFetchResponse";
 import { getModule } from "vuex-module-decorators";
-import store, { UserModule } from "@/store";
+import store from "@/store";
+import UserModule from '@/store/modules/UserModule'
 import { IMessage } from "@/types/IMessage";
 
 export abstract class BaseAPI {

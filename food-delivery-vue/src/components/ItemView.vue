@@ -14,9 +14,11 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { IItem, IItemView } from "@/domain/IItem";
-import store from '@/store'
+import { IItemView } from "@/domain/IItem";
+import store from '@/store';
+import OrderModule from '@/store/modules/OrderModule';
 import { IRestaurant } from "@/domain/IRestaurant";
+import { getModule } from "vuex-module-decorators";
 
 @Component({
     components: {
@@ -28,7 +30,7 @@ export default class ItemView extends Vue {
     @Prop() restaurant!: IRestaurant;
 
     get amount(): number {
-        return store.getters.amountOfItem(this.itemView.id);
+        return getModule(OrderModule, store).amountOfItem(this.itemView.id);
     }
 
     showModal(id: string) {

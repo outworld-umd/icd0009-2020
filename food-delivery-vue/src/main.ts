@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import store, { UserModule } from './store'
+import store from '@/store';
+import UserModule from '@/store/modules/UserModule'
 import { getModule } from 'vuex-module-decorators'
 import VueI18n from 'vue-i18n';
 import { messages, defaultLocale } from '@/i18n';

@@ -8,7 +8,8 @@
 
 <script lang="ts">
 import { LOCALES, Locales } from "@/i18n/locales";
-import store, { UserModule } from "@/store";
+import store from "@/store";
+import UserModule from '@/store/modules/UserModule';
 import { Component, Vue } from "vue-property-decorator";
 import { getModule } from "vuex-module-decorators";
 
