@@ -8,7 +8,7 @@ Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
     {
-        path: '/',
+        path: '/restaurants',
         name: 'Restaurants',
         component: RestaurantIndex
     },

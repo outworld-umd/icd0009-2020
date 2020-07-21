@@ -1,39 +1,29 @@
 <template>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-            <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <div class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <router-link to="/">Restaurants</router-link>
+                        <router-link class="nav-link" to="/restaurants">Restaurants</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link to="/about">About</router-link>
+                        <router-link class="nav-link" to="/about">About</router-link>
                     </li>
                 </ul>
-            </div>
-            <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
                 <ul class="navbar-nav ml-auto">
-                    <Language />
+                    <Language/>
                 </ul>
             </div>
         </nav>
         <router-view class="container my-4"/>
-        <CurrentOrder />
+        <CurrentOrder/>
     </div>
 </template>
 
 <style>
     #app {
         text-align: center;
-    }
-
-    #nav a {
-        font-weight: bold;
-        color: #2c3e50;
-    }
-
-    #nav a.router-link-exact-active {
-        color: #42b983;
     }
 
     html {

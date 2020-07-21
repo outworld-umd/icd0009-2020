@@ -42,7 +42,7 @@ export default class RestaurantMenu extends Vue {
 
     goBack(): void {
         router.push({
-            path: '/'
+            path: '/restaurants'
         })
     }
 

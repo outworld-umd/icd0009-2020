@@ -16,6 +16,7 @@
     "deleteOld": "Teie vana tellimus kustutakse ära. Soovite jätkata?",
     "foodCost": "Toit kokku",
     "deliveryCost": "Kohaletoomine",
-    "total": "Tellimus kokku"
+    "total": "Tellimus kokku",
+    "required": "Kohustuslik"
   }
 }

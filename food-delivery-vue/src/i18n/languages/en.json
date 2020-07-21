@@ -16,6 +16,7 @@
     "deleteOld": "Your previous order will not be saved. Proceed?",
     "foodCost": "Food Cost",
     "deliveryCost": "Delivery Cost",
-    "total": "Order Total"
+    "total": "Order Total",
+    "required": "Required"
   }
 }

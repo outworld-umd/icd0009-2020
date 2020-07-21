@@ -144,8 +144,73 @@ export default new Vuex.Store({
                     name: "Burger Large Meal",
                     price: 5.20,
                     nutritionInfos: [],
-                    options: [],
-                    description: "Ох ебать как вкусно охуеть не встать =DDD"
+                    options: [
+                        {
+                            id: "1",
+                            name: "Fries",
+                            isRequired: true,
+                            isSingle: true,
+                            choices: [
+                                {
+                                    id: "1",
+                                    name: "Small french fries",
+                                    additionalPrice: 0
+                                },
+                                {
+                                    id: "2",
+                                    name: "Medium french fries",
+                                    additionalPrice: 0.2
+                                },
+                                {
+                                    id: "3",
+                                    name: "Big french fries",
+                                    additionalPrice: 0.5
+                                }
+                            ]
+                        },
+                        {
+                            id: "2",
+                            name: "Drink",
+                            isRequired: true,
+                            isSingle: true,
+                            choices: [
+                                {
+                                    id: "4",
+                                    name: "Coca-Cola",
+                                    additionalPrice: 0
+                                },
+                                {
+                                    id: "5",
+                                    name: "Coca-Cola Zero",
+                                    additionalPrice: 0
+                                },
+                                {
+                                    id: "6",
+                                    name: "Coca-Cola Vanilla",
+                                    additionalPrice: 0.3
+                                }
+                            ]
+                        },
+                        {
+                            id: "3",
+                            name: "Other",
+                            isRequired: false,
+                            isSingle: false,
+                            choices: [
+                                {
+                                    id: "7",
+                                    name: "Plastic Bag",
+                                    additionalPrice: 20
+                                },
+                                {
+                                    id: "8",
+                                    name: "Condoms",
+                                    additionalPrice: 0.69
+                                }
+                            ]
+                        }
+                    ],
+                    description: "This Burger large meal is our best!"
                 },
                 {
                     id: "2",
