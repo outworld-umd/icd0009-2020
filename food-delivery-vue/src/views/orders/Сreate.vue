@@ -8,7 +8,7 @@
             <div class="container w-75 ">
                 <table class="table mt-5">
                     <tr v-for="row in orderRows" :key="row.name">
-                        <td class="h5 w-10">{{ row.amount }}x</td>
+<!--                        <td class="h5 w-10">{{ row.amount }}x</td>-->
                         <td class="h5">
                             {{ row.name }} <span style="float: right">{{ row.cost.toFixed(2) }}€</span>
                             <div class="font-weight-light h6 text-secondary">
@@ -18,11 +18,14 @@
                             </div>
                             <div v-if="row.comment" class="small text-secondary font-weight-light font-italic">"{{ row.comment }}"</div>
                         </td>
-                        <td class="h3 text-right">{{ rowCost(row).toFixed(2) }}€</td>
-                        <td>
-                            <button class="btn btn-danger rounded-circle text-white shadow-none"  style="float: right" @click="deleteRowFromOrder(row)">
-                                <span class="fa fa-trash"></span>
-                            </button>
+                        <td style="width: 10%;" class=" px-4 h3 text-right">{{ rowCost(row).toFixed(2) }}€</td>
+                        <td style="width: 25%;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <button class="btn btn-secondary btn-circle btn-circle-sm text-white shadow-none" :disabled="row.amount < 2" @click="decrement(row)"><span class="fa fa-minus"></span></button>
+                                <div class="h3 text-center">{{ row.amount }}</div>
+                                <button class="btn btn-secondary btn-circle btn-circle-sm rounded-circle text-white shadow-none" :disabled="totalAmount > 19" @click="increment(row)"><span class="fa fa-plus"></span></button>
+                                <button class="btn btn-danger btn-circle btn-circle-sm rounded-circle text-white shadow-none"  style="float: right" @click="deleteRowFromOrder(row)"><span class="fa fa-trash"></span></button>
+                            </div>
                         </td>
                     </tr>
                 </table>
@@ -99,6 +102,10 @@ export default class OrderCreate extends Vue {
         return getModule(OrderModule, store).foodCost;
     }
 
+    get totalAmount(): number {
+        return getModule(OrderModule, store).totalAmount;
+    }
+
     get deliveryCost(): number {
         return getModule(OrderModule, store).deliveryCost;
     }
@@ -108,7 +115,15 @@ export default class OrderCreate extends Vue {
     }
 
     get orderTotal(): number {
-        return this.foodCost + this.deliveryCost
+        return this.foodCost + this.deliveryCost;
+    }
+
+    increment(row: IOrderRowTemp): void {
+        getModule(OrderModule, store).increment(row);
+    }
+
+    decrement(row: IOrderRowTemp): void {
+        getModule(OrderModule, store).decrement(row);
     }
 
     rowCost(row: IOrderRowTemp): number {
@@ -128,5 +143,38 @@ export default class OrderCreate extends Vue {
 }
 </script>
 <style scoped>
+    .btn-circle {
+        width: 45px;
+        height: 45px;
+        line-height: 45px;
+        text-align: center;
+        padding: 0;
+        border-radius: 50%;
+    }
 
+    .btn-circle i {
+        position: relative;
+        top: -1px;
+    }
+
+    .btn-circle-sm {
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        font-size: 0.9rem;
+    }
+
+    .btn-circle-lg {
+        width: 55px;
+        height: 55px;
+        line-height: 55px;
+        font-size: 1.1rem;
+    }
+
+    .btn-circle-xl {
+        width: 70px;
+        height: 70px;
+        line-height: 70px;
+        font-size: 1.3rem;
+    }
 </style>

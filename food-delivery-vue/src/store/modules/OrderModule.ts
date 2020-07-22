@@ -40,6 +40,22 @@ export default class OrderModule extends VuexModule {
     }
 
     @Mutation
+    increment(row: IOrderRowTemp) {
+        const index = this.orderRows.findIndex(r => r === row);
+        row.amount++;
+        row.choices.forEach(c => c.amount++);
+        this.orderRows[index] = row;
+    }
+
+    @Mutation
+    decrement(row: IOrderRowTemp) {
+        const index = this.orderRows.findIndex(r => r === row);
+        row.amount--;
+        row.choices.forEach(c => c.amount--);
+        this.orderRows[index] = row;
+    }
+
+    @Mutation
     setCurrentRestaurantId(id: string) {
         this.currentRestaurantId = id;
     }
