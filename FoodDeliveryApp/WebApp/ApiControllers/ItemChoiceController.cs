@@ -7,28 +7,32 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain.App;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.ApiControllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class ItemChoicesController : ControllerBase
+    [ApiVersion( "1.0" )]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public class ItemChoiceController : ControllerBase
     {
         private readonly AppDbContext _context;
 
-        public ItemChoicesController(AppDbContext context)
+        public ItemChoiceController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/ItemChoices
+        // GET: api/ItemChoice
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ItemChoice>>> GetItemChoices()
         {
             return await _context.ItemChoices.ToListAsync();
         }
 
-        // GET: api/ItemChoices/5
+        // GET: api/ItemChoice/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ItemChoice>> GetItemChoice(Guid id)
         {
@@ -42,7 +46,7 @@ namespace WebApp.ApiControllers
             return itemChoice;
         }
 
-        // PUT: api/ItemChoices/5
+        // PUT: api/ItemChoice/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
@@ -74,7 +78,7 @@ namespace WebApp.ApiControllers
             return NoContent();
         }
 
-        // POST: api/ItemChoices
+        // POST: api/ItemChoice
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
@@ -86,7 +90,7 @@ namespace WebApp.ApiControllers
             return CreatedAtAction("GetItemChoice", new { id = itemChoice.Id }, itemChoice);
         }
 
-        // DELETE: api/ItemChoices/5
+        // DELETE: api/ItemChoice/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<ItemChoice>> DeleteItemChoice(Guid id)
         {

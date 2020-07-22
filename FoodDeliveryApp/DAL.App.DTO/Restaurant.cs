@@ -23,6 +23,7 @@ namespace DAL.App.DTO
         public string Phone { get; set; } = default!;
         public string Address { get; set; } = default!;
         public string? Description { get; set; }
+        public decimal DeliveryCost { get; set; }
 
         public ICollection<WorkingHours>? WorkingHourses { get; set; }
         public ICollection<RestaurantCategory>? RestaurantCategories { get; set; }

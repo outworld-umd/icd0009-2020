@@ -4,6 +4,7 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <UserSecretsId>aspnet-WebApp-84AABFB2-469B-4732-886E-76AD9D5EC49B</UserSecretsId>
     </PropertyGroup>
+    
     <PropertyGroup>
       <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\WebApp.xml</DocumentationFile>
     </PropertyGroup>
@@ -14,6 +15,8 @@
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.6" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.6" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.6" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.1.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="4.1.1" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.6" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.6" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.6" />
@@ -21,6 +24,7 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.6" />
         <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.7.1" />
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.7.1" />
     </ItemGroup>
 
@@ -29,6 +33,7 @@
       <ProjectReference Include="..\Contracts.BLL.App\Contracts.BLL.App.csproj" />
       <ProjectReference Include="..\DAL.App.EF\DAL.App.EF.csproj" />
       <ProjectReference Include="..\Extensions\Extensions.csproj" />
+      <ProjectReference Include="..\PublicApi.DTO.v1\PublicApi.DTO.v1.csproj" />
     </ItemGroup>
 
     <ItemGroup>

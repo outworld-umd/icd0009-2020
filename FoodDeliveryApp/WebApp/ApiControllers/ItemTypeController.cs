@@ -7,53 +7,57 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain.App;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.ApiControllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class CategoriesController : ControllerBase
+    [ApiVersion( "1.0" )]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public class ItemTypeController : ControllerBase
     {
         private readonly AppDbContext _context;
 
-        public CategoriesController(AppDbContext context)
+        public ItemTypeController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Categories
+        // GET: api/ItemType
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
+        public async Task<ActionResult<IEnumerable<ItemType>>> GetItemTypes()
         {
-            return await _context.Categories.ToListAsync();
+            return await _context.ItemTypes.ToListAsync();
         }
 
-        // GET: api/Categories/5
+        // GET: api/ItemType/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Category>> GetCategory(Guid id)
+        public async Task<ActionResult<ItemType>> GetItemType(Guid id)
         {
-            var category = await _context.Categories.FindAsync(id);
+            var itemType = await _context.ItemTypes.FindAsync(id);
 
-            if (category == null)
+            if (itemType == null)
             {
                 return NotFound();
             }
 
-            return category;
+            return itemType;
         }
 
-        // PUT: api/Categories/5
+        // PUT: api/ItemType/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCategory(Guid id, Category category)
+        public async Task<IActionResult> PutItemType(Guid id, ItemType itemType)
         {
-            if (id != category.Id)
+            if (id != itemType.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(category).State = EntityState.Modified;
+            _context.Entry(itemType).State = EntityState.Modified;
 
             try
             {
@@ -61,7 +65,7 @@ namespace WebApp.ApiControllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CategoryExists(id))
+                if (!ItemTypeExists(id))
                 {
                     return NotFound();
                 }
@@ -74,37 +78,37 @@ namespace WebApp.ApiControllers
             return NoContent();
         }
 
-        // POST: api/Categories
+        // POST: api/ItemType
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Category>> PostCategory(Category category)
+        public async Task<ActionResult<ItemType>> PostItemType(ItemType itemType)
         {
-            _context.Categories.Add(category);
+            _context.ItemTypes.Add(itemType);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCategory", new { id = category.Id }, category);
+            return CreatedAtAction("GetItemType", new { id = itemType.Id }, itemType);
         }
 
-        // DELETE: api/Categories/5
+        // DELETE: api/ItemType/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Category>> DeleteCategory(Guid id)
+        public async Task<ActionResult<ItemType>> DeleteItemType(Guid id)
         {
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
+            var itemType = await _context.ItemTypes.FindAsync(id);
+            if (itemType == null)
             {
                 return NotFound();
             }
 
-            _context.Categories.Remove(category);
+            _context.ItemTypes.Remove(itemType);
             await _context.SaveChangesAsync();
 
-            return category;
+            return itemType;
         }
 
-        private bool CategoryExists(Guid id)
+        private bool ItemTypeExists(Guid id)
         {
-            return _context.Categories.Any(e => e.Id == id);
+            return _context.ItemTypes.Any(e => e.Id == id);
         }
     }
 }

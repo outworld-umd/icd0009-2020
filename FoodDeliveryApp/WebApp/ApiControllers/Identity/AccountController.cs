@@ -9,8 +9,9 @@ using Microsoft.Extensions.Logging;
 
 namespace WebApp.ApiControllers.Identity
 {
-    [ApiController]
-    [Route("api/[controller]/[action]")]
+[ApiController]
+    [ApiVersion( "1.0" )]
+    [Route("api/v{version:apiVersion}/[controller]/[action]")]
     public class AccountController : ControllerBase
     {
         private readonly IConfiguration _configuration;
@@ -73,9 +74,6 @@ namespace WebApp.ApiControllers.Identity
             public string Password { get; set; } = default!;
             public string FirstName { get; set; } = default!;
             public string LastName { get; set; } = default!;
-            public string Phone { get; set; } = default!;
         }
-
-        
     }
 }

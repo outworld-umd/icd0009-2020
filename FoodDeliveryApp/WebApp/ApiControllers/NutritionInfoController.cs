@@ -7,28 +7,32 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain.App;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.ApiControllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class NutritionInfosController : ControllerBase
+    [ApiVersion( "1.0" )]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public class NutritionInfoController : ControllerBase
     {
         private readonly AppDbContext _context;
 
-        public NutritionInfosController(AppDbContext context)
+        public NutritionInfoController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/NutritionInfos
+        // GET: api/NutritionInfo
         [HttpGet]
         public async Task<ActionResult<IEnumerable<NutritionInfo>>> GetNutritionInfos()
         {
             return await _context.NutritionInfos.ToListAsync();
         }
 
-        // GET: api/NutritionInfos/5
+        // GET: api/NutritionInfo/5
         [HttpGet("{id}")]
         public async Task<ActionResult<NutritionInfo>> GetNutritionInfo(Guid id)
         {
@@ -42,7 +46,7 @@ namespace WebApp.ApiControllers
             return nutritionInfo;
         }
 
-        // PUT: api/NutritionInfos/5
+        // PUT: api/NutritionInfo/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
@@ -74,7 +78,7 @@ namespace WebApp.ApiControllers
             return NoContent();
         }
 
-        // POST: api/NutritionInfos
+        // POST: api/NutritionInfo
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
@@ -86,7 +90,7 @@ namespace WebApp.ApiControllers
             return CreatedAtAction("GetNutritionInfo", new { id = nutritionInfo.Id }, nutritionInfo);
         }
 
-        // DELETE: api/NutritionInfos/5
+        // DELETE: api/NutritionInfo/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<NutritionInfo>> DeleteNutritionInfo(Guid id)
         {

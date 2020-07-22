@@ -1,8 +1,5 @@
 using System;
-using Contracts.Domain;
 using Contracts.Domain.Combined;
-using DAL.App.DTO.Identity;
-using Domain.Base;
 
 namespace DAL.App.DTO
 {
@@ -20,7 +17,7 @@ namespace DAL.App.DTO
         public int Amount { get; set; }
         public decimal Cost { get; set; }
         public string? Comment { get; set; }
-
+        
         public TKey Id { get; set; } = default!;
         public string? CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
