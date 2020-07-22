@@ -3,6 +3,7 @@
         <div class="row">
             <RestaurantView v-for="restaurant in restaurants" :key="restaurant.id" :restaurant="restaurant"/>
         </div>
+        <CurrentOrder/>
     </div>
 </template>
 
@@ -11,9 +12,10 @@ import store from '../../store'
 import { Component, Vue } from 'vue-property-decorator';
 import { IRestaurantView } from "@/domain/IRestaurant";
 import RestaurantView from '@/components/RestaurantView.vue';
+import CurrentOrder from "@/components/CurrentOrder.vue";
 
 @Component({
-    components: { RestaurantView }
+    components: { RestaurantView, CurrentOrder }
 })
 export default class RestaurantIndex extends Vue {
     get restaurants(): IRestaurantView[] {

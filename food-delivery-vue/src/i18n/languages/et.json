@@ -2,10 +2,11 @@
   "buttons": {
     "back": "Tagasi",
     "next": "Edasi",
-    "clear": "Tühista",
+    "clear": "Tühista tellimus",
     "order": "Telli",
     "orderDelete": "Kustuta tellimusest",
-    "orderAdd": "Lisa tellimusse"
+    "orderAdd": "Lisa tellimusse",
+    "choose": "Vali"
   },
   "restaurant": {
     "closed": "Restoran on suletud",
@@ -17,6 +18,9 @@
     "foodCost": "Toit kokku",
     "deliveryCost": "Kohaletoomine",
     "total": "Tellimus kokku",
-    "required": "Kohustuslik"
+    "required": "Kohustuslik",
+    "newOrderAt": "Sinu uus tellimus kohas",
+    "address": "Tellimuse aadress",
+    "paymentMethod": "Makseviis"
   }
 }

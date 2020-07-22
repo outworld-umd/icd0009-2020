@@ -6,7 +6,7 @@ import { AccountAPI } from "@/services/AccountAPI";
 
 @Module({ name: 'user' })
 export default class UserModule extends VuexModule {
-    jwt: string | null = null;
+    jwt: string | null = "Testing";
     role: string | null = null;
     lang: Locales = defaultLocale;
 
@@ -16,7 +16,7 @@ export default class UserModule extends VuexModule {
 
     @Mutation
     setLanguage(lang: Locales) {
-        this.lang = lang
+        this.lang = lang;
     }
 
     @Mutation

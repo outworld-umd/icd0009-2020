@@ -9,20 +9,13 @@ export interface IOrderItemChoice {
 
 export interface IOrderItemChoiceTemp {
     itemChoiceId: string;
+    name: string;
     amount: number;
     cost: number;
 }
 
 export interface IOrderItemChoiceCreate {
     orderRowId?: string;
-    itemChoiceId: string;
-    amount: number;
-    cost: number;
-}
-
-export interface IOrderItemChoiceEdit {
-    id: string;
-    orderRowId: string;
     itemChoiceId: string;
     amount: number;
     cost: number;

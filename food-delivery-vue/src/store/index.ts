@@ -43,7 +43,7 @@ export default new Vuex.Store({
                     name: "Not a Restaurant",
                     isOpen: true,
                     categories: ["Sushi", "Burgers"],
-                    deliveryCost: 0.15
+                    deliveryCost: 0.36
                 },
                 {
                     id: "3",
@@ -56,7 +56,7 @@ export default new Vuex.Store({
             context.commit('setRestaurants', restaurants);
         },
         async getRestaurant(context, id: string): Promise<void> {
-            // const restaurant = RestaurantAPI.get(id);
+            // const restaurant = await RestaurantAPI.get(id);
             const restaurant: IRestaurant = {
                 id: "1",
                 deliveryCost: 2.34,
@@ -137,13 +137,26 @@ export default new Vuex.Store({
             context.commit('setRestaurant', id === "1" ? restaurant : null);
         },
         async getItem(context, id: string): Promise<void> {
-            // const item = ItemAPI.get(id);
+            // const item = await ItemAPI.get(id);
             const items: IItem[] = [
                 {
                     id: "1",
                     name: "Burger Large Meal",
                     price: 5.20,
-                    nutritionInfos: [],
+                    nutritionInfos: [
+                        {
+                            id: "1",
+                            name: "Sugar",
+                            amount: 25,
+                            unit: "g"
+                        },
+                        {
+                            id: "2",
+                            name: "Calories",
+                            amount: 600,
+                            unit: "kcal"
+                        }
+                    ],
                     options: [
                         {
                             id: "1",

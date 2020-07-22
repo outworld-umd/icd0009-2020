@@ -4,8 +4,17 @@
             <h3>{{ item.name }}</h3>
         </template>
         <div v-if="item">
-            <p class="my-4">{{ item.description }}</p>
+            <p class="mb-5 font-weight-light">{{ item.description }}</p>
             <div class="container" >
+                <hr v-if="item.nutritionInfos"/>
+                <table v-if="item.nutritionInfos" class="table table-borderless table-sm w-75 text-center mx-auto small">
+                    <tbody>
+                    <tr v-for="info in item.nutritionInfos" :key="info.id">
+                        <td>{{ info.name }}</td>
+                        <td>{{ info.amount }} {{ info.unit }}</td>
+                    </tr>
+                    </tbody>
+                </table>
                 <hr v-if="item.options"/>
                 <div v-for="option in item.options" :key="option.id">
                     <div class="mb-2">
@@ -14,28 +23,32 @@
                     </div>
                     <div v-if="option.isSingle">
                         <div v-for="choice in option.choices" :key="choice.id">
-                            <label>
+                            <label class="font-weight-light">
                                 <input :id="choice.id" :value='choice' v-model="chosenRadios[option.id]" type="radio">
-                                {{ choice.name }} +{{ choice.additionalPrice }}€
+                                {{ choice.name }} <span v-if="choice.additionalPrice" class="font-weight-light">+{{ choice.additionalPrice.toFixed(2) }}€</span>
                             </label>
                         </div>
                     </div>
                     <div v-else>
                         <div v-for="choice in option.choices" :key="choice.id">
-                            <label>
+                            <label class="font-weight-light">
                                 <input :value='choice' v-model="chosenBoxes" type="checkbox">
-                                {{ choice.name }} +{{ choice.additionalPrice }}€
+                                {{ choice.name }} <span v-if="choice.additionalPrice">+{{ choice.additionalPrice.toFixed(2) }}€</span>
                             </label>
                         </div>
                     </div>
                     <hr/>
                 </div>
             </div>
-            <div class="m-5 d-flex justify-content-center align-items-center">
+            <div class="mt-5 d-flex justify-content-center align-items-center">
                 <button class="btn btn-secondary rounded-circle text-white shadow-none" :disabled="amount < 1" @click="decrement"><span class="fa fa-minus"></span></button>
                 <div class="px-4 h3 w-25 text-center">{{ amount }}</div>
                 <button class="btn btn-secondary rounded-circle text-white shadow-none" :disabled="(amount + totalAmount) > 19" @click="increment"><span class="fa fa-plus"></span></button>
             </div>
+                <label class="my-5 container">
+                    <span class="my-2 font-italic font-weight-light">Write a comment for a restaurant:</span>
+                    <input type="text" class="form-control" v-model="comment" maxlength="100">
+                </label>
             <div class="btn-group btn-group-justified mt-2" style="min-width: 100%">
                 <b-button type="button" class="inner btn btn-success" style="min-width: 50%" :disabled="!validateOrder()" @click="addToOrder">{{$t('buttons.orderAdd')}}</b-button>
             </div>
@@ -63,6 +76,7 @@ export default class Item extends Vue {
     chosenRadios: IRadioChoice = {};
     chosenBoxes: IChoice[] = [];
     amount = 0;
+    comment: string | null = null;
 
     get totalAmount(): number {
         return getModule(OrderModule, store).totalAmount;
@@ -81,10 +95,12 @@ export default class Item extends Vue {
     }
 
     validateOrder(): boolean {
-        for (const option of this.item!.options) {
-            if (option.isRequired) {
-                if (option.isSingle && !(Object.prototype.hasOwnProperty.call(this.chosenRadios, option.id))) return false;
-                if (!option.isSingle && !(this.intersect(option.choices.map(d => d.id), this.chosenBoxes.map((d: IChoice) => d.id)))) return false;
+        if (this.item) {
+            for (const option of this.item.options) {
+                if (option.isRequired) {
+                    if (option.isSingle && !(Object.prototype.hasOwnProperty.call(this.chosenRadios, option.id))) return false;
+                    if (!option.isSingle && !(this.intersect(option.choices.map(d => d.id), this.chosenBoxes.map((d: IChoice) => d.id)))) return false;
+                }
             }
         }
         return this.amount > 0
@@ -103,31 +119,36 @@ export default class Item extends Vue {
         }
         if (getModule(OrderModule, store).currentRestaurantId === this.restaurantId) {
             const choices: IOrderItemChoiceTemp[] = [];
+            if (this.item) {
+                for (const option of this.item.options) {
+                    if (option.isRequired && option.isSingle) {
+                        console.log(option.id, this.chosenRadios)
+                        const choice = this.chosenRadios[option.id] as IChoice;
+                        const otherChoice: IOrderItemChoiceTemp = {
+                            itemChoiceId: choice.id,
+                            amount: this.amount,
+                            cost: choice.additionalPrice,
+                            name: choice.name
+                        }
+                        choices.push(otherChoice)
+                    }
+                }
+            }
             for (const choice of this.chosenBoxes) {
                 choices.push({
                     itemChoiceId: choice.id,
                     amount: this.amount,
-                    cost: choice.additionalPrice
+                    cost: choice.additionalPrice,
+                    name: choice.name
                 })
-            }
-
-            for (const option of this.item?.options!) {
-                if (option.isRequired && option.isSingle) {
-                    console.log(option.id, this.chosenRadios)
-                    const choice = this.chosenRadios[option.id] as IChoice;
-                    const otherChoice: IOrderItemChoiceTemp = {
-                        itemChoiceId: choice.id,
-                        amount: this.amount,
-                        cost: choice.additionalPrice
-                    }
-                    choices.push(otherChoice)
-                }
             }
             const orderRow: IOrderRowTemp = {
                 itemId: this.id,
                 amount: this.amount,
+                name: this.item?.name ?? "",
                 cost: this.item?.price ?? 0,
-                choices: choices
+                choices: choices,
+                comment: this.comment ? this.comment : undefined
             };
             store.commit('addOrderRow', orderRow)
         }
@@ -139,6 +160,7 @@ export default class Item extends Vue {
         this.amount = 0;
         this.chosenRadios = {};
         this.chosenBoxes = [];
+        this.comment = null;
         store.dispatch('getItem', this.id)
     }
 

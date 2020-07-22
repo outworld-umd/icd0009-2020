@@ -12,8 +12,8 @@
                 <h4 class="text-white">{{ orderTotal.toFixed(2) }}€</h4>
             </div>
             <div class="ml-auto">
-                <button class="btn mr-3 px-4 btn-light text-danger" @click="clearOrder">{{ $t('buttons.clear') }}</button>
-                <button class="btn mr-5 px-4 btn-light text-success font-weight-bold">{{ $t('buttons.next') }}</button>
+                <button class="btn mr-3 px-4 btn-light text-danger font-weight-bold shadow-none" @click="clearOrder">{{ $t('buttons.clear') }}</button>
+                <router-link to='/orders/new' class="btn mr-5 px-4 btn-light text-success font-weight-bold shadow-none">{{ $t('buttons.next') }}</router-link>
             </div>
         </div>
     </div>

@@ -13,11 +13,11 @@
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     <Language/>
+                    <Account/>
                 </ul>
             </div>
         </nav>
         <router-view class="container my-4"/>
-        <CurrentOrder/>
     </div>
 </template>
 
@@ -35,9 +35,11 @@ import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import Language from "@/components/Language";
 import CurrentOrder from "@/components/CurrentOrder";
+import Account from "@/components/Account";
 
 @Component({
     components: {
+        Account,
         CurrentOrder,
         Language
     }

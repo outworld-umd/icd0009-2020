@@ -2,10 +2,11 @@
   "buttons": {
     "back": "Back",
     "next": "Next",
-    "clear": "Clear",
+    "clear": "Clear order",
     "order": "Order",
     "orderDelete": "Delete from order",
-    "orderAdd": "Add to order"
+    "orderAdd": "Add to order",
+    "choose": "Choose"
   },
   "restaurant": {
     "closed": "Restaurant is closed",
@@ -17,6 +18,9 @@
     "foodCost": "Food Cost",
     "deliveryCost": "Delivery Cost",
     "total": "Order Total",
-    "required": "Required"
+    "required": "Required",
+    "newOrderAt": "Your new order at",
+    "address": "Order address",
+    "paymentMethod": "Payment Method"
   }
 }

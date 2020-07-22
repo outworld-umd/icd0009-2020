@@ -28,6 +28,7 @@ import { getModule } from "vuex-module-decorators";
 export default class ItemView extends Vue {
     @Prop() itemView!: IItemView;
     @Prop() restaurant!: IRestaurant;
+    @Prop() deliveryCost!: number;
 
     get amount(): number {
         return getModule(OrderModule, store).amountOfItem(this.itemView.id);

@@ -30,6 +30,16 @@ export default class OrderModule extends VuexModule {
     }
 
     @Mutation
+    deleteRowFromOrder(orderRow: IOrderRowTemp) {
+        this.orderRows = this.orderRows.filter(o => o !== orderRow)
+        if (!this.orderRows.length) {
+            this.currentRestaurantName = null;
+            this.currentRestaurantId = null;
+            this.deliveryCost = 0;
+        }
+    }
+
+    @Mutation
     setCurrentRestaurantId(id: string) {
         this.currentRestaurantId = id;
     }
@@ -52,6 +62,11 @@ export default class OrderModule extends VuexModule {
     @Mutation
     deleteFromOrder(id: string) {
         this.orderRows = this.orderRows.filter((o: IOrderRowTemp) => o.itemId !== id);
+        if (!this.orderRows.length) {
+            this.currentRestaurantName = null;
+            this.currentRestaurantId = null;
+            this.deliveryCost = 0;
+        }
     }
 
     @Mutation

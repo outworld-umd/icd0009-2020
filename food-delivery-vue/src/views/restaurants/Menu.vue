@@ -17,6 +17,7 @@
             </div>
         </div>
         <h4 v-else class="text-danger">Restaurant not found</h4>
+        <CurrentOrder/>
     </div>
 </template>
 
@@ -28,9 +29,10 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import { IRestaurant } from "@/domain/IRestaurant";
 import ItemView from "@/components/ItemView.vue";
 import { getModule } from "vuex-module-decorators";
+import CurrentOrder from "@/components/CurrentOrder.vue";
 
 @Component({
-    components: { ItemView }
+    components: { ItemView, CurrentOrder }
 })
 export default class RestaurantMenu extends Vue {
     @Prop() id!: string;

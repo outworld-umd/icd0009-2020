@@ -14,6 +14,7 @@ export interface IOrderRow {
 export interface IOrderRowTemp {
     itemId: string;
     amount: number;
+    name: string;
     cost: number;
     comment?: string;
     choices: IOrderItemChoiceTemp[];
