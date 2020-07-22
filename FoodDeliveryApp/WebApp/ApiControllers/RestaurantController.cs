@@ -7,28 +7,32 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain.App;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.ApiControllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class RestaurantsController : ControllerBase
+    [ApiVersion( "1.0" )]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public class RestaurantController : ControllerBase
     {
         private readonly AppDbContext _context;
 
-        public RestaurantsController(AppDbContext context)
+        public RestaurantController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Restaurants
+        // GET: api/Restaurant
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Restaurant>>> GetRestaurants()
         {
             return await _context.Restaurants.ToListAsync();
         }
 
-        // GET: api/Restaurants/5
+        // GET: api/Restaurant/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Restaurant>> GetRestaurant(Guid id)
         {
@@ -42,7 +46,7 @@ namespace WebApp.ApiControllers
             return restaurant;
         }
 
-        // PUT: api/Restaurants/5
+        // PUT: api/Restaurant/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
@@ -74,7 +78,7 @@ namespace WebApp.ApiControllers
             return NoContent();
         }
 
-        // POST: api/Restaurants
+        // POST: api/Restaurant
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
@@ -86,7 +90,7 @@ namespace WebApp.ApiControllers
             return CreatedAtAction("GetRestaurant", new { id = restaurant.Id }, restaurant);
         }
 
-        // DELETE: api/Restaurants/5
+        // DELETE: api/Restaurant/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Restaurant>> DeleteRestaurant(Guid id)
         {

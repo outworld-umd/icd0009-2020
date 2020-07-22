@@ -7,28 +7,32 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain.App;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.ApiControllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class OrderRowsController : ControllerBase
+    [ApiVersion( "1.0" )]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public class OrderRowController : ControllerBase
     {
         private readonly AppDbContext _context;
 
-        public OrderRowsController(AppDbContext context)
+        public OrderRowController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/OrderRows
+        // GET: api/OrderRow
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OrderRow>>> GetOrderRows()
         {
             return await _context.OrderRows.ToListAsync();
         }
 
-        // GET: api/OrderRows/5
+        // GET: api/OrderRow/5
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderRow>> GetOrderRow(Guid id)
         {
@@ -42,7 +46,7 @@ namespace WebApp.ApiControllers
             return orderRow;
         }
 
-        // PUT: api/OrderRows/5
+        // PUT: api/OrderRow/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
@@ -74,7 +78,7 @@ namespace WebApp.ApiControllers
             return NoContent();
         }
 
-        // POST: api/OrderRows
+        // POST: api/OrderRow
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
@@ -86,7 +90,7 @@ namespace WebApp.ApiControllers
             return CreatedAtAction("GetOrderRow", new { id = orderRow.Id }, orderRow);
         }
 
-        // DELETE: api/OrderRows/5
+        // DELETE: api/OrderRow/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<OrderRow>> DeleteOrderRow(Guid id)
         {

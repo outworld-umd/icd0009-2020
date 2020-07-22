@@ -7,28 +7,32 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain.App;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.ApiControllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class OrdersController : ControllerBase
+    [ApiVersion( "1.0" )]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public class OrderController : ControllerBase
     {
         private readonly AppDbContext _context;
 
-        public OrdersController(AppDbContext context)
+        public OrderController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Orders
+        // GET: api/Order
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
         {
             return await _context.Orders.ToListAsync();
         }
 
-        // GET: api/Orders/5
+        // GET: api/Order/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Order>> GetOrder(Guid id)
         {
@@ -42,7 +46,7 @@ namespace WebApp.ApiControllers
             return order;
         }
 
-        // PUT: api/Orders/5
+        // PUT: api/Order/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
@@ -74,7 +78,7 @@ namespace WebApp.ApiControllers
             return NoContent();
         }
 
-        // POST: api/Orders
+        // POST: api/Order
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
@@ -86,7 +90,7 @@ namespace WebApp.ApiControllers
             return CreatedAtAction("GetOrder", new { id = order.Id }, order);
         }
 
-        // DELETE: api/Orders/5
+        // DELETE: api/Order/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Order>> DeleteOrder(Guid id)
         {

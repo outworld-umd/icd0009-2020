@@ -7,28 +7,32 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain.App;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.ApiControllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class OrderItemChoicesController : ControllerBase
+    [ApiVersion( "1.0" )]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public class OrderItemChoiceController : ControllerBase
     {
         private readonly AppDbContext _context;
 
-        public OrderItemChoicesController(AppDbContext context)
+        public OrderItemChoiceController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/OrderItemChoices
+        // GET: api/OrderItemChoice
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OrderItemChoice>>> GetOrderItemChoices()
         {
             return await _context.OrderItemChoices.ToListAsync();
         }
 
-        // GET: api/OrderItemChoices/5
+        // GET: api/OrderItemChoice/5
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderItemChoice>> GetOrderItemChoice(Guid id)
         {
@@ -42,7 +46,7 @@ namespace WebApp.ApiControllers
             return orderItemChoice;
         }
 
-        // PUT: api/OrderItemChoices/5
+        // PUT: api/OrderItemChoice/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
@@ -74,7 +78,7 @@ namespace WebApp.ApiControllers
             return NoContent();
         }
 
-        // POST: api/OrderItemChoices
+        // POST: api/OrderItemChoice
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
@@ -86,7 +90,7 @@ namespace WebApp.ApiControllers
             return CreatedAtAction("GetOrderItemChoice", new { id = orderItemChoice.Id }, orderItemChoice);
         }
 
-        // DELETE: api/OrderItemChoices/5
+        // DELETE: api/OrderItemChoice/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<OrderItemChoice>> DeleteOrderItemChoice(Guid id)
         {

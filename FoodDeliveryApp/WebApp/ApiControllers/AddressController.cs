@@ -7,53 +7,57 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain.App;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.ApiControllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class WorkingHoursesController : ControllerBase
+    [ApiVersion( "1.0" )]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public class AddressController : ControllerBase
     {
         private readonly AppDbContext _context;
 
-        public WorkingHoursesController(AppDbContext context)
+        public AddressController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/WorkingHourses
+        // GET: api/Address
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<WorkingHours>>> GetWorkingHourses()
+        public async Task<ActionResult<IEnumerable<Address>>> GetAddresses()
         {
-            return await _context.WorkingHourses.ToListAsync();
+            return await _context.Addresses.ToListAsync();
         }
 
-        // GET: api/WorkingHourses/5
+        // GET: api/Address/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<WorkingHours>> GetWorkingHours(Guid id)
+        public async Task<ActionResult<Address>> GetAddress(Guid id)
         {
-            var workingHours = await _context.WorkingHourses.FindAsync(id);
+            var address = await _context.Addresses.FindAsync(id);
 
-            if (workingHours == null)
+            if (address == null)
             {
                 return NotFound();
             }
 
-            return workingHours;
+            return address;
         }
 
-        // PUT: api/WorkingHourses/5
+        // PUT: api/Address/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutWorkingHours(Guid id, WorkingHours workingHours)
+        public async Task<IActionResult> PutAddress(Guid id, Address address)
         {
-            if (id != workingHours.Id)
+            if (id != address.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(workingHours).State = EntityState.Modified;
+            _context.Entry(address).State = EntityState.Modified;
 
             try
             {
@@ -61,7 +65,7 @@ namespace WebApp.ApiControllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!WorkingHoursExists(id))
+                if (!AddressExists(id))
                 {
                     return NotFound();
                 }
@@ -74,37 +78,37 @@ namespace WebApp.ApiControllers
             return NoContent();
         }
 
-        // POST: api/WorkingHourses
+        // POST: api/Address
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<WorkingHours>> PostWorkingHours(WorkingHours workingHours)
+        public async Task<ActionResult<Address>> PostAddress(Address address)
         {
-            _context.WorkingHourses.Add(workingHours);
+            _context.Addresses.Add(address);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetWorkingHours", new { id = workingHours.Id }, workingHours);
+            return CreatedAtAction("GetAddress", new { id = address.Id }, address);
         }
 
-        // DELETE: api/WorkingHourses/5
+        // DELETE: api/Address/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<WorkingHours>> DeleteWorkingHours(Guid id)
+        public async Task<ActionResult<Address>> DeleteAddress(Guid id)
         {
-            var workingHours = await _context.WorkingHourses.FindAsync(id);
-            if (workingHours == null)
+            var address = await _context.Addresses.FindAsync(id);
+            if (address == null)
             {
                 return NotFound();
             }
 
-            _context.WorkingHourses.Remove(workingHours);
+            _context.Addresses.Remove(address);
             await _context.SaveChangesAsync();
 
-            return workingHours;
+            return address;
         }
 
-        private bool WorkingHoursExists(Guid id)
+        private bool AddressExists(Guid id)
         {
-            return _context.WorkingHourses.Any(e => e.Id == id);
+            return _context.Addresses.Any(e => e.Id == id);
         }
     }
 }
