@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Contracts.BLL.Base.Mappers;
 using Contracts.BLL.Base.Services;
 using Contracts.DAL.Base;
 using Contracts.DAL.Base.Mappers;
@@ -19,10 +20,10 @@ namespace BLL.Base.Services
         where TServiceRepository : IBaseRepository<TDALEntity>
     {
         protected readonly TUnitOfWork ServiceUnitOfWork;
-        protected readonly IBaseMapper<TDALEntity, TBLLEntity> Mapper;
+        protected readonly IBaseBLLMapper<TDALEntity, TBLLEntity> Mapper;
         protected readonly TServiceRepository ServiceRepository;
 
-        public BaseEntityService(TUnitOfWork unitOfWork, IBaseMapper<TDALEntity, TBLLEntity> mapper,
+        public BaseEntityService(TUnitOfWork unitOfWork, IBaseBLLMapper<TDALEntity, TBLLEntity> mapper,
             TServiceRepository serviceRepository)
         {
             ServiceUnitOfWork = unitOfWork;

@@ -1,16 +1,16 @@
 ﻿﻿using AutoMapper;
- using DAL.Base.EF.Mappers;
+using AutoMapper.Configuration;
 
- namespace PublicApi.DTO.v1.Mappers
- {
-    public class ApiDtoMapper<TLeftObject, TRightObject> : BaseMapper<TLeftObject, TRightObject>
+namespace PublicApi.DTO.v1.Mappers.Base
+{
+    public class APIMapper<TLeftObject, TRightObject> : BaseAPIMapper<TLeftObject, TRightObject>
         where TRightObject : class?, new()
         where TLeftObject : class?, new()
     {
-        public ApiDtoMapper() : base()
-        { 
+        public APIMapper() : base()
+        {
             // add more mappings
-            
+
             MapperConfigurationExpression.CreateMap<Identity.AppUser, BLL.App.DTO.Identity.AppUser>();
             MapperConfigurationExpression.CreateMap<Address, BLL.App.DTO.Address>();
             MapperConfigurationExpression.CreateMap<Category, BLL.App.DTO.Category>();
@@ -25,7 +25,7 @@
             MapperConfigurationExpression.CreateMap<Restaurant, BLL.App.DTO.Restaurant>();
             MapperConfigurationExpression.CreateMap<WorkingHours, BLL.App.DTO.WorkingHours>();
 
-            
+
             MapperConfigurationExpression.CreateMap<BLL.App.DTO.Identity.AppUser, Identity.AppUser>();
             MapperConfigurationExpression.CreateMap<BLL.App.DTO.Address, Address>();
             MapperConfigurationExpression.CreateMap<BLL.App.DTO.Category, Category>();
@@ -43,4 +43,4 @@
             Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));
         }
     }
- }
+}

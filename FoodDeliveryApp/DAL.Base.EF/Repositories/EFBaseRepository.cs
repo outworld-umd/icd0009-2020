@@ -94,5 +94,6 @@ namespace DAL.Base.EF.Repositories
         public bool Any(Expression<Func<TDALEntity, bool>> predicate) {
             return RepoDbSet.Select(domainEntity => DALMapper.Map(domainEntity)).Any(predicate);
         }
+        
     }
 }

@@ -1,11 +1,11 @@
 using AutoMapper;
 using BLL.App.DTO;
 using BLL.App.DTO.Identity;
-using DAL.Base.EF.Mappers;
+using BLL.Base.Mappers;
 
 namespace BLL.App.Mappers
 {
-    public class BLLMapper<TRightObject, TLeftObject> : BaseMapper<TRightObject, TLeftObject>
+    public class BLLMapper<TRightObject, TLeftObject> : BaseBLLMapper<TRightObject, TLeftObject>
         where TRightObject : class?, new()
         where TLeftObject : class?, new()
     {
