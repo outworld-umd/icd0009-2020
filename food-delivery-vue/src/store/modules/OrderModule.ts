@@ -1,6 +1,8 @@
-import { getModule, Module, Mutation, VuexModule } from "vuex-module-decorators";
+import { getModule, Module, Mutation, VuexModule, Action } from "vuex-module-decorators";
 import { IOrderRowTemp } from "@/domain/IOrderRow";
 import store from "@/store";
+import { IOrderCreate, IOrderTemp } from "@/domain/IOrder";
+import router from "@/router";
 
 @Module({ name: 'order' })
 export default class OrderModule extends VuexModule {
@@ -8,6 +10,7 @@ export default class OrderModule extends VuexModule {
     currentRestaurantName: string | null = null;
     deliveryCost = 0;
     orderRows: IOrderRowTemp[] = [];
+    loading = false;
 
     get orderHasItems(): boolean {
         return this.orderRows.length !== 0;
@@ -37,6 +40,13 @@ export default class OrderModule extends VuexModule {
             this.currentRestaurantId = null;
             this.deliveryCost = 0;
         }
+    }
+
+    @Mutation
+    setLoading(loading: boolean) {
+        console.log(this.loading)
+        this.loading = loading;
+        console.log(this.loading)
     }
 
     @Mutation
@@ -73,6 +83,9 @@ export default class OrderModule extends VuexModule {
     @Mutation
     clearOrders() {
         this.orderRows = [];
+        this.currentRestaurantName = null;
+        this.currentRestaurantId = null;
+        this.deliveryCost = 0;
     }
 
     @Mutation
@@ -90,5 +103,36 @@ export default class OrderModule extends VuexModule {
         if (orderRowTemp.amount) {
             this.orderRows.push(orderRowTemp)
         }
+    }
+
+    @Action
+    async createOrder(orderTemp: IOrderTemp): Promise<boolean> {
+        const orderCreate: IOrderCreate = {
+            address: orderTemp.address,
+            apartment: orderTemp.apartment,
+            comment: orderTemp.comment,
+            deliveryCost: this.deliveryCost,
+            foodCost: this.foodCost,
+            orderRows: this.orderRows,
+            orderStatus: orderTemp.orderStatus,
+            paymentMethod: orderTemp.paymentMethod,
+            restaurantId: getModule(OrderModule, store).currentRestaurantId ?? undefined,
+            restaurantName: getModule(OrderModule, store).currentRestaurantId ?? undefined
+        }
+        getModule(OrderModule, store).setLoading(true);
+        // FOR TESTING START
+        function sleep(ms: number) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        await sleep(2000);
+        // FOR TESTING END
+        // const orderResponse = await OrderAPI.post(orderCreate)
+        // const p = orderResponse.isSuccessful;
+        getModule(OrderModule, store).setLoading(false);
+        console.log(orderCreate)
+        const p = false;
+        if (p) this.clearOrders();
+        else console.log('PIZDETS');
+        return p;
     }
 }

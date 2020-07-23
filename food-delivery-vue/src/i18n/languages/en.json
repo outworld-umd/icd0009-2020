@@ -21,7 +21,11 @@
     "required": "Required",
     "newOrderAt": "Your new order at",
     "address": "Order address",
-    "paymentMethod": "Payment Method"
+    "paymentMethod": "Payment Method",
+    "payCash": "Paying with cash",
+    "payCard": "Paying with bank card",
+    "warning": "Warning!",
+    "error": "There was an error processing your order!"
   },
   "account": {
     "loginButton": "Login",

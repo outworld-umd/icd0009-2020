@@ -7,12 +7,11 @@
             </div>
             <div class="container w-75 ">
                 <table class="table mt-5">
-                    <tr v-for="row in orderRows" :key="row.name">
-<!--                        <td class="h5 w-10">{{ row.amount }}x</td>-->
+                    <tr v-for="(row, i) in orderRows" :key="i">
                         <td class="h5">
                             {{ row.name }} <span style="float: right">{{ row.cost.toFixed(2) }}€</span>
                             <div class="font-weight-light h6 text-secondary">
-                                <div v-for="choice in row.choices" :key="choice.name">
+                                <div v-for="(choice, i) in row.choices" :key="i">
                                     {{ choice.name }}<span v-if="choice.cost" style="float: right">+{{ choice.cost.toFixed(2) }}€</span>
                                 </div>
                             </div>
@@ -36,22 +35,19 @@
                             <div class="form-group">
                                 <label class="control-label w-75 font-weight-light font-italic">
                                     {{ $t('order.address') }}
-                                    <select class="custom-select font-weight-light">
-                                        <option class="font-weight-light" selected disabled>{{ $t('buttons.choose') }}</option>
-                                        <option class="font-weight-light" value="1">One</option>
-                                        <option class="font-weight-light" value="2">Two</option>
-                                        <option class="font-weight-light" value="3">Three</option>
+                                    <select class="custom-select font-weight-light shadow-none" v-model="address">
+                                        <option class="font-weight-light" :value="null" selected disabled>{{ $t('buttons.choose') }}</option>
+                                        <option class="font-weight-light" v-for="a in addresses" :value="a" :key="a.id">{{ a.name }}</option>
                                     </select>
                                 </label>
                             </div>
                             <div class="form-group">
                                 <label class="control-label w-75 font-weight-light font-italic">
                                     {{ $t('order.paymentMethod') }}
-                                    <select class="custom-select font-weight-light">
-                                        <option class="font-weight-light" selected disabled>{{ $t('buttons.choose') }}</option>
-                                        <option class="font-weight-light" value="1">One</option>
-                                        <option class="font-weight-light" value="2">Two</option>
-                                        <option class="font-weight-light" value="3">Three</option>
+                                    <select class="custom-select font-weight-light shadow-none" v-model="paymentMethod">
+                                        <option class="font-weight-light" :value="null" selected disabled>{{ $t('buttons.choose') }}</option>
+                                        <option class="font-weight-light" :value="cash">{{ $t('order.payCash') }}</option>
+                                        <option class="font-weight-light" :value="card">{{ $t('order.payCard') }}</option>
                                     </select>
                                 </label>
                             </div>
@@ -71,7 +67,10 @@
                     </div>
                     <div class="pull-right mt-4">
                         <button class="btn btn-danger px-4 font-weight-bold shadow-none" @click="clearOrder">{{ $t('buttons.clear') }}</button>
-                        <router-link to='/orders/new' class="btn btn-success px-4 ml-4 shadow-none mr-auto font-weight-bold">{{ $t('buttons.next') }}</router-link>
+                        <button :disabled="!address || paymentMethod === null" :class="{ disabled: loading }" class="btn btn-success px-4 ml-4 shadow-none mr-auto font-weight-bold" data-loading-text="Loa." @click="createOrder">
+                            {{ $t('buttons.next') }}
+                        </button>
+                        <span :class="{ invisible: !loading }" class="spinner-border ml-3 spinner-border-sm text-success" role="status"></span>
                     </div>
                 </div>
             </div>
@@ -87,9 +86,24 @@ import { getModule } from "vuex-module-decorators";
 import { IOrderRowTemp } from "@/domain/IOrderRow";
 import { IOrderItemChoiceTemp } from "@/domain/IOrderItemChoice";
 import router from "@/router";
+import { IAddress } from "@/domain/IAddress";
+import { IOrderTemp, OrderStatus, PaymentMethod } from "@/domain/IOrder";
 
 @Component
 export default class OrderCreate extends Vue {
+    address: IAddress | null = null;
+    paymentMethod: PaymentMethod | null = null;
+    cash = PaymentMethod.CASH;
+    card = PaymentMethod.CARD;
+
+    get loading(): boolean {
+        return getModule(OrderModule, store).loading;
+    }
+
+    get addresses(): IAddress[] {
+        return store.state.addresses;
+    }
+
     get restaurantName(): string | null {
         return getModule(OrderModule, store).currentRestaurantName;
     }
@@ -137,8 +151,36 @@ export default class OrderCreate extends Vue {
         })
     }
 
+    createOrder(): void {
+        const order: IOrderTemp = {
+            address: this.address ? `${this.address.street} ${this.address.buildingNumber}, ${this.address.city}, ${this.address.county}` : '',
+            apartment: this.address?.apartment,
+            comment: this.address?.comment,
+            orderStatus: OrderStatus.SENT,
+            paymentMethod: this.paymentMethod ?? PaymentMethod.CASH
+        }
+        getModule(OrderModule, store).createOrder(order).then(r => {
+            if (r) router.push('/orders');
+            else (this.makeToast())
+        });
+    }
+
+    makeToast() {
+        this.$bvToast.toast(this.$t('order.error').toString(), {
+            title: this.$t('order.warning').toString(),
+            variant: 'danger',
+            toaster: 'b-toaster-top-center',
+            solid: true,
+            autoHideDelay: 3000
+        })
+    }
+
     deleteRowFromOrder(row: IOrderRowTemp) {
         getModule(OrderModule, store).deleteRowFromOrder(row)
+    }
+
+    mounted(): void {
+        store.dispatch('getAddresses');
     }
 }
 </script>

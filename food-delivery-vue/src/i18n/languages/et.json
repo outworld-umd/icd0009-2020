@@ -21,7 +21,11 @@
     "required": "Kohustuslik",
     "newOrderAt": "Sinu uus tellimus kohas",
     "address": "Tellimuse aadress",
-    "paymentMethod": "Makseviis"
+    "paymentMethod": "Makseviis",
+    "payCash": "Maksan sularahas",
+    "payCard": "Maksan pangakaardiga",
+    "warning": "Tähelepanu!",
+    "error": "Tekkis viga teie tellimuse töötlemisel!"
   },
   "account": {
     "loginButton": "Logi sisse",

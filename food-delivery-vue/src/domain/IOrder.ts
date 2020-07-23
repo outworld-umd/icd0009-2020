@@ -1,4 +1,4 @@
-import { IOrderRow } from "@/domain/IOrderRow";
+import { IOrderRow, IOrderRowCreate } from "@/domain/IOrderRow";
 
 export interface IOrderView {
     id: string;
@@ -22,6 +22,14 @@ export interface IOrder {
     restaurantName?: string;
 }
 
+export interface IOrderTemp {
+    comment?: string;
+    address: string;
+    apartment?: string;
+    paymentMethod: PaymentMethod;
+    orderStatus: OrderStatus;
+}
+
 export interface IOrderCreate {
     comment?: string;
     address: string;
@@ -29,15 +37,16 @@ export interface IOrderCreate {
     paymentMethod: PaymentMethod;
     orderStatus: OrderStatus;
     foodCost: number;
+    orderRows: IOrderRowCreate[];
     deliveryCost: number;
-    restaurantId: string;
+    restaurantId?: string;
+    restaurantName?: string;
 }
 
 export interface IOrderEdit {
     id: string;
     comment?: string;
     address: string;
-    apartment?: string;
     paymentMethod: PaymentMethod;
     orderStatus: OrderStatus;
     foodCost: number;
@@ -46,7 +55,7 @@ export interface IOrderEdit {
 }
 
 export enum OrderStatus {
-    UNFINISHED,
+    SENT,
     COOKING,
     DELIVERING,
     DELIVERED

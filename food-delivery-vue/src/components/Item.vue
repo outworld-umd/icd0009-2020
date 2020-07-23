@@ -112,10 +112,10 @@ export default class Item extends Vue {
 
     addToOrder(): void {
         if (!getModule(OrderModule, store).currentRestaurantId || (getModule(OrderModule, store).currentRestaurantId !== this.restaurantId && confirm(this.$t('order.deleteOld').toString()))) {
+            store.commit('clearOrders')
             store.commit('setCurrentRestaurantId', this.restaurantId);
             store.commit('setCurrentRestaurantName', this.restaurantName);
             store.commit('setDeliveryCost', this.deliveryCost);
-            store.commit('clearOrders')
         }
         if (getModule(OrderModule, store).currentRestaurantId === this.restaurantId) {
             const choices: IOrderItemChoiceTemp[] = [];

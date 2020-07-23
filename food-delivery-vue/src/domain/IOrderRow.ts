@@ -1,4 +1,4 @@
-import { IOrderItemChoice, IOrderItemChoiceTemp } from "@/domain/IOrderItemChoice";
+import {IOrderItemChoice, IOrderItemChoiceCreate, IOrderItemChoiceTemp} from "@/domain/IOrderItemChoice";
 
 export interface IOrderRow {
     id: string;
@@ -22,10 +22,10 @@ export interface IOrderRowTemp {
 
 export interface IOrderRowCreate {
     itemId: string;
-    orderId?: string;
     amount: number;
     cost: number;
     comment?: string;
+    choices: IOrderItemChoiceCreate[];
 }
 
 export interface IOrderRowEdit {

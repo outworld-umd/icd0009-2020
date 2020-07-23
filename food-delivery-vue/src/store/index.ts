@@ -6,6 +6,7 @@ import { DayOfWeek } from "@/domain/IWorkingHours";
 import { IItem } from "@/domain/IItem";
 import UserModule from "@/store/modules/UserModule";
 import OrderModule from "@/store/modules/OrderModule";
+import { IAddress } from "@/domain/IAddress";
 
 Vue.use(Vuex)
 
@@ -13,7 +14,8 @@ export default new Vuex.Store({
     state: {
         restaurants: [] as IRestaurantView[],
         restaurant: null as IRestaurant | null,
-        item: null as IItem | null
+        item: null as IItem | null,
+        addresses: [] as IAddress[]
     },
     getters: {},
     mutations: {
@@ -25,6 +27,9 @@ export default new Vuex.Store({
         },
         setItem(state, item: IItem) {
             state.item = item;
+        },
+        setAddresses(state, addresses: IAddress[]) {
+            state.addresses = addresses;
         }
     },
     actions: {
@@ -241,6 +246,39 @@ export default new Vuex.Store({
                 }
             ]
             context.commit('setItem', items.find(i => i.id === id) ?? null)
+        },
+        async getAddresses(context): Promise<void> {
+            // const addresses = await AddressAPI.getAll();
+            const addresses: IAddress[] = [
+                {
+                    name: "Home",
+                    id: "1",
+                    county: "Harjumaa",
+                    city: "Tallinn",
+                    street: "E. Vilde tee",
+                    buildingNumber: "76",
+                    comment: "Second floor",
+                    apartment: "4"
+                },
+                {
+                    name: "Work",
+                    id: "2",
+                    county: "Harjumaa",
+                    city: "Tallinn",
+                    street: "E. Vilde tee",
+                    buildingNumber: "35-5",
+                    apartment: "2"
+                },
+                {
+                    name: "Another address",
+                    id: "3",
+                    county: "Põlvamaa",
+                    city: "Põlva",
+                    street: "Pihlaka",
+                    buildingNumber: "4"
+                }
+            ]
+            context.commit('setAddresses', addresses);
         }
     },
     modules: {

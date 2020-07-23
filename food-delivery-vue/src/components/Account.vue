@@ -11,7 +11,7 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a @click="logoutOnClick" class="nav-link" href>{{ $t('account.logout') }}</a>
+                <a @click="logoutOnClick" class="nav-link" href>{{ $t('account.logoutButton') }}</a>
             </li>
         </template>
         <li v-else class="nav-item mx-3">
