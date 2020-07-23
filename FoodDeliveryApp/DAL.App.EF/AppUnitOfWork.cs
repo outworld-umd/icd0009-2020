@@ -7,7 +7,7 @@ using DAL.Base.EF;
 
 namespace DAL.App.EF {
 
-    public class AppUnitOfWork : EFBaseUnitOfWork<AppDbContext>, IAppUnitOfWork {
+    public class AppUnitOfWork : EFBaseUnitOfWork<Guid, AppDbContext>, IAppUnitOfWork {
         
         public IAddressRepository Addresses => GetRepository<IAddressRepository>(() => new AddressRepository(UOWDbContext));
         public ICategoryRepository Categories => GetRepository(() => new CategoryRepository(UOWDbContext));
@@ -29,7 +29,6 @@ namespace DAL.App.EF {
         {
             
         }
-        
     }
 
 }

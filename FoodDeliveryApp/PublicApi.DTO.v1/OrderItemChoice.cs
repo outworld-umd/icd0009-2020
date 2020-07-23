@@ -4,22 +4,16 @@ using Contracts.Domain.Combined;
 
 namespace PublicApi.DTO.v1
 {
-    public class OrderItemChoice : OrderItemChoice<Guid>, IDomainEntityId
-    {
-    }
-    
-    
-    public class OrderItemChoice<TKey> : IDomainEntityId<TKey>
-        where TKey : IEquatable<TKey>
+    public class OrderItemChoice
     {
         public int Amount { get; set; }
         public decimal Cost { get; set; }
 
         public Guid? OrderRowId { get; set; } // ZDES BIL 0!!!!!!!!!!!!!!!
 
-        public TKey ItemChoiceId { get; set; } = default!;
+        public Guid ItemChoiceId { get; set; } = default!;
         public string? ItemChoiceName { get; set; }
 
-        public TKey Id { get; set; } = default!;
+        public Guid Id { get; set; } = default!;
     }
 }

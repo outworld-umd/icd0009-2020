@@ -5,7 +5,7 @@ using DAL.Base.EF.Repositories;
 
 namespace DAL.App.EF.Repositories {
 
-    public class RestaurantUserRepository : EFBaseRepository<AppDbContext, Domain.App.RestaurantUser, DTO.RestaurantUser>, IRestaurantUserRepository {
+    public class RestaurantUserRepository : EFBaseRepository<AppDbContext, Domain.App.Identity.AppUser, Domain.App.RestaurantUser, DTO.RestaurantUser>, IRestaurantUserRepository {
 
         public RestaurantUserRepository(AppDbContext dbContext) : base(dbContext, new DALMapper<Domain.App.RestaurantUser, DTO.RestaurantUser>()) { }
         // public override async Task<IEnumerable<RestaurantUser>> AllAsync() {

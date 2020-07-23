@@ -3,7 +3,7 @@ using DAL.Base.EF.Mappers;
 
 namespace DAL.App.EF.Mappers
 {
-    public class DALMapper<TLeftObject, TRightObject> : BaseMapper<TLeftObject, TRightObject>
+    public class DALMapper<TLeftObject, TRightObject> : BaseDALMapper<TLeftObject, TRightObject>
         where TRightObject : class?, new()
         where TLeftObject : class?, new()
     {

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories {
 
-    public class OrderRowRepository : EFBaseRepository<AppDbContext, Domain.App.OrderRow, DTO.OrderRow>, IOrderRowRepository {
+    public class OrderRowRepository : EFBaseRepository<AppDbContext, Domain.App.Identity.AppUser, Domain.App.OrderRow, DTO.OrderRow>, IOrderRowRepository {
         public OrderRowRepository(AppDbContext dbContext) : base(dbContext, new DALMapper<Domain.App.OrderRow, DTO.OrderRow>()) { }
         
         // public override async Task<IEnumerable<OrderRow>> AllAsync() {

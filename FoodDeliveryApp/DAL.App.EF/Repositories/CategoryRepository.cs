@@ -11,7 +11,7 @@ using Domain.App;
 
 namespace DAL.App.EF.Repositories {
 
-    public class CategoryRepository : EFBaseRepository<AppDbContext, Domain.App.Category, DAL.App.DTO.Category>, ICategoryRepository {
+    public class CategoryRepository : EFBaseRepository<AppDbContext, Domain.App.Identity.AppUser, Domain.App.Category, DAL.App.DTO.Category>, ICategoryRepository {
         public CategoryRepository(AppDbContext dbContext) : base(dbContext, new DALMapper<Domain.App.Category, DTO.Category>()) { }
 
     }

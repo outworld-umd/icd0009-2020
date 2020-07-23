@@ -5,7 +5,7 @@ using DAL.Base.EF.Repositories;
 
 namespace DAL.App.EF.Repositories {
 
-    public class WorkingHoursRepository : EFBaseRepository<AppDbContext, Domain.App.WorkingHours, DTO.WorkingHours>, IWorkingHoursRepository {
+    public class WorkingHoursRepository : EFBaseRepository<AppDbContext, Domain.App.Identity.AppUser, Domain.App.WorkingHours, DTO.WorkingHours>, IWorkingHoursRepository {
         public WorkingHoursRepository(AppDbContext dbContext) : base(dbContext, new DALMapper<Domain.App.WorkingHours, DTO.WorkingHours>()) { }
         
         // public override async Task<IEnumerable<WorkingHours>> AllAsync() {

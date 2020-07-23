@@ -4,23 +4,25 @@ using Contracts.Domain.Basic;
 
 namespace PublicApi.DTO.v1
 {
-    public class Restaurant : Restaurant<Guid>, IDomainEntityId
+    public class Restaurant : RestaurantView
     {
-    }
-    
-    
-    public class Restaurant<TKey> : IDomainEntityId<TKey>
-        where TKey : IEquatable<TKey>
-    {
-        public string Name { get; set; } = default!;
         public string Phone { get; set; } = default!;
         public string Address { get; set; } = default!;
         public string? Description { get; set; }
-        public decimal DeliveryCost { get; set; }
 
         public ICollection<WorkingHours>? WorkingHourses { get; set; }
         public ICollection<ItemType>? ItemTypes { get; set; }
 
-        public TKey Id { get; set; } = default!;
+    }
+    
+    public class RestaurantView
+    {
+        public string Name { get; set; } = default!;
+        public decimal DeliveryCost { get; set; }
+
+        public string[]? Categories { get; set; }
+        public bool IsOpen { get; set; }
+
+        public Guid Id { get; set; } = default!;
     }
 }

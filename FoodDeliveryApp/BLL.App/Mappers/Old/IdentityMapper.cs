@@ -2,7 +2,7 @@ using Contracts.DAL.Base.Mappers;
 
 namespace BLL.App.Mappers
 {
-    public class IdentityMapper<TLeftObject, TRightObject> : IBaseMapper<TLeftObject, TRightObject> 
+    public class IdentityMapper<TLeftObject, TRightObject> : IBaseDALMapper<TLeftObject, TRightObject> 
         where TRightObject : class?, new() 
         where TLeftObject : class?, new()
     {

@@ -1,19 +1,15 @@
 using System;
 using System.Collections.Generic;
 using Contracts.Domain.Basic;
+using PublicApi.DTO.v1;
 
 namespace PublicApi.DTO.v1
 {
-    public class Category : Category<Guid>, IDomainEntityId
-    {
-    }
-
-    public class Category<TKey> : IDomainEntityId<TKey>
-        where TKey : IEquatable<TKey>
+    public class Category
     {
         public string Name { get; set; } = default!;
         public ICollection<RestaurantView>? Restaurants { get; set; }
 
-        public TKey Id { get; set; } = default!;
+        public Guid Id { get; set; } = default!;
     }
 }

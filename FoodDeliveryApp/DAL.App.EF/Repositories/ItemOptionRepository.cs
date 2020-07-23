@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories {
 
-    public class ItemOptionRepository : EFBaseRepository<AppDbContext, Domain.App.ItemOption, DTO.ItemOption>, IItemOptionRepository {
+    public class ItemOptionRepository : EFBaseRepository<AppDbContext, Domain.App.Identity.AppUser, Domain.App.ItemOption, DTO.ItemOption>, IItemOptionRepository {
         public ItemOptionRepository(AppDbContext dbContext) : base(dbContext, new DALMapper<Domain.App.ItemOption, DTO.ItemOption>()) { }
         
         // public override async Task<IEnumerable<ItemOption>> AllAsync() {

@@ -4,12 +4,7 @@ using Contracts.Domain.Basic;
 
 namespace PublicApi.DTO.v1
 {
-    public class ItemOption : ItemOption<Guid>, IDomainEntityId
-    {
-    }
-
-    public class ItemOption<TKey> : IDomainEntityId<TKey>
-        where TKey : IEquatable<TKey>
+    public class ItemOption
     {
         public string Name { get; set; } = default!;
         public bool IsRequired { get; set; }
@@ -17,6 +12,6 @@ namespace PublicApi.DTO.v1
         
         public ICollection<ItemChoice>? ItemChoices { get; set; }
         
-        public TKey Id { get; set; } = default!;
+        public Guid Id { get; set; } = default!;
     }
 }

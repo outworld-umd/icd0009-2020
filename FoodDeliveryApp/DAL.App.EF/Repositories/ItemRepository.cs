@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories
 {
-    public class ItemRepository : EFBaseRepository<AppDbContext, Item, DTO.Item>, IItemRepository
+    public class ItemRepository : EFBaseRepository<AppDbContext, Domain.App.Identity.AppUser, Item, DTO.Item>, IItemRepository
     {
         public ItemRepository(AppDbContext dbContext) : base(dbContext, new DALMapper<Item, DTO.Item>()) { }
 

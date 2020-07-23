@@ -2,13 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using BLL.App;
+using Contracts.BLL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using DAL.App.EF;
-using Domain.App;
+using Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using PublicApi.DTO.v1;
+using PublicApi.DTO.v1.Mappers;
+using PublicApi.DTO.v1.Mappers.Base;
 
 namespace WebApp.ApiControllers
 {
@@ -18,32 +21,35 @@ namespace WebApp.ApiControllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class AddressController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IAppBLL _bll;
+        private readonly AddressMapper _mapper = new AddressMapper();
 
-        public AddressController(AppDbContext context)
+
+        public AddressController(IAppBLL bll)
         {
-            _context = context;
+            _bll = bll;
         }
 
         // GET: api/Address
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Address>>> GetAddresses()
         {
-            return await _context.Addresses.ToListAsync();
+            var result = await _bll.Addresses.GetAllAsync();
+            return Ok(result.Select(e => _mapper.MapAddress(e)));
         }
 
         // GET: api/Address/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Address>> GetAddress(Guid id)
         {
-            var address = await _context.Addresses.FindAsync(id);
+            var address = await _bll.Addresses.FirstOrDefaultAsync(id);
 
             if (address == null)
             {
-                return NotFound();
+                return NotFound(new MessageDTO($"Address with id {id} not found"));
             }
 
-            return address;
+            return Ok(_mapper.Map(address));
         }
 
         // PUT: api/Address/5
@@ -57,23 +63,8 @@ namespace WebApp.ApiControllers
                 return BadRequest();
             }
 
-            _context.Entry(address).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AddressExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _bll.Addresses.UpdateAsync(_mapper.Map(address));
+            await _bll.SaveChangesAsync();
 
             return NoContent();
         }
@@ -84,31 +75,37 @@ namespace WebApp.ApiControllers
         [HttpPost]
         public async Task<ActionResult<Address>> PostAddress(Address address)
         {
-            _context.Addresses.Add(address);
-            await _context.SaveChangesAsync();
+            var bllEntity = _mapper.Map(address);
+            _bll.Addresses.Add(bllEntity);
+            await _bll.SaveChangesAsync();
+            address.Id = bllEntity.Id;
 
-            return CreatedAtAction("GetAddress", new { id = address.Id }, address);
+            return CreatedAtAction("GetAddress",
+                new {id = address.Id, version = HttpContext.GetRequestedApiVersion()?.ToString() ?? "0"},
+                address);
         }
 
         // DELETE: api/Address/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Address>> DeleteAddress(Guid id)
         {
-            var address = await _context.Addresses.FindAsync(id);
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+
+            var address = await _bll.Addresses.FirstOrDefaultAsync(id, userIdTKey);
             if (address == null)
             {
-                return NotFound();
+                return NotFound(new MessageDTO("Address not found"));
             }
 
-            _context.Addresses.Remove(address);
-            await _context.SaveChangesAsync();
+            await _bll.Addresses.RemoveAsync(address, userIdTKey);
+            await _bll.SaveChangesAsync();
 
-            return address;
+            return Ok(address);
         }
 
-        private bool AddressExists(Guid id)
-        {
-            return _context.Addresses.Any(e => e.Id == id);
-        }
+        // private bool AddressExists(Guid id)
+        // {
+        //     return _bll.Addresses.Any(e => e.Id == id);
+        // }
     }
 }

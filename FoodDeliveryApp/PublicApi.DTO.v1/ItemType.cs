@@ -4,12 +4,7 @@ using Contracts.Domain.Basic;
 
 namespace PublicApi.DTO.v1
 {
-    public class ItemType : ItemType<Guid>, IDomainEntityId
-    {
-    }
-    
-    public class ItemType<TKey> : IDomainEntityId<TKey>
-        where TKey : IEquatable<TKey>
+    public class ItemType
     {
         public string Name { get; set; } = default!;
         public bool IsSpecial { get; set; }
@@ -17,6 +12,6 @@ namespace PublicApi.DTO.v1
 
         public ICollection<ItemView>? Items { get; set; }
 
-        public TKey Id { get; set; } = default!;
+        public Guid Id { get; set; } = default!;
     }
 }

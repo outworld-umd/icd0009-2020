@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories {
 
-    public class ItemTypeRepository : EFBaseRepository<AppDbContext, Domain.App.ItemType, DTO.ItemType>, IItemTypeRepository {
+    public class ItemTypeRepository : EFBaseRepository<AppDbContext, Domain.App.Identity.AppUser, Domain.App.ItemType, DTO.ItemType>, IItemTypeRepository {
         public ItemTypeRepository(AppDbContext dbContext) : base(dbContext, new DALMapper<Domain.App.ItemType, DTO.ItemType>()) { }
         
         // public override async Task<IEnumerable<ItemType>> AllAsync() {

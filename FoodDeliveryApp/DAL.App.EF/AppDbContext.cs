@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF {
 
-    public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
+    public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>, IBaseEntityTracker<Guid>
     {
         private IUserNameProvider _userNameProvider;
 
@@ -39,6 +39,11 @@ namespace DAL.App.EF {
         public AppDbContext(DbContextOptions<AppDbContext> options, IUserNameProvider userNameProvider) : base(options)
         {
             _userNameProvider = userNameProvider;
+        }
+        
+        public void AddToEntityTracker(IDomainEntityId<Guid> internalEntity, IDomainEntityId<Guid> externalEntity)
+        {
+            _entityTracker.Add(internalEntity, externalEntity);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -81,16 +86,28 @@ namespace DAL.App.EF {
             }
             
         }
+        private void UpdateTrackedEntities()
+        {
+            foreach (var (key, value) in _entityTracker)
+            {
+                value.Id = key.Id;
+            }
+        }
+
         public override int SaveChanges()
         {
             SaveChangesMetadataUpdate();
-            return base.SaveChanges();
+            var result = base.SaveChanges();
+            UpdateTrackedEntities();
+            return result;
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             SaveChangesMetadataUpdate();
-            return base.SaveChangesAsync(cancellationToken);
+            var result = base.SaveChangesAsync(cancellationToken);
+            UpdateTrackedEntities();
+            return result;
         }
     }
 

@@ -3,12 +3,7 @@ using Contracts.Domain.Basic;
 
 namespace PublicApi.DTO.v1 {
 
-    public class Address : Address<Guid>, IDomainEntityId
-    {
-    }
-
-    public class Address<TKey> : IDomainEntityId<TKey>
-        where TKey : IEquatable<TKey>
+    public class Address
     {
         public string County { get; set; } = default!;
         public string City { get; set; } = default!;
@@ -17,7 +12,7 @@ namespace PublicApi.DTO.v1 {
         public string? Comment { get; set; }
         public string? Name { get; set; }
 
-        public TKey Id { get; set; } = default!;
+        public Guid Id { get; set; } = default!;
 
     }
 
