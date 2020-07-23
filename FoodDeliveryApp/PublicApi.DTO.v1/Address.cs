@@ -14,7 +14,8 @@ namespace PublicApi.DTO.v1 {
         public string City { get; set; } = default!;
         public string Street { get; set; } = default!;
         public string BuildingNumber { get; set; } = default!;
-        public string? Comment { get; set; } = default!;
+        public string? Comment { get; set; }
+        public string? Name { get; set; }
 
         public TKey Id { get; set; } = default!;
 

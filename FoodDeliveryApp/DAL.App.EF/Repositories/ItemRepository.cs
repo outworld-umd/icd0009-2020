@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
+using DAL.App.EF.Mappers;
 using DAL.Base.EF.Mappers;
 using DAL.Base.EF.Repositories;
 using Domain;
@@ -12,7 +13,7 @@ namespace DAL.App.EF.Repositories
 {
     public class ItemRepository : EFBaseRepository<AppDbContext, Item, DTO.Item>, IItemRepository
     {
-        public ItemRepository(AppDbContext dbContext) : base(dbContext, new BaseMapper<Item, DTO.Item>()) { }
+        public ItemRepository(AppDbContext dbContext) : base(dbContext, new DALMapper<Item, DTO.Item>()) { }
 
 
         // public override async Task<IEnumerable<Item>> AllAsync() {

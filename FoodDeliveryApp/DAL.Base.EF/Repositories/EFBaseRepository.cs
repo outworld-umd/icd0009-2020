@@ -17,7 +17,7 @@ namespace DAL.Base.EF.Repositories
         where TDomainEntity : class, IDomainEntityIdMetadata<Guid>, new()
         where TDbContext : DbContext
     {
-        public EFBaseRepository(TDbContext dbContext,  IBaseMapper<TDomainEntity, TDALEntity> mapper) : base(dbContext, mapper)
+        public EFBaseRepository(TDbContext dbContext,  IBaseMapper<TDomainEntity, TDALEntity> dalMapper) : base(dbContext, dalMapper)
         {
         }
     }
@@ -30,13 +30,13 @@ namespace DAL.Base.EF.Repositories
     {
         protected TDbContext RepoDbContext;
         protected DbSet<TDomainEntity> RepoDbSet;
-        protected IBaseMapper<TDomainEntity, TDALEntity> Mapper;
+        protected IBaseMapper<TDomainEntity, TDALEntity> DALMapper;
 
-        public EFBaseRepository(TDbContext dbContext, IBaseMapper<TDomainEntity, TDALEntity> mapper)
+        public EFBaseRepository(TDbContext dbContext, IBaseMapper<TDomainEntity, TDALEntity> dalMapper)
         {
             RepoDbContext = dbContext;
             RepoDbSet = RepoDbContext.Set<TDomainEntity>();
-            Mapper = mapper;
+            DALMapper = dalMapper;
             if (RepoDbSet == null)
             {
                 throw new ArgumentNullException(typeof(TDALEntity).Name + " was not found as DBSet!");
@@ -45,54 +45,54 @@ namespace DAL.Base.EF.Repositories
 
         public virtual IEnumerable<TDALEntity> All()
         {
-            return RepoDbSet.ToList().Select(domainEntity => Mapper.Map(domainEntity));
+            return RepoDbSet.ToList().Select(domainEntity => DALMapper.Map(domainEntity));
         }
 
         public virtual async Task<IEnumerable<TDALEntity>> AllAsync()
         {
-            return (await RepoDbSet.ToListAsync()).Select(domainEntity => Mapper.Map(domainEntity));
+            return (await RepoDbSet.ToListAsync()).Select(domainEntity => DALMapper.Map(domainEntity));
         }
 
         public IEnumerable<TDALEntity> Get(Expression<Func<TDALEntity, bool>>? filter = null) {
-            return RepoDbSet.Select(domainEntity => Mapper.Map(domainEntity)).Where(filter).ToList();
+            return RepoDbSet.Select(domainEntity => DALMapper.Map(domainEntity)).Where(filter).ToList();
         }
 
         public async Task<IEnumerable<TDALEntity>> GetAsync(Expression<Func<TDALEntity, bool>>? filter = null) {
-            return await RepoDbSet.Select(domainEntity => Mapper.Map(domainEntity)).Where(filter).ToListAsync();
+            return await RepoDbSet.Select(domainEntity => DALMapper.Map(domainEntity)).Where(filter).ToListAsync();
         }
 
         public virtual TDALEntity Find(params object[] id)
         {
-            return Mapper.Map(RepoDbSet.Find(id));
+            return DALMapper.Map(RepoDbSet.Find(id));
         }
 
         public virtual async Task<TDALEntity> FindAsync(params object[] id)
         {
-            return Mapper.Map(await RepoDbSet.FindAsync(id));
+            return DALMapper.Map(await RepoDbSet.FindAsync(id));
         }
 
         public virtual TDALEntity Add(TDALEntity entity)
         {
-            return Mapper.Map(RepoDbSet.Add(Mapper.Map(entity)).Entity);
+            return DALMapper.Map(RepoDbSet.Add(DALMapper.Map(entity)).Entity);
         }
 
         public virtual TDALEntity Update(TDALEntity entity)
         {
-            return Mapper.Map(RepoDbSet.Update(Mapper.Map(entity)).Entity);
+            return DALMapper.Map(RepoDbSet.Update(DALMapper.Map(entity)).Entity);
         }
 
         public virtual TDALEntity Remove(TDALEntity entity)
         {
-            return Mapper.Map(RepoDbSet.Remove(Mapper.Map(entity)).Entity);
+            return DALMapper.Map(RepoDbSet.Remove(DALMapper.Map(entity)).Entity);
         }
 
         public virtual TDALEntity Remove(params object[] id)
         {
-            return Mapper.Map(RepoDbSet.Remove(RepoDbSet.Find(id)).Entity);
+            return DALMapper.Map(RepoDbSet.Remove(RepoDbSet.Find(id)).Entity);
         }
 
         public bool Any(Expression<Func<TDALEntity, bool>> predicate) {
-            return RepoDbSet.Select(domainEntity => Mapper.Map(domainEntity)).Any(predicate);
+            return RepoDbSet.Select(domainEntity => DALMapper.Map(domainEntity)).Any(predicate);
         }
     }
 }

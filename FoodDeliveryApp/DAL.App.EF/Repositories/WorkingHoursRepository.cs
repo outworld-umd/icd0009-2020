@@ -1,11 +1,12 @@
 ﻿using Contracts.DAL.App.Repositories;
+using DAL.App.EF.Mappers;
 using DAL.Base.EF.Mappers;
 using DAL.Base.EF.Repositories;
 
 namespace DAL.App.EF.Repositories {
 
     public class WorkingHoursRepository : EFBaseRepository<AppDbContext, Domain.App.WorkingHours, DTO.WorkingHours>, IWorkingHoursRepository {
-        public WorkingHoursRepository(AppDbContext dbContext) : base(dbContext, new BaseMapper<Domain.App.WorkingHours, DTO.WorkingHours>()) { }
+        public WorkingHoursRepository(AppDbContext dbContext) : base(dbContext, new DALMapper<Domain.App.WorkingHours, DTO.WorkingHours>()) { }
         
         // public override async Task<IEnumerable<WorkingHours>> AllAsync() {
         //     return await RepoDbSet.Include(w => w.Restaurant).ToListAsync();

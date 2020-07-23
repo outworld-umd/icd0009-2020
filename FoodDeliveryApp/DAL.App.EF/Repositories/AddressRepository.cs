@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
-using DAL.Base.EF.Mappers;
+using DAL.App.EF.Mappers;
 using DAL.Base.EF.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +11,7 @@ namespace DAL.App.EF.Repositories {
 
     public class AddressRepository : EFBaseRepository<AppDbContext, Domain.App.Address, DTO.Address>, IAddressRepository {
         public AddressRepository(AppDbContext dbContext) : base(dbContext,
-            new BaseMapper<Domain.App.Address, DTO.Address>())
+            new DALMapper<Domain.App.Address, DTO.Address>())
         {
         }
 
@@ -23,7 +23,7 @@ namespace DAL.App.EF.Repositories {
             }
 
             return (await RepoDbSet.Where(o => o.AppUserId == userId)
-                .ToListAsync()).Select(domainEntity => Mapper.Map(domainEntity));
+                .ToListAsync()).Select(domainEntity => DALMapper.Map(domainEntity));
         }
 
 
@@ -35,7 +35,7 @@ namespace DAL.App.EF.Repositories {
                 query = query.Where(a => a.AppUserId == userId);
             }
 
-            return Mapper.Map(await query.FirstOrDefaultAsync());
+            return DALMapper.Map(await query.FirstOrDefaultAsync());
         }
 
         public async Task<bool> ExistsAsync(Guid id, Guid? userId = null)

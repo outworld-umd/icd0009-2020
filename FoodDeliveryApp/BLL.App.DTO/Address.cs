@@ -23,8 +23,10 @@ namespace BLL.App.DTO {
         public string City { get; set; } = default!;
         public string Street { get; set; } = default!;
         public string BuildingNumber { get; set; } = default!;
-        public string? Comment { get; set; } = default!;
-
+        public string? Apartment { get; set; }
+        public string? Name { get; set; }
+        
+        public string? Comment { get; set; }
         public TKey Id { get; set; } = default!;
         public string? CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }

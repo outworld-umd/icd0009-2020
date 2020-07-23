@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Contracts.BLL.Base.Mappers;
 using Contracts.BLL.Base.Services;
 using Contracts.DAL.Base;
+using Contracts.DAL.Base.Mappers;
 using Contracts.Domain.Repositories;
 using Contracts.Domain.Basic;
 
@@ -19,10 +19,10 @@ namespace BLL.Base.Services
         where TServiceRepository : IBaseRepository<TDALEntity>
     {
         protected readonly TUnitOfWork ServiceUnitOfWork;
-        protected readonly IBaseBLLMapper<TDALEntity, TBLLEntity> Mapper;
+        protected readonly IBaseMapper<TDALEntity, TBLLEntity> Mapper;
         protected readonly TServiceRepository ServiceRepository;
 
-        public BaseEntityService(TUnitOfWork unitOfWork, IBaseBLLMapper<TDALEntity, TBLLEntity> mapper,
+        public BaseEntityService(TUnitOfWork unitOfWork, IBaseMapper<TDALEntity, TBLLEntity> mapper,
             TServiceRepository serviceRepository)
         {
             ServiceUnitOfWork = unitOfWork;
@@ -37,10 +37,10 @@ namespace BLL.Base.Services
 
 
         public virtual IEnumerable<TBLLEntity> All() =>
-            ServiceRepository.All().Select(entity => Mapper.Map<TDALEntity, TBLLEntity>(entity));
+            ServiceRepository.All().Select(entity => Mapper.Map(entity));
 
         public virtual async Task<IEnumerable<TBLLEntity>> AllAsync() =>
-            (await ServiceRepository.AllAsync()).Select(entity => Mapper.Map<TDALEntity, TBLLEntity>(entity));
+            (await ServiceRepository.AllAsync()).Select(entity => Mapper.Map(entity));
 
         public virtual IEnumerable<TBLLEntity> Get(Expression<Func<TBLLEntity, bool>>? filter = null) =>
             All().Where(filter?.Compile());
@@ -49,24 +49,24 @@ namespace BLL.Base.Services
             (await AllAsync()).Where(filter?.Compile());
 
         public virtual TBLLEntity Find(params object[] id) =>
-            Mapper.Map<TDALEntity, TBLLEntity>(ServiceRepository.Find(id));
+            Mapper.Map(ServiceRepository.Find(id));
 
         public virtual async Task<TBLLEntity> FindAsync(params object[] id) =>
-            Mapper.Map<TDALEntity, TBLLEntity>(await ServiceRepository.FindAsync(id));
+            Mapper.Map(await ServiceRepository.FindAsync(id));
 
         public virtual TBLLEntity Add(TBLLEntity entity) =>
-            Mapper.Map<TDALEntity, TBLLEntity>(ServiceRepository.Add(Mapper.Map<TBLLEntity, TDALEntity>(entity)));
+            Mapper.Map(ServiceRepository.Add(Mapper.Map(entity)));
 
         public virtual TBLLEntity Update(TBLLEntity entity) =>
-            Mapper.Map<TDALEntity, TBLLEntity>(ServiceRepository.Update(Mapper.Map<TBLLEntity, TDALEntity>(entity)));
+            Mapper.Map(ServiceRepository.Update(Mapper.Map(entity)));
 
 
         public virtual TBLLEntity Remove(TBLLEntity entity) =>
-            Mapper.Map<TDALEntity, TBLLEntity>(ServiceRepository.Remove(Mapper.Map<TBLLEntity, TDALEntity>(entity)));
+            Mapper.Map(ServiceRepository.Remove(Mapper.Map(entity)));
 
 
         public virtual TBLLEntity Remove(params object[] id) =>
-            Mapper.Map<TDALEntity, TBLLEntity>(ServiceRepository.Remove(id));
+            Mapper.Map(ServiceRepository.Remove(id));
 
         public bool Any(Expression<Func<TBLLEntity, bool>> predicate) =>
             All().Any(predicate.Compile());

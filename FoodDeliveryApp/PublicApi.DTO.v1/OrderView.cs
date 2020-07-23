@@ -11,6 +11,8 @@ namespace PublicApi.DTO.v1
         public decimal FoodCost { get; set; }
         public decimal DeliveryCost { get; set; }
         public string? RestaurantName { get; set; }
+        
+        public DateTime CreatedAt { get; set; }
 
         public Guid Id { get; set; } = default!;
     }

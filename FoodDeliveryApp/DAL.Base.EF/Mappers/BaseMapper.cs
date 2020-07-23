@@ -9,7 +9,7 @@ namespace DAL.Base.EF.Mappers
     /// </summary>
     /// <typeparam name="TLeftObject"></typeparam>
     /// <typeparam name="TRightObject"></typeparam>
-    public class BaseMapper<TLeftObject, TRightObject> : IBaseMapper<TLeftObject, TRightObject>
+    public abstract class BaseMapper<TLeftObject, TRightObject> : IBaseMapper<TLeftObject, TRightObject>
         where TRightObject : class?, new()
         where TLeftObject : class?, new()
     {

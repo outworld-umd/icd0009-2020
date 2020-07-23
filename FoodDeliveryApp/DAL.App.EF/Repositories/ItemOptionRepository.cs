@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
+using DAL.App.EF.Mappers;
 using DAL.Base.EF.Mappers;
 using DAL.Base.EF.Repositories;
 using Domain;
@@ -10,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DAL.App.EF.Repositories {
 
     public class ItemOptionRepository : EFBaseRepository<AppDbContext, Domain.App.ItemOption, DTO.ItemOption>, IItemOptionRepository {
-        public ItemOptionRepository(AppDbContext dbContext) : base(dbContext, new BaseMapper<Domain.App.ItemOption, DTO.ItemOption>()) { }
+        public ItemOptionRepository(AppDbContext dbContext) : base(dbContext, new DALMapper<Domain.App.ItemOption, DTO.ItemOption>()) { }
         
         // public override async Task<IEnumerable<ItemOption>> AllAsync() {
         //     return await RepoDbSet.Include(i => i.Item).ToListAsync();

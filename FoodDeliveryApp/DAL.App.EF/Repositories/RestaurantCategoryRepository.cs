@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
+using DAL.App.EF.Mappers;
 using DAL.Base.EF.Mappers;
 using DAL.Base.EF.Repositories;
 using Domain;
@@ -10,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DAL.App.EF.Repositories {
 
     public class RestaurantCategoryRepository : EFBaseRepository<AppDbContext, Domain.App.RestaurantCategory, DTO.RestaurantCategory>, IRestaurantCategoryRepository {
-        public RestaurantCategoryRepository(AppDbContext dbContext) : base(dbContext, new BaseMapper<Domain.App.RestaurantCategory, DTO.RestaurantCategory>()) { }
+        public RestaurantCategoryRepository(AppDbContext dbContext) : base(dbContext, new DALMapper<Domain.App.RestaurantCategory, DTO.RestaurantCategory>()) { }
         
         // public override async Task<IEnumerable<RestaurantCategory>> AllAsync() {
         //     return await RepoDbSet

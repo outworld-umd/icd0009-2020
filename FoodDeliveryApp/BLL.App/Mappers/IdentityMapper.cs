@@ -1,6 +1,6 @@
 using Contracts.DAL.Base.Mappers;
 
-namespace DAL.Base.EF.Mappers
+namespace BLL.App.Mappers
 {
     public class IdentityMapper<TLeftObject, TRightObject> : IBaseMapper<TLeftObject, TRightObject> 
         where TRightObject : class?, new() 

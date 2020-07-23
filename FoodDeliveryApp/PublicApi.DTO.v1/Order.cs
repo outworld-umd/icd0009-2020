@@ -27,6 +27,8 @@ namespace PublicApi.DTO.v1
         public Guid? RestaurantId { get; set; }
 
         public ICollection<OrderRow>? OrderRows { get; set; }
+        
+        public DateTime CreatedAt { get; set; }
 
         public TKey Id { get; set; } = default!;
     }

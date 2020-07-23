@@ -1,5 +1,5 @@
 using BLL.App.DTO;
-using BLL.Base.Mappers;
+using BLL.App.Mappers;
 using BLL.Base.Services;
 using Contracts.BLL.App.Services;
 using Contracts.DAL.App;
@@ -9,7 +9,7 @@ namespace BLL.App.Services
 {
     public class ItemInTypeService : BaseEntityService<IItemInTypeRepository, IAppUnitOfWork, DAL.App.DTO.ItemInType, ItemInType>, IItemInTypeService
     {
-        public ItemInTypeService(IAppUnitOfWork unitOfWork) : base(unitOfWork, new BaseBLLMapper<DAL.App.DTO.ItemInType, ItemInType>(), unitOfWork.ItemInTypes)
+        public ItemInTypeService(IAppUnitOfWork unitOfWork) : base(unitOfWork, new BLLMapper<DAL.App.DTO.ItemInType, ItemInType>(), unitOfWork.ItemInTypes)
         {
         }
     }
