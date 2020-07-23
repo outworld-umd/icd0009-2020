@@ -12,6 +12,23 @@ namespace BLL.App.Mappers
         public BLLMapper() : base()
         {
             // add more mappings
+            MapperConfigurationExpression.CreateMap<AppUser, DAL.App.DTO.Identity.AppUser>();
+            MapperConfigurationExpression.CreateMap<Address, DAL.App.DTO.Address>();
+            MapperConfigurationExpression.CreateMap<Category, DAL.App.DTO.Category>();
+            MapperConfigurationExpression.CreateMap<Item, DAL.App.DTO.Item>();
+            MapperConfigurationExpression.CreateMap<ItemChoice, DAL.App.DTO.ItemChoice>();
+            MapperConfigurationExpression.CreateMap<ItemInType, DAL.App.DTO.ItemInType>();
+            MapperConfigurationExpression.CreateMap<ItemOption, DAL.App.DTO.ItemOption>();
+            MapperConfigurationExpression.CreateMap<ItemType, DAL.App.DTO.ItemType>();
+            MapperConfigurationExpression.CreateMap<NutritionInfo, DAL.App.DTO.NutritionInfo>();
+            MapperConfigurationExpression.CreateMap<Order, DAL.App.DTO.Order>();
+            MapperConfigurationExpression.CreateMap<OrderItemChoice, DAL.App.DTO.OrderItemChoice>();
+            MapperConfigurationExpression.CreateMap<OrderRow, DAL.App.DTO.OrderRow>();
+            MapperConfigurationExpression.CreateMap<Restaurant, DAL.App.DTO.Restaurant>();
+            MapperConfigurationExpression.CreateMap<RestaurantCategory, DAL.App.DTO.RestaurantCategory>();
+            MapperConfigurationExpression.CreateMap<RestaurantUser, DAL.App.DTO.RestaurantUser>();
+            MapperConfigurationExpression.CreateMap<WorkingHours, DAL.App.DTO.WorkingHours>();
+
             
             MapperConfigurationExpression.CreateMap<DAL.App.DTO.Identity.AppUser, AppUser>();
             MapperConfigurationExpression.CreateMap<DAL.App.DTO.Address, Address>();
