@@ -22,5 +22,13 @@
     "newOrderAt": "Ваш новый заказ в ресторане",
     "address": "Адрес доставки",
     "paymentMethod": "Способ оплаты"
+  },
+  "account": {
+    "loginButton": "Вход",
+    "logoutButton": "Выйти",
+    "login": "Войти",
+    "email": "Э-почта",
+    "password": "Пароль",
+    "badLogin": "Ошибка входа"
   }
 }

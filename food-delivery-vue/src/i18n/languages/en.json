@@ -22,5 +22,13 @@
     "newOrderAt": "Your new order at",
     "address": "Order address",
     "paymentMethod": "Payment Method"
+  },
+  "account": {
+    "loginButton": "Login",
+    "login": "Log in",
+    "logoutButton": "Logout",
+    "email": "E-mail",
+    "password": "Password",
+    "badLogin": "Bad login attempt"
   }
 }

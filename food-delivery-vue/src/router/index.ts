@@ -4,6 +4,7 @@ import RestaurantIndex from '@/views/restaurants/Index.vue'
 import RestaurantMenu from '@/views/restaurants/Menu.vue'
 import OrderIndex from '@/views/orders/Index.vue'
 import OrderCreate from "@/views/orders/Сreate.vue";
+import AccountLogin from "@/views/account/Login.vue";
 import AddressIndex from "@/views/addresses/Index.vue";
 
 Vue.use(VueRouter)
@@ -34,6 +35,11 @@ const routes: Array<RouteConfig> = [
         path: '/addresses',
         name: 'Addresses',
         component: AddressIndex
+    },
+    {
+        path: '/account/login',
+        name: 'AccountLogin',
+        component: AccountLogin
     }
 ]
 

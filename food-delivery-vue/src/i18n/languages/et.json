@@ -22,5 +22,13 @@
     "newOrderAt": "Sinu uus tellimus kohas",
     "address": "Tellimuse aadress",
     "paymentMethod": "Makseviis"
+  },
+  "account": {
+    "loginButton": "Logi sisse",
+    "logoutButton": "Logi välja",
+    "login": "Logi sisse",
+    "email": "E-mail",
+    "password": "Parool",
+    "badLogin": "Sisselogimine ei õnnestunud"
   }
 }

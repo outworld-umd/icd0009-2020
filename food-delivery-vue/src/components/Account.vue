@@ -11,11 +11,11 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a @click="logoutOnClick" class="nav-link" href>Logout</a>
+                <a @click="logoutOnClick" class="nav-link" href>{{ $t('account.logout') }}</a>
             </li>
         </template>
         <li v-else class="nav-item mx-3">
-            <router-link to="/account/login" class="nav-link">Login</router-link>
+            <router-link to="/account/login" class="nav-link">{{ $t('account.login') }}</router-link>
         </li>
     </ul>
 </template>

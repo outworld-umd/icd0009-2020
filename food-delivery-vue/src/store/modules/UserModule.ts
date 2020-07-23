@@ -20,7 +20,7 @@ export default class UserModule extends VuexModule {
     }
 
     @Mutation
-    setJwt(jwt: string) {
+    setJwt(jwt: string | null) {
         this.jwt = jwt;
     }
 
@@ -37,7 +37,7 @@ export default class UserModule extends VuexModule {
     @Action
     async authenticateUser(loginDTO: ILoginRequest): Promise<boolean> {
         const jwt = await AccountAPI.login(loginDTO);
-        this.context.commit('setJwt', jwt);
+        this.setJwt(jwt);
         return jwt !== null;
     }
 }
