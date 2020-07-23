@@ -6,7 +6,7 @@
         <div v-if="item">
             <p class="mb-5 font-weight-light">{{ item.description }}</p>
             <div class="container" >
-                <hr v-if="item.nutritionInfos"/>
+                <hr v-if="item.nutritionInfos.length"/>
                 <table v-if="item.nutritionInfos" class="table table-borderless table-sm w-75 text-center mx-auto small">
                     <tbody>
                     <tr v-for="info in item.nutritionInfos" :key="info.id">
@@ -45,10 +45,10 @@
                 <div class="px-4 h3 w-25 text-center">{{ amount }}</div>
                 <button class="btn btn-secondary rounded-circle text-white shadow-none" :disabled="(amount + totalAmount) > 19" @click="increment"><span class="fa fa-plus"></span></button>
             </div>
-                <label class="my-5 container">
-                    <span class="my-2 font-italic font-weight-light">Write a comment for a restaurant:</span>
-                    <input type="text" class="form-control" v-model="comment" maxlength="100">
-                </label>
+            <label class="my-5 container">
+                <span class="my-2 font-italic font-weight-light">{{ $t('order.comment') }}</span>
+                <input type="text" class="form-control" v-model="comment" maxlength="100">
+            </label>
             <div class="btn-group btn-group-justified mt-2" style="min-width: 100%">
                 <b-button type="button" class="inner btn btn-success" style="min-width: 50%" :disabled="!validateOrder()" @click="addToOrder">{{$t('buttons.orderAdd')}}</b-button>
             </div>
@@ -153,7 +153,6 @@ export default class Item extends Vue {
             store.commit('addOrderRow', orderRow)
         }
         this.$bvModal.hide(this.id)
-        console.log(getModule(OrderModule, store).currentRestaurantId, getModule(OrderModule, store).currentRestaurantName)
     }
 
     beforeShown(): void {

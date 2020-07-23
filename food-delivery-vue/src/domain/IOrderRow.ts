@@ -1,13 +1,10 @@
 import {IOrderItemChoice, IOrderItemChoiceCreate, IOrderItemChoiceTemp} from "@/domain/IOrderItemChoice";
 
 export interface IOrderRow {
-    id: string;
-    itemId: string;
-    itemName: string;
-    orderId: string;
+    name: string;
     amount: number;
     cost: number;
-    orderItemChoices: IOrderItemChoice[];
+    choices: IOrderItemChoice[];
     comment?: string;
 }
 

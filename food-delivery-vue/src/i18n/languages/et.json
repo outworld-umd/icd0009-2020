@@ -6,7 +6,21 @@
     "order": "Telli",
     "orderDelete": "Kustuta tellimusest",
     "orderAdd": "Lisa tellimusse",
-    "choose": "Vali"
+    "choose": "Vali",
+    "cancel": "Loobu",
+    "save": "Salvesta",
+    "more": "Rohkem"
+  },
+  "address": {
+    "name": "Aadressi nimi",
+    "nameSmall": "Nimi",
+    "apartment": "Korter",
+    "city": "Linn",
+    "county": "Maakond",
+    "buildingNumber": "Maja nr.",
+    "street": "Tänav",
+    "comment": "Kommentaar",
+    "address": "Aadress"
   },
   "restaurant": {
     "closed": "Restoran on suletud",
@@ -25,7 +39,12 @@
     "payCash": "Maksan sularahas",
     "payCard": "Maksan pangakaardiga",
     "warning": "Tähelepanu!",
-    "error": "Tekkis viga teie tellimuse töötlemisel!"
+    "error": "Tekkis viga teie tellimuse töötlemisel!",
+    "comment": "Kirjutage kommentaar restoranile:",
+    "sent": "Saadetud",
+    "cooking": "Täidetakse",
+    "delivering": "Kohaletoomine",
+    "delivered": "Lõpetatud"
   },
   "account": {
     "loginButton": "Logi sisse",
@@ -33,6 +52,14 @@
     "login": "Logi sisse",
     "email": "E-mail",
     "password": "Parool",
-    "badLogin": "Sisselogimine ei õnnestunud"
+    "badLogin": "Sisselogimine ei õnnestunud",
+    "yourOrders": "Sinu tellimused",
+    "yourAddresses": "Sinu aadressid",
+    "account": "Konto"
+  },
+  "paymentMethods": {
+    "cash": "Sularaha",
+    "card": "Pangakaart",
+    "app": "Rakenduses"
   }
 }

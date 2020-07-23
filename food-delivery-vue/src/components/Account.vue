@@ -4,10 +4,10 @@
             <li class="nav-item dropdown mx-3">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ userEmail }}</a>
                 <div class="dropdown-menu">
-                    <router-link class="dropdown-item" to="/orders">Your orders</router-link>
-                    <router-link class="dropdown-item" to="/addresses">Your addreses</router-link>
+                    <router-link class="dropdown-item" to="/orders">{{ $t('account.yourOrders') }}</router-link>
+                    <router-link class="dropdown-item" to="/addresses">{{ $t('account.yourAddresses') }}</router-link>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Account</a>
+                    <a class="dropdown-item" href="#">{{ $t('account.account') }}</a>
                 </div>
             </li>
             <li class="nav-item">

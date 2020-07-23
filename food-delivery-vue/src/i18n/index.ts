@@ -9,4 +9,49 @@ export const messages = {
     [Locales.RU]: ru
 };
 
+export const dateTimeFormats = {
+    en: {
+        short: {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        },
+        long: {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric'
+        }
+    },
+    et: {
+        short: {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        },
+        long: {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric'
+        }
+    },
+    ru: {
+        short: {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        },
+        long: {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric'
+        }
+    }
+}
+
 export const defaultLocale = Locales.EN;

@@ -6,6 +6,7 @@ export interface IOrderView {
     foodCost: number;
     deliveryCost: number;
     restaurantName?: string;
+    createdAt: Date;
 }
 
 export interface IOrder {
@@ -20,6 +21,7 @@ export interface IOrder {
     deliveryCost: number;
     restaurantId?: string;
     restaurantName?: string;
+    createdAt: Date;
 }
 
 export interface IOrderTemp {

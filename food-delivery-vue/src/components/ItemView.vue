@@ -19,10 +19,11 @@ import store from '@/store';
 import OrderModule from '@/store/modules/OrderModule';
 import { IRestaurant } from "@/domain/IRestaurant";
 import { getModule } from "vuex-module-decorators";
+import Item from "@/components/Item.vue";
 
 @Component({
     components: {
-        Item: () => import('@/components/Item.vue')
+        Item
     }
 })
 export default class ItemView extends Vue {

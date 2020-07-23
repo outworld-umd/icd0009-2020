@@ -6,7 +6,21 @@
     "order": "Order",
     "orderDelete": "Delete from order",
     "orderAdd": "Add to order",
-    "choose": "Choose"
+    "choose": "Choose",
+    "cancel": "Cancel",
+    "save": "Save",
+    "more": "More"
+  },
+  "address": {
+    "name": "Name of this address",
+    "nameSmall": "Name",
+    "apartment": "Apartment",
+    "city": "City",
+    "county": "County",
+    "buildingNumber": "Building no.",
+    "street": "Street",
+    "comment": "Comment",
+    "address": "Address"
   },
   "restaurant": {
     "closed": "Restaurant is closed",
@@ -25,7 +39,12 @@
     "payCash": "Paying with cash",
     "payCard": "Paying with bank card",
     "warning": "Warning!",
-    "error": "There was an error processing your order!"
+    "error": "There was an error processing your order!",
+    "comment": "Write a comment for a restaurant:",
+    "sent": "Order is sent",
+    "cooking": "Order is being cooked",
+    "delivering": "Order is being delivered",
+    "delivered": "Order finished"
   },
   "account": {
     "loginButton": "Login",
@@ -33,6 +52,14 @@
     "logoutButton": "Logout",
     "email": "E-mail",
     "password": "Password",
-    "badLogin": "Bad login attempt"
+    "badLogin": "Bad login attempt",
+    "yourOrders": "Your orders",
+    "yourAddresses": "Your addresses",
+    "account": "Account"
+  },
+  "paymentMethods": {
+    "cash": "Cash",
+    "card": "Banking Card",
+    "app": "In Application"
   }
 }

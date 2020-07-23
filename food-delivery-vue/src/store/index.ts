@@ -6,7 +6,8 @@ import { DayOfWeek } from "@/domain/IWorkingHours";
 import { IItem } from "@/domain/IItem";
 import UserModule from "@/store/modules/UserModule";
 import OrderModule from "@/store/modules/OrderModule";
-import { IAddress } from "@/domain/IAddress";
+import { IAddress, IAddressCreate } from "@/domain/IAddress";
+import { IOrder, IOrderView } from "@/domain/IOrder";
 
 Vue.use(Vuex)
 
@@ -15,10 +16,18 @@ export default new Vuex.Store({
         restaurants: [] as IRestaurantView[],
         restaurant: null as IRestaurant | null,
         item: null as IItem | null,
-        addresses: [] as IAddress[]
+        addresses: [] as IAddress[],
+        orders: [] as IOrderView[],
+        order: null as IOrder | null
     },
     getters: {},
     mutations: {
+        setOrders(state, orders: IOrderView[]) {
+            state.orders = orders;
+        },
+        setOrder(state, order: IOrder | null) {
+            state.order = order;
+        },
         setRestaurants(state, restaurants: IRestaurantView[]) {
             state.restaurants = restaurants;
         },
@@ -33,6 +42,96 @@ export default new Vuex.Store({
         }
     },
     actions: {
+        async getOrders(context): Promise<void> {
+            // const orders = await OrderAPI.getAll();
+            const orders: IOrderView[] = [
+                {
+                    id: "1",
+                    orderStatus: 1,
+                    foodCost: 45.6,
+                    deliveryCost: 2.34,
+                    restaurantName: "Testing food",
+                    createdAt: new Date()
+                },
+                {
+                    id: "2",
+                    orderStatus: 2,
+                    foodCost: 2.6,
+                    deliveryCost: 0.36,
+                    restaurantName: "McDonald's",
+                    createdAt: new Date()
+                },
+                {
+                    id: "3",
+                    orderStatus: 3,
+                    foodCost: 12.4,
+                    deliveryCost: 3.77,
+                    restaurantName: "KFC Kristiine",
+                    createdAt: new Date()
+                }
+            ];
+            context.commit('setOrders', orders)
+        },
+        async getOrder(context, id: string): Promise<void> {
+        //    const orders = await OrderAPI.get(id);
+            const order: IOrder = {
+                id: "1",
+                createdAt: new Date(),
+                address: "E. Vilde tee 76, Tallinn, Harjumaa",
+                apartment: "4",
+                comment: "Second floor",
+                deliveryCost: 2.34,
+                foodCost: 45.6,
+                orderRows: [
+                    {
+                        amount: 2,
+                        name: "Burger Large Meal",
+                        cost: 5.2,
+                        choices: [
+                            {
+                                amount: 2,
+                                cost: 0.5,
+                                name: "Big french fries"
+                            },
+                            {
+                                amount: 2,
+                                cost: 0.3,
+                                name: "Coca-Cola Vanilla"
+                            }
+                        ],
+                        comment: "asd"
+                    },
+                    {
+                        amount: 3,
+                        name: "Caesar Salad",
+                        cost: 4,
+                        choices: []
+                    },
+                    {
+                        amount: 4,
+                        name: "Burger Large Meal",
+                        cost: 5.2,
+                        choices: [
+                            {
+                                amount: 4,
+                                cost: 0.2,
+                                name: "Medium french fries"
+                            },
+                            {
+                                amount: 4,
+                                cost: 0,
+                                name: "Coca-Cola"
+                            }
+                        ]
+                    }
+                ],
+                orderStatus: 1,
+                paymentMethod: 1,
+                restaurantId: "1",
+                restaurantName: "Testing food"
+            }
+            context.commit('setOrder', id === "1" ? order : null)
+        },
         async getRestaurants(context): Promise<void> {
             // const restaurants = await RestaurantAPI.getAll();
             const restaurants: IRestaurantView[] = [
@@ -279,11 +378,24 @@ export default new Vuex.Store({
                 }
             ]
             context.commit('setAddresses', addresses);
+        },
+        async deleteAddress(context, id: string): Promise<void> {
+            console.log(id);
+            // await AddressAPI.delete(id);
+            await context.dispatch('getAddresses');
+        },
+        async createAddress(context, address: IAddressCreate): Promise<void> {
+            // await AddressAPI.post(address).then(() => context.dispatch('getAddresses'));
+            console.log(address)
+        },
+        async editAddress(context, address: IAddress): Promise<void> {
+            // await AddressAPI.put(address.id, address).then(() => context.dispatch('getAddresses'));
+            console.log(address)
         }
     },
     modules: {
         user: UserModule,
-        order: OrderModule
+        currentOrder: OrderModule
     },
     plugins: [createPersistedState({
         paths: ['user']

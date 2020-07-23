@@ -1,8 +1,5 @@
 export interface IOrderItemChoice {
-    id: string;
-    orderRowId: string;
-    itemChoiceId: string;
-    itemChoiceName: string;
+    name: string;
     amount: number;
     cost: number;
 }

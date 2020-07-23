@@ -2,9 +2,8 @@ import { getModule, Module, Mutation, VuexModule, Action } from "vuex-module-dec
 import { IOrderRowTemp } from "@/domain/IOrderRow";
 import store from "@/store";
 import { IOrderCreate, IOrderTemp } from "@/domain/IOrder";
-import router from "@/router";
 
-@Module({ name: 'order' })
+@Module({ name: 'currentOrder' })
 export default class OrderModule extends VuexModule {
     currentRestaurantId: string | null = null;
     currentRestaurantName: string | null = null;
@@ -117,7 +116,7 @@ export default class OrderModule extends VuexModule {
             orderStatus: orderTemp.orderStatus,
             paymentMethod: orderTemp.paymentMethod,
             restaurantId: getModule(OrderModule, store).currentRestaurantId ?? undefined,
-            restaurantName: getModule(OrderModule, store).currentRestaurantId ?? undefined
+            restaurantName: getModule(OrderModule, store).currentRestaurantName ?? undefined
         }
         getModule(OrderModule, store).setLoading(true);
         // FOR TESTING START
@@ -129,7 +128,7 @@ export default class OrderModule extends VuexModule {
         // const orderResponse = await OrderAPI.post(orderCreate)
         // const p = orderResponse.isSuccessful;
         getModule(OrderModule, store).setLoading(false);
-        console.log(orderCreate)
+        console.log(JSON.stringify(orderCreate))
         const p = false;
         if (p) this.clearOrders();
         else console.log('PIZDETS');
