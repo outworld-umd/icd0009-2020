@@ -68,7 +68,6 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (getModule(UserModule, store).jwt == null) {
-            getModule(UserModule, store).setJwt("testing");
             next('/account/login')
         } else next()
     } else next()

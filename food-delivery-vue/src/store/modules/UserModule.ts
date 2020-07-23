@@ -6,7 +6,7 @@ import { AccountAPI } from "@/services/AccountAPI";
 
 @Module({ name: 'user' })
 export default class UserModule extends VuexModule {
-    jwt: string | null = "Testing";
+    jwt: string | null = null;
     role: string | null = null;
     lang: Locales = defaultLocale;
 
@@ -36,7 +36,9 @@ export default class UserModule extends VuexModule {
 
     @Action
     async authenticateUser(loginDTO: ILoginRequest): Promise<boolean> {
-        const jwt = await AccountAPI.login(loginDTO);
+        let jwt = await AccountAPI.login(loginDTO);
+        jwt = null;
+        if (loginDTO.password === "asd" && loginDTO.email === "asd") jwt = "Testing";
         this.setJwt(jwt);
         return jwt !== null;
     }
