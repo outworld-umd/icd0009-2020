@@ -2,7 +2,7 @@ import { getModule, Module, Mutation, VuexModule, Action } from "vuex-module-dec
 import { IOrderRowTemp } from "@/domain/IOrderRow";
 import store from "@/store";
 import { IOrderCreate, IOrderTemp } from "@/domain/IOrder";
-import {OrderAPI} from "@/services/OrderAPI";
+import { OrderAPI } from "@/services/OrderAPI";
 
 @Module({ name: 'currentOrder' })
 export default class OrderModule extends VuexModule {

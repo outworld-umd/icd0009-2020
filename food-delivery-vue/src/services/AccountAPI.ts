@@ -1,20 +1,17 @@
 import { BaseAPI } from "@/services/BaseAPI";
 import { ILoginRequest } from "@/domain/identity/ILoginRequest";
 import { ILoginResponse } from "@/domain/identity/ILoginResponse";
+import { IFetchResponse } from "@/types/IFetchResponse";
+import { IRegisterRequest } from "@/domain/identity/IRegisterRequest";
 
 export abstract class AccountAPI extends BaseAPI {
-    static url = "Account/";
+    static url = "Accounts/";
 
-    static async login(loginDTO: ILoginRequest): Promise<string | null> {
-        const url = "Login";
-        try {
-            const response = await this.axios.post<ILoginResponse>(this.url + url, loginDTO);
-            console.log('getJwt response', response);
-            if (response.status === 200) return response.data.token;
-            return null;
-        } catch (error) {
-            console.log('error: ', (error as Error).message);
-            return null;
-        }
+    static async login(loginRequest: ILoginRequest): Promise<IFetchResponse<ILoginResponse>> {
+        return super.basePost<ILoginResponse>(this.url + "Login", loginRequest, false);
+    }
+
+    static async register(registerRequest: IRegisterRequest): Promise<IFetchResponse<ILoginResponse>> {
+        return super.basePost<ILoginResponse>(this.url + "Register", registerRequest, false);
     }
 }

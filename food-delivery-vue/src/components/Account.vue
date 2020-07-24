@@ -21,9 +21,9 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import store from "../store";
-import router from "../router";
-import UserModule from "@/store/modules/UserModule";
+import store from "@/store";
+import router from "@/router";
+import UserModule from "@/store/modules/UserModule"
 import { getModule } from "vuex-module-decorators";
 import JwtDecode from "jwt-decode";
 
