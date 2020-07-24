@@ -22,7 +22,14 @@ namespace DAL.App.EF.Repositories {
             var query = PrepareQuery(userId, noTracking);
             var domainEntities = await query
                 .Include(r => r.RestaurantCategories)
-                .ThenInclude(rc => rc.Category).ToListAsync();
+                .ThenInclude(rc => rc.Category)
+                .ThenInclude(c => c!.RestaurantCategories)
+                .ThenInclude(rc => rc.Restaurant)
+                .Include(r => r.WorkingHourses)
+                .Include(r => r.ItemTypes)
+                .ThenInclude(it => it.ItemInTypes)
+                .ThenInclude(iit => iit.Item)
+                .ToListAsync();
             var result = domainEntities.Select(e => DALMapper.Map(e));
             return result;
         }
@@ -32,7 +39,14 @@ namespace DAL.App.EF.Repositories {
             var query = PrepareQuery(userId, noTracking);
             var entity = await query
                 .Include(r => r.RestaurantCategories)
-                .ThenInclude(rc => rc.Category).FirstOrDefaultAsync(e => e.Id.Equals(id));
+                .ThenInclude(rc => rc.Category)
+                .ThenInclude(c => c!.RestaurantCategories)
+                .ThenInclude(rc => rc.Restaurant)
+                .Include(r => r.WorkingHourses)
+                .Include(r => r.ItemTypes)
+                .ThenInclude(it => it.ItemInTypes)
+                .ThenInclude(iit => iit.Item)
+                .FirstOrDefaultAsync(e => e.Id.Equals(id));
             return DALMapper.Map(entity);
         }
     }

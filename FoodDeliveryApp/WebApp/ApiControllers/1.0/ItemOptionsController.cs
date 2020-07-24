@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts.BLL.App;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using DAL.App.EF;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using PublicApi.DTO.v1;
+using V1DTO=PublicApi.DTO.v1;
 using PublicApi.DTO.v1.Mappers;
 
 namespace WebApp.ApiControllers._1._0
@@ -30,20 +27,20 @@ namespace WebApp.ApiControllers._1._0
 
         // GET: api/ItemOption
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ItemOption>>> GetItemOptions()
+        public async Task<ActionResult<IEnumerable<V1DTO.ItemOption>>> GetItemOptions()
         {
             return Ok((await _bll.ItemOptions.GetAllAsync()).Select(e => _mapper.MapItemOption(e)));
         }
 
         // GET: api/ItemOption/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ItemOption>> GetItemOption(Guid id)
+        public async Task<ActionResult<V1DTO.ItemOption>> GetItemOption(Guid id)
         {
             var itemOption = await _bll.ItemOptions.FirstOrDefaultAsync(id);
 
             if (itemOption == null)
             {
-                return NotFound(new MessageDTO($"ItemOption with id {id} not found"));
+                return NotFound(new V1DTO.MessageDTO($"ItemOption with id {id} not found"));
             }
 
             return Ok(_mapper.Map(itemOption));
@@ -53,11 +50,11 @@ namespace WebApp.ApiControllers._1._0
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutItemOption(Guid id, ItemOption itemOption)
+        public async Task<IActionResult> PutItemOption(Guid id, V1DTO.ItemOption itemOption)
         {
             if (id != itemOption.Id)
             {
-                return BadRequest(new MessageDTO("Id and ItemOption.Id do not match"));
+                return BadRequest(new V1DTO.MessageDTO("Id and ItemOption.Id do not match"));
             }
 
             await _bll.ItemOptions.UpdateAsync(_mapper.Map(itemOption));
@@ -70,7 +67,7 @@ namespace WebApp.ApiControllers._1._0
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<ItemOption>> PostItemOption(ItemOption itemOption)
+        public async Task<ActionResult<V1DTO.ItemOption>> PostItemOption(V1DTO.ItemOption itemOption)
         {
             var bllEntity = _mapper.Map(itemOption);
             _bll.ItemOptions.Add(bllEntity);
@@ -84,12 +81,12 @@ namespace WebApp.ApiControllers._1._0
 
         // DELETE: api/ItemOption/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ItemOption>> DeleteItemOption(Guid id)
+        public async Task<ActionResult<V1DTO.ItemOption>> DeleteItemOption(Guid id)
         {
             var itemOption = await _bll.ItemOptions.FirstOrDefaultAsync(id);
             if (itemOption == null)
             {
-                return NotFound(new MessageDTO("ItemOption not found"));
+                return NotFound(new V1DTO.MessageDTO("ItemOption not found"));
             }
 
             await _bll.ItemOptions.RemoveAsync(itemOption);

@@ -6,7 +6,8 @@ using Contracts.BLL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using PublicApi.DTO.v1;
+using Microsoft.AspNetCore.Http;
+using V1DTO=PublicApi.DTO.v1;
 using PublicApi.DTO.v1.Mappers;
 
 namespace WebApp.ApiControllers._1._0
@@ -28,20 +29,20 @@ namespace WebApp.ApiControllers._1._0
 
         // GET: api/ItemChoice
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ItemChoice>>> GetItemChoice()
+        public async Task<ActionResult<IEnumerable<V1DTO.ItemChoice>>> GetItemChoice()
         {
             return Ok((await _bll.ItemChoices.GetAllAsync()).Select(e => _mapper.MapItemChoice(e)));
         }
 
         // GET: api/ItemChoice/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ItemChoice>> GetItemChoice(Guid id)
+        public async Task<ActionResult<V1DTO.ItemChoice>> GetItemChoice(Guid id)
         {
             var itemChoice = await _bll.ItemChoices.FirstOrDefaultAsync(id);
 
             if (itemChoice == null)
             {
-                return NotFound(new MessageDTO($"ItemChoice with id {id} not found"));
+                return NotFound(new V1DTO.MessageDTO($"ItemChoice with id {id} not found"));
             }
 
             return Ok(_mapper.MapItemChoice(itemChoice));
@@ -51,11 +52,11 @@ namespace WebApp.ApiControllers._1._0
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutItemChoice(Guid id, ItemChoice itemChoice)
+        public async Task<IActionResult> PutItemChoice(Guid id, V1DTO.ItemChoice itemChoice)
         {
             if (id != itemChoice.Id)
             {
-                return BadRequest(new MessageDTO("Id and ItemChoice.Id do not match"));
+                return BadRequest(new V1DTO.MessageDTO("Id and ItemChoice.Id do not match"));
             }
 
             await _bll.ItemChoices.UpdateAsync(_mapper.Map(itemChoice));
@@ -67,8 +68,16 @@ namespace WebApp.ApiControllers._1._0
         // POST: api/ItemChoice
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        /// <summary>
+        /// Create/add a new item choice
+        /// </summary>
+        /// <param name="itemChoice">Item choice info</param>
+        /// <returns></returns>
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(V1DTO.ItemChoice))]
         [HttpPost]
-        public async Task<ActionResult<ItemChoice>> PostItemChoice(ItemChoice itemChoice)
+        public async Task<ActionResult<V1DTO.ItemChoice>> PostItemChoice(V1DTO.ItemChoice itemChoice)
         {
             var bllEntity = _mapper.Map(itemChoice);
             _bll.ItemChoices.Add(bllEntity);
@@ -81,13 +90,20 @@ namespace WebApp.ApiControllers._1._0
         }
 
         // DELETE: api/ItemChoice/5
+        /// <summary>
+        /// Deletes the item choice
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.ItemChoice))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ItemChoice>> DeleteItemChoice(Guid id)
+        public async Task<ActionResult<V1DTO.ItemChoice>> DeleteItemChoice(Guid id)
         {
             var itemChoice = await _bll.ItemChoices.FirstOrDefaultAsync(id);
             if (itemChoice == null)
             {
-                return NotFound(new MessageDTO("Address not found"));
+                return NotFound(new V1DTO.MessageDTO("Address not found"));
             }
 
             await _bll.ItemChoices.RemoveAsync(itemChoice);

@@ -116,6 +116,27 @@ namespace DAL.Base.EF.Repositories
             var recordExists = await query.AnyAsync(e => e.Id.Equals(id));
             return recordExists;
         }
+        
+        public bool Exists(TKey id, object? userId = null) {
+            var query = PrepareQuery(userId, true);
+            var recordExists = query.Any(e => e.Id.Equals(id));
+            return recordExists;
+        }
+
+        public bool Any(Expression<Func<TDALEntity, bool>> predicate, object? userId = null) {
+            var query = PrepareQuery(userId, true);
+            var recordExists = query.Select(td => DALMapper.Map(td)).Any(predicate);
+            return recordExists;
+        }
+        
+        public async Task<bool> AnyAsync(Expression<Func<TDALEntity, bool>> predicate, object? userId = null)
+        {
+            var query = PrepareQuery(userId, true);
+            var recordExists = await query.Select(td => DALMapper.Map(td)).AnyAsync(predicate);
+            return recordExists;
+        }
+        
+
 
         protected IQueryable<TDomainEntity> PrepareQuery(object? userId = null, bool noTracking = true)
         {
@@ -146,12 +167,5 @@ namespace DAL.Base.EF.Repositories
                 throw new ArgumentException("Entity to be updated was not found in data source!");
             }
         }
-
-        public bool Exists(TKey id, object? userId = null) {
-            var query = PrepareQuery(userId, true);
-            var recordExists = query.Any(e => e.Id.Equals(id));
-            return recordExists;
-        }
-        
     }
 }

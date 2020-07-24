@@ -14,12 +14,15 @@ namespace PublicApi.DTO.v1.Mappers
 
         public Order MapOrder(BLL.App.DTO.Order inObject)
         {
-            return Mapper.Map<Order>(inObject);
+            var order = Mapper.Map<Order>(inObject);
+            return order;
         }
         
         public OrderView MapOrderView(BLL.App.DTO.Order inObject)
         {
-            return Mapper.Map<OrderView>(inObject);
+            var order = Mapper.Map<Order>(inObject);
+            return order;
+            
         }
     }
 }

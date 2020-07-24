@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts.BLL.App;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using DAL.App.EF;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using PublicApi.DTO.v1;
+using V1DTO=PublicApi.DTO.v1;
 using PublicApi.DTO.v1.Mappers;
 
 namespace WebApp.ApiControllers._1._0
@@ -30,20 +27,20 @@ namespace WebApp.ApiControllers._1._0
 
         // GET: api/ItemType
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ItemType>>> GetItemTypes()
+        public async Task<ActionResult<IEnumerable<V1DTO.ItemType>>> GetItemTypes()
         {
             return Ok((await _bll.ItemTypes.GetAllAsync()).Select(e => _mapper.MapItemType(e)));
         }
 
         // GET: api/ItemType/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ItemType>> GetItemType(Guid id)
+        public async Task<ActionResult<V1DTO.ItemType>> GetItemType(Guid id)
         {
             var itemType = await _bll.ItemTypes.FirstOrDefaultAsync(id);
 
             if (itemType == null)
             {
-                return NotFound(new MessageDTO($"ItemType with id {id} not found"));
+                return NotFound(new V1DTO.MessageDTO($"ItemType with id {id} not found"));
             }
 
             return Ok(_mapper.Map(itemType));
@@ -53,11 +50,11 @@ namespace WebApp.ApiControllers._1._0
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutItemType(Guid id, ItemType itemType)
+        public async Task<IActionResult> PutItemType(Guid id, V1DTO.ItemType itemType)
         {
             if (id != itemType.Id)
             {
-                return BadRequest(new MessageDTO("Id and ItemType.Id do not match"));
+                return BadRequest(new V1DTO.MessageDTO("Id and ItemType.Id do not match"));
             }
 
             await _bll.ItemTypes.UpdateAsync(_mapper.Map(itemType));
@@ -70,7 +67,7 @@ namespace WebApp.ApiControllers._1._0
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<ItemType>> PostItemType(ItemType itemType)
+        public async Task<ActionResult<V1DTO.ItemType>> PostItemType(V1DTO.ItemType itemType)
         {
             var bllEntity = _mapper.Map(itemType);
             _bll.ItemTypes.Add(bllEntity);
@@ -84,12 +81,12 @@ namespace WebApp.ApiControllers._1._0
 
         // DELETE: api/ItemType/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ItemType>> DeleteItemType(Guid id)
+        public async Task<ActionResult<V1DTO.ItemType>> DeleteItemType(Guid id)
         {
             var itemType = await _bll.ItemTypes.FirstOrDefaultAsync(id);
             if (itemType == null)
             {
-                return NotFound(new MessageDTO("Item not found"));
+                return NotFound(new V1DTO.MessageDTO("Item not found"));
             }
 
             await _bll.ItemTypes.RemoveAsync(itemType);

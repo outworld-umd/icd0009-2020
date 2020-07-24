@@ -27,6 +27,8 @@ namespace Contracts.Domain.Repositories
         Task<TDALEntity> RemoveAsync(TDALEntity entity, object? userId = null);
         Task<TDALEntity> RemoveAsync(TKey id, object? userId = null);
         Task<bool> ExistsAsync(TKey id, object? userId = null);
-        public bool Exists(TKey id, object? userId = null);
+        bool Exists(TKey id, object? userId = null);
+        Task<bool> AnyAsync(Expression<Func<TDALEntity, bool>> predicate, object? userId = null);
+        bool Any(Expression<Func<TDALEntity, bool>> predicate, object? userId = null);
     }
 }

@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using PublicApi.DTO.v1.Mappers.Base;
 
 namespace PublicApi.DTO.v1.Mappers
@@ -13,7 +14,11 @@ namespace PublicApi.DTO.v1.Mappers
 
         public Category MapCategory(BLL.App.DTO.Category inObject)
         {
-            return Mapper.Map<Category>(inObject);
+            var category = Mapper.Map<Category>(inObject);
+            category.Restaurants = inObject.RestaurantCategories
+                .Select(rc => new RestaurantMapper().MapRestaurantView(rc.Restaurant!))
+                .ToList();
+            return category;
         }
     }
 }

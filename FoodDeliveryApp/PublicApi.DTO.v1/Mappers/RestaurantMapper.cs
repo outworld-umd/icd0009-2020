@@ -25,7 +25,7 @@ namespace PublicApi.DTO.v1.Mappers
         {
             var restaurant = Mapper.Map<RestaurantView>(inObject);
             restaurant.Categories = inObject.RestaurantCategories.Select(rc => rc.Category!.Name).ToList();
-            restaurant.IsOpen = true;
+            restaurant.IsOpen = inObject.WorkingHourses.Select(wh => wh.WeekDay).Single() == DateTime.Today.DayOfWeek;
             return restaurant;
         }
     }
