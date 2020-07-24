@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Contracts.BLL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using DAL.App.EF;
-using Domain.App;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using PublicApi.DTO.v1;
+using PublicApi.DTO.v1.Mappers;
 
 namespace WebApp.ApiControllers
 {
@@ -18,32 +18,33 @@ namespace WebApp.ApiControllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class RestaurantController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IAppBLL _bll;
+        private readonly RestaurantMapper _mapper = new RestaurantMapper();
 
-        public RestaurantController(AppDbContext context)
+        public RestaurantController(IAppBLL bll)
         {
-            _context = context;
+            _bll = bll;
         }
 
         // GET: api/Restaurant
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Restaurant>>> GetRestaurants()
         {
-            return await _context.Restaurants.ToListAsync();
+            return Ok((await _bll.Restaurants.GetAllAsync()).Select(e => _mapper.MapRestaurant(e)));
         }
 
         // GET: api/Restaurant/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Restaurant>> GetRestaurant(Guid id)
         {
-            var restaurant = await _context.Restaurants.FindAsync(id);
+            var restaurant = await _bll.Restaurants.FirstOrDefaultAsync(id);
 
             if (restaurant == null)
             {
-                return NotFound();
+                return NotFound(new MessageDTO($"Restaurant with id {id} not found"));
             }
 
-            return restaurant;
+            return Ok(_mapper.Map(restaurant));
         }
 
         // PUT: api/Restaurant/5
@@ -54,26 +55,11 @@ namespace WebApp.ApiControllers
         {
             if (id != restaurant.Id)
             {
-                return BadRequest();
+                return BadRequest(new MessageDTO("Id and Restaurant.Id do not match"));
             }
 
-            _context.Entry(restaurant).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RestaurantExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _bll.Restaurants.UpdateAsync(_mapper.Map(restaurant));
+            await _bll.SaveChangesAsync();
 
             return NoContent();
         }
@@ -84,31 +70,35 @@ namespace WebApp.ApiControllers
         [HttpPost]
         public async Task<ActionResult<Restaurant>> PostRestaurant(Restaurant restaurant)
         {
-            _context.Restaurants.Add(restaurant);
-            await _context.SaveChangesAsync();
+            var bllEntity = _mapper.Map(restaurant);
+            _bll.Restaurants.Add(bllEntity);
+            await _bll.SaveChangesAsync();
+            restaurant.Id = bllEntity.Id;
 
-            return CreatedAtAction("GetRestaurant", new { id = restaurant.Id }, restaurant);
+            return CreatedAtAction("GetRestaurant",
+                new {id = restaurant.Id, version = HttpContext.GetRequestedApiVersion()?.ToString() ?? "0"},
+                restaurant);
         }
 
         // DELETE: api/Restaurant/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Restaurant>> DeleteRestaurant(Guid id)
         {
-            var restaurant = await _context.Restaurants.FindAsync(id);
+            var restaurant = await _bll.Restaurants.FirstOrDefaultAsync(id);
             if (restaurant == null)
             {
-                return NotFound();
+                return NotFound(new MessageDTO("Restaurant not found"));
             }
 
-            _context.Restaurants.Remove(restaurant);
-            await _context.SaveChangesAsync();
+            await _bll.Restaurants.RemoveAsync(restaurant);
+            await _bll.SaveChangesAsync();
 
-            return restaurant;
+            return Ok(restaurant);
         }
 
-        private bool RestaurantExists(Guid id)
-        {
-            return _context.Restaurants.Any(e => e.Id == id);
-        }
+        // private bool RestaurantExists(Guid id)
+        // {
+        //     return _bll.Restaurants.Any(e => e.Id == id);
+        // }
     }
 }

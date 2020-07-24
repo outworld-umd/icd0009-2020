@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.BLL.App;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
-using Domain.App;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using PublicApi.DTO.v1;
+using PublicApi.DTO.v1.Mappers;
 
 namespace WebApp.ApiControllers
 {
@@ -18,32 +20,33 @@ namespace WebApp.ApiControllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ItemOptionController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IAppBLL _bll;
+        private readonly ItemOptionMapper _mapper = new ItemOptionMapper();
 
-        public ItemOptionController(AppDbContext context)
+        public ItemOptionController(IAppBLL bll)
         {
-            _context = context;
+            _bll = bll;
         }
 
         // GET: api/ItemOption
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ItemOption>>> GetItemOptions()
         {
-            return await _context.ItemOptions.ToListAsync();
+            return Ok((await _bll.ItemOptions.GetAllAsync()).Select(e => _mapper.MapItemOption(e)));
         }
 
         // GET: api/ItemOption/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ItemOption>> GetItemOption(Guid id)
         {
-            var itemOption = await _context.ItemOptions.FindAsync(id);
+            var itemOption = await _bll.ItemOptions.FirstOrDefaultAsync(id);
 
             if (itemOption == null)
             {
-                return NotFound();
+                return NotFound(new MessageDTO($"ItemOption with id {id} not found"));
             }
 
-            return itemOption;
+            return Ok(_mapper.Map(itemOption));
         }
 
         // PUT: api/ItemOption/5
@@ -54,26 +57,11 @@ namespace WebApp.ApiControllers
         {
             if (id != itemOption.Id)
             {
-                return BadRequest();
+                return BadRequest(new MessageDTO("Id and ItemOption.Id do not match"));
             }
 
-            _context.Entry(itemOption).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ItemOptionExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _bll.ItemOptions.UpdateAsync(_mapper.Map(itemOption));
+            await _bll.SaveChangesAsync();
 
             return NoContent();
         }
@@ -84,31 +72,35 @@ namespace WebApp.ApiControllers
         [HttpPost]
         public async Task<ActionResult<ItemOption>> PostItemOption(ItemOption itemOption)
         {
-            _context.ItemOptions.Add(itemOption);
-            await _context.SaveChangesAsync();
+            var bllEntity = _mapper.Map(itemOption);
+            _bll.ItemOptions.Add(bllEntity);
+            await _bll.SaveChangesAsync();
+            itemOption.Id = bllEntity.Id;
 
-            return CreatedAtAction("GetItemOption", new { id = itemOption.Id }, itemOption);
+            return CreatedAtAction("GetItemOption",
+                new {id = itemOption.Id, version = HttpContext.GetRequestedApiVersion()?.ToString() ?? "0"},
+                itemOption);
         }
 
         // DELETE: api/ItemOption/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<ItemOption>> DeleteItemOption(Guid id)
         {
-            var itemOption = await _context.ItemOptions.FindAsync(id);
+            var itemOption = await _bll.ItemOptions.FirstOrDefaultAsync(id);
             if (itemOption == null)
             {
-                return NotFound();
+                return NotFound(new MessageDTO("ItemOption not found"));
             }
 
-            _context.ItemOptions.Remove(itemOption);
-            await _context.SaveChangesAsync();
+            await _bll.ItemOptions.RemoveAsync(itemOption);
+            await _bll.SaveChangesAsync();
 
-            return itemOption;
+            return Ok(itemOption);
         }
 
-        private bool ItemOptionExists(Guid id)
-        {
-            return _context.ItemOptions.Any(e => e.Id == id);
-        }
+        // private bool ItemOptionExists(Guid id)
+        // {
+        //     return _bll.ItemOptions.Any(e => e.Id == id);
+        // }
     }
 }

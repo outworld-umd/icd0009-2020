@@ -45,19 +45,19 @@ namespace WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(options =>
+            services.AddDbContext<DAL.App.EF.AppDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("MsSqlConnection")));
 
             // add as a scoped dependency
             services.AddScoped<IUserNameProvider, UserNameProvider>();
             services.AddScoped<IAppUnitOfWork, AppUnitOfWork>();
-            services.AddScoped<IAppBLL, AppBLL>();
+            services.AddScoped<Contracts.BLL.App.IAppBLL, AppBLL>();
 
 
             services.AddIdentity<AppUser, AppRole>()
                 .AddDefaultUI()
-                .AddEntityFrameworkStores<AppDbContext>()
+                .AddEntityFrameworkStores<DAL.App.EF.AppDbContext>()
                 .AddDefaultTokenProviders();
 
 
@@ -128,6 +128,9 @@ namespace WebApp
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
             services.AddSwaggerGen();
 
+            services.AddDbContext<AppDbContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("AppDbContext")));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -191,7 +194,7 @@ namespace WebApp
                 .GetRequiredService<IServiceScopeFactory>()
                 .CreateScope();
 
-            using var ctx = serviceScope.ServiceProvider.GetService<AppDbContext>();
+            using var ctx = serviceScope.ServiceProvider.GetService<DAL.App.EF.AppDbContext>();
             using var userManager = serviceScope.ServiceProvider.GetService<UserManager<AppUser>>();
             using var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<AppRole>>();
 

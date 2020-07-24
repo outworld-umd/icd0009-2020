@@ -8,7 +8,7 @@ namespace PublicApi.DTO.v1.Mappers.Base
     /// </summary>
     /// <typeparam name="TLeftObject"></typeparam>
     /// <typeparam name="TRightObject"></typeparam>
-    public abstract class BaseAPIMapper<TLeftObject, TRightObject> : IBaseDALMapper<TLeftObject, TRightObject>
+    public abstract class BaseAPIMapper<TLeftObject, TRightObject> : IBaseAPIMapper<TLeftObject, TRightObject>
         where TRightObject : class?, new()
         where TLeftObject : class?, new()
     {

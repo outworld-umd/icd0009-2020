@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using PublicApi.DTO.v1;
 using PublicApi.DTO.v1.Mappers;
 using PublicApi.DTO.v1.Mappers.Base;
@@ -34,8 +35,7 @@ namespace WebApp.ApiControllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Address>>> GetAddresses()
         {
-            var result = await _bll.Addresses.GetAllAsync();
-            return Ok(result.Select(e => _mapper.MapAddress(e)));
+            return Ok((await _bll.Addresses.GetAllAsync()).Select(e => _mapper.MapAddress(e)));
         }
 
         // GET: api/Address/5
@@ -60,7 +60,7 @@ namespace WebApp.ApiControllers
         {
             if (id != address.Id)
             {
-                return BadRequest();
+                return BadRequest(new MessageDTO("Id and Address.Id do not match"));
             }
 
             await _bll.Addresses.UpdateAsync(_mapper.Map(address));
@@ -86,18 +86,21 @@ namespace WebApp.ApiControllers
         }
 
         // DELETE: api/Address/5
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "admin")]
         [HttpDelete("{id}")]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Address))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(MessageDTO))]
         public async Task<ActionResult<Address>> DeleteAddress(Guid id)
         {
-            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
-
-            var address = await _bll.Addresses.FirstOrDefaultAsync(id, userIdTKey);
+            var address = await _bll.Addresses.FirstOrDefaultAsync(id);
             if (address == null)
             {
                 return NotFound(new MessageDTO("Address not found"));
             }
 
-            await _bll.Addresses.RemoveAsync(address, userIdTKey);
+            await _bll.Addresses.RemoveAsync(address);
             await _bll.SaveChangesAsync();
 
             return Ok(address);

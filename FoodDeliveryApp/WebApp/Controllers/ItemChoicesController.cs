@@ -12,6 +12,7 @@ using DAL.App.EF;
 using Domain;
 using Extensions;
 using WebApp.ViewModels;
+using IAppBLL = Contracts.BLL.App.IAppBLL;
 
 namespace WebApp.Controllers
 {

@@ -13,6 +13,7 @@ using Domain;
 using Extensions;
 using Microsoft.AspNetCore.Authorization;
 using WebApp.ViewModels;
+using IAppBLL = Contracts.BLL.App.IAppBLL;
 
 namespace WebApp.Controllers
 {

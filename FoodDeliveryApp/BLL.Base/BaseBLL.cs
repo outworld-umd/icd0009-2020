@@ -18,16 +18,16 @@ namespace BLL.Base
             UnitOfWork = unitOfWork;
         }
         
-        public async Task<int> SaveChangesAsync()
-        {
-            return await UnitOfWork.SaveChangesAsync();
-        }
-
         public int SaveChanges()
         {
             return UnitOfWork.SaveChanges();
         }
         
+        public async Task<int> SaveChangesAsync()
+        {
+            return await UnitOfWork.SaveChangesAsync();
+        }
+
         private readonly Dictionary<Type, object> _repoCache = new Dictionary<Type, object>();
 
         // Factory method

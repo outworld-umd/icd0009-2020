@@ -12,11 +12,14 @@ namespace BLL.App
 {
     public class AppBLL : BaseBLL<IAppUnitOfWork>, IAppBLL
     {
+        private IAddressService _items;
+
         public AppBLL(IAppUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
 
         public IAddressService Addresses => GetService<IAddressService>(() => new AddressService(UnitOfWork));
+        
         public ICategoryService Categories => GetService<ICategoryService>(() => new CategoryService(UnitOfWork));
         public IItemChoiceService ItemChoices => GetService<IItemChoiceService>(() => new ItemChoiceService(UnitOfWork));
         public IItemInTypeService ItemInTypes => GetService<IItemInTypeService>(() => new ItemInTypeService(UnitOfWork));

@@ -11,6 +11,7 @@ using DAL.App.EF;
 using BLL.App.DTO;
 using Extensions;
 using Microsoft.AspNetCore.Authorization;
+using IAppBLL = Contracts.BLL.App.IAppBLL;
 
 namespace WebApp.Controllers
 {

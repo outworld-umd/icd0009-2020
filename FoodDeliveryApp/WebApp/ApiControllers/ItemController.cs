@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.BLL.App;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using DAL.App.EF;
-using Domain.App;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using PublicApi.DTO.v1;
+using PublicApi.DTO.v1.Mappers;
 
 namespace WebApp.ApiControllers
 {
@@ -18,32 +19,33 @@ namespace WebApp.ApiControllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ItemController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IAppBLL _bll;
+        private readonly ItemMapper _mapper = new ItemMapper();
 
-        public ItemController(AppDbContext context)
+        public ItemController(IAppBLL bll)
         {
-            _context = context;
+            _bll = bll;
         }
 
         // GET: api/Item
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Item>>> GetItems()
         {
-            return await _context.Items.ToListAsync();
+            return Ok((await _bll.Items.GetAllAsync()).Select(e => _mapper.MapItem(e)));
         }
 
         // GET: api/Item/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Item>> GetItem(Guid id)
         {
-            var item = await _context.Items.FindAsync(id);
+            var item = await _bll.Items.FirstOrDefaultAsync(id);
 
             if (item == null)
             {
-                return NotFound();
+                return NotFound(new MessageDTO($"Item with id {id} not found"));
             }
 
-            return item;
+            return Ok(_mapper.Map(item));
         }
 
         // PUT: api/Item/5
@@ -54,26 +56,11 @@ namespace WebApp.ApiControllers
         {
             if (id != item.Id)
             {
-                return BadRequest();
+                return BadRequest(new MessageDTO("Id and Item.Id do not match"));
             }
 
-            _context.Entry(item).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ItemExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _bll.Items.UpdateAsync(_mapper.Map(item));
+            await _bll.SaveChangesAsync();
 
             return NoContent();
         }
@@ -84,31 +71,35 @@ namespace WebApp.ApiControllers
         [HttpPost]
         public async Task<ActionResult<Item>> PostItem(Item item)
         {
-            _context.Items.Add(item);
-            await _context.SaveChangesAsync();
+            var bllEntity = _mapper.Map(item);
+            _bll.Items.Add(bllEntity);
+            await _bll.SaveChangesAsync();
+            item.Id = bllEntity.Id;
 
-            return CreatedAtAction("GetItem", new { id = item.Id }, item);
+            return CreatedAtAction("GetItem",
+                new {id = item.Id, version = HttpContext.GetRequestedApiVersion()?.ToString() ?? "0"},
+                item);
         }
 
         // DELETE: api/Item/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Item>> DeleteItem(Guid id)
         {
-            var item = await _context.Items.FindAsync(id);
+            var item = await _bll.Items.FirstOrDefaultAsync(id);
             if (item == null)
             {
-                return NotFound();
+                return NotFound(new MessageDTO("Item not found"));
             }
 
-            _context.Items.Remove(item);
-            await _context.SaveChangesAsync();
+            await _bll.Items.RemoveAsync(item);
+            await _bll.SaveChangesAsync();
 
-            return item;
+            return Ok(item);
         }
 
-        private bool ItemExists(Guid id)
-        {
-            return _context.Items.Any(e => e.Id == id);
-        }
+        // private bool ItemExists(Guid id)
+        // {
+        //     return _bll.Items.Any(e => e.Id == id);
+        // }
     }
 }

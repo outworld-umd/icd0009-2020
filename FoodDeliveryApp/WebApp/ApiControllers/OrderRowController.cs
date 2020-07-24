@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.BLL.App;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
-using Domain.App;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using PublicApi.DTO.v1;
+using PublicApi.DTO.v1.Mappers;
 
 namespace WebApp.ApiControllers
 {
@@ -18,32 +20,33 @@ namespace WebApp.ApiControllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class OrderRowController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IAppBLL _bll;
+        private readonly OrderRowMapper _mapper = new OrderRowMapper();
 
-        public OrderRowController(AppDbContext context)
+        public OrderRowController(IAppBLL bll)
         {
-            _context = context;
+            _bll = bll;
         }
 
         // GET: api/OrderRow
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OrderRow>>> GetOrderRows()
         {
-            return await _context.OrderRows.ToListAsync();
+            return Ok((await _bll.OrderRows.GetAllAsync()).Select(e => _mapper.MapOrderRow(e)));
         }
 
         // GET: api/OrderRow/5
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderRow>> GetOrderRow(Guid id)
         {
-            var orderRow = await _context.OrderRows.FindAsync(id);
+            var orderRow = await _bll.OrderRows.FirstOrDefaultAsync(id);
 
             if (orderRow == null)
             {
-                return NotFound();
+                return NotFound(new MessageDTO($"OrderRow with id {id} not found"));
             }
 
-            return orderRow;
+            return Ok(_mapper.Map(orderRow));
         }
 
         // PUT: api/OrderRow/5
@@ -54,26 +57,11 @@ namespace WebApp.ApiControllers
         {
             if (id != orderRow.Id)
             {
-                return BadRequest();
+                return BadRequest(new MessageDTO("Id and OrderRow.Id do not match"));
             }
 
-            _context.Entry(orderRow).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!OrderRowExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _bll.OrderRows.UpdateAsync(_mapper.Map(orderRow));
+            await _bll.SaveChangesAsync();
 
             return NoContent();
         }
@@ -84,31 +72,35 @@ namespace WebApp.ApiControllers
         [HttpPost]
         public async Task<ActionResult<OrderRow>> PostOrderRow(OrderRow orderRow)
         {
-            _context.OrderRows.Add(orderRow);
-            await _context.SaveChangesAsync();
+            var bllEntity = _mapper.Map(orderRow);
+            _bll.OrderRows.Add(bllEntity);
+            await _bll.SaveChangesAsync();
+            orderRow.Id = bllEntity.Id;
 
-            return CreatedAtAction("GetOrderRow", new { id = orderRow.Id }, orderRow);
+            return CreatedAtAction("GetOrderRow",
+                new {id = orderRow.Id, version = HttpContext.GetRequestedApiVersion()?.ToString() ?? "0"},
+                orderRow);
         }
 
         // DELETE: api/OrderRow/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<OrderRow>> DeleteOrderRow(Guid id)
         {
-            var orderRow = await _context.OrderRows.FindAsync(id);
+            var orderRow = await _bll.OrderRows.FirstOrDefaultAsync(id);
             if (orderRow == null)
             {
-                return NotFound();
+                return NotFound(new MessageDTO("OrderRow not found"));
             }
 
-            _context.OrderRows.Remove(orderRow);
-            await _context.SaveChangesAsync();
+            await _bll.OrderRows.RemoveAsync(orderRow);
+            await _bll.SaveChangesAsync();
 
-            return orderRow;
+            return Ok(orderRow);
         }
 
-        private bool OrderRowExists(Guid id)
-        {
-            return _context.OrderRows.Any(e => e.Id == id);
-        }
+        // private bool OrderRowExists(Guid id)
+        // {
+        //     return _bll.OrderRows.Any(e => e.Id == id);
+        // }
     }
 }

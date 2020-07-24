@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.BLL.App;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
-using Domain.App;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using PublicApi.DTO.v1;
+using PublicApi.DTO.v1.Mappers;
 
 namespace WebApp.ApiControllers
 {
@@ -18,32 +20,33 @@ namespace WebApp.ApiControllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class WorkingHoursController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IAppBLL _bll;
+        private readonly WorkingHoursMapper _mapper = new WorkingHoursMapper();
 
-        public WorkingHoursController(AppDbContext context)
+        public WorkingHoursController(IAppBLL bll)
         {
-            _context = context;
+            _bll = bll;
         }
 
         // GET: api/WorkingHours
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WorkingHours>>> GetWorkingHourses()
         {
-            return await _context.WorkingHourses.ToListAsync();
+            return Ok((await _bll.WorkingHourses.GetAllAsync()).Select(e => _mapper.MapWorkingHours(e)));
         }
 
         // GET: api/WorkingHours/5
         [HttpGet("{id}")]
         public async Task<ActionResult<WorkingHours>> GetWorkingHours(Guid id)
         {
-            var workingHours = await _context.WorkingHourses.FindAsync(id);
+            var workingHours = await _bll.WorkingHourses.FirstOrDefaultAsync(id);
 
             if (workingHours == null)
             {
-                return NotFound();
+                return NotFound(new MessageDTO($"WorkingHours with id {id} not found"));
             }
 
-            return workingHours;
+            return Ok(_mapper.Map(workingHours));
         }
 
         // PUT: api/WorkingHours/5
@@ -54,26 +57,11 @@ namespace WebApp.ApiControllers
         {
             if (id != workingHours.Id)
             {
-                return BadRequest();
+                return BadRequest(new MessageDTO("Id and WorkingHours.Id do not match"));
             }
 
-            _context.Entry(workingHours).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!WorkingHoursExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _bll.WorkingHourses.UpdateAsync(_mapper.Map(workingHours));
+            await _bll.SaveChangesAsync();
 
             return NoContent();
         }
@@ -84,31 +72,35 @@ namespace WebApp.ApiControllers
         [HttpPost]
         public async Task<ActionResult<WorkingHours>> PostWorkingHours(WorkingHours workingHours)
         {
-            _context.WorkingHourses.Add(workingHours);
-            await _context.SaveChangesAsync();
+            var bllEntity = _mapper.Map(workingHours);
+            _bll.WorkingHourses.Add(bllEntity);
+            await _bll.SaveChangesAsync();
+            workingHours.Id = bllEntity.Id;
 
-            return CreatedAtAction("GetWorkingHours", new { id = workingHours.Id }, workingHours);
+            return CreatedAtAction("GetWorkingHours",
+                new {id = workingHours.Id, version = HttpContext.GetRequestedApiVersion()?.ToString() ?? "0"},
+                workingHours);
         }
 
         // DELETE: api/WorkingHours/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<WorkingHours>> DeleteWorkingHours(Guid id)
         {
-            var workingHours = await _context.WorkingHourses.FindAsync(id);
+            var workingHours = await _bll.WorkingHourses.FirstOrDefaultAsync(id);
             if (workingHours == null)
             {
-                return NotFound();
+                return NotFound(new MessageDTO("WorkingHours not found"));
             }
 
-            _context.WorkingHourses.Remove(workingHours);
-            await _context.SaveChangesAsync();
+            await _bll.WorkingHourses.RemoveAsync(workingHours);
+            await _bll.SaveChangesAsync();
 
-            return workingHours;
+            return Ok(workingHours);
         }
 
-        private bool WorkingHoursExists(Guid id)
-        {
-            return _context.WorkingHourses.Any(e => e.Id == id);
-        }
+        // private bool WorkingHoursExists(Guid id)
+        // {
+        //     return _bll.WorkingHourses.Any(e => e.Id == id);
+        // }
     }
 }

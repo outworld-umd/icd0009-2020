@@ -3,8 +3,6 @@ using Contracts.Domain.Basic;
 
 namespace PublicApi.DTO.v1
 {
-
-    
     public class ItemChoice
     {
         public string Name { get; set; } = default!;

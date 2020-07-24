@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.BLL.App;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
-using Domain.App;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using PublicApi.DTO.v1;
+using PublicApi.DTO.v1.Mappers;
 
 namespace WebApp.ApiControllers
 {
@@ -18,32 +20,33 @@ namespace WebApp.ApiControllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class OrderController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IAppBLL _bll;
+        private readonly OrderMapper _mapper = new OrderMapper();
 
-        public OrderController(AppDbContext context)
+        public OrderController(IAppBLL bll)
         {
-            _context = context;
+            _bll = bll;
         }
 
         // GET: api/Order
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
         {
-            return await _context.Orders.ToListAsync();
+            return Ok((await _bll.Orders.GetAllAsync()).Select(e => _mapper.MapOrder(e)));
         }
 
         // GET: api/Order/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Order>> GetOrder(Guid id)
         {
-            var order = await _context.Orders.FindAsync(id);
+            var order = await _bll.Orders.FirstOrDefaultAsync(id);
 
             if (order == null)
             {
-                return NotFound();
+                return NotFound(new MessageDTO($"Order with id {id} not found"));
             }
 
-            return order;
+            return Ok(_mapper.Map(order));
         }
 
         // PUT: api/Order/5
@@ -54,26 +57,11 @@ namespace WebApp.ApiControllers
         {
             if (id != order.Id)
             {
-                return BadRequest();
+                return BadRequest(new MessageDTO("Id and Order.Id do not match"));
             }
 
-            _context.Entry(order).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!OrderExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _bll.Orders.UpdateAsync(_mapper.Map(order));
+            await _bll.SaveChangesAsync();
 
             return NoContent();
         }
@@ -84,31 +72,35 @@ namespace WebApp.ApiControllers
         [HttpPost]
         public async Task<ActionResult<Order>> PostOrder(Order order)
         {
-            _context.Orders.Add(order);
-            await _context.SaveChangesAsync();
+            var bllEntity = _mapper.Map(order);
+            _bll.Orders.Add(bllEntity);
+            await _bll.SaveChangesAsync();
+            order.Id = bllEntity.Id;
 
-            return CreatedAtAction("GetOrder", new { id = order.Id }, order);
+            return CreatedAtAction("GetOrder",
+                new {id = order.Id, version = HttpContext.GetRequestedApiVersion()?.ToString() ?? "0"},
+                order);
         }
 
         // DELETE: api/Order/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Order>> DeleteOrder(Guid id)
         {
-            var order = await _context.Orders.FindAsync(id);
+            var order = await _bll.Orders.FirstOrDefaultAsync(id);
             if (order == null)
             {
-                return NotFound();
+                return NotFound(new MessageDTO("Order not found"));
             }
 
-            _context.Orders.Remove(order);
-            await _context.SaveChangesAsync();
+            await _bll.Orders.RemoveAsync(order);
+            await _bll.SaveChangesAsync();
 
-            return order;
+            return Ok(order);
         }
 
-        private bool OrderExists(Guid id)
-        {
-            return _context.Orders.Any(e => e.Id == id);
-        }
+        // private bool OrderExists(Guid id)
+        // {
+        //     return _bll.Orders.Any(e => e.Id == id);
+        // }
     }
 }

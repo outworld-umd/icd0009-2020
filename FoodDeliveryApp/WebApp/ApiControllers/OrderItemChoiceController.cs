@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.BLL.App;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
-using Domain.App;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using PublicApi.DTO.v1;
+using PublicApi.DTO.v1.Mappers;
 
 namespace WebApp.ApiControllers
 {
@@ -18,32 +20,33 @@ namespace WebApp.ApiControllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class OrderItemChoiceController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IAppBLL _bll;
+        private readonly OrderItemChoiceMapper _mapper = new OrderItemChoiceMapper();
 
-        public OrderItemChoiceController(AppDbContext context)
+        public OrderItemChoiceController(IAppBLL bll)
         {
-            _context = context;
+            _bll = bll;
         }
 
         // GET: api/OrderItemChoice
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OrderItemChoice>>> GetOrderItemChoices()
         {
-            return await _context.OrderItemChoices.ToListAsync();
+            return Ok((await _bll.OrderItemChoices.GetAllAsync()).Select(e => _mapper.MapOrderItemChoice(e)));
         }
 
         // GET: api/OrderItemChoice/5
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderItemChoice>> GetOrderItemChoice(Guid id)
         {
-            var orderItemChoice = await _context.OrderItemChoices.FindAsync(id);
+            var orderItemChoice = await _bll.OrderItemChoices.FirstOrDefaultAsync(id);
 
             if (orderItemChoice == null)
             {
-                return NotFound();
+                return NotFound(new MessageDTO($"OrderItemChoice with id {id} not found"));
             }
 
-            return orderItemChoice;
+            return Ok(_mapper.Map(orderItemChoice));
         }
 
         // PUT: api/OrderItemChoice/5
@@ -54,26 +57,11 @@ namespace WebApp.ApiControllers
         {
             if (id != orderItemChoice.Id)
             {
-                return BadRequest();
+                return BadRequest(new MessageDTO("Id and OrderItemChoice.Id do not match"));
             }
 
-            _context.Entry(orderItemChoice).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!OrderItemChoiceExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _bll.OrderItemChoices.UpdateAsync(_mapper.Map(orderItemChoice));
+            await _bll.SaveChangesAsync();
 
             return NoContent();
         }
@@ -84,31 +72,35 @@ namespace WebApp.ApiControllers
         [HttpPost]
         public async Task<ActionResult<OrderItemChoice>> PostOrderItemChoice(OrderItemChoice orderItemChoice)
         {
-            _context.OrderItemChoices.Add(orderItemChoice);
-            await _context.SaveChangesAsync();
+            var bllEntity = _mapper.Map(orderItemChoice);
+            _bll.OrderItemChoices.Add(bllEntity);
+            await _bll.SaveChangesAsync();
+            orderItemChoice.Id = bllEntity.Id;
 
-            return CreatedAtAction("GetOrderItemChoice", new { id = orderItemChoice.Id }, orderItemChoice);
+            return CreatedAtAction("GetOrderItemChoice",
+                new {id = orderItemChoice.Id, version = HttpContext.GetRequestedApiVersion()?.ToString() ?? "0"},
+                orderItemChoice);
         }
 
         // DELETE: api/OrderItemChoice/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<OrderItemChoice>> DeleteOrderItemChoice(Guid id)
         {
-            var orderItemChoice = await _context.OrderItemChoices.FindAsync(id);
+            var orderItemChoice = await _bll.OrderItemChoices.FirstOrDefaultAsync(id);
             if (orderItemChoice == null)
             {
-                return NotFound();
+                return NotFound(new MessageDTO("OrderItemChoice not found"));
             }
 
-            _context.OrderItemChoices.Remove(orderItemChoice);
-            await _context.SaveChangesAsync();
+            await _bll.OrderItemChoices.RemoveAsync(orderItemChoice);
+            await _bll.SaveChangesAsync();
 
-            return orderItemChoice;
+            return Ok(orderItemChoice);
         }
 
-        private bool OrderItemChoiceExists(Guid id)
-        {
-            return _context.OrderItemChoices.Any(e => e.Id == id);
-        }
+        // private bool OrderItemChoiceExists(Guid id)
+        // {
+        //     return _bll.OrderItemChoices.Any(e => e.Id == id);
+        // }
     }
 }

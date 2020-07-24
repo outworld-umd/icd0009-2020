@@ -25,9 +25,8 @@ namespace DAL.Base.EF {
 
         public override async Task<int> SaveChangesAsync()
         {
-            EFBaseUnitOfWork<TKey, TDbContext> efBaseUnitOfWork = this;
-            int num = await efBaseUnitOfWork.UOWDbContext.SaveChangesAsync(new CancellationToken());
-            efBaseUnitOfWork.UpdateTrackedEntities();
+            int num = await UOWDbContext.SaveChangesAsync(new CancellationToken());
+            UpdateTrackedEntities();
             return num;
         }
     }

@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.BLL.App;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
-using Domain.App;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using PublicApi.DTO.v1;
+using PublicApi.DTO.v1.Mappers;
 
 namespace WebApp.ApiControllers
 {
@@ -18,32 +20,33 @@ namespace WebApp.ApiControllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ItemTypeController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IAppBLL _bll;
+        private readonly ItemTypeMapper _mapper = new ItemTypeMapper();
 
-        public ItemTypeController(AppDbContext context)
+        public ItemTypeController(IAppBLL bll)
         {
-            _context = context;
+            _bll = bll;
         }
 
         // GET: api/ItemType
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ItemType>>> GetItemTypes()
         {
-            return await _context.ItemTypes.ToListAsync();
+            return Ok((await _bll.ItemTypes.GetAllAsync()).Select(e => _mapper.MapItemType(e)));
         }
 
         // GET: api/ItemType/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ItemType>> GetItemType(Guid id)
         {
-            var itemType = await _context.ItemTypes.FindAsync(id);
+            var itemType = await _bll.ItemTypes.FirstOrDefaultAsync(id);
 
             if (itemType == null)
             {
-                return NotFound();
+                return NotFound(new MessageDTO($"ItemType with id {id} not found"));
             }
 
-            return itemType;
+            return Ok(_mapper.Map(itemType));
         }
 
         // PUT: api/ItemType/5
@@ -54,26 +57,11 @@ namespace WebApp.ApiControllers
         {
             if (id != itemType.Id)
             {
-                return BadRequest();
+                return BadRequest(new MessageDTO("Id and ItemType.Id do not match"));
             }
 
-            _context.Entry(itemType).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ItemTypeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _bll.ItemTypes.UpdateAsync(_mapper.Map(itemType));
+            await _bll.SaveChangesAsync();
 
             return NoContent();
         }
@@ -84,31 +72,35 @@ namespace WebApp.ApiControllers
         [HttpPost]
         public async Task<ActionResult<ItemType>> PostItemType(ItemType itemType)
         {
-            _context.ItemTypes.Add(itemType);
-            await _context.SaveChangesAsync();
+            var bllEntity = _mapper.Map(itemType);
+            _bll.ItemTypes.Add(bllEntity);
+            await _bll.SaveChangesAsync();
+            itemType.Id = bllEntity.Id;
 
-            return CreatedAtAction("GetItemType", new { id = itemType.Id }, itemType);
+            return CreatedAtAction("GetItemType",
+                new {id = itemType.Id, version = HttpContext.GetRequestedApiVersion()?.ToString() ?? "0"},
+                itemType);
         }
 
         // DELETE: api/ItemType/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<ItemType>> DeleteItemType(Guid id)
         {
-            var itemType = await _context.ItemTypes.FindAsync(id);
+            var itemType = await _bll.ItemTypes.FirstOrDefaultAsync(id);
             if (itemType == null)
             {
-                return NotFound();
+                return NotFound(new MessageDTO("Item not found"));
             }
 
-            _context.ItemTypes.Remove(itemType);
-            await _context.SaveChangesAsync();
+            await _bll.ItemTypes.RemoveAsync(itemType);
+            await _bll.SaveChangesAsync();
 
-            return itemType;
+            return Ok(itemType);
         }
 
-        private bool ItemTypeExists(Guid id)
-        {
-            return _context.ItemTypes.Any(e => e.Id == id);
-        }
+        // private bool ItemTypeExists(Guid id)
+        // {
+        //     return _bll.ItemTypes.Any(e => e.Id == id);
+        // }
     }
 }

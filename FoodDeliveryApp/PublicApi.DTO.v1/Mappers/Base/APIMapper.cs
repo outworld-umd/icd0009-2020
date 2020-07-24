@@ -19,7 +19,7 @@ namespace PublicApi.DTO.v1.Mappers.Base
             MapperConfigurationExpression.CreateMap<ItemOption, BLL.App.DTO.ItemOption>();
             MapperConfigurationExpression.CreateMap<ItemType, BLL.App.DTO.ItemType>();
             MapperConfigurationExpression.CreateMap<NutritionInfo, BLL.App.DTO.NutritionInfo>();
-            MapperConfigurationExpression.CreateMap<Order, BLL.App.DTO.Order>();
+            MapperConfigurationExpression.CreateMap<OrderMapper, BLL.App.DTO.Order>();
             MapperConfigurationExpression.CreateMap<OrderItemChoice, BLL.App.DTO.OrderItemChoice>();
             MapperConfigurationExpression.CreateMap<OrderRow, BLL.App.DTO.OrderRow>();
             MapperConfigurationExpression.CreateMap<Restaurant, BLL.App.DTO.Restaurant>();
@@ -34,7 +34,7 @@ namespace PublicApi.DTO.v1.Mappers.Base
             MapperConfigurationExpression.CreateMap<BLL.App.DTO.ItemOption, ItemOption>();
             MapperConfigurationExpression.CreateMap<BLL.App.DTO.ItemType, ItemType>();
             MapperConfigurationExpression.CreateMap<BLL.App.DTO.NutritionInfo, NutritionInfo>();
-            MapperConfigurationExpression.CreateMap<BLL.App.DTO.Order, Order>();
+            MapperConfigurationExpression.CreateMap<BLL.App.DTO.Order, OrderMapper>();
             MapperConfigurationExpression.CreateMap<BLL.App.DTO.OrderItemChoice, OrderItemChoice>();
             MapperConfigurationExpression.CreateMap<BLL.App.DTO.OrderRow, OrderRow>();
             MapperConfigurationExpression.CreateMap<BLL.App.DTO.Restaurant, Restaurant>();

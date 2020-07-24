@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.BLL.App;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
-using Domain.App;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using PublicApi.DTO.v1;
+using PublicApi.DTO.v1.Mappers;
 
 namespace WebApp.ApiControllers
 {
@@ -18,32 +20,33 @@ namespace WebApp.ApiControllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class NutritionInfoController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IAppBLL _bll;
+        private readonly NutritionInfoMapper _mapper = new NutritionInfoMapper();
 
-        public NutritionInfoController(AppDbContext context)
+        public NutritionInfoController(IAppBLL bll)
         {
-            _context = context;
+            _bll = bll;
         }
 
         // GET: api/NutritionInfo
         [HttpGet]
         public async Task<ActionResult<IEnumerable<NutritionInfo>>> GetNutritionInfos()
         {
-            return await _context.NutritionInfos.ToListAsync();
+            return Ok((await _bll.NutritionInfos.GetAllAsync()).Select(e => _mapper.MapNutritionInfo(e)));
         }
 
         // GET: api/NutritionInfo/5
         [HttpGet("{id}")]
         public async Task<ActionResult<NutritionInfo>> GetNutritionInfo(Guid id)
         {
-            var nutritionInfo = await _context.NutritionInfos.FindAsync(id);
+            var nutritionInfo = await _bll.NutritionInfos.FirstOrDefaultAsync(id);
 
             if (nutritionInfo == null)
             {
-                return NotFound();
+                return NotFound(new MessageDTO($"NutritionInfo with id {id} not found"));
             }
 
-            return nutritionInfo;
+            return Ok(_mapper.Map(nutritionInfo));
         }
 
         // PUT: api/NutritionInfo/5
@@ -54,26 +57,11 @@ namespace WebApp.ApiControllers
         {
             if (id != nutritionInfo.Id)
             {
-                return BadRequest();
+                return BadRequest(new MessageDTO("Id and NutritionInfo.Id do not match"));
             }
 
-            _context.Entry(nutritionInfo).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!NutritionInfoExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _bll.NutritionInfos.UpdateAsync(_mapper.Map(nutritionInfo));
+            await _bll.SaveChangesAsync();
 
             return NoContent();
         }
@@ -84,31 +72,35 @@ namespace WebApp.ApiControllers
         [HttpPost]
         public async Task<ActionResult<NutritionInfo>> PostNutritionInfo(NutritionInfo nutritionInfo)
         {
-            _context.NutritionInfos.Add(nutritionInfo);
-            await _context.SaveChangesAsync();
+            var bllEntity = _mapper.Map(nutritionInfo);
+            _bll.NutritionInfos.Add(bllEntity);
+            await _bll.SaveChangesAsync();
+            nutritionInfo.Id = bllEntity.Id;
 
-            return CreatedAtAction("GetNutritionInfo", new { id = nutritionInfo.Id }, nutritionInfo);
+            return CreatedAtAction("GetNutritionInfo",
+                new {id = nutritionInfo.Id, version = HttpContext.GetRequestedApiVersion()?.ToString() ?? "0"},
+                nutritionInfo);
         }
 
         // DELETE: api/NutritionInfo/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<NutritionInfo>> DeleteNutritionInfo(Guid id)
         {
-            var nutritionInfo = await _context.NutritionInfos.FindAsync(id);
+            var nutritionInfo = await _bll.NutritionInfos.FirstOrDefaultAsync(id);
             if (nutritionInfo == null)
             {
-                return NotFound();
+                return NotFound(new MessageDTO("NutritionInfo not found"));
             }
 
-            _context.NutritionInfos.Remove(nutritionInfo);
-            await _context.SaveChangesAsync();
+            await _bll.NutritionInfos.RemoveAsync(nutritionInfo);
+            await _bll.SaveChangesAsync();
 
-            return nutritionInfo;
+            return Ok(nutritionInfo);
         }
 
-        private bool NutritionInfoExists(Guid id)
-        {
-            return _context.NutritionInfos.Any(e => e.Id == id);
-        }
+        // private bool NutritionInfoExists(Guid id)
+        // {
+        //     return _bll.NutritionInfos.Any(e => e.Id == id);
+        // }
     }
 }
