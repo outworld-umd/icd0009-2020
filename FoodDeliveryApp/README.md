@@ -1,17 +1,15 @@
 # Food Delivery App
 ## TODOs
 ### Layered Architecture 101
-* **BLL.App/Mappers** -> think about custom mappers
-* **WebApp** -> make controllers use bll
 ### Other stuff
 * Internationalization
 ## Useful Commands
 ##### To generate database:
 ```
-dotnet ef database drop -f --project DAL.App.EF --startup-project WebApp
+dotnet ef database drop -f --project DAL.App.EF --startup-project WebApp --context DAL.App.EF.AppDbContext
 rd /q /s DAL.App.EF\Migrations
-dotnet ef migrations add InitialDbCreation --project DAL.App.EF --startup-project WebApp
-dotnet ef database update --project DAL.App.EF --startup-project WebApp
+dotnet ef migrations add InitialDbCreation --project DAL.App.EF --startup-project WebApp --context DAL.App.EF.AppDbContext
+dotnet ef database update --project DAL.App.EF --startup-project WebApp --context DAL.App.EF.AppDbContext
 ```
 ##### To create ASP.NET controller and view:
 ```

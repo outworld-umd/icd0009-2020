@@ -26,20 +26,44 @@ namespace WebApp.ApiControllers
         private readonly AddressMapper _mapper = new AddressMapper();
 
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+
         public AddressController(IAppBLL bll)
         {
             _bll = bll;
         }
 
         // GET: api/Address
+        /// <summary>
+        /// Get addresses for single session 
+        /// </summary>
+        /// <returns>categorys for session</returns>
         [HttpGet]
+        [AllowAnonymous]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Address>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(Address))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Address))]
         public async Task<ActionResult<IEnumerable<Address>>> GetAddresses()
         {
             return Ok((await _bll.Addresses.GetAllAsync()).Select(e => _mapper.MapAddress(e)));
         }
 
         // GET: api/Address/5
+        /// <summary>
+        /// Get a single address
+        /// </summary>
+        /// <param name="id">id for category</param>
+        /// <returns>category</returns>
         [HttpGet("{id}")]
+        [AllowAnonymous]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Address))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(Address))]
         public async Task<ActionResult<Address>> GetAddress(Guid id)
         {
             var address = await _bll.Addresses.FirstOrDefaultAsync(id);
@@ -55,6 +79,15 @@ namespace WebApp.ApiControllers
         // PUT: api/Address/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        /// <summary>
+        /// Update address
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="address"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(MessageDTO))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAddress(Guid id, Address address)
         {
@@ -72,6 +105,15 @@ namespace WebApp.ApiControllers
         // POST: api/Address
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        /// <summary>
+        /// Create/add a new address
+        /// </summary>
+        /// <param name="address">Address info</param>
+        /// <returns></returns>
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Address))]
         [HttpPost]
         public async Task<ActionResult<Address>> PostAddress(Address address)
         {
@@ -86,12 +128,15 @@ namespace WebApp.ApiControllers
         }
 
         // DELETE: api/Address/5
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "admin")]
-        [HttpDelete("{id}")]
-        [Produces("application/json")]
-        [Consumes("application/json")]
+        /// <summary>
+        /// Deletes the address
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Address))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(MessageDTO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(Address))]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<Address>> DeleteAddress(Guid id)
         {
             var address = await _bll.Addresses.FirstOrDefaultAsync(id);
@@ -106,9 +151,9 @@ namespace WebApp.ApiControllers
             return Ok(address);
         }
 
-        // private bool AddressExists(Guid id)
-        // {
-        //     return _bll.Addresses.Any(e => e.Id == id);
-        // }
+        private bool AddressExists(Guid id)
+        {
+            return _bll.Addresses.Exists(id);
+        }
     }
 }

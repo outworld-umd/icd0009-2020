@@ -96,9 +96,9 @@ namespace WebApp.ApiControllers
             return Ok(restaurant);
         }
 
-        // private bool RestaurantExists(Guid id)
-        // {
-        //     return _bll.Restaurants.Any(e => e.Id == id);
-        // }
+        private bool RestaurantExists(Guid id)
+        {
+            return _bll.Restaurants.Exists(id);
+        }
     }
 }

@@ -98,9 +98,9 @@ namespace WebApp.ApiControllers
             return Ok(nutritionInfo);
         }
 
-        // private bool NutritionInfoExists(Guid id)
-        // {
-        //     return _bll.NutritionInfos.Any(e => e.Id == id);
-        // }
+        private bool NutritionInfoExists(Guid id)
+        {
+            return _bll.NutritionInfos.Exists(id);
+        }
     }
 }

@@ -100,9 +100,9 @@ namespace WebApp.ApiControllers
             return Ok(category);
         }
 
-        // private bool CategoryExists(Guid id)
-        // {
-        //     return _bll.Categories.Any(e => e.Id == id);
-        // }
+        private bool CategoryExists(Guid id)
+        {
+            return _bll.Categories.Exists(id);
+        }
     }
 }

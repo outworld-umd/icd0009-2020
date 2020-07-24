@@ -98,9 +98,9 @@ namespace WebApp.ApiControllers
             return Ok(workingHours);
         }
 
-        // private bool WorkingHoursExists(Guid id)
-        // {
-        //     return _bll.WorkingHourses.Any(e => e.Id == id);
-        // }
+        private bool WorkingHoursExists(Guid id)
+        {
+            return _bll.WorkingHourses.Exists(id);
+        }
     }
 }

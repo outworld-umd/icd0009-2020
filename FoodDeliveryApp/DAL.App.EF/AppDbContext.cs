@@ -13,9 +13,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF {
 
-    public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>, IBaseEntityTracker<Guid>
+    public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>, IBaseEntityTracker
     {
-        private IUserNameProvider _userNameProvider;
+        private readonly IUserNameProvider _userNameProvider;
 
         public DbSet<Address> Addresses { get; set; } = default!;
         public DbSet<Category> Categories { get; set; } = default!;

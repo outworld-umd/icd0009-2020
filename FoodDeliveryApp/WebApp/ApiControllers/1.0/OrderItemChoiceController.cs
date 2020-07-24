@@ -98,9 +98,9 @@ namespace WebApp.ApiControllers
             return Ok(orderItemChoice);
         }
 
-        // private bool OrderItemChoiceExists(Guid id)
-        // {
-        //     return _bll.OrderItemChoices.Any(e => e.Id == id);
-        // }
+        private bool OrderItemChoiceExists(Guid id)
+        {
+            return _bll.OrderItemChoices.Exists(id);
+        }
     }
 }

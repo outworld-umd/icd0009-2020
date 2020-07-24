@@ -139,6 +139,8 @@ namespace DAL.App.EF.Migrations
                     City = table.Column<string>(maxLength: 64, nullable: false),
                     Street = table.Column<string>(maxLength: 64, nullable: false),
                     BuildingNumber = table.Column<string>(maxLength: 64, nullable: false),
+                    Apartment = table.Column<string>(maxLength: 64, nullable: true),
+                    Name = table.Column<string>(maxLength: 64, nullable: true),
                     Comment = table.Column<string>(maxLength: 256, nullable: true)
                 },
                 constraints: table =>
