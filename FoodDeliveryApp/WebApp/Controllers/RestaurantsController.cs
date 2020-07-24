@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
 using Extensions;
+using IAppBLL = Contracts.BLL.App.IAppBLL;
 
 namespace WebApp.Controllers
 {
@@ -25,7 +26,7 @@ namespace WebApp.Controllers
         // GET: Restaurants
         public async Task<IActionResult> Index()
         {
-            return View(await _bll.Restaurants.AllAsync());
+            return View(await _bll.Restaurants.GetAllAsync());
         }
 
         // GET: Restaurants/Details/5
@@ -36,7 +37,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var restaurant = await _bll.Restaurants.FindAsync(id);
+            var restaurant = await _bll.Restaurants.FirstOrDefaultAsync(id.Value, User.UserGuidId());
             if (restaurant == null)
             {
                 return NotFound();
@@ -56,7 +57,7 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Phone,Address,Description,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Restaurant restaurant)
+        public async Task<IActionResult> Create([Bind("Name,Phone,Address,Description,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] BLL.App.DTO.Restaurant restaurant)
         {
             if (ModelState.IsValid)
             {
@@ -76,7 +77,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var restaurant = await _bll.Restaurants.FindAsync(id);
+            var restaurant = await _bll.Restaurants.FirstOrDefaultAsync(id.Value, User.UserGuidId());
             if (restaurant == null)
             {
                 return NotFound();
@@ -89,7 +90,7 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Phone,Address,Description,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Restaurant restaurant)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Phone,Address,Description,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] BLL.App.DTO.Restaurant restaurant)
         {
             if (id != restaurant.Id)
             {
@@ -100,7 +101,7 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _bll.Restaurants.Update(restaurant);
+                    await _bll.Restaurants.UpdateAsync(restaurant);
                     await _bll.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -127,7 +128,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var restaurant = await _bll.Restaurants.FindAsync(id);
+            var restaurant = await _bll.Restaurants.FirstOrDefaultAsync(id.Value, User.UserGuidId());
             if (restaurant == null)
             {
                 return NotFound();
@@ -141,15 +142,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var restaurant = await _bll.Restaurants.FindAsync(id);
-            _bll.Restaurants.Remove(restaurant);
+            await _bll.Addresses.RemoveAsync(id, User.UserGuidId());
             await _bll.SaveChangesAsync();
+            
             return RedirectToAction(nameof(Index));
         }
 
         private bool RestaurantExists(Guid id)
         {
-            return _bll.Restaurants.Any(e => e.Id == id);
+            return _bll.Restaurants.Exists(id);
         }
     }
 }

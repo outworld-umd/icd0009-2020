@@ -1,13 +1,15 @@
-﻿using Contracts.DAL.App;
+﻿using System;
+using Contracts.DAL.App;
 using Contracts.DAL.App.Repositories;
+using Contracts.Domain.Basic;
 using DAL.App.EF.Repositories;
 using DAL.Base.EF;
 
 namespace DAL.App.EF {
 
-    public class AppUnitOfWork : EFBaseUnitOfWork<AppDbContext>, IAppUnitOfWork {
+    public class AppUnitOfWork : EFBaseUnitOfWork<Guid, AppDbContext>, IAppUnitOfWork {
         
-        public IAddressRepository Addresses => GetRepository(() => new AddressRepository(UOWDbContext));
+        public IAddressRepository Addresses => GetRepository<IAddressRepository>(() => new AddressRepository(UOWDbContext));
         public ICategoryRepository Categories => GetRepository(() => new CategoryRepository(UOWDbContext));
         public IItemRepository Items => GetRepository(() => new ItemRepository(UOWDbContext));
         public IItemChoiceRepository ItemChoices => GetRepository(() => new ItemChoiceRepository(UOWDbContext));
@@ -27,7 +29,6 @@ namespace DAL.App.EF {
         {
             
         }
-
     }
 
 }

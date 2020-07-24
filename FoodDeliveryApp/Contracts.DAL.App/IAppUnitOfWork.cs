@@ -1,10 +1,11 @@
 ﻿using Contracts.DAL.App.Repositories;
 using Contracts.DAL.Base;
-using Domain.Identity;
+using Contracts.Domain;
+using Domain.App.Identity;
 
 namespace Contracts.DAL.App {
 
-    public interface IAppUnitOfWork : IBaseUnitOfWork {
+    public interface IAppUnitOfWork : IBaseUnitOfWork, IBaseEntityTracker {
 
         public IAddressRepository Addresses { get; }
         public ICategoryRepository Categories { get; }

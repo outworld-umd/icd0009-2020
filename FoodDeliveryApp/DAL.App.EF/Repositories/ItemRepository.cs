@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
+using DAL.App.EF.Mappers;
 using DAL.Base.EF.Mappers;
 using DAL.Base.EF.Repositories;
 using Domain;
+using Domain.App;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories
 {
-    public class ItemRepository : EFBaseRepository<AppDbContext, Domain.Item, DTO.Item>, IItemRepository
+    public class ItemRepository : EFBaseRepository<AppDbContext, Domain.App.Identity.AppUser, Item, DTO.Item>, IItemRepository
     {
-        public ItemRepository(AppDbContext dbContext) : base(dbContext, new BaseDALMapper<Domain.Item, DTO.Item>()) { }
+        public ItemRepository(AppDbContext dbContext) : base(dbContext, new DALMapper<Item, DTO.Item>()) { }
 
 
         // public override async Task<IEnumerable<Item>> AllAsync() {

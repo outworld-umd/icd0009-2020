@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using Extensions;
+using IAppBLL = Contracts.BLL.App.IAppBLL;
 
 namespace WebApp.Controllers
 {
@@ -24,7 +26,7 @@ namespace WebApp.Controllers
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-            return View(await _bll.Categories.AllAsync());
+            return View(await _bll.Categories.GetAllAsync());
         }
 
         // GET: Categories/Details/5
@@ -35,7 +37,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var category = await _bll.Categories.FindAsync(id);
+            var category = await _bll.Categories.FirstOrDefaultAsync(id.Value, User.UserGuidId());
             if (category == null)
             {
                 return NotFound();
@@ -55,7 +57,7 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Category category)
+        public async Task<IActionResult> Create([Bind("Name,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] BLL.App.DTO.Category category)
         {
             if (ModelState.IsValid)
             {
@@ -75,7 +77,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var category = await _bll.Categories.FindAsync(id);
+            var category = await _bll.Categories.FirstOrDefaultAsync(id.Value, User.UserGuidId());
             if (category == null)
             {
                 return NotFound();
@@ -88,7 +90,7 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Category category)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] BLL.App.DTO.Category category)
         {
             if (id != category.Id)
             {
@@ -99,7 +101,7 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _bll.Categories.Update(category);
+                    await _bll.Categories.UpdateAsync(category);
                     await _bll.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -126,7 +128,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var category = await _bll.Categories.FindAsync(id);
+            var category = await _bll.Categories.FirstOrDefaultAsync(id.Value, User.UserGuidId());
             if (category == null)
             {
                 return NotFound();
@@ -140,15 +142,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var category = await _bll.Categories.FindAsync(id);
-            _bll.Categories.Remove(category);
+            await _bll.Addresses.RemoveAsync(id, User.UserGuidId());
             await _bll.SaveChangesAsync();
+            
             return RedirectToAction(nameof(Index));
         }
 
         private bool CategoryExists(Guid id)
         {
-            return _bll.Categories.Any(e => e.Id == id);
+            return _bll.Categories.Exists(id);
         }
     }
 }

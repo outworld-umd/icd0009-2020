@@ -6,68 +6,145 @@ using System.Threading.Tasks;
 using Contracts.BLL.Base.Mappers;
 using Contracts.BLL.Base.Services;
 using Contracts.DAL.Base;
-using Contracts.DAL.Base.Repositories;
+using Contracts.DAL.Base.Mappers;
+using Contracts.Domain.Repositories;
+using Contracts.Domain.Basic;
 
 namespace BLL.Base.Services
 {
-    public class BaseEntityService<TServiceRepository, TUnitOfWork, TDALEntity, TBLLEntity> : BaseService,
-        IBaseEntityService<TBLLEntity>
-        where TBLLEntity : class, IDomainBaseEntity<Guid>, new()
-        where TDALEntity : class, IDomainBaseEntity<Guid>, new()
-        where TUnitOfWork : IBaseUnitOfWork
-        where TServiceRepository : IBaseRepository<TDALEntity>
+    public abstract class BaseEntityService<TUnitOfWork, TRepository, TMapper, TDALEntity, TBLLEntity> :
+        BaseEntityService<Guid, TUnitOfWork, TRepository, TMapper, TDALEntity, TBLLEntity>
+        where TDALEntity : class, IDomainEntityId<Guid>, new()
+        where TBLLEntity : class, IDomainEntityId<Guid>, new()
+        where TUnitOfWork : IBaseUnitOfWork, IBaseEntityTracker
+        where TRepository : IBaseRepository<Guid, TDALEntity>
+        where TMapper : IBaseBLLMapper<TDALEntity, TBLLEntity>
+    {
+        public BaseEntityService(TUnitOfWork uow, TRepository repository,
+            TMapper mapper) : base(uow, repository, mapper)
+        {
+        }
+    }
+    
+    public abstract class BaseEntityService<TKey, TUnitOfWork, TRepository, TMapper, TDALEntity, TBLLEntity> :
+        IBaseEntityService<TKey, TBLLEntity>
+        where TKey : IEquatable<TKey>
+        where TUnitOfWork : IBaseUnitOfWork, IBaseEntityTracker<TKey>
+        where TRepository : IBaseRepository<TKey, TDALEntity>
+        where TMapper : IBaseBLLMapper<TDALEntity, TBLLEntity>
+        where TDALEntity : class, IDomainEntityId<TKey>, new()
+        where TBLLEntity : class, IDomainEntityId<TKey>, new()
     {
         protected readonly TUnitOfWork ServiceUnitOfWork;
-        protected readonly IBaseBLLMapper<TDALEntity, TBLLEntity> Mapper;
-        protected readonly TServiceRepository ServiceRepository;
+        protected readonly IBaseBLLMapper<TDALEntity, TBLLEntity> BLLMapper;
+        protected readonly TRepository ServiceRepository;
 
-        public BaseEntityService(TUnitOfWork unitOfWork, IBaseBLLMapper<TDALEntity, TBLLEntity> mapper,
-            TServiceRepository serviceRepository)
+        public BaseEntityService(TUnitOfWork unitOfWork, TRepository serviceRepository, IBaseBLLMapper<TDALEntity, TBLLEntity> mapper)
         {
             ServiceUnitOfWork = unitOfWork;
             ServiceRepository = serviceRepository;
-            Mapper = mapper;
+            BLLMapper = mapper;
+        }
+        
+        public virtual async Task<IEnumerable<TBLLEntity>> GetAllAsync(object? userId = null, bool noTracking = true)
+        {
+            var dalEntities = await ServiceRepository.GetAllAsync(userId, noTracking);
+            var result = dalEntities.Select(e => BLLMapper.Map(e));
+            return result;        }
 
-            // TODO - NOT POSSIBLE - we have no idea of what DAL actually is.
-            // we have now BaseRepository implementation - cant call new on it
-            // or asc for func methodToCreateRepo to create the correct repo
-            //ServiceRepository = ServiceUnitOfWork.GetRepository<IBaseRepository<TDALEntity>>(methodToCreateRepo);
+        public IEnumerable<TBLLEntity> GetAll(object? userId = null, bool noTracking = true)
+        {
+            var dalEntities = ServiceRepository.GetAll(userId, noTracking);
+            var result = dalEntities.Select(e => BLLMapper.Map(e));
+            return result;  
+        }
+
+        public virtual async Task<TBLLEntity> FirstOrDefaultAsync(TKey id, object? userId = null, bool noTracking = true)
+        {
+            var dalEntity = await ServiceRepository.FirstOrDefaultAsync(id, userId, noTracking);
+            var result = BLLMapper.Map(dalEntity);
+            return result;        }
+
+        public TBLLEntity Add(TBLLEntity entity)
+        {
+            var dalEntity = BLLMapper.Map(entity);
+            var trackedDALEntity = ServiceRepository.Add(dalEntity);
+            ServiceUnitOfWork.AddToEntityTracker(trackedDALEntity, entity);
+            var result = BLLMapper.Map(trackedDALEntity);
+            
+            return result;        }
+
+        public virtual async Task<TBLLEntity> UpdateAsync(TBLLEntity entity, object? userId = null)
+        {
+            var dalEntity = BLLMapper.Map(entity);
+            var resultDALEntity = await ServiceRepository.UpdateAsync(dalEntity, userId);
+            var result = BLLMapper.Map(resultDALEntity);
+            return result;
+        }
+
+        public virtual async Task<TBLLEntity> RemoveAsync(TBLLEntity entity, object? userId = null)
+        {
+            var dalEntity = BLLMapper.Map(entity);
+            var resultDALEntity = await ServiceRepository.RemoveAsync(dalEntity, userId);
+            var result = BLLMapper.Map(resultDALEntity);
+            return result;
+        }
+
+        public virtual async Task<TBLLEntity> RemoveAsync(TKey id, object? userId = null)
+        {
+            var resultDALEntity = await ServiceRepository.RemoveAsync(id, userId);
+            var result = BLLMapper.Map(resultDALEntity);
+            return result;
+        }
+
+        public virtual async Task<bool> ExistsAsync(TKey id, object? userId = null)
+        {
+            var result = await ServiceRepository.ExistsAsync(id, userId);
+            return result;
+        }
+
+        public bool Exists(TKey id, object? userId = null)
+        {
+            var result = ServiceRepository.Exists(id, userId);
+            return result; 
         }
 
 
+        /*
         public virtual IEnumerable<TBLLEntity> All() =>
-            ServiceRepository.All().Select(entity => Mapper.Map<TDALEntity, TBLLEntity>(entity));
-
+            ServiceRepository.All().Select(entity => Mapper.Map(entity));
+        
         public virtual async Task<IEnumerable<TBLLEntity>> AllAsync() =>
-            (await ServiceRepository.AllAsync()).Select(entity => Mapper.Map<TDALEntity, TBLLEntity>(entity));
-
+            (await ServiceRepository.AllAsync()).Select(entity => Mapper.Map(entity));
+        
         public virtual IEnumerable<TBLLEntity> Get(Expression<Func<TBLLEntity, bool>>? filter = null) =>
             All().Where(filter?.Compile());
-
+        
         public virtual async Task<IEnumerable<TBLLEntity>> GetAsync(Expression<Func<TBLLEntity, bool>>? filter = null) =>
             (await AllAsync()).Where(filter?.Compile());
-
+        
         public virtual TBLLEntity Find(params object[] id) =>
-            Mapper.Map<TDALEntity, TBLLEntity>(ServiceRepository.Find(id));
-
+            Mapper.Map(ServiceRepository.Find(id));
+        
         public virtual async Task<TBLLEntity> FindAsync(params object[] id) =>
-            Mapper.Map<TDALEntity, TBLLEntity>(await ServiceRepository.FindAsync(id));
-
+            Mapper.Map(await ServiceRepository.FindAsync(id));
+        
         public virtual TBLLEntity Add(TBLLEntity entity) =>
-            Mapper.Map<TDALEntity, TBLLEntity>(ServiceRepository.Add(Mapper.Map<TBLLEntity, TDALEntity>(entity)));
-
+            Mapper.Map(ServiceRepository.Add(Mapper.Map(entity)));
+        
         public virtual TBLLEntity Update(TBLLEntity entity) =>
-            Mapper.Map<TDALEntity, TBLLEntity>(ServiceRepository.Update(Mapper.Map<TBLLEntity, TDALEntity>(entity)));
-
-
+            Mapper.Map(ServiceRepository.Update(Mapper.Map(entity)));
+        
+        
         public virtual TBLLEntity Remove(TBLLEntity entity) =>
-            Mapper.Map<TDALEntity, TBLLEntity>(ServiceRepository.Remove(Mapper.Map<TBLLEntity, TDALEntity>(entity)));
-
-
+            Mapper.Map(ServiceRepository.Remove(Mapper.Map(entity)));
+        
+        
         public virtual TBLLEntity Remove(params object[] id) =>
-            Mapper.Map<TDALEntity, TBLLEntity>(ServiceRepository.Remove(id));
-
+            Mapper.Map(ServiceRepository.Remove(id));
+        
         public bool Any(Expression<Func<TBLLEntity, bool>> predicate) =>
             All().Any(predicate.Compile());
+        */
     }
 }

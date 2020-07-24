@@ -11,6 +11,7 @@ using DAL.App.EF;
 using BLL.App.DTO;
 using Extensions;
 using Microsoft.AspNetCore.Authorization;
+using IAppBLL = Contracts.BLL.App.IAppBLL;
 
 namespace WebApp.Controllers
 {
@@ -27,7 +28,7 @@ namespace WebApp.Controllers
         // GET: Addresses
         public async Task<IActionResult> Index()
         {
-            return View(await _bll.Addresses.AllAsync(User.UserGuidId()));
+            return View(await _bll.Addresses.GetAllAsync(User.UserGuidId()));
         } 
 
         // GET: Addresses/Details/5
@@ -38,7 +39,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var address = await _bll.Addresses.FindAsync(User.UserGuidId(), id);
+            var address = await _bll.Addresses.FirstOrDefaultAsync(id.Value, User.UserGuidId());
             if (address == null)
             {
                 return NotFound();
@@ -79,7 +80,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var address = await _bll.Addresses.FindAsync(id);
+            var address = await _bll.Addresses.FirstOrDefaultAsync(id.Value, User.UserGuidId());
             if (address == null)
             {
                 return NotFound();
@@ -103,7 +104,7 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _bll.Addresses.Update(address);
+                    await _bll.Addresses.UpdateAsync(address);
                     await _bll.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -130,7 +131,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var address = await _bll.Addresses.FindAsync(User.UserGuidId(), id);
+            var address = await _bll.Addresses.FirstOrDefaultAsync(id.Value, User.UserGuidId());
             if (address == null)
             {
                 return NotFound();
@@ -144,15 +145,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var address = await _bll.Addresses.FindAsync(User.UserGuidId(), id);
-            _bll.Addresses.Remove(address);
+            await _bll.Addresses.RemoveAsync(id, User.UserGuidId());
             await _bll.SaveChangesAsync();
+            
             return RedirectToAction(nameof(Index));
         }
 
         private bool AddressExists(Guid id)
         {
-            return _bll.Addresses.Any(e => e.Id == id);
+            return _bll.Addresses.Exists(id);
         }
     }
 }

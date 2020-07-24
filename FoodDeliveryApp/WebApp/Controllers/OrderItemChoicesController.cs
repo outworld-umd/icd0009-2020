@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BLL.App.DTO;
 using Contracts.BLL.App;
 using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +10,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using Extensions;
 using WebApp.ViewModels;
+using IAppBLL = Contracts.BLL.App.IAppBLL;
 
 namespace WebApp.Controllers
 {
@@ -25,7 +28,7 @@ namespace WebApp.Controllers
         // GET: OrderItemChoices
         public async Task<IActionResult> Index()
         {
-            return View(await _bll.OrderItemChoices.AllAsync());
+            return View(await _bll.OrderItemChoices.GetAllAsync());
         }
 
         // GET: OrderItemChoices/Details/5
@@ -36,7 +39,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var orderItemChoice = await _bll.OrderItemChoices.FindAsync(id);
+            var orderItemChoice = await _bll.OrderItemChoices.FirstOrDefaultAsync(id.Value, User.UserGuidId());
             if (orderItemChoice == null)
             {
                 return NotFound();
@@ -49,8 +52,8 @@ namespace WebApp.Controllers
         public IActionResult Create()
         {
             var vm = new OrderItemChoiceCreateEditViewModel {
-                ItemChoices = new SelectList(_bll.ItemChoices.All(), nameof(ItemChoice.Id), nameof(ItemChoice.Name)),
-                OrderRows = new SelectList(_bll.OrderRows.All(), nameof(OrderRow.Id), nameof(OrderRow.Id))
+                ItemChoices = new SelectList(_bll.ItemChoices.GetAll(), nameof(ItemChoice.Id), nameof(ItemChoice.Name)),
+                OrderRows = new SelectList(_bll.OrderRows.GetAll(), nameof(OrderRow.Id), nameof(OrderRow.Id))
             };
             return View(vm);
         }
@@ -69,8 +72,8 @@ namespace WebApp.Controllers
                 await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            vm.ItemChoices = new SelectList(await _bll.ItemChoices.AllAsync(), nameof(ItemChoice.Id), nameof(ItemChoice.Name), vm.OrderItemChoice.ItemChoiceId);
-            vm.OrderRows = new SelectList(await _bll.OrderRows.AllAsync(), nameof(OrderRow.Id), nameof(OrderRow.Id), vm.OrderItemChoice.OrderRowId);
+            vm.ItemChoices = new SelectList(await _bll.ItemChoices.GetAllAsync(), nameof(ItemChoice.Id), nameof(ItemChoice.Name), vm.OrderItemChoice.ItemChoiceId);
+            vm.OrderRows = new SelectList(await _bll.OrderRows.GetAllAsync(), nameof(OrderRow.Id), nameof(OrderRow.Id), vm.OrderItemChoice.OrderRowId);
             return View(vm);
         }
 
@@ -82,14 +85,14 @@ namespace WebApp.Controllers
                 return NotFound();
             }
             var vm = new OrderItemChoiceCreateEditViewModel {
-                OrderItemChoice = await _bll.OrderItemChoices.FindAsync(id)
+                OrderItemChoice = await _bll.OrderItemChoices.FirstOrDefaultAsync(id.Value, User.UserGuidId())
             };
             if (vm.OrderItemChoice == null)
             {
                 return NotFound();
             }
-            vm.ItemChoices = new SelectList(await _bll.ItemChoices.AllAsync(), nameof(ItemChoice.Id), nameof(ItemChoice.Name), vm.OrderItemChoice.ItemChoiceId);
-            vm.OrderRows = new SelectList(await _bll.OrderRows.AllAsync(), nameof(OrderRow.Id), nameof(OrderRow.Id), vm.OrderItemChoice.OrderRowId);
+            vm.ItemChoices = new SelectList(await _bll.ItemChoices.GetAllAsync(), nameof(ItemChoice.Id), nameof(ItemChoice.Name), vm.OrderItemChoice.ItemChoiceId);
+            vm.OrderRows = new SelectList(await _bll.OrderRows.GetAllAsync(), nameof(OrderRow.Id), nameof(OrderRow.Id), vm.OrderItemChoice.OrderRowId);
             return View(vm);
         }
 
@@ -109,7 +112,7 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _bll.OrderItemChoices.Update(vm.OrderItemChoice);
+                    await _bll.OrderItemChoices.UpdateAsync(vm.OrderItemChoice);
                     await _bll.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -125,8 +128,8 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            vm.ItemChoices = new SelectList(await _bll.ItemChoices.AllAsync(), nameof(ItemChoice.Id), nameof(ItemChoice.Name), vm.OrderItemChoice.ItemChoiceId);
-            vm.OrderRows = new SelectList(await _bll.OrderRows.AllAsync(), nameof(OrderRow.Id), nameof(OrderRow.Id), vm.OrderItemChoice.OrderRowId);
+            vm.ItemChoices = new SelectList(await _bll.ItemChoices.GetAllAsync(), nameof(ItemChoice.Id), nameof(ItemChoice.Name), vm.OrderItemChoice.ItemChoiceId);
+            vm.OrderRows = new SelectList(await _bll.OrderRows.GetAllAsync(), nameof(OrderRow.Id), nameof(OrderRow.Id), vm.OrderItemChoice.OrderRowId);
             return View(vm);
         }
 
@@ -138,7 +141,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var orderItemChoice = await _bll.OrderItemChoices.FindAsync(id);
+            var orderItemChoice = await _bll.OrderItemChoices.FirstOrDefaultAsync(id.Value, User.UserGuidId());
             if (orderItemChoice == null)
             {
                 return NotFound();
@@ -152,15 +155,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var orderItemChoice = await _bll.OrderItemChoices.FindAsync(id);
-            _bll.OrderItemChoices.Remove(orderItemChoice);
+            await _bll.Addresses.RemoveAsync(id, User.UserGuidId());
             await _bll.SaveChangesAsync();
+            
             return RedirectToAction(nameof(Index));
         }
 
         private bool OrderItemChoiceExists(Guid id)
         {
-            return _bll.OrderItemChoices.Any(e => e.Id == id);
+            return _bll.OrderItemChoices.Exists(id);
         }
     }
 }

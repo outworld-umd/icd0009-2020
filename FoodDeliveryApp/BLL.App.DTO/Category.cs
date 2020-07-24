@@ -1,18 +1,25 @@
 using System;
 using System.Collections.Generic;
-using Contracts.DAL.Base;
+using Contracts.Domain;
+using Contracts.Domain.Combined;
+using Domain.Base;
 
 namespace BLL.App.DTO
 {
-    public class Category : Category<Guid>, IDomainBaseEntity
+    public class Category : Category<Guid>, IDomainEntityIdMetadata
     {
     }
-    
-    public class Category<TKey> : IDomainBaseEntity<TKey>
-        where TKey: IEquatable<TKey>
+
+    public class Category<TKey> : IDomainEntityIdMetadata<TKey>
+        where TKey : IEquatable<TKey>
     {
-        public TKey Id { get; set; } = default!;
         public string Name { get; set; } = default!;
         public ICollection<RestaurantCategory>? RestaurantCategories { get; set; }
+
+        public TKey Id { get; set; } = default!;
+        public string? CreatedBy { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public string? ChangedBy { get; set; }
+        public DateTime ChangedAt { get; set; }
     }
 }

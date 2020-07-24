@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using Domain.Identity;
+using Domain.App.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace WebApp.ViewModels

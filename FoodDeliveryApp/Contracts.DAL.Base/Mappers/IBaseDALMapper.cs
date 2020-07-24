@@ -1,15 +1,10 @@
 namespace Contracts.DAL.Base.Mappers
 {
-    public interface IBaseDALMapper<in TInObject, out TOutObject>
-        where TOutObject : class, new()
-        where TInObject : class
+    public interface IBaseDALMapper<TLeftObject, TRightObject>
+        where TLeftObject: class?, new()
+        where TRightObject: class?, new()
     {
-        TOutObject Map(TInObject inObject);
-
-        TMapOutObject Map<TMapInObject, TMapOutObject>(TMapInObject inObject)
-            where TMapOutObject : class, new()
-            where TMapInObject : class;
+        TRightObject Map(TLeftObject inObject);
+        TLeftObject Map(TRightObject inObject);
     }
-    
-    
 }

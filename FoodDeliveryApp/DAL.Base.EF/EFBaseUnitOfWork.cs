@@ -1,24 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Contracts.DAL.Base;
+using Contracts.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Base.EF {
 
-    public class EFBaseUnitOfWork<TDbContext> : BaseUnitOfWork, IBaseUnitOfWork where TDbContext : DbContext {
-        protected TDbContext UOWDbContext;
-    
-        public EFBaseUnitOfWork(TDbContext uowDbContext) {
-            UOWDbContext = uowDbContext;
+    public class EFBaseUnitOfWork<TKey, TDbContext> : BaseUnitOfWork<TKey>
+        where TKey : IEquatable<TKey>
+        where TDbContext : DbContext
+    {
+        protected readonly TDbContext UOWDbContext;
+
+        public EFBaseUnitOfWork(TDbContext uowDbContext)
+        {
+            this.UOWDbContext = uowDbContext;
         }
 
-        public int SaveChanges() {
+        public override int SaveChanges() {
             return UOWDbContext.SaveChanges();
         }
 
-        public Task<int> SaveChangesAsync() {
-            return UOWDbContext.SaveChangesAsync();
+        public override async Task<int> SaveChangesAsync()
+        {
+            int num = await UOWDbContext.SaveChangesAsync(new CancellationToken());
+            UpdateTrackedEntities();
+            return num;
         }
     }
 

@@ -1,34 +1,39 @@
 using AutoMapper;
+using AutoMapper.Configuration;
 using Contracts.BLL.Base.Mappers;
 
 namespace BLL.Base.Mappers
 {
-    public class BaseBLLMapper<TInObject, TOutObject> : IBaseBLLMapper<TInObject, TOutObject>
-        where TInObject : class, new()
-        where TOutObject : class, new()
-
+    /// <summary>
+    /// Maps using Automapper. No mapper configuration. Property types and names have to match.
+    /// </summary>
+    /// <typeparam name="TLeftObject"></typeparam>
+    /// <typeparam name="TRightObject"></typeparam>
+    public abstract class BaseBLLMapper<TLeftObject, TRightObject> : IBaseBLLMapper<TLeftObject, TRightObject>
+        where TRightObject : class?, new()
+        where TLeftObject : class?, new()
     {
-        private readonly IMapper _mapper;
+        // ReSharper disable once MemberCanBePrivate.Global
+        protected IMapper Mapper;
+        protected readonly MapperConfigurationExpression MapperConfigurationExpression;
 
         public BaseBLLMapper()
         {
-            _mapper = new MapperConfiguration(config =>
-            {
-                config.CreateMap<TInObject, TOutObject>();
-                config.CreateMap<TOutObject, TInObject>();
-            }).CreateMapper();
+            MapperConfigurationExpression = new MapperConfigurationExpression();
+            MapperConfigurationExpression.CreateMap<TLeftObject, TRightObject>();
+            MapperConfigurationExpression.CreateMap<TRightObject, TLeftObject>();
+            
+            Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));
         }
 
-        public TOutObject Map(TInObject inObject)
+        public virtual TRightObject Map(TLeftObject inObject)
         {
-            return _mapper.Map<TInObject, TOutObject>(inObject);
+            return Mapper.Map<TLeftObject, TRightObject>(inObject);
         }
 
-        public TMapOutObject Map<TMapInObject, TMapOutObject>(TMapInObject inObject)
-            where TMapInObject : class, new()
-            where TMapOutObject : class, new()
+        public TLeftObject Map(TRightObject inObject)
         {
-            return _mapper.Map<TMapInObject, TMapOutObject>(inObject);
+            return Mapper.Map<TRightObject, TLeftObject>(inObject);
         }
     }
 }

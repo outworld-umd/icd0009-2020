@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using Extensions;
+using IAppBLL = Contracts.BLL.App.IAppBLL;
 
 namespace WebApp.Controllers
 {
@@ -24,7 +26,7 @@ namespace WebApp.Controllers
         // GET: Items
         public async Task<IActionResult> Index()
         {
-            return View(await _bll.Items.AllAsync());
+            return View(await _bll.Items.GetAllAsync());
         }
 
         // GET: Items/Details/5
@@ -35,7 +37,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var item = await _bll.Items.FindAsync(id);
+            var item = await _bll.Items.FirstOrDefaultAsync(id.Value, User.UserGuidId());
             if (item == null)
             {
                 return NotFound();
@@ -55,7 +57,7 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,PictureLink,Price,Description,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Item item)
+        public async Task<IActionResult> Create([Bind("Name,PictureLink,Price,Description,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] BLL.App.DTO.Item item)
         {
             if (ModelState.IsValid)
             {
@@ -75,7 +77,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var item = await _bll.Items.FindAsync(id);
+            var item = await _bll.Items.FirstOrDefaultAsync(id.Value, User.UserGuidId());
             if (item == null)
             {
                 return NotFound();
@@ -88,7 +90,7 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Name,PictureLink,Price,Description,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Item item)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Name,PictureLink,Price,Description,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] BLL.App.DTO.Item item)
         {
             if (id != item.Id)
             {
@@ -99,7 +101,7 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _bll.Items.Update(item);
+                    await _bll.Items.UpdateAsync(item);
                     await _bll.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -126,7 +128,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var item = await _bll.Items.FindAsync(id);
+            var item = await _bll.Items.FirstOrDefaultAsync(id.Value, User.UserGuidId());
             if (item == null)
             {
                 return NotFound();
@@ -140,15 +142,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var item = await _bll.Items.FindAsync(id);
-            _bll.Items.Remove(item);
+            await _bll.Addresses.RemoveAsync(id, User.UserGuidId());
             await _bll.SaveChangesAsync();
+            
             return RedirectToAction(nameof(Index));
         }
 
         private bool ItemExists(Guid id)
         {
-            return _bll.Items.Any(e => e.Id == id);
+            return _bll.Items.Exists(id);
         }
     }
 }
