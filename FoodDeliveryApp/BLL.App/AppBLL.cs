@@ -12,8 +12,6 @@ namespace BLL.App
 {
     public class AppBLL : BaseBLL<IAppUnitOfWork>, IAppBLL
     {
-        private IAddressService _items;
-
         public AppBLL(IAppUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }

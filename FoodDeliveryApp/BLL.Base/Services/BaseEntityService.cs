@@ -52,6 +52,13 @@ namespace BLL.Base.Services
             var result = dalEntities.Select(e => BLLMapper.Map(e));
             return result;        }
 
+        public IEnumerable<TBLLEntity> GetAll(object? userId = null, bool noTracking = true)
+        {
+            var dalEntities = ServiceRepository.GetAll(userId, noTracking);
+            var result = dalEntities.Select(e => BLLMapper.Map(e));
+            return result;  
+        }
+
         public virtual async Task<TBLLEntity> FirstOrDefaultAsync(TKey id, object? userId = null, bool noTracking = true)
         {
             var dalEntity = await ServiceRepository.FirstOrDefaultAsync(id, userId, noTracking);
@@ -95,7 +102,14 @@ namespace BLL.Base.Services
             var result = await ServiceRepository.ExistsAsync(id, userId);
             return result;
         }
-        
+
+        public bool Exists(TKey id, object? userId = null)
+        {
+            var result = ServiceRepository.Exists(id, userId);
+            return result; 
+        }
+
+
         /*
         public virtual IEnumerable<TBLLEntity> All() =>
             ServiceRepository.All().Select(entity => Mapper.Map(entity));

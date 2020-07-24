@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using Extensions;
 using WebApp.ViewModels;
 using IAppBLL = Contracts.BLL.App.IAppBLL;
 
@@ -27,7 +28,7 @@ namespace WebApp.Controllers
         // GET: NutritionInfos
         public async Task<IActionResult> Index()
         {
-            return View(await _bll.NutritionInfos.AllAsync());
+            return View(await _bll.NutritionInfos.GetAllAsync());
         }
 
         // GET: NutritionInfos/Details/5
@@ -38,7 +39,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var nutritionInfo = await _bll.NutritionInfos.FindAsync(id);
+            var nutritionInfo = await _bll.NutritionInfos.FirstOrDefaultAsync(id.Value, User.UserGuidId());
             if (nutritionInfo == null)
             {
                 return NotFound();
@@ -50,7 +51,7 @@ namespace WebApp.Controllers
         // GET: NutritionInfos/Create
         public IActionResult Create() {
             var vm = new NutritionInfoCreateEditViewModel {
-                Items = new SelectList(_bll.Items.All(), nameof(Item.Id), nameof(Item.Name))
+                Items = new SelectList(_bll.Items.GetAll(), nameof(Item.Id), nameof(Item.Name))
             };
             return View(vm);
         }
@@ -69,7 +70,7 @@ namespace WebApp.Controllers
                 await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            vm.Items = new SelectList(await _bll.Items.AllAsync(), nameof(Item.Id), nameof(Item.Name), vm.NutritionInfo.ItemId);
+            vm.Items = new SelectList(await _bll.Items.GetAllAsync(), nameof(Item.Id), nameof(Item.Name), vm.NutritionInfo.ItemId);
             return View(vm);
         }
 
@@ -81,13 +82,13 @@ namespace WebApp.Controllers
                 return NotFound();
             }
             var vm = new NutritionInfoCreateEditViewModel {
-                NutritionInfo = await _bll.NutritionInfos.FindAsync(id)
+                NutritionInfo = await _bll.NutritionInfos.FirstOrDefaultAsync(id.Value, User.UserGuidId())
             };
             if (vm.NutritionInfo == null)
             {
                 return NotFound();
             }
-            vm.Items = new SelectList(await _bll.Items.AllAsync(), nameof(Item.Id), nameof(Item.Name), vm.NutritionInfo.ItemId);
+            vm.Items = new SelectList(await _bll.Items.GetAllAsync(), nameof(Item.Id), nameof(Item.Name), vm.NutritionInfo.ItemId);
             return View(vm);
         }
 
@@ -107,7 +108,7 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _bll.NutritionInfos.Update(vm.NutritionInfo);
+                    await _bll.NutritionInfos.UpdateAsync(vm.NutritionInfo);
                     await _bll.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -123,7 +124,7 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            vm.Items = new SelectList(await _bll.Items.AllAsync(), nameof(Item.Id), nameof(Item.Name), vm.NutritionInfo.ItemId);
+            vm.Items = new SelectList(await _bll.Items.GetAllAsync(), nameof(Item.Id), nameof(Item.Name), vm.NutritionInfo.ItemId);
             return View(vm);
         }
 
@@ -135,7 +136,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var nutritionInfo = await _bll.NutritionInfos.FindAsync(id);
+            var nutritionInfo = await _bll.NutritionInfos.FirstOrDefaultAsync(id.Value, User.UserGuidId());
             if (nutritionInfo == null)
             {
                 return NotFound();
@@ -149,15 +150,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var nutritionInfo = await _bll.NutritionInfos.FindAsync(id);
-            _bll.NutritionInfos.Remove(nutritionInfo);
+            await _bll.Addresses.RemoveAsync(id, User.UserGuidId());
             await _bll.SaveChangesAsync();
+            
             return RedirectToAction(nameof(Index));
         }
 
         private bool NutritionInfoExists(Guid id)
         {
-            return _bll.NutritionInfos.Any(e => e.Id == id);
+            return _bll.NutritionInfos.Exists(id);
         }
     }
 }

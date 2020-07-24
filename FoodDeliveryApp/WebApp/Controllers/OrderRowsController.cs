@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using Extensions;
 using WebApp.ViewModels;
 using IAppBLL = Contracts.BLL.App.IAppBLL;
 
@@ -27,7 +28,7 @@ namespace WebApp.Controllers
         // GET: OrderRows
         public async Task<IActionResult> Index()
         {
-            return View(await _bll.OrderRows.AllAsync());
+            return View(await _bll.OrderRows.GetAllAsync());
         }
 
         // GET: OrderRows/Details/5
@@ -38,7 +39,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var orderRow = await _bll.OrderRows.FindAsync(id);
+            var orderRow = await _bll.OrderRows.FirstOrDefaultAsync(id.Value, User.UserGuidId());
             if (orderRow == null)
             {
                 return NotFound();
@@ -51,8 +52,8 @@ namespace WebApp.Controllers
         public IActionResult Create()
         {
             var vm = new OrderRowCreateEditViewModel {
-                Items = new SelectList(_bll.Items.All(), nameof(Item.Id), nameof(Item.Name)),
-                Orders = new SelectList(_bll.Orders.All(), nameof(Order.Id), nameof(Order.Id))
+                Items = new SelectList(_bll.Items.GetAll(), nameof(Item.Id), nameof(Item.Name)),
+                Orders = new SelectList(_bll.Orders.GetAll(), nameof(Order.Id), nameof(Order.Id))
             };
             return View(vm);
         }
@@ -71,8 +72,8 @@ namespace WebApp.Controllers
                 await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            vm.Items = new SelectList(await _bll.Items.AllAsync(), nameof(Item.Id), nameof(Item.Name), vm.OrderRow.ItemId);
-            vm.Orders = new SelectList(await _bll.Orders.AllAsync(), nameof(Order.Id), nameof(Order.Id), vm.OrderRow.OrderId);
+            vm.Items = new SelectList(await _bll.Items.GetAllAsync(), nameof(Item.Id), nameof(Item.Name), vm.OrderRow.ItemId);
+            vm.Orders = new SelectList(await _bll.Orders.GetAllAsync(), nameof(Order.Id), nameof(Order.Id), vm.OrderRow.OrderId);
             return View(vm);
         }
 
@@ -83,15 +84,17 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            var vm = new OrderRowCreateEditViewModel {
-                OrderRow = await _bll.OrderRows.FindAsync(id)
+
+            var vm = new OrderRowCreateEditViewModel
+            {
+                OrderRow = await _bll.OrderRows.FirstOrDefaultAsync(id.Value, User.UserGuidId())
             };
             if (vm.OrderRow == null)
             {
                 return NotFound();
             }
-            vm.Items = new SelectList(await _bll.Items.AllAsync(), nameof(Item.Id), nameof(Item.Name), vm.OrderRow.ItemId);
-            vm.Orders = new SelectList(await _bll.Orders.AllAsync(), nameof(Order.Id), nameof(Order.Id), vm.OrderRow.OrderId);
+            vm.Items = new SelectList(await _bll.Items.GetAllAsync(), nameof(Item.Id), nameof(Item.Name), vm.OrderRow.ItemId);
+            vm.Orders = new SelectList(await _bll.Orders.GetAllAsync(), nameof(Order.Id), nameof(Order.Id), vm.OrderRow.OrderId);
             return View(vm);
         }
 
@@ -111,7 +114,7 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _bll.OrderRows.Update(vm.OrderRow);
+                    await _bll.OrderRows.UpdateAsync(vm.OrderRow);
                     await _bll.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -127,8 +130,8 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            vm.Items = new SelectList(await _bll.Items.AllAsync(), nameof(Item.Id), nameof(Item.Name), vm.OrderRow.ItemId);
-            vm.Orders = new SelectList(await _bll.Orders.AllAsync(), nameof(Order.Id), nameof(Order.Id), vm.OrderRow.OrderId);
+            vm.Items = new SelectList(await _bll.Items.GetAllAsync(), nameof(Item.Id), nameof(Item.Name), vm.OrderRow.ItemId);
+            vm.Orders = new SelectList(await _bll.Orders.GetAllAsync(), nameof(Order.Id), nameof(Order.Id), vm.OrderRow.OrderId);
             return View(vm);
         }
 
@@ -140,7 +143,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var orderRow = await _bll.OrderRows.FindAsync(id);
+            var orderRow = await _bll.OrderRows.FirstOrDefaultAsync(id.Value, User.UserGuidId());
             if (orderRow == null)
             {
                 return NotFound();
@@ -154,15 +157,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var orderRow = await _bll.OrderRows.FindAsync(id);
-            _bll.OrderRows.Remove(orderRow);
+            await _bll.Addresses.RemoveAsync(id, User.UserGuidId());
             await _bll.SaveChangesAsync();
+            
             return RedirectToAction(nameof(Index));
         }
 
         private bool OrderRowExists(Guid id)
         {
-            return _bll.OrderRows.Any(e => e.Id == id);
+            return _bll.OrderRows.Exists(id);
         }
     }
 }

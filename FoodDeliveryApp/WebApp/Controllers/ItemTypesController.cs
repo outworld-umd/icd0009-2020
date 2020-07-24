@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using Extensions;
 using WebApp.ViewModels;
 using IAppBLL = Contracts.BLL.App.IAppBLL;
 
@@ -27,7 +28,7 @@ namespace WebApp.Controllers
         // GET: ItemTypes
         public async Task<IActionResult> Index()
         {
-            return View(await _bll.ItemTypes.AllAsync());
+            return View(await _bll.ItemTypes.GetAllAsync());
         }
 
         // GET: ItemTypes/Details/5
@@ -38,7 +39,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var itemType = await _bll.ItemTypes.FindAsync(id);
+            var itemType = await _bll.ItemTypes.FirstOrDefaultAsync(id.Value, User.UserGuidId());
             if (itemType == null)
             {
                 return NotFound();
@@ -51,7 +52,7 @@ namespace WebApp.Controllers
         public IActionResult Create()
         {
             var vm = new ItemTypeCreateEditViewModel {
-                Restaurants = new SelectList(_bll.Restaurants.All(), nameof(Restaurant.Id), nameof(Restaurant.Name))
+                Restaurants = new SelectList(_bll.Restaurants.GetAll(), nameof(Restaurant.Id), nameof(Restaurant.Name))
             };
             return View(vm);
         }
@@ -70,7 +71,7 @@ namespace WebApp.Controllers
                 await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            vm.Restaurants = new SelectList(await _bll.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name));
+            vm.Restaurants = new SelectList(await _bll.Restaurants.GetAllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name));
             return View(vm);
         }
 
@@ -82,13 +83,13 @@ namespace WebApp.Controllers
                 return NotFound();
             }
             var vm = new ItemTypeCreateEditViewModel {
-                ItemType = await _bll.ItemTypes.FindAsync(id)
+                ItemType = await _bll.ItemTypes.FirstOrDefaultAsync(id.Value, User.UserGuidId())
             };
             if (vm.ItemType == null)
             {
                 return NotFound();
             }
-            vm.Restaurants = new SelectList(await _bll.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name));
+            vm.Restaurants = new SelectList(await _bll.Restaurants.GetAllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name));
             return View(vm);
         }
 
@@ -108,7 +109,7 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    _bll.ItemTypes.Update(vm.ItemType);
+                    await _bll.ItemTypes.UpdateAsync(vm.ItemType);
                     await _bll.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -124,7 +125,7 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            vm.Restaurants = new SelectList(await _bll.Restaurants.AllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name));
+            vm.Restaurants = new SelectList(await _bll.Restaurants.GetAllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name));
             return View(vm);
         }
 
@@ -136,7 +137,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var itemType = await _bll.ItemTypes.FindAsync(id);
+            var itemType = await _bll.ItemTypes.FirstOrDefaultAsync(id.Value, User.UserGuidId());
             if (itemType == null)
             {
                 return NotFound();
@@ -150,15 +151,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var itemType = await _bll.ItemTypes.FindAsync(id);
-            _bll.ItemTypes.Remove(itemType);
+            await _bll.Addresses.RemoveAsync(id, User.UserGuidId());
             await _bll.SaveChangesAsync();
+            
             return RedirectToAction(nameof(Index));
         }
 
         private bool ItemTypeExists(Guid id)
         {
-            return _bll.ItemTypes.Any(e => e.Id == id);
+            return _bll.ItemTypes.Exists(id);
         }
     }
 }
