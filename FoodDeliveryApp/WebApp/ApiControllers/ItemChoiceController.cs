@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Contracts.BLL.App;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using DAL.App.EF;
-using Domain.App;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using PublicApi.DTO.v1;
+using PublicApi.DTO.v1.Mappers;
 
 namespace WebApp.ApiControllers
 {
@@ -18,32 +17,34 @@ namespace WebApp.ApiControllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ItemChoiceController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IAppBLL _bll;
+        private readonly ItemChoiceMapper _mapper = new ItemChoiceMapper();
 
-        public ItemChoiceController(AppDbContext context)
+
+        public ItemChoiceController(IAppBLL bll)
         {
-            _context = context;
+            _bll = bll;
         }
 
         // GET: api/ItemChoice
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ItemChoice>>> GetItemChoices()
+        public async Task<ActionResult<IEnumerable<ItemChoice>>> GetItemChoice()
         {
-            return await _context.ItemChoices.ToListAsync();
+            return Ok((await _bll.ItemChoices.GetAllAsync()).Select(e => _mapper.MapItemChoice(e)));
         }
 
         // GET: api/ItemChoice/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ItemChoice>> GetItemChoice(Guid id)
         {
-            var itemChoice = await _context.ItemChoices.FindAsync(id);
+            var itemChoice = await _bll.ItemChoices.FirstOrDefaultAsync(id);
 
             if (itemChoice == null)
             {
-                return NotFound();
+                return NotFound(new MessageDTO($"ItemChoice with id {id} not found"));
             }
 
-            return itemChoice;
+            return Ok(_mapper.MapItemChoice(itemChoice));
         }
 
         // PUT: api/ItemChoice/5
@@ -54,26 +55,11 @@ namespace WebApp.ApiControllers
         {
             if (id != itemChoice.Id)
             {
-                return BadRequest();
+                return BadRequest(new MessageDTO("Id and ItemChoice.Id do not match"));
             }
 
-            _context.Entry(itemChoice).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ItemChoiceExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _bll.ItemChoices.UpdateAsync(_mapper.Map(itemChoice));
+            await _bll.SaveChangesAsync();
 
             return NoContent();
         }
@@ -84,31 +70,35 @@ namespace WebApp.ApiControllers
         [HttpPost]
         public async Task<ActionResult<ItemChoice>> PostItemChoice(ItemChoice itemChoice)
         {
-            _context.ItemChoices.Add(itemChoice);
-            await _context.SaveChangesAsync();
+            var bllEntity = _mapper.Map(itemChoice);
+            _bll.ItemChoices.Add(bllEntity);
+            await _bll.SaveChangesAsync();
+            itemChoice.Id = bllEntity.Id;
 
-            return CreatedAtAction("GetItemChoice", new { id = itemChoice.Id }, itemChoice);
+            return CreatedAtAction("GetItemChoice",
+                new {id = itemChoice.Id, version = HttpContext.GetRequestedApiVersion()?.ToString() ?? "0"},
+                itemChoice);
         }
 
         // DELETE: api/ItemChoice/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<ItemChoice>> DeleteItemChoice(Guid id)
         {
-            var itemChoice = await _context.ItemChoices.FindAsync(id);
+            var itemChoice = await _bll.ItemChoices.FirstOrDefaultAsync(id);
             if (itemChoice == null)
             {
-                return NotFound();
+                return NotFound(new MessageDTO("Address not found"));
             }
 
-            _context.ItemChoices.Remove(itemChoice);
-            await _context.SaveChangesAsync();
+            await _bll.ItemChoices.RemoveAsync(itemChoice);
+            await _bll.SaveChangesAsync();
 
-            return itemChoice;
+            return Ok(itemChoice);
         }
 
-        private bool ItemChoiceExists(Guid id)
-        {
-            return _context.ItemChoices.Any(e => e.Id == id);
-        }
+        // private bool ItemChoiceExists(Guid id)
+        // {
+        //     return _bll.ItemChoices.Any(e => e.Id == id);
+        // }
     }
 }
