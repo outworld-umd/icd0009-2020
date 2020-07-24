@@ -19,7 +19,7 @@ namespace WebApp.Helpers
                 options.SwaggerDoc(
                     description.GroupName,
                     new OpenApiInfo(){
-                        Title = $"Owners and Animals API {description.ApiVersion}",
+                        Title = $"Colt Food API {description.ApiVersion}",
                         Version = description.ApiVersion.ToString()
                     });
             }
