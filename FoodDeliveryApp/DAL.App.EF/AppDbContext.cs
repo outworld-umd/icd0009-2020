@@ -34,7 +34,7 @@ namespace DAL.App.EF {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Order>()
                 .HasOne(p => p.Restaurant)
-                .WithMany(b => b.Orders)
+                .WithMany(b => b!.Orders)
                 .OnDelete(DeleteBehavior.SetNull);
         }
     }

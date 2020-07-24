@@ -1,5 +1,65 @@
 {
-  "titles": {
-    "main": "Hello world!"
+  "buttons": {
+    "back": "Back",
+    "next": "Next",
+    "clear": "Clear order",
+    "order": "Order",
+    "orderDelete": "Delete from order",
+    "orderAdd": "Add to order",
+    "choose": "Choose",
+    "cancel": "Cancel",
+    "save": "Save",
+    "more": "More"
+  },
+  "address": {
+    "name": "Name of this address",
+    "nameSmall": "Name",
+    "apartment": "Apartment",
+    "city": "City",
+    "county": "County",
+    "buildingNumber": "Building no.",
+    "street": "Street",
+    "comment": "Comment",
+    "address": "Address"
+  },
+  "restaurant": {
+    "closed": "Restaurant is closed",
+    "showMenu": "Menu",
+    "offer": "Special offer!"
+  },
+  "order": {
+    "deleteOld": "Your previous order will not be saved. Proceed?",
+    "foodCost": "Food Cost",
+    "deliveryCost": "Delivery Cost",
+    "total": "Order Total",
+    "required": "Required",
+    "newOrderAt": "Your new order at",
+    "address": "Order address",
+    "paymentMethod": "Payment Method",
+    "payCash": "Paying with cash",
+    "payCard": "Paying with bank card",
+    "warning": "Warning!",
+    "error": "There was an error processing your order!",
+    "comment": "Write a comment for a restaurant:",
+    "sent": "Order is sent",
+    "cooking": "Order is being cooked",
+    "delivering": "Order is being delivered",
+    "delivered": "Order finished"
+  },
+  "account": {
+    "loginButton": "Login",
+    "login": "Log in",
+    "logoutButton": "Logout",
+    "email": "E-mail",
+    "password": "Password",
+    "badLogin": "Bad login attempt",
+    "yourOrders": "Your orders",
+    "yourAddresses": "Your addresses",
+    "account": "Account"
+  },
+  "paymentMethods": {
+    "cash": "Cash",
+    "card": "Banking Card",
+    "app": "In Application"
   }
 }
