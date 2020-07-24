@@ -50,7 +50,8 @@ namespace BLL.Base.Services
         {
             var dalEntities = await ServiceRepository.GetAllAsync(userId, noTracking);
             var result = dalEntities.Select(e => BLLMapper.Map(e));
-            return result;        }
+            return result;
+        }
 
         public IEnumerable<TBLLEntity> GetAll(object? userId = null, bool noTracking = true)
         {

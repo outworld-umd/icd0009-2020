@@ -149,8 +149,8 @@ namespace WebApp.Controllers
                     user.Phone = vm.User.Phone;
                     user.FirstName = vm.User.FirstName;
                     user.LastName = vm.User.LastName;
-                    Console.WriteLine(role.Name + "Current role");
-                    Console.WriteLine(vm.Role.Name + "New role");
+                    // Console.WriteLine(role.Name + "Current role");
+                    // Console.WriteLine(vm.Role.Name + "New role");
                     if (role.Name != vm.Role.Name)
                     {
                         await _userManager.RemoveFromRolesAsync(user, roles);

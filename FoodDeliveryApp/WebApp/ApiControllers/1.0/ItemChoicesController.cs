@@ -9,19 +9,19 @@ using Microsoft.AspNetCore.Authorization;
 using PublicApi.DTO.v1;
 using PublicApi.DTO.v1.Mappers;
 
-namespace WebApp.ApiControllers
+namespace WebApp.ApiControllers._1._0
 {
     [ApiController]
     [ApiVersion( "1.0" )]
     [Route("api/v{version:apiVersion}/[controller]")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class ItemChoiceController : ControllerBase
+    public class ItemChoicesController : ControllerBase
     {
         private readonly IAppBLL _bll;
         private readonly ItemChoiceMapper _mapper = new ItemChoiceMapper();
 
 
-        public ItemChoiceController(IAppBLL bll)
+        public ItemChoicesController(IAppBLL bll)
         {
             _bll = bll;
         }

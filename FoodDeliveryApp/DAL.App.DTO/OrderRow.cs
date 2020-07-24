@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Contracts.Domain.Combined;
 
 namespace DAL.App.DTO
@@ -17,6 +18,7 @@ namespace DAL.App.DTO
         public int Amount { get; set; }
         public decimal Cost { get; set; }
         public string? Comment { get; set; }
+        public ICollection<OrderItemChoice>? OrderItemChoices { get; set; }
         
         public TKey Id { get; set; } = default!;
         public string? CreatedBy { get; set; }

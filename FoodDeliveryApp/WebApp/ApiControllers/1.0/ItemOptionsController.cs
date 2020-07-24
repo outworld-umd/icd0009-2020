@@ -12,18 +12,18 @@ using Microsoft.AspNetCore.Authorization;
 using PublicApi.DTO.v1;
 using PublicApi.DTO.v1.Mappers;
 
-namespace WebApp.ApiControllers
+namespace WebApp.ApiControllers._1._0
 {
     [ApiController]
     [ApiVersion( "1.0" )]
     [Route("api/v{version:apiVersion}/[controller]")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class ItemOptionController : ControllerBase
+    public class ItemOptionsController : ControllerBase
     {
         private readonly IAppBLL _bll;
         private readonly ItemOptionMapper _mapper = new ItemOptionMapper();
 
-        public ItemOptionController(IAppBLL bll)
+        public ItemOptionsController(IAppBLL bll)
         {
             _bll = bll;
         }

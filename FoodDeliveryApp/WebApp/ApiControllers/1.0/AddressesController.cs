@@ -10,17 +10,16 @@ using Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using PublicApi.DTO.v1;
+using V1DTO=PublicApi.DTO.v1;
 using PublicApi.DTO.v1.Mappers;
-using PublicApi.DTO.v1.Mappers.Base;
 
-namespace WebApp.ApiControllers
+namespace WebApp.ApiControllers._1._0
 {
     [ApiController]
     [ApiVersion( "1.0" )]
     [Route("api/v{version:apiVersion}/[controller]")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class AddressController : ControllerBase
+    public class AddressesController : ControllerBase
     {
         private readonly IAppBLL _bll;
         private readonly AddressMapper _mapper = new AddressMapper();
@@ -30,7 +29,7 @@ namespace WebApp.ApiControllers
         /// Constructor
         /// </summary>
 
-        public AddressController(IAppBLL bll)
+        public AddressesController(IAppBLL bll)
         {
             _bll = bll;
         }
@@ -41,15 +40,13 @@ namespace WebApp.ApiControllers
         /// </summary>
         /// <returns>categorys for session</returns>
         [HttpGet]
-        [AllowAnonymous]
         [Produces("application/json")]
         [Consumes("application/json")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Address>))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(Address))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Address))]
-        public async Task<ActionResult<IEnumerable<Address>>> GetAddresses()
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.Address>))]
+        public async Task<ActionResult<IEnumerable<V1DTO.Address>>> GetAddresses()
         {
-            return Ok((await _bll.Addresses.GetAllAsync()).Select(e => _mapper.MapAddress(e)));
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            return Ok((await _bll.Addresses.GetAllAsync(userIdTKey)).Select(e => _mapper.MapAddress(e)));
         }
 
         // GET: api/Address/5
@@ -59,18 +56,18 @@ namespace WebApp.ApiControllers
         /// <param name="id">id for category</param>
         /// <returns>category</returns>
         [HttpGet("{id}")]
-        [AllowAnonymous]
         [Produces("application/json")]
         [Consumes("application/json")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Address))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(Address))]
-        public async Task<ActionResult<Address>> GetAddress(Guid id)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.Address))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.Address))]
+        public async Task<ActionResult<V1DTO.Address>> GetAddress(Guid id)
         {
-            var address = await _bll.Addresses.FirstOrDefaultAsync(id);
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            var address = await _bll.Addresses.FirstOrDefaultAsync(id, userIdTKey);
 
             if (address == null)
             {
-                return NotFound(new MessageDTO($"Address with id {id} not found"));
+                return NotFound(new V1DTO.MessageDTO($"Address with id {id} not found"));
             }
 
             return Ok(_mapper.Map(address));
@@ -85,20 +82,27 @@ namespace WebApp.ApiControllers
         /// <param name="id"></param>
         /// <param name="address"></param>
         /// <returns></returns>
-        [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(MessageDTO))]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAddress(Guid id, Address address)
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(V1DTO.MessageDTO))]
+        public async Task<IActionResult> PutAddress(Guid id, V1DTO.Address address)
         {
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
             if (id != address.Id)
             {
-                return BadRequest(new MessageDTO("Id and Address.Id do not match"));
+                return BadRequest(new V1DTO.MessageDTO("Id and Address.Id do not match"));
             }
-
-            await _bll.Addresses.UpdateAsync(_mapper.Map(address));
+            if (!await _bll.Addresses.ExistsAsync(address.Id, userIdTKey))
+            {
+                return NotFound(new V1DTO.MessageDTO($"Current user does not have session with this id {id}"));
+            }
+            var bllEntity = _mapper.Map(address);
+            bllEntity.AppUserId = User.UserGuidId();
+            await _bll.Addresses.UpdateAsync(bllEntity);
             await _bll.SaveChangesAsync();
-
             return NoContent();
         }
 
@@ -112,16 +116,15 @@ namespace WebApp.ApiControllers
         /// <returns></returns>
         [Produces("application/json")]
         [Consumes("application/json")]
-        [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Address))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(V1DTO.Address))]
         [HttpPost]
-        public async Task<ActionResult<Address>> PostAddress(Address address)
+        public async Task<ActionResult<V1DTO.Address>> PostAddress(V1DTO.Address address)
         {
             var bllEntity = _mapper.Map(address);
+            bllEntity.AppUserId = User.UserGuidId();
             _bll.Addresses.Add(bllEntity);
             await _bll.SaveChangesAsync();
             address.Id = bllEntity.Id;
-
             return CreatedAtAction("GetAddress",
                 new {id = address.Id, version = HttpContext.GetRequestedApiVersion()?.ToString() ?? "0"},
                 address);
@@ -133,18 +136,17 @@ namespace WebApp.ApiControllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Address))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(Address))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.Address))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Address>> DeleteAddress(Guid id)
+        public async Task<ActionResult<V1DTO.Address>> DeleteAddress(Guid id)
         {
-            var address = await _bll.Addresses.FirstOrDefaultAsync(id);
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            var address = await _bll.Addresses.FirstOrDefaultAsync(id, userIdTKey);
             if (address == null)
             {
-                return NotFound(new MessageDTO("Address not found"));
+                return NotFound(new V1DTO.MessageDTO("Address not found"));
             }
-
             await _bll.Addresses.RemoveAsync(address);
             await _bll.SaveChangesAsync();
 

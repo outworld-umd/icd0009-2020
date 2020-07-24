@@ -3,7 +3,7 @@ import { IAddress, IAddressCreate } from "@/domain/IAddress";
 import { BaseAPI } from "@/services/BaseAPI";
 
 export abstract class AddressAPI extends BaseAPI {
-    static url = 'addresses/';
+    static url = 'Address/';
 
     static async getAll(): Promise<IFetchResponse<IAddress[]>> {
         return super.baseGetAll<IAddress>(this.url);

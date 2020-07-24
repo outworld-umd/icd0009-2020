@@ -37,7 +37,7 @@ export default class UserModule extends VuexModule {
     @Action
     async authenticateUser(loginDTO: ILoginRequest): Promise<boolean> {
         let jwt = await AccountAPI.login(loginDTO);
-        jwt = null;
+        // jwt = null;
         if (loginDTO.password === "asd" && loginDTO.email === "asd") jwt = "Testing";
         this.setJwt(jwt);
         return jwt !== null;

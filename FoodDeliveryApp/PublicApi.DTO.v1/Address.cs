@@ -1,5 +1,6 @@
 using System;
 using Contracts.Domain.Basic;
+using Domain.App.Identity;
 
 namespace PublicApi.DTO.v1 {
 
@@ -10,7 +11,8 @@ namespace PublicApi.DTO.v1 {
         public string Street { get; set; } = default!;
         public string BuildingNumber { get; set; } = default!;
         public string? Comment { get; set; }
-        public string? Name { get; set; }
+        public string? Apartment { get; set; }
+        public string Name { get; set; } = default!;
 
         public Guid Id { get; set; } = default!;
 

@@ -25,6 +25,7 @@ import store from "../store";
 import router from "../router";
 import UserModule from "@/store/modules/UserModule";
 import { getModule } from "vuex-module-decorators";
+import JwtDecode from "jwt-decode";
 
 @Component
 export default class Account extends Vue {
@@ -35,9 +36,9 @@ export default class Account extends Vue {
     get userEmail(): string {
         const jwt = getModule(UserModule, store).jwt
         if (jwt) {
-            // const decoded = JwtDecode(store.state.jwt) as Record<string, string>;
-            // return decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
-            return jwt;
+            const decoded = JwtDecode(jwt) as Record<string, string>;
+            console.log(decoded)
+            return decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
         }
         return 'null';
     }

@@ -13,19 +13,19 @@ using Microsoft.AspNetCore.Authorization;
 using PublicApi.DTO.v1.Mappers;
 using IAppBLL = Contracts.BLL.App.IAppBLL;
 
-namespace WebApp.ApiControllers
+namespace WebApp.ApiControllers._1._0
 {
     [ApiController]
     [ApiVersion( "1.0" )]
     [Route("api/v{version:apiVersion}/[controller]")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class CategoryController : ControllerBase
+    public class CategoriesController : ControllerBase
     {
         private readonly IAppBLL _bll;
         private readonly CategoryMapper _mapper = new CategoryMapper();
 
 
-        public CategoryController(IAppBLL bll)
+        public CategoriesController(IAppBLL bll)
         {
             _bll = bll;
         }

@@ -18,9 +18,8 @@ namespace Domain.App
         [MinLength(2)] [MaxLength(64)] public string City { get; set; } = default!;
         [MinLength(2)] [MaxLength(64)] public string Street { get; set; } = default!;
         [MinLength(2)] [MaxLength(64)] public string BuildingNumber { get; set; } = default!;
-        [MinLength(2)] [MaxLength(64)] public string? Apartment { get; set; }
-        [MinLength(2)] [MaxLength(64)] public string? Name { get; set; }
-
+        [MaxLength(64)] public string? Apartment { get; set; }
+        [MinLength(2)] [MaxLength(64)] public string Name { get; set; }= default!;
         [MaxLength(256)] public string? Comment { get; set; }
     }
 }

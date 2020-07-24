@@ -12,18 +12,18 @@ using Microsoft.AspNetCore.Authorization;
 using PublicApi.DTO.v1;
 using PublicApi.DTO.v1.Mappers;
 
-namespace WebApp.ApiControllers
+namespace WebApp.ApiControllers._1._0
 {
     [ApiController]
     [ApiVersion( "1.0" )]
     [Route("api/v{version:apiVersion}/[controller]")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class OrderController : ControllerBase
+    public class OrdersController : ControllerBase
     {
         private readonly IAppBLL _bll;
         private readonly OrderMapper _mapper = new OrderMapper();
 
-        public OrderController(IAppBLL bll)
+        public OrdersController(IAppBLL bll)
         {
             _bll = bll;
         }

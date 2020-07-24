@@ -125,18 +125,30 @@ export default class AddressIndex extends Vue {
                 store.dispatch('createAddress', address);
             }
         }
+        this.inputMode(false, null)
     }
 
     inputMode(turnOn: boolean, address: IAddress | null) {
         this.input = turnOn;
-        this.addressId = address?.id ?? null;
-        this.street = address?.street ?? null;
-        this.buildingNumber = address?.buildingNumber ?? null;
-        this.city = address?.city ?? null;
-        this.county = address?.county ?? null;
-        this.name = address?.name ?? null;
-        this.comment = address?.comment ?? null;
-        this.apartment = address?.apartment ?? null;
+        if (address) {
+            this.addressId = address.id;
+            this.street = address.street;
+            this.buildingNumber = address.buildingNumber;
+            this.city = address.city;
+            this.county = address.county;
+            this.name = address.name;
+            this.comment = address.comment ?? null;
+            this.apartment = address.apartment ?? null;
+        } else {
+            this.addressId = null;
+            this.street = null;
+            this.buildingNumber = null;
+            this.city = null;
+            this.county = null;
+            this.name = null;
+            this.comment = null;
+            this.apartment = null;
+        }
     }
 
     mounted(): void {

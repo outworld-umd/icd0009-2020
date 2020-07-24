@@ -15,7 +15,7 @@ using IAppBLL = Contracts.BLL.App.IAppBLL;
 
 namespace WebApp.Controllers
 {
-    [Authorize(Roles = "Customer")]
+    // [Authorize(Roles = "Customer")]
     public class AddressesController : Controller
     {
         private readonly IAppBLL _bll;

@@ -3,10 +3,10 @@ import { ILoginRequest } from "@/domain/identity/ILoginRequest";
 import { ILoginResponse } from "@/domain/identity/ILoginResponse";
 
 export abstract class AccountAPI extends BaseAPI {
-    static url = "account/"
+    static url = "Account/";
 
     static async login(loginDTO: ILoginRequest): Promise<string | null> {
-        const url = "login";
+        const url = "Login";
         try {
             const response = await this.axios.post<ILoginResponse>(this.url + url, loginDTO);
             console.log('getJwt response', response);

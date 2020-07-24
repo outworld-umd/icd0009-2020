@@ -1,6 +1,11 @@
 # Food Delivery App
 ## TODOs
-### Layered Architecture 101
+### Partial Views
+* Hidden input from _CreateEdit -> Edit.cshtml
+### User-Specific Views!
+### Securing
+* API Controllers
+* ASP.NET Controllers
 ### Other stuff
 * Internationalization
 ## Useful Commands

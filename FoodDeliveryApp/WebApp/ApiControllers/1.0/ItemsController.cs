@@ -3,26 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts.BLL.App;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PublicApi.DTO.v1;
 using PublicApi.DTO.v1.Mappers;
 
-namespace WebApp.ApiControllers
+namespace WebApp.ApiControllers._1._0
 {
     [ApiController]
     [ApiVersion( "1.0" )]
     [Route("api/v{version:apiVersion}/[controller]")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class ItemController : ControllerBase
+    public class ItemsController : ControllerBase
     {
         private readonly IAppBLL _bll;
         private readonly ItemMapper _mapper = new ItemMapper();
 
-        public ItemController(IAppBLL bll)
+        public ItemsController(IAppBLL bll)
         {
             _bll = bll;
         }

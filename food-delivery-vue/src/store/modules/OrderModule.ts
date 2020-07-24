@@ -2,6 +2,7 @@ import { getModule, Module, Mutation, VuexModule, Action } from "vuex-module-dec
 import { IOrderRowTemp } from "@/domain/IOrderRow";
 import store from "@/store";
 import { IOrderCreate, IOrderTemp } from "@/domain/IOrder";
+import {OrderAPI} from "@/services/OrderAPI";
 
 @Module({ name: 'currentOrder' })
 export default class OrderModule extends VuexModule {
@@ -119,17 +120,10 @@ export default class OrderModule extends VuexModule {
             restaurantName: getModule(OrderModule, store).currentRestaurantName ?? undefined
         }
         getModule(OrderModule, store).setLoading(true);
-        // FOR TESTING START
-        function sleep(ms: number) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
-        await sleep(2000);
-        // FOR TESTING END
-        // const orderResponse = await OrderAPI.post(orderCreate)
-        // const p = orderResponse.isSuccessful;
+        const response = await OrderAPI.post(orderCreate)
+        const p = response.isSuccessful;
         getModule(OrderModule, store).setLoading(false);
         console.log(JSON.stringify(orderCreate))
-        const p = false;
         if (p) this.clearOrders();
         else console.log('PIZDETS');
         return p;

@@ -1,26 +1,29 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
-using Domain.App.Identity;
 using Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using PublicApi.DTO.v1.Identity;
+using AppUser = Domain.App.Identity.AppUser;
 
-namespace WebApp.ApiControllers.Identity
+namespace WebApp.ApiControllers._1._0.Identity
 {
 [ApiController]
     [ApiVersion( "1.0" )]
     [Route("api/v{version:apiVersion}/[controller]/[action]")]
-    public class AccountController : ControllerBase
+    public class AccountsController : ControllerBase
     {
         private readonly IConfiguration _configuration;
         private readonly UserManager<AppUser> _userManager;
-        private readonly ILogger<AccountController> _logger;
+        private readonly ILogger<AccountsController> _logger;
         private readonly SignInManager<AppUser> _signInManager;
 
-        public AccountController(IConfiguration configuration, UserManager<AppUser> userManager,
-            ILogger<AccountController> logger, SignInManager<AppUser> signInManager)
+        public AccountsController(IConfiguration configuration, UserManager<AppUser> userManager,
+            ILogger<AccountsController> logger, SignInManager<AppUser> signInManager)
         {
             _configuration = configuration;
             _userManager = userManager;
@@ -48,7 +51,12 @@ namespace WebApp.ApiControllers.Identity
                     _configuration.GetValue<int>("JWT:ExpirationInDays")
                 );
                 _logger.LogInformation($"Token generated for user {model.Email}");
-                return Ok(new {token = jwt, status = "Logged in"});
+                return Ok(new JwtResponseDTO() {
+                    Token = jwt, 
+                    Status = "Logged in", 
+                    FirstName = appUser.FirstName, 
+                    LastName = appUser.LastName, 
+                    Roles = _userManager.GetRolesAsync(appUser)?.Result ?? new Collection<string>()});
             }
 
             _logger.LogInformation($"Web-Api login. User {model.Email} attempted to log-in with bad password!");

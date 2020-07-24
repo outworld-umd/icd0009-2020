@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using PublicApi.DTO.v1;
 using PublicApi.DTO.v1.Mappers;
 
-namespace WebApp.ApiControllers
+namespace WebApp.ApiControllers._1._0
 {
     [ApiController]
     [ApiVersion( "1.0" )]

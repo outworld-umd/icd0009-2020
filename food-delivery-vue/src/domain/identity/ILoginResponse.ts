@@ -3,5 +3,5 @@ export interface ILoginResponse {
     status: string;
     firstName: string;
     lastName: string;
-    role: string;
+    roles: string[];
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Contracts.Domain.Combined;
 
 namespace BLL.App.DTO
@@ -17,6 +18,8 @@ namespace BLL.App.DTO
         public int Amount { get; set; }
         public decimal Cost { get; set; }
         public string? Comment { get; set; }
+        
+        public ICollection<OrderItemChoice>? OrderItemChoices { get; set; }
 
         public TKey Id { get; set; } = default!;
         public string? CreatedBy { get; set; }

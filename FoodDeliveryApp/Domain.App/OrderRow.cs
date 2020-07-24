@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Contracts.Domain;
@@ -23,5 +24,6 @@ namespace Domain.App
         [Range(1, 20)] public int Amount { get; set; }
         [Column(TypeName = "decimal(6,2)")] public decimal Cost { get; set; }
         [MaxLength(512)] public string? Comment { get; set; }
+        public ICollection<OrderItemChoice>? OrderItemChoices { get; set; }
     }
 }

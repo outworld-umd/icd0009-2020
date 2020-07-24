@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Linq;
+using AutoMapper;
 using PublicApi.DTO.v1.Mappers.Base;
 
 namespace PublicApi.DTO.v1.Mappers
@@ -9,17 +11,22 @@ namespace PublicApi.DTO.v1.Mappers
         {
             MapperConfigurationExpression.CreateMap<BLL.App.DTO.Restaurant, Restaurant>();
             MapperConfigurationExpression.CreateMap<BLL.App.DTO.Restaurant, RestaurantView>();
+
             Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));
         }
 
         public Restaurant MapRestaurant(BLL.App.DTO.Restaurant inObject)
         {
-            return Mapper.Map<Restaurant>(inObject);
+            var restaurant = Mapper.Map<Restaurant>(inObject);
+            return restaurant;
         }
         
         public RestaurantView MapRestaurantView(BLL.App.DTO.Restaurant inObject)
         {
-            return Mapper.Map<RestaurantView>(inObject);
+            var restaurant = Mapper.Map<RestaurantView>(inObject);
+            restaurant.Categories = inObject.RestaurantCategories.Select(rc => rc.Category!.Name).ToList();
+            restaurant.IsOpen = true;
+            return restaurant;
         }
     }
 }

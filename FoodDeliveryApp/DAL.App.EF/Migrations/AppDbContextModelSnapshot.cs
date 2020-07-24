@@ -64,6 +64,7 @@ namespace DAL.App.EF.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(64)")
                         .HasMaxLength(64);
 

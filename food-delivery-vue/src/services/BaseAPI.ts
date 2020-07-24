@@ -7,7 +7,7 @@ import { IMessage } from "@/types/IMessage";
 
 export abstract class BaseAPI {
     protected static axios = Axios.create({
-        baseURL: "https://placeholder.com/api/",
+        baseURL: "https://localhost:5001/api/v1.0/",
         headers: {
             common: {
                 'Content-Type': 'application/json'
@@ -25,6 +25,7 @@ export abstract class BaseAPI {
                 data: response.data
             }
         }).catch(function (error: AxiosError) {
+            console.log(error.response)
             return {
                 isSuccessful: false,
                 statusCode: error.response?.status ?? 400,

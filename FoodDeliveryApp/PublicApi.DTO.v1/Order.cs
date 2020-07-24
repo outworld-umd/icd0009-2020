@@ -12,7 +12,6 @@ namespace PublicApi.DTO.v1
 
         public string Address { get; set; } = default!;
         public string? Apartment { get; set; }
-
         public string? Comment { get; set; }
 
         public Guid? RestaurantId { get; set; }

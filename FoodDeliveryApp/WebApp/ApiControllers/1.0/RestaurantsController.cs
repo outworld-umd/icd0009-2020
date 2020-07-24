@@ -10,27 +10,27 @@ using Microsoft.AspNetCore.Authorization;
 using PublicApi.DTO.v1;
 using PublicApi.DTO.v1.Mappers;
 
-namespace WebApp.ApiControllers
+namespace WebApp.ApiControllers._1._0
 {
     [ApiController]
     [ApiVersion( "1.0" )]
     [Route("api/v{version:apiVersion}/[controller]")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class RestaurantController : ControllerBase
+    public class RestaurantsController : ControllerBase
     {
         private readonly IAppBLL _bll;
         private readonly RestaurantMapper _mapper = new RestaurantMapper();
 
-        public RestaurantController(IAppBLL bll)
+        public RestaurantsController(IAppBLL bll)
         {
             _bll = bll;
         }
 
         // GET: api/Restaurant
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Restaurant>>> GetRestaurants()
+        public async Task<ActionResult<IEnumerable<RestaurantView>>> GetRestaurants()
         {
-            return Ok((await _bll.Restaurants.GetAllAsync()).Select(e => _mapper.MapRestaurant(e)));
+            return Ok((await _bll.Restaurants.GetAllAsync()).Select(e => _mapper.MapRestaurantView(e)));
         }
 
         // GET: api/Restaurant/5
