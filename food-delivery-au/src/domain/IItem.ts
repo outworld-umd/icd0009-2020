@@ -3,6 +3,7 @@ import { IOption } from "./IOption";
 
 export interface IItemView {
     id: string;
+    itemInTypeId: string;
     name: string;
     pictureLink?: string;
     price: number;
