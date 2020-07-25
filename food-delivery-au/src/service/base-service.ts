@@ -1,9 +1,18 @@
-import Axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { IFetchResponse } from '../types/IFetchResponse'
+import Axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import { IFetchResponse } from "../types/IFetchResponse";
+import { autoinject } from 'aurelia-framework';
+import { AppState } from "../state/app-state";
 import { IMessage } from "../types/IMessage";
+import { Router } from "aurelia-router";
 
-export abstract class BaseAPI {
-    protected static axios = Axios.create({
+@autoinject
+export class BaseService {
+
+    constructor(private appState: AppState, private router: Router) {
+    }
+
+
+    protected axios = Axios.create({
         baseURL: "https://localhost:5001/api/v1.0/",
         headers: {
             common: {
@@ -12,17 +21,17 @@ export abstract class BaseAPI {
         }
     })
 
-    static getConfig(isAuth: boolean): AxiosRequestConfig | undefined {
+    getConfig(isAuth: boolean): AxiosRequestConfig | undefined {
         const config: AxiosRequestConfig = {
-            // headers: {
-            //   Authorization: `Bearer ${getModule(UserModule, store).jwt}`
-            // }
+            headers: {
+                Authorization: `Bearer ${this.appState.jwt}`
+            }
         }
         return isAuth ? config : undefined;
     }
 
-    static async baseGetAll<TEntity>(url: string, isAuth = true): Promise<IFetchResponse<TEntity[]>> {
-        return this.axios.get<TEntity[]>(url, BaseAPI.getConfig(isAuth))
+    async baseGetAll<TEntity>(url: string, isAuth = true): Promise<IFetchResponse<TEntity[]>> {
+        return this.axios.get<TEntity[]>(url, this.getConfig(isAuth))
             .then(function (response: AxiosResponse) {
                 return {
                     isSuccessful: response.status < 300,
@@ -33,14 +42,14 @@ export abstract class BaseAPI {
                 console.log(error.response)
                 return {
                     isSuccessful: false,
-                    statusCode: error.response?.status ?? 400,
-                    messages: (error.response?.data as IMessage).messages
+                    statusCode: error.response?.status ?? 500,
+                    messages: (error.response?.data as IMessage)?.messages ?? []
                 }
             })
     }
 
-    static async baseGet<TEntity>(url: string, id: string, isAuth = true): Promise<IFetchResponse<TEntity>> {
-        return this.axios.get<TEntity>(url + id, BaseAPI.getConfig(isAuth))
+    async baseGet<TEntity>(url: string, id: string, isAuth = true): Promise<IFetchResponse<TEntity>> {
+        return this.axios.get<TEntity>(url + id, this.getConfig(isAuth))
             .then(function (response: AxiosResponse) {
                 return {
                     isSuccessful: response.status < 300,
@@ -50,14 +59,14 @@ export abstract class BaseAPI {
             }).catch(function (error: AxiosError) {
                 return {
                     isSuccessful: false,
-                    statusCode: error.response?.status ?? 400,
-                    messages: (error.response?.data as IMessage).messages
+                    statusCode: error.response?.status ?? 500,
+                    messages: (error.response?.data as IMessage)?.messages ?? []
                 }
             })
     }
 
-    static async basePost<TEntity>(url: string, entity: any, isAuth = true): Promise<IFetchResponse<TEntity>> {
-        return this.axios.post<TEntity>(url, entity, BaseAPI.getConfig(isAuth))
+    async basePost<TEntity>(url: string, entity: any, isAuth = true): Promise<IFetchResponse<TEntity>> {
+        return this.axios.post<TEntity>(url, entity, this.getConfig(isAuth))
             .then(function (response: AxiosResponse) {
                 return {
                     isSuccessful: response.status < 300,
@@ -67,14 +76,14 @@ export abstract class BaseAPI {
             }).catch(function (error: AxiosError) {
                 return {
                     isSuccessful: false,
-                    statusCode: error.response?.status ?? 400,
-                    messages: (error.response?.data as IMessage).messages
+                    statusCode: error.response?.status ?? 500,
+                    messages: (error.response?.data as IMessage)?.messages ?? []
                 }
             })
     }
 
-    static async basePut(url: string, id: string, entity: any, isAuth = true): Promise<IFetchResponse> {
-        return this.axios.put(url + id, entity, BaseAPI.getConfig(isAuth))
+    async basePut(url: string, id: string, entity: any, isAuth = true): Promise<IFetchResponse<null>> {
+        return this.axios.put(url + id, entity, this.getConfig(isAuth))
             .then(function (response: AxiosResponse) {
                 return {
                     isSuccessful: response.status < 300,
@@ -83,14 +92,14 @@ export abstract class BaseAPI {
             }).catch(function (error: AxiosError) {
                 return {
                     isSuccessful: false,
-                    statusCode: error.response?.status ?? 400,
-                    messages: (error.response?.data as IMessage).messages
+                    statusCode: error.response?.status ?? 500,
+                    messages: (error.response?.data as IMessage)?.messages ?? []
                 }
             })
     }
 
-    static async baseDelete<TEntity>(url: string, id: string, isAuth = true): Promise<IFetchResponse<TEntity>> {
-        return this.axios.delete<TEntity>(url + id, BaseAPI.getConfig(isAuth))
+    async baseDelete<TEntity>(url: string, id: string, isAuth = true): Promise<IFetchResponse<TEntity>> {
+        return this.axios.delete<TEntity>(url + id, this.getConfig(isAuth))
             .then(function (response: AxiosResponse) {
                 return {
                     isSuccessful: response.status < 300,
@@ -100,8 +109,8 @@ export abstract class BaseAPI {
             }).catch(function (error: AxiosError) {
                 return {
                     isSuccessful: false,
-                    statusCode: error.response?.status ?? 400,
-                    messages: (error.response?.data as IMessage).messages
+                    statusCode: error.response?.status ?? 500,
+                    messages: (error.response?.data as IMessage)?.messages ?? []
                 }
             })
     }
