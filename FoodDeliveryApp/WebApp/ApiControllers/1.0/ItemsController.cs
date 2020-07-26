@@ -50,7 +50,7 @@ namespace WebApp.ApiControllers._1._0 {
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("restaurant/{id:int}")]
+        [Route("restaurant/{id}")]
         [Produces("application/json")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.Item))]
