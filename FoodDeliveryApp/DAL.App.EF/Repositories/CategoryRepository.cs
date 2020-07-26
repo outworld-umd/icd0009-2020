@@ -19,8 +19,6 @@ namespace DAL.App.EF.Repositories {
             var domainEntities = await query
                 .Include(с => с.RestaurantCategories)
                 .ThenInclude(rc => rc.Restaurant)
-                .ThenInclude(rc => rc!.RestaurantCategories)
-                .ThenInclude(r => r.Category)
                 .ToListAsync();
             var result = domainEntities.Select(e => DALMapper.Map(e));
             return result;
@@ -32,8 +30,6 @@ namespace DAL.App.EF.Repositories {
             var entity = await query
                 .Include(с => с.RestaurantCategories)
                 .ThenInclude(rc => rc.Restaurant)
-                .ThenInclude(rc => rc!.RestaurantCategories)
-                .ThenInclude(r => r.Category)
                 .FirstOrDefaultAsync(e => e.Id.Equals(id));
             return DALMapper.Map(entity);
         }

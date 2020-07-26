@@ -23,8 +23,6 @@ namespace DAL.App.EF.Repositories {
             var domainEntities = await query
                 .Include(r => r.RestaurantCategories)
                 .ThenInclude(rc => rc.Category)
-                .ThenInclude(c => c!.RestaurantCategories)
-                .ThenInclude(rc => rc.Restaurant)
                 .Include(r => r.WorkingHourses)
                 .Include(r => r.ItemTypes)
                 .ThenInclude(it => it.ItemInTypes)
@@ -40,8 +38,6 @@ namespace DAL.App.EF.Repositories {
             var entity = await query
                 .Include(r => r.RestaurantCategories)
                 .ThenInclude(rc => rc.Category)
-                .ThenInclude(c => c!.RestaurantCategories)
-                .ThenInclude(rc => rc.Restaurant)
                 .Include(r => r.WorkingHourses)
                 .Include(r => r.ItemTypes)
                 .ThenInclude(it => it.ItemInTypes)
