@@ -28,6 +28,7 @@ namespace Domain.App
         public ICollection<WorkingHours>? WorkingHourses { get; set; }
         public ICollection<RestaurantCategory>? RestaurantCategories { get; set; }
         public ICollection<Order>? Orders { get; set; }
+        public ICollection<Item>? Items { get; set; }
         public ICollection<ItemType>? ItemTypes { get; set; }
         public ICollection<RestaurantUser>? RestaurantUsers { get; set; }
     }

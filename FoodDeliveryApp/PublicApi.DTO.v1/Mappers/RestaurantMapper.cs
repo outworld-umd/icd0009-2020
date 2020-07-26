@@ -24,7 +24,11 @@ namespace PublicApi.DTO.v1.Mappers
         public RestaurantView MapRestaurantView(BLL.App.DTO.Restaurant inObject)
         {
             var restaurant = Mapper.Map<RestaurantView>(inObject);
-            restaurant.Categories = inObject.RestaurantCategories.Select(rc => rc.Category!.Name).ToList();
+            restaurant.Categories = inObject.RestaurantCategories.Select(rc => new CategoryView {
+                Id = rc.Category!.Id,
+                Name = rc.Category!.Name,
+                RestaurantCategoryId = rc.Id
+            }).ToList();
             restaurant.IsOpen = inObject.WorkingHourses.Select(wh => wh.WeekDay).Single() == DateTime.Today.DayOfWeek;
             return restaurant;
         }

@@ -21,7 +21,7 @@ namespace PublicApi.DTO.v1
         public string Name { get; set; } = default!;
         public decimal DeliveryCost { get; set; }
 
-        public IEnumerable<string>? Categories { get; set; }
+        public IEnumerable<CategoryView>? Categories { get; set; }
         public bool IsOpen { get; set; }
 
         public Guid Id { get; set; } = default!;

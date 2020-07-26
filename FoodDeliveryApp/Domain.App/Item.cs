@@ -21,7 +21,8 @@ namespace Domain.App
         [MaxLength(512)] public string? PictureLink { get; set; }
         [Column(TypeName = "decimal(6,2)")] public decimal Price { get; set; }
         [MaxLength(512)] public string? Description { get; set; }
-        
+        public Guid? RestaurantId { get; set; }
+        public Restaurant? Restaurant { get; set; }
         public ICollection<OrderRow>? OrderRows { get; set; }
         public ICollection<ItemInType>? ItemInTypes { get; set; }
         public ICollection<NutritionInfo>? NutritionInfos { get; set; }

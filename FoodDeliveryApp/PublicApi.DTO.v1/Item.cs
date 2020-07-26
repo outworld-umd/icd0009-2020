@@ -4,19 +4,27 @@ using Contracts.Domain.Basic;
 
 namespace PublicApi.DTO.v1
 {
-    public class Item : ItemView
+    public class Item
     {
         public string? Description { get; set; }
+        public Guid RestaurantId { get; set; }
         
         public ICollection<NutritionInfo>? NutritionInfos { get; set; }
         public ICollection<ItemOption>? ItemOptions { get; set; }
-    }
-    public class ItemView
-    {
         public string Name { get; set; } = default!;
         public string? PictureLink { get; set; }
         public decimal Price { get; set; }
 
-        public Guid Id { get; set; } = default!;
+        public Guid Id { get; set; }
+    }
+    
+    public class ItemView
+    {
+        public Guid ItemInTypeId { get; set; }
+        public string Name { get; set; } = default!;
+        public string? PictureLink { get; set; }
+        public decimal Price { get; set; }
+
+        public Guid Id { get; set; }
     }
 }

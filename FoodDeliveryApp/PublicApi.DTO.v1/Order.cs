@@ -31,4 +31,9 @@ namespace PublicApi.DTO.v1
 
         public Guid Id { get; set; } = default!;
     }
+
+    public class OrderPatch 
+    {
+        public OrderStatus OrderStatus { get; set; }
+    }
 }
