@@ -12,15 +12,15 @@ namespace BLL.App.Mappers
         {
             MapperConfigurationExpression.CreateMap<DALAppDTO.OrderRow, BLLAppDTO.OrderRow>();
             MapperConfigurationExpression.CreateMap<BLLAppDTO.OrderRow, DALAppDTO.OrderRow>();
-            
-            MapperConfigurationExpression.CreateMap<DALAppDTO.Restaurant, BLLAppDTO.Restaurant>();
-            MapperConfigurationExpression.CreateMap<BLLAppDTO.Restaurant, DALAppDTO.Restaurant>();
-            
+
             MapperConfigurationExpression.CreateMap<DALAppDTO.Order, BLLAppDTO.Order>();
             MapperConfigurationExpression.CreateMap<BLLAppDTO.Order, DALAppDTO.Order>();
             
             MapperConfigurationExpression.CreateMap<DALAppDTO.Item, BLLAppDTO.Item>();
             MapperConfigurationExpression.CreateMap<BLLAppDTO.Item, DALAppDTO.Item>();
+            
+            MapperConfigurationExpression.CreateMap<BLLAppDTO.OrderItemChoice, DALAppDTO.OrderItemChoice>();
+            MapperConfigurationExpression.CreateMap<DALAppDTO.OrderItemChoice, BLLAppDTO.OrderItemChoice>();
             
             Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));
         }

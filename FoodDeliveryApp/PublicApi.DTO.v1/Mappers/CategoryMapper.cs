@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using AutoMapper;
 using PublicApi.DTO.v1.Mappers.Base;
+using BLLAppDTO=BLL.App.DTO;
+
 
 namespace PublicApi.DTO.v1.Mappers
 {
@@ -8,7 +10,9 @@ namespace PublicApi.DTO.v1.Mappers
     {
         public CategoryMapper()
         {
-            MapperConfigurationExpression.CreateMap<BLL.App.DTO.Category, Category>();
+            MapperConfigurationExpression.CreateMap<BLLAppDTO.Category, Category>();
+            MapperConfigurationExpression.CreateMap<BLLAppDTO.Restaurant, Restaurant>();
+            
             Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));
         }
 

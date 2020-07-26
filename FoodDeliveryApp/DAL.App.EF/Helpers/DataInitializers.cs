@@ -53,7 +53,8 @@ namespace DAL.App.EF.Helpers
                     UserName = userName,
                     FirstName = firstName,
                     LastName = lastName,
-                    Phone = phone
+                    Phone = phone,
+                    Id = new Guid("00000000-0000-0000-0000-000000000001")
                 };
 
                 var result = userManager.CreateAsync(user, passWord).Result;
@@ -298,6 +299,38 @@ namespace DAL.App.EF.Helpers
                 if (!context.Restaurants.Any(l => l.Id == restaurant.Id))
                 {
                     context.Restaurants.Add(restaurant);
+                }
+            }
+            
+            var addresses = new Address[]
+            {
+                new Address()
+                {
+                    County = "Harjumaa",
+                    City = "Tallinn",
+                    Street = "Akadeemia tee",
+                    BuildingNumber = "7/2",
+                    Apartment = "201b",
+                    Name = "Uhikas",
+                    AppUserId = new Guid("00000000-0000-0000-0000-000000000001")
+                },
+                new Address()
+                {
+                    County = "Harjumaa",
+                    City = "Tallinn",
+                    Street = "Sõpruse pst.",
+                    BuildingNumber = "212",
+                    Apartment = "27",
+                    Name = "Home",
+                    AppUserId = new Guid("00000000-0000-0000-0000-000000000001")
+                },
+            };
+            
+            foreach (var address in addresses)
+            {
+                if (!context.Addresses.Any(l => l.Id == address.Id))
+                {
+                    context.Addresses.Add(address);
                 }
             }
 

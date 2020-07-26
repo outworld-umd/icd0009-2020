@@ -22,8 +22,8 @@ namespace BLL.App.Mappers
             MapperConfigurationExpression.CreateMap<BLLAppDTO.ItemType, DALAppDTO.ItemType>();
             MapperConfigurationExpression.CreateMap<DALAppDTO.ItemType, BLLAppDTO.ItemType>();
             
-            MapperConfigurationExpression.CreateMap<DALAppDTO.WorkingHours, BLLAppDTO.WorkingHours>();
             MapperConfigurationExpression.CreateMap<BLLAppDTO.WorkingHours, DALAppDTO.WorkingHours>();
+            MapperConfigurationExpression.CreateMap<DALAppDTO.WorkingHours, BLLAppDTO.WorkingHours>();
 
             Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));
         }
