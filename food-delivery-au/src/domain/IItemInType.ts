@@ -4,7 +4,7 @@ export interface IItemInTypeCreate {
 }
 
 export interface IItemInType {
-    itemInTypeId: string;
+    id: string;
     itemId: string;
     itemTypeId: string;
 }

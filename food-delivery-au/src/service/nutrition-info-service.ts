@@ -1,16 +1,21 @@
 import { autoinject } from 'aurelia-framework';
 import { BaseService } from "./base-service";
 import { IFetchResponse } from "../types/IFetchResponse";
+import { INutritionInfo, INutritionInfoCreate, INutritionInfoEdit } from "../domain/INutritionInfo";
 
 @autoinject
 export class NutritionInfoService extends BaseService {
     url = "NutritionInfos/";
 
-    // async login(loginRequest: ILoginRequest): Promise<IFetchResponse<ILoginResponse>> {
-    //     return super.basePost<ILoginResponse>(this.url + "Login", loginRequest, false);
-    // }
-    //
-    // async register(registerRequest: IRegisterRequest): Promise<IFetchResponse<ILoginResponse>> {
-    //     return super.basePost<ILoginResponse>(this.url + "Register", registerRequest, false);
-    // }
+    async post(address: INutritionInfoCreate): Promise<IFetchResponse<INutritionInfo>> {
+        return super.basePost<INutritionInfo>(this.url, address);
+    }
+
+    async put(id: string, address: INutritionInfoEdit): Promise<IFetchResponse> {
+        return super.basePut(this.url, id, address);
+    }
+
+    async delete(id: string): Promise<IFetchResponse<INutritionInfo>> {
+        return super.baseDelete<INutritionInfo>(this.url, id);
+    }
 }
