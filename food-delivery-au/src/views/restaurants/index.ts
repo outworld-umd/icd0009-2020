@@ -40,10 +40,10 @@ export class RestaurantIndex {
     }
 
     saveEdit(): void {
-        this._initial.forEach(categoryView => {
-            if (!this._selected.includes(categoryView.id)) {
-                console.log("delete restaurantcategory", categoryView.restaurantCategoryId);
-                this.restaurantCategoryService.delete(categoryView.restaurantCategoryId);
+        this._initial.forEach(view => {
+            if (!this._selected.includes(view.id)) {
+                console.log("delete restaurantcategory", view.restaurantCategoryId);
+                this.restaurantCategoryService.delete(view.restaurantCategoryId);
             }
         })
         this._selected.forEach(id => {
