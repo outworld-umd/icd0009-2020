@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts.BLL.App;
+using Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -40,7 +41,9 @@ namespace WebApp.ApiControllers._1._0
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.Category>))]
         public async Task<ActionResult<IEnumerable<V1DTO.Category>>> GetCategories()
         {
-            return Ok((await _bll.Categories.GetAllAsync()).Select(e => _mapper.MapCategory(e)));
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+
+            return Ok((await _bll.Categories.GetAllAsync(userIdTKey)).Select(e => _mapper.MapCategory(e)));
         }
 
         // GET: api/Category/5
@@ -56,12 +59,14 @@ namespace WebApp.ApiControllers._1._0
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.Category))]
         public async Task<ActionResult<V1DTO.Category>> GetCategory(Guid id)
         {
-            var category = await _bll.Categories.FirstOrDefaultAsync(id);
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            var category = await _bll.Categories.FirstOrDefaultAsync(id, userIdTKey);
 
             if (category == null)
             {
                 return NotFound(new V1DTO.MessageDTO($"Category with id {id} not found"));
             }
+            
 
             return Ok(_mapper.MapCategory(category));
         }
@@ -83,11 +88,15 @@ namespace WebApp.ApiControllers._1._0
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(V1DTO.MessageDTO))]
         public async Task<IActionResult> PutCategory(Guid id, V1DTO.Category category)
         {
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
             if (id != category.Id)
             {
                 return BadRequest(new V1DTO.MessageDTO("Id and Category.Id do not match"));
             }
-
+            if (!await _bll.Addresses.ExistsAsync(category.Id, userIdTKey))
+            {
+                return NotFound(new V1DTO.MessageDTO($"Current user does not have session with this id {id}"));
+            }
             await _bll.Categories.UpdateAsync(_mapper.Map(category));
             await _bll.SaveChangesAsync();
 
