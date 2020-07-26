@@ -12,4 +12,12 @@ namespace PublicApi.DTO.v1
 
         public Guid Id { get; set; } = default!;
     }
+    
+    public class CategoryView
+    {
+        public string Name { get; set; } = default!;
+        public Guid RestaurantCategoryId { get; set; }
+
+        public Guid Id { get; set; } = default!;
+    }
 }
