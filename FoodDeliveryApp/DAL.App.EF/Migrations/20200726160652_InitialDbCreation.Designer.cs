@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.App.EF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200724131514_InitialDbCreation")]
+    [Migration("20200726160652_InitialDbCreation")]
     partial class InitialDbCreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -253,7 +253,12 @@ namespace DAL.App.EF.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(6,2)");
 
+                    b.Property<Guid?>("RestaurantId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("RestaurantId");
 
                     b.ToTable("Items");
                 });
@@ -849,6 +854,14 @@ namespace DAL.App.EF.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Domain.App.Item", b =>
+                {
+                    b.HasOne("Domain.App.Restaurant", "Restaurant")
+                        .WithMany("Items")
+                        .HasForeignKey("RestaurantId")
+                        .OnDelete(DeleteBehavior.SetNull);
+                });
+
             modelBuilder.Entity("Domain.App.ItemChoice", b =>
                 {
                     b.HasOne("Domain.App.ItemOption", "ItemOption")
@@ -923,7 +936,7 @@ namespace DAL.App.EF.Migrations
                         .IsRequired();
 
                     b.HasOne("Domain.App.OrderRow", "OrderRow")
-                        .WithMany()
+                        .WithMany("OrderItemChoices")
                         .HasForeignKey("OrderRowId");
                 });
 
