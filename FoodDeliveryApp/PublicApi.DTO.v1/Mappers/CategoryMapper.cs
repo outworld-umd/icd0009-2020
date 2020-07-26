@@ -11,7 +11,6 @@ namespace PublicApi.DTO.v1.Mappers
         public CategoryMapper()
         {
             MapperConfigurationExpression.CreateMap<BLLAppDTO.Category, Category>();
-            MapperConfigurationExpression.CreateMap<BLLAppDTO.Category, CategoryView>();
 
             Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));
         }
@@ -22,13 +21,6 @@ namespace PublicApi.DTO.v1.Mappers
             category.Restaurants = inObject.RestaurantCategories
                 .Select(rc => new RestaurantMapper().MapRestaurantView(rc.Restaurant!))
                 .ToList();
-            return category;
-        }
-        
-        public CategoryView MapCategoryView(BLL.App.DTO.Category inObject)
-        {
-            var category = Mapper.Map<CategoryView>(inObject);
-            category.RestaurantCategoryId = inObject.RestaurantCategories.Single().CategoryId;
             return category;
         }
     }
