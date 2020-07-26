@@ -53,11 +53,17 @@ namespace DAL.App.EF {
                 .HasOne(p => p.Restaurant)
                 .WithMany(b => b!.Orders)
                 .OnDelete(DeleteBehavior.SetNull);
-            
-            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Item>()
                 .HasOne(p => p.Restaurant)
                 .WithMany(b => b!.Items)
+                .OnDelete(DeleteBehavior.SetNull);
+            modelBuilder.Entity<OrderRow>()
+                .HasOne(p => p.Item)
+                .WithMany(b => b!.OrderRows)
+                .OnDelete(DeleteBehavior.SetNull);
+            modelBuilder.Entity<OrderRow>()
+                .HasOne(p => p.Item)
+                .WithMany(b => b!.OrderRows)
                 .OnDelete(DeleteBehavior.SetNull);
         }
         

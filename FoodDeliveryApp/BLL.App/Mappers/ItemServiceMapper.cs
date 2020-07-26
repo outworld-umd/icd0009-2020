@@ -10,17 +10,17 @@ namespace BLL.App.Mappers
     {
         public ItemServiceMapper()
         {
-            MapperConfigurationExpression.CreateMap<DALAppDTO.Item, BLLAppDTO.Item>();
             MapperConfigurationExpression.CreateMap<BLLAppDTO.Item, DALAppDTO.Item>();
+            MapperConfigurationExpression.CreateMap<DALAppDTO.Item, BLLAppDTO.Item>();
             
-            MapperConfigurationExpression.CreateMap<DALAppDTO.NutritionInfo, BLLAppDTO.NutritionInfo>();
             MapperConfigurationExpression.CreateMap<BLLAppDTO.NutritionInfo, DALAppDTO.NutritionInfo>();
-            
-            MapperConfigurationExpression.CreateMap<DALAppDTO.ItemOption, BLLAppDTO.ItemOption>();
+            MapperConfigurationExpression.CreateMap<DALAppDTO.NutritionInfo, BLLAppDTO.NutritionInfo>();
+
             MapperConfigurationExpression.CreateMap<BLLAppDTO.ItemOption, DALAppDTO.ItemOption>();
-            
-            MapperConfigurationExpression.CreateMap<BLLAppDTO.ItemChoice, DALAppDTO.ItemChoice>();
+            MapperConfigurationExpression.CreateMap<DALAppDTO.ItemOption, BLLAppDTO.ItemOption>();
+
             MapperConfigurationExpression.CreateMap<DALAppDTO.ItemChoice, BLLAppDTO.ItemChoice>();
+            MapperConfigurationExpression.CreateMap<BLLAppDTO.ItemChoice, DALAppDTO.ItemChoice>();
 
             Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));
         }

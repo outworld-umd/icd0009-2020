@@ -17,7 +17,7 @@ namespace DAL.App.DTO
         public int Amount { get; set; }
         public decimal Cost { get; set; }
 
-        public Guid? OrderRowId { get; set; } // ZDES BIL 0!!!!!!!!!!!!!!!
+        public TKey OrderRowId { get; set; } // ZDES BIL 0!!!!!!!!!!!!!!!
         public OrderRow? OrderRow { get; set; }
 
         public TKey ItemChoiceId { get; set; } = default!;

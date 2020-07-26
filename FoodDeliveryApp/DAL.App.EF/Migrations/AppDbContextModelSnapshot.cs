@@ -539,7 +539,7 @@ namespace DAL.App.EF.Migrations
                     b.Property<Guid>("ItemChoiceId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("OrderRowId")
+                    b.Property<Guid>("OrderRowId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -579,7 +579,7 @@ namespace DAL.App.EF.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("ItemId")
+                    b.Property<Guid?>("ItemId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("OrderId")
@@ -935,7 +935,9 @@ namespace DAL.App.EF.Migrations
 
                     b.HasOne("Domain.App.OrderRow", "OrderRow")
                         .WithMany("OrderItemChoices")
-                        .HasForeignKey("OrderRowId");
+                        .HasForeignKey("OrderRowId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.App.OrderRow", b =>
@@ -943,8 +945,7 @@ namespace DAL.App.EF.Migrations
                     b.HasOne("Domain.App.Item", "Item")
                         .WithMany("OrderRows")
                         .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("Domain.App.Order", "Order")
                         .WithMany("OrderRows")

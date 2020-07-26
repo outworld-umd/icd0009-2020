@@ -10,11 +10,11 @@ namespace BLL.App.Mappers
     {
         public WorkingHoursServiceMapper()
         {
-            MapperConfigurationExpression.CreateMap<DALAppDTO.WorkingHours, BLLAppDTO.WorkingHours>();
             MapperConfigurationExpression.CreateMap<BLLAppDTO.WorkingHours, DALAppDTO.WorkingHours>();
+            MapperConfigurationExpression.CreateMap<DALAppDTO.WorkingHours, BLLAppDTO.WorkingHours>();
             
-            MapperConfigurationExpression.CreateMap<DALAppDTO.Restaurant, BLLAppDTO.Restaurant>();
             MapperConfigurationExpression.CreateMap<BLLAppDTO.Restaurant, DALAppDTO.Restaurant>();
+            MapperConfigurationExpression.CreateMap<DALAppDTO.Restaurant, BLLAppDTO.Restaurant>();
             
             Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));
         }

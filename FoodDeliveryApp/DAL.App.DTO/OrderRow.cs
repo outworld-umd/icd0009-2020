@@ -11,8 +11,11 @@ namespace DAL.App.DTO
     public class OrderRow<TKey> : IDomainEntityIdMetadata<TKey>
         where TKey : IEquatable<TKey>
     {
-        public TKey ItemId { get; set; } = default!;
-        public Item? Item { get; set; }
+
+        public Guid? ItemId { get; set; } = default!;
+        public Item? Item { get; set; } = default!;
+        public string Name { get; set; } = default!;
+
         public TKey OrderId { get; set; } = default!;
         public Order? Order { get; set; }
         public int Amount { get; set; }

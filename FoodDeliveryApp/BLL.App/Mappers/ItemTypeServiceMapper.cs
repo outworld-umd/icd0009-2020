@@ -14,8 +14,8 @@ namespace BLL.App.Mappers
             MapperConfigurationExpression.CreateMap<BLLAppDTO.ItemType, DALAppDTO.ItemType>();
             MapperConfigurationExpression.CreateMap<DALAppDTO.ItemType, BLLAppDTO.ItemType>();
 
-            MapperConfigurationExpression.CreateMap<DALAppDTO.Restaurant, BLLAppDTO.Restaurant>();
             MapperConfigurationExpression.CreateMap<BLLAppDTO.Restaurant, DALAppDTO.Restaurant>();
+            MapperConfigurationExpression.CreateMap<DALAppDTO.Restaurant, BLLAppDTO.Restaurant>();
             
             Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));
         }

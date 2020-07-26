@@ -10,14 +10,14 @@ namespace BLL.App.Mappers
     {
         public ItemOptionServiceMapper()
         {
-            MapperConfigurationExpression.CreateMap<DALAppDTO.ItemOption, BLLAppDTO.ItemOption>();
             MapperConfigurationExpression.CreateMap<BLLAppDTO.ItemOption, DALAppDTO.ItemOption>();
+            MapperConfigurationExpression.CreateMap<DALAppDTO.ItemOption, BLLAppDTO.ItemOption>();
             
             MapperConfigurationExpression.CreateMap<BLLAppDTO.ItemChoice, DALAppDTO.ItemChoice>();
             MapperConfigurationExpression.CreateMap<DALAppDTO.ItemChoice, BLLAppDTO.ItemChoice>();
             
-            MapperConfigurationExpression.CreateMap<DALAppDTO.Item, BLLAppDTO.Item>();
             MapperConfigurationExpression.CreateMap<BLLAppDTO.Item, DALAppDTO.Item>();
+            MapperConfigurationExpression.CreateMap<DALAppDTO.Item, BLLAppDTO.Item>();
 
             Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));
         }

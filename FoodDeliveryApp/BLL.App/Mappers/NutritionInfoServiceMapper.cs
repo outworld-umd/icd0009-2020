@@ -10,11 +10,11 @@ namespace BLL.App.Mappers
     {
         public NutritionInfoServiceMapper()
         {
-            MapperConfigurationExpression.CreateMap<DALAppDTO.NutritionInfo, BLLAppDTO.NutritionInfo>();
             MapperConfigurationExpression.CreateMap<BLLAppDTO.NutritionInfo, DALAppDTO.NutritionInfo>();
+            MapperConfigurationExpression.CreateMap<DALAppDTO.NutritionInfo, BLLAppDTO.NutritionInfo>();
 
-            MapperConfigurationExpression.CreateMap<DALAppDTO.Item, BLLAppDTO.Item>();
             MapperConfigurationExpression.CreateMap<BLLAppDTO.Item, DALAppDTO.Item>();
+            MapperConfigurationExpression.CreateMap<DALAppDTO.Item, BLLAppDTO.Item>();
             
             Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));
         }

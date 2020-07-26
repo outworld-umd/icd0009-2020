@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using PublicApi.DTO.v1.Mappers.Base;
+using BLLAppDTO=BLL.App.DTO;
+
 
 namespace PublicApi.DTO.v1.Mappers
 {
@@ -7,7 +9,7 @@ namespace PublicApi.DTO.v1.Mappers
     {
         public ItemChoiceMapper()
         {
-            MapperConfigurationExpression.CreateMap<BLL.App.DTO.ItemChoice, ItemChoice>();
+            MapperConfigurationExpression.CreateMap<BLLAppDTO.ItemChoice, ItemChoice>();
             Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));
         }
 

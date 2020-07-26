@@ -12,12 +12,12 @@ namespace BLL.App.Mappers
         {
             MapperConfigurationExpression.CreateMap<BLLAppDTO.RestaurantCategory, DALAppDTO.RestaurantCategory>();
             MapperConfigurationExpression.CreateMap<DALAppDTO.RestaurantCategory, BLLAppDTO.RestaurantCategory>();
-            
-            MapperConfigurationExpression.CreateMap<DALAppDTO.Category, BLLAppDTO.Category>();
+
             MapperConfigurationExpression.CreateMap<BLLAppDTO.Category, DALAppDTO.Category>();
-            
-            MapperConfigurationExpression.CreateMap<DALAppDTO.Restaurant, BLLAppDTO.Restaurant>();
+            MapperConfigurationExpression.CreateMap<DALAppDTO.Category, BLLAppDTO.Category>();
+
             MapperConfigurationExpression.CreateMap<BLLAppDTO.Restaurant, DALAppDTO.Restaurant>();
+            MapperConfigurationExpression.CreateMap<DALAppDTO.Restaurant, BLLAppDTO.Restaurant>();
             
             Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));
         }

@@ -1,5 +1,8 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using PublicApi.DTO.v1.Mappers.Base;
+using BLLAppDTO=BLL.App.DTO;
+
 
 namespace PublicApi.DTO.v1.Mappers
 {
@@ -13,7 +16,11 @@ namespace PublicApi.DTO.v1.Mappers
 
         public ItemType MapItemType(BLL.App.DTO.ItemType inObject)
         {
-            return Mapper.Map<ItemType>(inObject);
+            var itemType = Mapper.Map<ItemType>(inObject);
+            itemType.Items = inObject.ItemInTypes
+                .Select(ic => new ItemMapper().MapItemView(ic.Item!))
+                .ToList();
+            return itemType;
         }
     }
 }

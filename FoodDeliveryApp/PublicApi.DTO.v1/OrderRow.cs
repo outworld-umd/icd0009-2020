@@ -7,8 +7,8 @@ namespace PublicApi.DTO.v1
 {
     public class OrderRow
     {
-        public Guid ItemId { get; set; } = default!;
-        public string? ItemName { get; set; }
+        public Guid? ItemId { get; set; } = default!;        
+        public string? Name { get; set; } = default!;
         public Guid OrderId { get; set; } = default!;
         public int Amount { get; set; }
         public decimal Cost { get; set; }

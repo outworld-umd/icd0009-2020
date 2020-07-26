@@ -9,7 +9,7 @@ namespace PublicApi.DTO.v1
         public int Amount { get; set; }
         public decimal Cost { get; set; }
 
-        public Guid? OrderRowId { get; set; } // ZDES BIL 0!!!!!!!!!!!!!!!
+        public Guid OrderRowId { get; set; } // ZDES BIL 0!!!!!!!!!!!!!!!
 
         public Guid ItemChoiceId { get; set; } = default!;
         public string? ItemChoiceName { get; set; }

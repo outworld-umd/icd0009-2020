@@ -13,11 +13,11 @@ namespace BLL.App.Mappers
             MapperConfigurationExpression.CreateMap<BLLAppDTO.ItemInType, DALAppDTO.ItemInType>();
             MapperConfigurationExpression.CreateMap<DALAppDTO.ItemInType, BLLAppDTO.ItemInType>();
             
-            MapperConfigurationExpression.CreateMap<DALAppDTO.Item, BLLAppDTO.Item>();
             MapperConfigurationExpression.CreateMap<BLLAppDTO.Item, DALAppDTO.Item>();
+            MapperConfigurationExpression.CreateMap<DALAppDTO.Item, BLLAppDTO.Item>();
             
-            MapperConfigurationExpression.CreateMap<DALAppDTO.ItemType, BLLAppDTO.ItemType>();
             MapperConfigurationExpression.CreateMap<BLLAppDTO.ItemType, DALAppDTO.ItemType>();
+            MapperConfigurationExpression.CreateMap<DALAppDTO.ItemType, BLLAppDTO.ItemType>();
             
             Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));
         }

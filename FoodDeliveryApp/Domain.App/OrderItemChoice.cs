@@ -16,7 +16,7 @@ namespace Domain.App
     public class OrderItemChoice<TKey> : DomainEntityIdMetadata<TKey>
         where TKey : IEquatable<TKey> 
     {
-        public Guid? OrderRowId { get; set; } // ZDES BIL 0!!!!!!!!!!!!!!!
+        public TKey OrderRowId { get; set; } // ZDES BIL 0!!!!!!!!!!!!!!!
         public OrderRow? OrderRow { get; set; }
 
         public TKey ItemChoiceId { get; set; } = default!;
