@@ -19,7 +19,7 @@ export interface IOrder {
     orderStatus: OrderStatus;
     foodCost: number;
     deliveryCost: number;
-    restaurantId?: string;
+    restaurantId: string;
     restaurantName?: string;
     createdAt: Date;
 }
