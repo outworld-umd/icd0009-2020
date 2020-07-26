@@ -36,24 +36,34 @@ namespace WebApp.ApiControllers._1._0
         /// </summary>
         /// <returns>orders for session</returns>
         [HttpGet]
+        [Authorize(Roles = "Customer,Admin")]
         [Produces("application/json")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.OrderView>))]
-        public async Task<ActionResult<IEnumerable<V1DTO.Order>>> GetOrders([FromQuery] Guid restaurantId = default)
+        public async Task<ActionResult<IEnumerable<V1DTO.Order>>> GetOrders()
         {
             var userTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
             
-            if (User.IsInRole("Restaurant"))
-            {
-                if (restaurantId.Equals(default)) return BadRequest(new V1DTO.MessageDTO("Restaurant not specified!"));
-                
-                if (!await _bll.RestaurantUsers.AnyAsync(ru =>
-                    ru.AppUserId.Equals(User.UserGuidId()) && ru.RestaurantId.Equals(restaurantId))) 
-                    return Unauthorized(new V1DTO.MessageDTO("User not authorized for this restaurant"));
-                return Ok((await _bll.Orders.GetAllByRestaurantAsync(restaurantId)).Select(e => _mapper.MapOrder(e)));
-            }
-            
             return Ok((await _bll.Orders.GetAllAsync(userTKey)).Select(e => _mapper.MapOrder(e)));
+        }
+        
+        // GET: api/Item/restaurant/5
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("restaurant/{id:int}")]
+        [Authorize(Roles = "Restaurant")]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.Item))]
+        public async Task<ActionResult<IEnumerable<V1DTO.Item>>> GetOrdersByRestaurant(Guid id) {
+            if (!await _bll.RestaurantUsers.AnyAsync(ru =>
+                ru.AppUserId.Equals(User.UserGuidId()) && ru.RestaurantId.Equals(id))) 
+                return Unauthorized(new V1DTO.MessageDTO("User not authorized for this restaurant"));
+            return Ok((await _bll.Orders.GetAllByRestaurantAsync(id)).Select(e => _mapper.MapOrder(e)));
         }
 
         // GET: api/Order/5

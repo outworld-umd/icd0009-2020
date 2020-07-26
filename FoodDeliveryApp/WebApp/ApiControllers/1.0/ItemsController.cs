@@ -37,11 +37,25 @@ namespace WebApp.ApiControllers._1._0 {
         [Produces("application/json")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.Item>))]
-        public async Task<ActionResult<IEnumerable<V1DTO.Item>>> GetItems([FromQuery] Guid restaurantId = default) {
-            return Ok(
-                restaurantId.Equals(default)
-                    ? (await _bll.Items.GetAllAsync(User.UserGuidId())).Select(e => _mapper.MapItem(e))
-                    : (await _bll.Items.GetAllByRestaurantAsync(restaurantId)).Select(e => _mapper.MapItem(e)));
+        public async Task<ActionResult<IEnumerable<V1DTO.Item>>> GetItems() {
+            var userTKey = User.IsInRole("Customer") ? (Guid?) User.UserGuidId() : null;
+            
+            return Ok((await _bll.Items.GetAllAsync(userTKey)).Select(e => _mapper.MapItem(e)));
+        }
+        
+        // GET: api/Item/restaurant/5
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("restaurant/{id:int}")]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.Item))]
+        public async Task<ActionResult<IEnumerable<V1DTO.Item>>> GetItemsByRestaurant(Guid id) {
+            return Ok((await _bll.Items.GetAllByRestaurantAsync(id)).Select(e => _mapper.MapItem(e)));
         }
 
         // GET: api/Item/5
