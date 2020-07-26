@@ -18,3 +18,18 @@ export interface IItem {
     nutritionInfos: INutritionInfo[];
     options: IOption[];
 }
+
+export interface IItemCreate {
+    name: string;
+    pictureLink?: string;
+    price: number;
+    description?: string;
+}
+
+export interface IItemEdit {
+    id: string;
+    name: string;
+    pictureLink?: string;
+    price: number;
+    description?: string;
+}

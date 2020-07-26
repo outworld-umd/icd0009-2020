@@ -7,3 +7,18 @@ export interface IItemType {
     description?: string;
     items: IItemView[];
 }
+
+export interface IItemTypeCreate {
+    name: string;
+    isSpecial: boolean;
+    description?: string;
+    restaurantId: string;
+}
+
+export interface IItemTypeEdit {
+    id: string;
+    name: string;
+    isSpecial: boolean;
+    description?: string;
+    restaurantId: string;
+}

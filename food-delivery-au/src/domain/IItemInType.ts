@@ -1,4 +1,10 @@
+export interface IItemInTypeCreate {
+    itemId: string;
+    itemTypeId: string;
+}
+
 export interface IItemInType {
-    itemId: string,
-    itemTypeId: string
+    itemInTypeId: string;
+    itemId: string;
+    itemTypeId: string;
 }

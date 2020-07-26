@@ -19,3 +19,12 @@ export interface IRestaurant {
     description?: string;
     itemTypes: IItemType[];
 }
+
+export interface IRestaurantEdit {
+    id: string;
+    name: string;
+    phone: string;
+    address: string;
+    description?: string;
+    deliveryCost: number;
+}

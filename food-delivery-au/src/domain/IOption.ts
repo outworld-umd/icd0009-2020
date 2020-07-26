@@ -7,3 +7,18 @@ export interface IOption {
     isSingle: boolean;
     choices: IChoice[];
 }
+
+export interface IOptionCreate {
+    name: string;
+    isRequired: boolean;
+    isSingle: boolean;
+    itemId: string;
+}
+
+export interface IOptionEdit {
+    id: string;
+    name: string;
+    isRequired: boolean;
+    isSingle: boolean;
+    itemId: string;
+}
