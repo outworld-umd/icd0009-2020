@@ -19,7 +19,7 @@
                         <div class="m-1">${restaurant.deliveryCost}€</div>
                     </div>
                     <div class="card-footer text-muted mt-2">
-                        <div class="d-flex" if.bind="!_isCategoryBeingEdited">
+                        <div class="d-flex" if.bind="!_isEdited">
                             <div class="text-left">
                                 <div repeat.for="category of restaurant.categories">${category.name}</div>
                             </div>
@@ -27,12 +27,13 @@
                                 <a class="btn btn-success text-white btn-smx" click.delegate="editCategories(restaurant.id, restaurant.categories)"><span class="fa fa-plus"></span></a>
                             </div>
                         </div>
-                        <div if.bind="_isCategoryBeingEdited" class="container p-3">
+                        <div if.bind="_isEdited" class="container p-3">
                             <div class="form-check mx-3">
                                 <label repeat.for="category of _categories" class="form-check-label row">
-                                    <input type="checkbox" class="form-check-input"  model.bind="category.restaurantCategoryId" checked.bind="_selectedCategories">
+                                    <input type="checkbox" class="form-check-input"  model.bind="category.id" checked.bind="_selected">
                                     ${category.name}
                                 </label>
+                                ${_selected}
                             </div>
                             <div class="d-flex mt-3 btn-group">
                                 <button type="button" class="btn btn-danger shadow-none font-weight-bold w-50 btn-sm" click.delegate="closeEdit()">Cancel</button>

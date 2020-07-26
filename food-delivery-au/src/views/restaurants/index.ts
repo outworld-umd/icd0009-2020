@@ -7,48 +7,49 @@ import { IRestaurantView } from "../../domain/IRestaurant";
 import { AlertType } from "../../types/AlertType";
 import { RestaurantCategoryService } from "../../service/restaurant-category-service";
 import { CategoryService } from "../../service/category-service";
-import { ICategory } from "../../domain/ICategory";
+import { ICategory, ICategoryView } from "../../domain/ICategory";
 
 @autoinject
 export class RestaurantIndex {
 
     private _alert: IAlertData | null = null;
     private _restaurants: IRestaurantView[] | null = null;
-    private _isCategoryBeingEdited = false;
-    private _selectedCategories: string[] = [];
-    private _initialCategories: string[] = [];
-    private _currentRestaurantId: string | null = null;
     private _categories: ICategory[] = [];
+
+    private _isEdited = false;
+    private _selected: string[] = [];
+    private _initial: ICategoryView[] = [];
+    private _currentId: string | null = null;
 
     constructor(private restaurantService: RestaurantService, private restaurantCategoryService: RestaurantCategoryService, private categoryService: CategoryService, private appState: AppState, private router: Router) {
 
     }
 
-    editCategories(id: string, categories: ICategory[]): void {
-        this._isCategoryBeingEdited = true;
-        this._currentRestaurantId = id;
-        this._selectedCategories = categories.map(c => c.restaurantCategoryId);
-        this._initialCategories = categories.map(c => c.restaurantCategoryId);
+    editCategories(id: string, categories: ICategoryView[]): void {
+        this._isEdited = true;
+        this._currentId = id;
+        this._selected = categories.map(c => c.id);
+        this._initial = categories;
     }
 
     closeEdit(): void {
-        this._isCategoryBeingEdited = false;
-        this._selectedCategories = [];
-        this._initialCategories = [];
-        this._currentRestaurantId = null;
+        this._isEdited = false;
+        this._selected = [];
+        this._initial = [];
+        this._currentId = null;
     }
 
     saveEdit(): void {
-        this._initialCategories.forEach(id => {
-            if (!this._selectedCategories.includes(id)) {
-                console.log("delete " + id);
-                this.restaurantCategoryService.delete(id);
+        this._initial.forEach(categoryView => {
+            if (!this._selected.includes(categoryView.id)) {
+                console.log("delete restaurantcategory", categoryView.restaurantCategoryId);
+                this.restaurantCategoryService.delete(categoryView.restaurantCategoryId);
             }
         })
-        this._selectedCategories.forEach(id => {
-            if (!this._initialCategories.includes(id)) {
-                console.log("add " + id)
-                this.restaurantCategoryService.post({ categoryId: id, restaurantId: this._currentRestaurantId });
+        this._selected.forEach(id => {
+            if (!this._initial.map(c => c.id).includes(id)) {
+                console.log("add category", id, "to restaurant", this._currentId)
+                this.restaurantCategoryService.post({ categoryId: id, restaurantId: this._currentId });
             }
         })
         this.closeEdit();
@@ -98,12 +99,10 @@ export class RestaurantIndex {
                     }
                     this._categories = [
                         {
-                            restaurantCategoryId: "450",
                             id: "1",
                             name: "Mexican food"
                         },
                         {
-                            restaurantCategoryId: "890",
                             id: "2",
                             name: "Mom is fucked"
                         }

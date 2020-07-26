@@ -1,12 +1,12 @@
 import { IItemType } from "@/domain/IItemType";
 import { IWorkingHours } from "@/domain/IWorkingHours";
-import { ICategory } from "@/domain/ICategory";
+import { ICategoryView } from "@/domain/ICategory";
 
 export interface IRestaurantView {
     id: string;
     name: string;
     deliveryCost: number;
-    categories: ICategory[];
+    categories: ICategoryView[];
     isOpen: boolean;
 }
 
