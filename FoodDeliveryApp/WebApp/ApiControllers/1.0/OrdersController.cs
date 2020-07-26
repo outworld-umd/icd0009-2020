@@ -45,10 +45,10 @@ namespace WebApp.ApiControllers._1._0
             
             if (User.IsInRole("Restaurant"))
             {
-                return Ok();
+                return Ok((await _bll.Orders.GetAllByRestaurantAsync(userTKey)).Select(e => _mapper.MapOrderView(e)));
             }
             
-            return Ok((await _bll.Orders.GetAllAsync(userTKey)).Select(e => _mapper.MapOrder(e)));
+            return Ok((await _bll.Orders.GetAllAsync(userTKey)).Select(e => _mapper.MapOrderView(e)));
         }
 
         // GET: api/Order/5
@@ -64,7 +64,7 @@ namespace WebApp.ApiControllers._1._0
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.Order))]
         public async Task<ActionResult<V1DTO.Order>> GetOrder(Guid id)
         {
-            var order = await _bll.Orders.FirstOrDefaultAsync(id);
+            var order = await _bll.Orders.FirstOrDefaultAsync(User.UserGuidId(), id);
 
             if (order == null)
             {

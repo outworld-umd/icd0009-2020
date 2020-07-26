@@ -20,9 +20,9 @@ namespace DAL.App.EF.Repositories {
             var query = PrepareQuery(userId, noTracking);
             var domainEntities = await query
                 .Include(io => io.Item)
-                .ThenInclude(i => i.ItemInTypes)
+                .ThenInclude(i => i!.ItemInTypes)
                 .ThenInclude(iit => iit.ItemType)
-                .ThenInclude(it => it.Restaurant)
+                .ThenInclude(it => it!.Restaurant)
                 .Include(io => io.ItemChoices)
                 .ToListAsync();
             var result = domainEntities.Select(e => DALMapper.Map(e));
@@ -34,9 +34,9 @@ namespace DAL.App.EF.Repositories {
             var query = PrepareQuery(userId, noTracking);
             var entity = await query
                 .Include(io => io.Item)
-                .ThenInclude(i => i.ItemInTypes)
+                .ThenInclude(i => i!.ItemInTypes)
                 .ThenInclude(iit => iit.ItemType)
-                .ThenInclude(it => it.Restaurant)
+                .ThenInclude(it => it!.Restaurant)
                 .Include(io => io.ItemChoices)
                 .FirstOrDefaultAsync(e => e.Id.Equals(id));
             return DALMapper.Map(entity);

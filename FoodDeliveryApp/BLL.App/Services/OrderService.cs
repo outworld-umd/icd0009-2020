@@ -21,22 +21,11 @@ namespace BLL.App.Services
         {
         }
 
-        public async Task<IEnumerable<Order>> GetAllByRestaurantIdAsync(ClaimsPrincipal user, bool noTracking = true)
+        public async Task<IEnumerable<Order>> GetAllByRestaurantAsync(object? userId = null, bool noTracking = true)
         {
-            IEnumerable<DAL.App.DTO.Order> orders = null;
-            if (user.IsInRole("Admin"))
-            {
-                orders = await ServiceRepository.GetAllAsync(noTracking);
-            }
-            else if (user.IsInRole("Restaurant"))
-            {
-                orders = orders.Where(o =>
-                    o.Restaurant.RestaurantUsers.Select(ru => ru.AppUserId).Equals(user.UserGuidId()));
-            }
-            else if (user.IsInRole("Customer"))
-            {
-                orders = await ServiceRepository.GetAllAsync(user.UserGuidId(), noTracking);
-            }
+            var orders = (await ServiceRepository.GetAllAsync(userId, noTracking)).Where(o =>
+                o.Restaurant!.RestaurantUsers.Select(ru => ru.AppUserId).Equals(userId));
+
             var result = orders.Select(e => BLLMapper.Map(e));
             return result;      
         }

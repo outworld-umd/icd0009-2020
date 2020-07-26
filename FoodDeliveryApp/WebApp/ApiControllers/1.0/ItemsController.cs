@@ -40,8 +40,8 @@ namespace WebApp.ApiControllers._1._0
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.Item>))]
         public async Task<ActionResult<IEnumerable<V1DTO.Item>>> GetItems()
-        {
-            return Ok((await _bll.Items.GetAllAsync(User.UserGuidId())).Select(e => _mapper.MapItem(e)));
+        {   var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            return Ok((await _bll.Items.GetAllAsync(userIdTKey)).Select(e => _mapper.MapItem(e)));
         }
 
         // GET: api/Item/5
