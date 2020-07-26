@@ -157,7 +157,7 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _bll.Addresses.RemoveAsync(id, User.UserGuidId());
+            await _bll.OrderRows.RemoveAsync(id, User.UserGuidId());
             await _bll.SaveChangesAsync();
             
             return RedirectToAction(nameof(Index));
@@ -165,7 +165,7 @@ namespace WebApp.Controllers
 
         private bool OrderRowExists(Guid id)
         {
-            return _bll.OrderRows.Exists(id);
+            return _bll.OrderRows.Any(e => e.Id.Equals(id));
         }
     }
 }

@@ -153,7 +153,7 @@ namespace WebApp.Controllers
 
         private bool AddressExists(Guid id)
         {
-            return _bll.Addresses.Exists(id);
+            return _bll.Addresses.Any(e => e.Id.Equals(id));
         }
     }
 }

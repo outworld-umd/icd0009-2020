@@ -22,7 +22,6 @@ namespace DAL.App.EF.Repositories {
                 .Include(or => or.Item)
                 .Include(or => or.Order)
                 .Include(or => or.OrderItemChoices)
-                .ThenInclude(oic => oic.OrderRow)
                 .ToListAsync();
             var result = domainEntities.Select(e => DALMapper.Map(e));
             return result;
@@ -35,7 +34,6 @@ namespace DAL.App.EF.Repositories {
                 .Include(or => or.Item)
                 .Include(or => or.Order)
                 .Include(or => or.OrderItemChoices)
-                .ThenInclude(oic => oic.OrderRow)
                 .FirstOrDefaultAsync(e => e.Id.Equals(id));
             return DALMapper.Map(entity);
         }
