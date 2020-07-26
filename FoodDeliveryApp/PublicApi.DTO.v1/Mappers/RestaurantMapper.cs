@@ -27,35 +27,24 @@ namespace PublicApi.DTO.v1.Mappers
                 Name = rc.Category!.Name,
                 RestaurantCategoryId = rc.Id
             }).ToList();
-            restaurant.IsOpen = IsRestaurantOpen(inObject);
+            restaurant.IsOpen = isRestaurantOpen(inObject);
             return restaurant;
         }
         
         public RestaurantView MapRestaurantView(BLL.App.DTO.Restaurant inObject)
         {
             var restaurant = Mapper.Map<RestaurantView>(inObject);
-            restaurant.Categories = inObject.RestaurantCategories.Select(rc => new CategoryView {
-                Id = rc.Category!.Id,
-                Name = rc.Category!.Name,
-                RestaurantCategoryId = rc.Id
-            }).ToList();
-            restaurant.IsOpen = IsRestaurantOpen(inObject);
+            restaurant.Categories = inObject.RestaurantCategories.Select(rc => new CategoryMapper().MapCategoryView(rc.Category!)).ToList();
+            restaurant.IsOpen = isRestaurantOpen(inObject);
             return restaurant;
         }
 
-        private bool IsRestaurantOpen(BLL.App.DTO.Restaurant inObject)
+        private bool isRestaurantOpen(BLL.App.DTO.Restaurant inObject)
         {
             var start = inObject.WorkingHourses.Single(wh => wh.WeekDay.Equals(DateTime.Today.DayOfWeek)).OpeningTime;
             var end = inObject.WorkingHourses.Single(wh => wh.WeekDay.Equals(DateTime.Today.DayOfWeek)).ClosingTime;
             var now = DateTime.Now;
-            if ((now > start) && (now < end))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (now > start) && (now < end);
         }
     }
 }
