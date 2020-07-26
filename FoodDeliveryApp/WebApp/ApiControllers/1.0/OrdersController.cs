@@ -160,6 +160,44 @@ namespace WebApp.ApiControllers._1._0
                 new {id = order.Id, version = HttpContext.GetRequestedApiVersion()?.ToString() ?? "0"},
                 order);
         }
+        
+        // PATCH: api/Order/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        /// <summary>
+        /// Update order
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="orderPatch"></param>
+        /// <returns></returns>
+        [HttpPatch("{id}")]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(V1DTO.MessageDTO))]
+        public async Task<IActionResult> PatchOrder(Guid id, V1DTO.OrderPatch orderPatch) 
+        {
+            var order = await _bll.Orders.FirstOrDefaultAsync(id);
+            
+            if (order == null)
+            {
+                return NotFound(new V1DTO.MessageDTO($"Order with id {id} not found"));
+            }
+            
+            if (User.IsInRole("Restaurant") && await _bll.RestaurantUsers.AnyAsync(ru =>
+                ru.AppUserId.Equals(User.UserGuidId()) && ru.RestaurantId.Equals(order.RestaurantId))) 
+            {
+                return Unauthorized(new V1DTO.MessageDTO("User not authorized for this restaurant"));
+            }
+
+            order.OrderStatus = orderPatch.OrderStatus;
+
+            await _bll.Orders.UpdateAsync(order);
+            await _bll.SaveChangesAsync();
+
+            return NoContent();
+        }
 
         // DELETE: api/Order/5
         /// <summary>
