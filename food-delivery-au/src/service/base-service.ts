@@ -39,11 +39,10 @@ export class BaseService {
                     data: response.data
                 }
             }).catch(function (error: AxiosError) {
-                console.log(error.response)
                 return {
                     isSuccessful: false,
                     statusCode: error.response?.status ?? 500,
-                    messages: (error.response?.data as IMessage)?.messages ?? []
+                    messages: (error.response?.data as IMessage)?.messages ?? ["Fuck, something went wrong!"]
                 }
             })
     }

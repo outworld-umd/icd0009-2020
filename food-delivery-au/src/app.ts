@@ -21,9 +21,7 @@ export class App {
             { route: ['account/login'], name: 'account-login', moduleId: PLATFORM.moduleName('views/account/login'), nav: false, title: 'Login' },
             { route: ['account/register'], name: 'account-register', moduleId: PLATFORM.moduleName('views/account/register'), nav: false, title: 'Register' },
 
-
-            // { route: ['owners', 'owners/index'], name: 'owners-index', moduleId: PLATFORM.moduleName('views/owners/index'), nav: true, title: 'Owners' },
-            // { route: ['owners/details/:id?'], name: 'owners-details', moduleId: PLATFORM.moduleName('views/owners/details'), nav: false, title: 'Owners Details' },
+            { route: ['restaurants', 'restaurants/index'], name: 'restaurants-index', moduleId: PLATFORM.moduleName('views/restaurants/index'), nav: true, title: 'Restaurants' },
             // { route: ['owners/edit/:id?'], name: 'owners-edit', moduleId: PLATFORM.moduleName('views/owners/edit'), nav: false, title: 'Owners Edit' },
             // { route: ['owners/delete/:id?'], name: 'owners-delete', moduleId: PLATFORM.moduleName('views/owners/delete'), nav: false, title: 'Owners Delete' },
             // { route: ['owners/create'], name: 'owners-create', moduleId: PLATFORM.moduleName('views/owners/create'), nav: false, title: 'Owners Create' },

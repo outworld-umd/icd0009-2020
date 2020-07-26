@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+
         <div class="row">
             <RestaurantView v-for="restaurant in restaurants" :key="restaurant.id" :restaurant="restaurant"/>
         </div>

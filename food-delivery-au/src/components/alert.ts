@@ -1,4 +1,4 @@
-import { IAlertData } from './../types/IAlertData';
+import { IAlertData } from '../types/IAlertData';
 import { autoinject, bindable } from 'aurelia-framework';
 
 @autoinject
