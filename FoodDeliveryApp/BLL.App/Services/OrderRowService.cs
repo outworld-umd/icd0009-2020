@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using BLL.App.DTO;
 using BLL.App.Mappers;
 using BLL.Base.Services;
@@ -12,6 +13,15 @@ namespace BLL.App.Services
     {
         public OrderRowService(IAppUnitOfWork unitOfWork) : base(unitOfWork, unitOfWork.OrderRows, new OrderRowServiceMapper())
         {
+        }
+
+        public new OrderRow Add(OrderRow entity) {
+            if (entity.ItemId != null) 
+            {
+                entity.Name ??= ServiceUnitOfWork.Items.FirstOrDefaultAsync(entity.ItemId.Value).Result.Name;
+            }
+            entity.Name ??= "";
+            return base.Add(entity);
         }
     }
 }
