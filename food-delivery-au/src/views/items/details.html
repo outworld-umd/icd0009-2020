@@ -1,0 +1,151 @@
+<template>
+    <div>
+        <require from="../../components/alert"></require>
+        <alert alert-data.bind="_alert"></alert>
+        <div>
+            <a class="d-flex btn px-4 btn-secondary position-absolute text-white" click.delegate="router.navigateBack()">Back to List</a>
+        </div>
+        <div class="text-center">
+            <h2 class="mt-4 font-weight-bold">${_item.name}</h2>
+            <h3 class="mb-4">${_item.price.toFixed(2) + "€"}</h3>
+            <p class="mb-5 font-weight-light">${_item.description}</p>
+        </div>
+        <div class="container" >
+            <hr/>
+            <table if.bind="_item.nutritionInfos" class="table table-borderless w-50 table-sm text-center mx-auto font-weight-light">
+                <tbody>
+                <tr repeat.for="info of _item.nutritionInfos">
+                    <td class="align-middle">
+                        <div class="invisible mr-auto">
+                            <button class="btn btn-info btn-circle btn-circle-sm rounded-circle text-white shadow-none mx-2" click.delegate="infoInputMode(true, info)"><span class="fa fa-pencil"></span></button>
+                            <button class="btn btn-danger btn-circle btn-circle-sm rounded-circle text-white shadow-none mr-2"  click.delegate="deleteInfo(info.id)"><span class="fa fa-trash"></span></button>
+                        </div>
+                    </td>
+                    <td class="align-middle ml-2">${info.name}</td>
+                    <td class="align-middle mr-2">${info.amount} ${info.unit}</td>
+                    <td class="align-middle ml-auto">
+                        <div class.bind="isEdited ? 'invisible' : ''" class="ml-auto">
+                            <button class="btn btn-info btn-circle btn-circle-sm rounded-circle text-white shadow-none ml-2" click.delegate="infoInputMode(true, info)"><span class="fa fa-pencil"></span></button>
+                            <button class="btn btn-danger btn-circle btn-circle-sm rounded-circle text-white shadow-none mx-2"  click.delegate="deleteInfo(info.id)"><span class="fa fa-trash"></span></button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="text-center">
+                <button class.bind="isEdited ? 'invisible' : ''" class="btn btn-success btn-circle btn-circle-sm text-white shadow-none px-3" click.delegate="infoInputMode(true, null)"><span class="fa fa-plus mr-2"></span>Add Nutrition Info</button>
+            </div>
+            <hr/>
+            <div repeat.for="option of _item.options" class="border rounded-lg my-4">
+                <div class="d-flex p-4 px-5 bg-light">
+                    <div class="d-flex mb-2align-items-center">
+                        <a href="#" data-target="${'#' + option.name + option.id}" data-toggle="collapse" style="text-decoration: none;">
+                            <h3 style="display: inline-block">${option.name}</h3>
+                        </a>
+                        <h6 style="vertical-align: center" class="mx-2">
+                            <span if.bind="option.isRequired" style="vertical-align: center" class="badge badge-danger mx-2">Required</span>
+                            <span if.bind="option.isSingle" style="vertical-align: center" class="badge badge-info mx-2">Single</span>
+                        </h6>
+                    </div>
+                    <div class.bind="isEdited ? 'invisible' : ''" class="ml-auto">
+                        <button class="btn btn-info btn-circle btn-circle-sm rounded-circle text-white shadow-none mx-2" click.delegate="optionInputMode(true, option)"><span class="fa fa-pencil"></span></button>
+                        <button class="btn btn-danger btn-circle btn-circle-sm rounded-circle text-white shadow-none"  click.delegate="deleteOption(option.id)"><span class="fa fa-trash"></span></button>
+                    </div>
+                </div>
+                <div class="collapse" id="${option.name + option.id}">
+                    <div class="p-5">
+                        <ul class="list-group list-group-flush border-top">
+                            <li class="d-flex align-items-center list-group-item" repeat.for="choice of option.choices">
+                                <div class="font-weight-light">${choice.name} <span if.bind="choice.additionalPrice" class="font-weight-light">+${choice.additionalPrice.toFixed(2)}€</span></div>
+                                <div class.bind="isEdited ? 'invisible' : ''" class="ml-auto">
+                                    <button class="btn btn-info btn-circle btn-circle-sm rounded-circle text-white shadow-none ml-2" click.delegate="choiceInputMode(true, choice, option.id)"><span class="fa fa-pencil"></span></button>
+                                    <button class="btn btn-danger btn-circle btn-circle-sm rounded-circle text-white shadow-none mx-2"  click.delegate="deleteChoice(choice.id)"><span class="fa fa-trash"></span></button>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="text-center mt-4">
+                            <button class.bind="isEdited ? 'invisible' : ''" class="btn btn-success btn-circle btn-circle-sm text-white shadow-none px-3" click.delegate="choiceInputMode(true, null, option.id)"><span class="fa fa-plus mr-2"></span>Add Choices</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <button class.bind="isEdited ? 'invisible' : ''" class="btn btn-success btn-circle btn-circle-sm text-white shadow-none px-3" click.delegate="optionInputMode(true, null)"><span class="fa fa-plus mr-2"></span>Add Option</button>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div if.bind="_isInfoEdited" class="container w-50 p-3 fixed-bottom bg-white border border-dark rounded-top">
+            <div class="d-flex">
+                <label class="container w-50 text-left">
+                    <span class="my-3 font-italic font-weight-light required">Name</span>
+                    <input type="text" class="form-control font-weight-light shadow-none" value.bind="_infoName" maxlength="100">
+                </label>
+                <label class="container w-25 text-left">
+                    <span class="my-3 font-italic font-weight-light required">Amount</span>
+                    <input type="number" class="form-control font-weight-light shadow-none" value.bind="_infoAmount" maxlength="200">
+                </label>
+                <label class="container w-25 text-left">
+                    <span class="my-3 font-italic font-weight-light required">Unit</span>
+                    <input type="text" class="form-control font-weight-light shadow-none" value.bind="_infoUnit" maxlength="200">
+                </label>
+            </div>
+            <div class="d-flex mt-3 btn-group">
+                <button type="button" class="btn btn-danger shadow-none font-weight-bold w-50 btn-sm" click.delegate="infoInputMode(false, null)">Cancel</button>
+                <button type="button" class="btn btn-success shadow-none font-weight-bold w-50 btn-sm" disabled.bind="validateInfo" click.delegate="submitInfo()">Save</button>
+            </div>
+        </div>
+        <div if.bind="_isOptionEdited" class="container w-50 p-3 fixed-bottom bg-white border border-dark rounded-top">
+            <div class="d-flex">
+                <label class="container text-left">
+                    <span class="my-3 font-italic font-weight-light required">Category name</span>
+                    <input type="text" class="form-control font-weight-light shadow-none" value.bind="_optionName" maxlength="100">
+                </label>
+            </div>
+            <div class="d-flex px-4 py-2">
+                <div class="w-50">
+                    <label class="container">
+                        <input type="checkbox" class="form-check-input font-weight-light shadow-none" checked.bind="_optionRequired">
+                        <span class="font-italic font-weight-light form-check-label">Is the choice required?</span>
+                    </label>
+                </div>
+                <div class="w-50">
+                    <label class="container">
+                        <input type="checkbox" class="form-check-input font-weight-light shadow-none" checked.bind="_optionSingle">
+                        <span class="font-italic font-weight-light form-check-label">Can there be only a single choice?</span>
+                    </label>
+                </div>
+            </div>
+            <div class="d-flex mt-3 btn-group">
+                <button type="button" class="btn btn-danger shadow-none font-weight-bold w-50 btn-sm" click.delegate="optionInputMode(false, null)">Cancel</button>
+                <button type="button" class="btn btn-success shadow-none font-weight-bold w-50 btn-sm" disabled.bind="validateOption" click.delegate="submitOption()">Save</button>
+            </div>
+        </div>
+        <div if.bind="_isChoiceEdited" class="container w-50 p-3 fixed-bottom bg-white border border-dark rounded-top">
+            <div class="d-flex">
+                <div class="w-75">
+                    <label class="container text-left">
+                        <span class="my-3 font-italic font-weight-light required">Choice name</span>
+                        <input type="text" class="form-control font-weight-light shadow-none" value.bind="_choiceName" maxlength="100">
+                    </label>
+                </div>
+                <div class="w-25">
+                    <label class="container text-left">
+                        <span class="my-3 font-italic font-weight-light">Additional price</span>
+                        <input type="number" class="form-control font-weight-light shadow-none" value.bind="_choicePrice" maxlength="100">
+                    </label>
+                </div>
+            </div>
+            <div class="d-flex mt-3 btn-group">
+                <button type="button" class="btn btn-danger shadow-none font-weight-bold w-50 btn-sm" click.delegate="choiceInputMode(false, null, null)">Cancel</button>
+                <button type="button" class="btn btn-success shadow-none font-weight-bold w-50 btn-sm" disabled.bind="validateChoice" click.delegate="submitChoice()">Save</button>
+            </div>
+        </div>
+    </div>
+    <style>
+        .required:after {
+            content:" *";
+            color: red;
+        }
+    </style>
+</template>

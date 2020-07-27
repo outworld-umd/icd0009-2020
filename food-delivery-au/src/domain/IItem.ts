@@ -15,6 +15,7 @@ export interface IItem {
     pictureLink?: string;
     price: number;
     description?: string;
+    restaurantId: string;
     nutritionInfos: INutritionInfo[];
     options: IOption[];
 }

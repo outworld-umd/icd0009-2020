@@ -20,22 +20,9 @@ export class RestaurantMenu {
 
     private _restaurantId: string | null = null;
 
-    private _isItemTypeEdited = false;
-    private _itemTypeId: string | null = null;
-    private _itemTypeName: string | null = null;
-    private _itemTypeIsSpecial: boolean | null = null;
-    private _itemTypeDescription: string | null = null;
-
-    private _isItemEdited = false;
-    private _itemId: string | null = null;
-    private _itemName: string | null = null;
-    private _itemPrice: number | null = null;
-    private _itemDescription: string | null = null;
-
-    private _isEdited = false;
-    private _selected: string[] = [];
-    private _initial: IItemView[] = [];
-    private _currentId: string | null = null;
+    get isEdited(): boolean {
+        return this._isItemTypeEdited || this._isEdited || this._isItemEdited
+    }
 
     constructor(private restaurantService: RestaurantService, private itemTypeService: ItemTypeService, private itemInTypeService: ItemInTypeService, private itemService: ItemService, private appState: AppState, private router: Router) {
     }
@@ -119,28 +106,32 @@ export class RestaurantMenu {
                                 name: "Naise soe sitt",
                                 price: 2.3,
                                 nutritionInfos: [],
-                                options: []
+                                options: [],
+                                restaurantId: "4"
                             },
                             {
                                 id: "2",
                                 name: "Mehe soe sitt",
                                 price: 2.35,
                                 nutritionInfos: [],
-                                options: []
+                                options: [],
+                                restaurantId: "4"
                             },
                             {
                                 id: "3",
                                 name: "Tuss",
                                 price: 0.69,
                                 nutritionInfos: [],
-                                options: []
+                                options: [],
+                                restaurantId: "4"
                             },
                             {
                                 id: "4",
                                 name: "Türa",
                                 price: 1.69,
                                 nutritionInfos: [],
-                                options: []
+                                options: [],
+                                restaurantId: "4"
                             }
                         ]
                     }
@@ -149,6 +140,10 @@ export class RestaurantMenu {
     }
 
     // ITEMTYPE-ITEMINTYPE-ITEM EDITOR/CREATOR
+
+    private _selected: string[] = [];
+    private _initial: IItemView[] = [];
+    private _currentId: string | null = null;
 
     editCategories(id: string, items: IItemView[]): void {
         this._isEdited = true;
@@ -196,6 +191,13 @@ export class RestaurantMenu {
 
     // ITEMTYPE EDITOR/CREATOR
 
+    private _isItemTypeEdited = false;
+    private _itemTypeId: string | null = null;
+    private _itemTypeName: string | null = null;
+    private _itemTypeIsSpecial: boolean | null = null;
+    private _itemTypeDescription: string | null = null;
+    private _isEdited = false;
+
     get validateItemType(): boolean {
         return !(this._itemTypeName && this._restaurantId);
     }
@@ -216,7 +218,21 @@ export class RestaurantMenu {
                 console.log("create", itemTypeCreate)
                 await this.itemTypeService.post(itemTypeCreate);
             }
-            await this.restaurantService.get(this._restaurantId);
+            await this.restaurantService.get(this._restaurantId).then(
+                response => {
+                    if (response.isSuccessful) {
+                        this._alert = null;
+                        this._restaurant = response.data;
+                    } else {
+                        console.log("nerjhbejhfjebf")
+                        // show error message
+                        this._alert = {
+                            message: response.statusCode.toString() + ' - ' + response.messages,
+                            type: AlertType.Danger,
+                            dismissable: true,
+                        }
+                    }
+                });
         }
         this.itemTypeInputMode(false, null)
     }
@@ -233,9 +249,30 @@ export class RestaurantMenu {
     async deleteItemType(id: string): Promise<void> {
         console.log("delete")
         await this.itemTypeService.delete(id);
+        await this.restaurantService.get(this._restaurantId).then(
+            response => {
+                if (response.isSuccessful) {
+                    this._alert = null;
+                    this._restaurant = response.data;
+                } else {
+                    console.log("nerjhbejhfjebf")
+                    // show error message
+                    this._alert = {
+                        message: response.statusCode.toString() + ' - ' + response.messages,
+                        type: AlertType.Danger,
+                        dismissable: true,
+                    }
+                }
+            });
     }
 
     // ITEM EDITOR/CREATOR
+
+    private _isItemEdited = false;
+    private _itemId: string | null = null;
+    private _itemName: string | null = null;
+    private _itemPrice: number | null = null;
+    private _itemDescription: string | null = null;
 
     get validateItem(): boolean {
         return !(this._itemName && this._itemPrice && this._restaurantId);
@@ -243,21 +280,35 @@ export class RestaurantMenu {
 
     async submitItem(): Promise<void> {
         if (!this.validateItem) {
-            const itemTypeCreate: IItemCreate = {
+            const itemCreate: IItemCreate = {
                 name: this._itemName,
                 description: this._itemDescription,
                 restaurantId: this._restaurantId,
-                price: this._itemPrice
+                price: Number(this._itemPrice)
             }
             if (this._itemId) {
-                const itemTypeEdit: IItemEdit = { id: this._itemId, ...itemTypeCreate }
-                console.log("update", itemTypeEdit)
-                await this.itemService.put(this._itemTypeId, itemTypeEdit);
+                const itemEdit: IItemEdit = { id: this._itemId, ...itemCreate }
+                console.log("update", itemEdit)
+                await this.itemService.put(this._itemId, itemEdit);
             } else {
-                console.log("create", itemTypeCreate)
-                await this.itemService.post(itemTypeCreate);
+                console.log("create", itemCreate)
+                await this.itemService.post(itemCreate);
             }
-            await this.itemService.getAll(this._restaurantId);
+            await this.itemService.getAll(this._restaurantId).then(
+                response => {
+                    if (response.isSuccessful) {
+                        this._alert = null;
+                        this._items = response.data;
+                    } else {
+                        console.log("nerjhbejhfjebf")
+                        // show error message
+                        this._alert = {
+                            message: response.statusCode.toString() + ' - ' + response.messages,
+                            type: AlertType.Danger,
+                            dismissable: true,
+                        }
+                    }
+                });
         }
         this.itemInputMode(false, null)
     }
@@ -274,5 +325,20 @@ export class RestaurantMenu {
     async deleteItem(id: string): Promise<void> {
         console.log("delete")
         await this.itemService.delete(id);
+        await this.itemService.getAll(this._restaurantId).then(
+            response => {
+                if (response.isSuccessful) {
+                    this._alert = null;
+                    this._items = response.data;
+                } else {
+                    console.log("nerjhbejhfjebf")
+                    // show error message
+                    this._alert = {
+                        message: response.statusCode.toString() + ' - ' + response.messages,
+                        type: AlertType.Danger,
+                        dismissable: true,
+                    }
+                }
+            });;
     }
 }
