@@ -7,19 +7,19 @@
                 <div class="card text-center" repeat.for="restaurant of _restaurants">
                     <div class="card-body">
                         <h5 class="card-title">${restaurant.name}</h5>
-<!--                        <router-link v-if="restaurant.isOpen" :to="`restaurants/${restaurant.id}/menu`">-->
-<!--                            <button class="btn btn-success">{{ $t('restaurant.showMenu') }}</button>-->
-<!--                        </router-link>-->
-<!--                        <div v-else class="btn text-muted">-->
-<!--                            <div>{{ $t('restaurant.closed') }}</div>-->
-<!--                        </div>-->
+                        <a if.bind="restaurant.isOpen" route-href="route: restaurant; params.bind: { id: restaurant.id }">
+                            <button class="btn btn-success">{{ $t('restaurant.showMenu') }}</button>
+                        </a>
+                        <div if.bind="!restaurant.isOpen" class="btn text-muted">
+                            <div>{{ $t('restaurant.closed') }}</div>
+                        </div>
                     </div>
                     <div class="row m-auto">
                         <div class="fa fa-shopping-basket m-1"></div>
                         <div class="m-1">${restaurant.deliveryCost}€</div>
                     </div>
                     <div class="card-footer text-muted mt-2">
-                        <div class="d-flex" if.bind="!_isEdited">
+                        <div class="d-flex">
                             <div class="text-left">
                                 <div repeat.for="category of restaurant.categories">${category.name}</div>
                             </div>
@@ -27,20 +27,21 @@
                                 <a class="btn btn-success text-white btn-smx" click.delegate="editCategories(restaurant.id, restaurant.categories)"><span class="fa fa-plus"></span></a>
                             </div>
                         </div>
-                        <div if.bind="_isEdited" class="container p-3">
-                            <div class="form-check mx-3">
-                                <label repeat.for="category of _categories" class="form-check-label row">
-                                    <input type="checkbox" class="form-check-input"  model.bind="category.id" checked.bind="_selected">
-                                    ${category.name}
-                                </label>
-                            </div>
-                            <div class="d-flex mt-3 btn-group">
-                                <button type="button" class="btn btn-danger shadow-none font-weight-bold w-50 btn-sm" click.delegate="closeEdit()">Cancel</button>
-                                <button type="button" class="btn btn-success shadow-none font-weight-bold w-50 btn-sm" click.delegate="saveEdit()">Save</button>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
+            </div>
+        </div>
+        <div if.bind="_isEdited" class="container p-3 fixed-bottom bg-white border border-dark">
+            <div class="form-check mx-3">
+                <label repeat.for="category of _categories" class="form-check-label row">
+                    <input type="checkbox" class="form-check-input"  model.bind="category.id" checked.bind="_selected">
+                    ${category.name}
+                </label>
+            </div>
+            <div class="d-flex mt-3 btn-group">
+                <button type="button" class="btn btn-danger shadow-none font-weight-bold w-50 btn-sm" click.delegate="closeEdit()">Cancel</button>
+                <button type="button" class="btn btn-success shadow-none font-weight-bold w-50 btn-sm" click.delegate="saveEdit()">Save</button>
             </div>
         </div>
     </div>

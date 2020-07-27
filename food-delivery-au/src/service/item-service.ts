@@ -7,16 +7,20 @@ import { IItem, IItemCreate, IItemEdit } from "../domain/IItem";
 export class ItemService extends BaseService {
     url = "Items/";
 
+    async getAll(id: string): Promise<IFetchResponse<IItem[]>> {
+        return super.baseGetAll<IItem>(this.url + "restaurant/" + id);
+    }
+
     async get(id: string): Promise<IFetchResponse<IItem>> {
         return super.baseGet<IItem>(this.url, id);
     }
 
-    async post(address: IItemCreate): Promise<IFetchResponse<IItem>> {
-        return super.basePost<IItem>(this.url, address);
+    async post(itemCreate: IItemCreate): Promise<IFetchResponse<IItem>> {
+        return super.basePost<IItem>(this.url, itemCreate);
     }
 
-    async put(id: string, address: IItemEdit): Promise<IFetchResponse> {
-        return super.basePut(this.url, id, address);
+    async put(id: string, itemEdit: IItemEdit): Promise<IFetchResponse> {
+        return super.basePut(this.url, id, itemEdit);
     }
 
     async delete(id: string): Promise<IFetchResponse<IItem>> {

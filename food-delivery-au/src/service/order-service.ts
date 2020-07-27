@@ -7,8 +7,8 @@ import { IOrder, IOrderView } from "../domain/IOrder";
 export class OrderService extends BaseService {
     url = "Orders/";
 
-    async getAll(): Promise<IFetchResponse<IOrderView[]>> {
-        return super.baseGetAll<IOrderView>(this.url);
+    async getAll(id: string): Promise<IFetchResponse<IOrderView[]>> {
+        return super.baseGetAll<IOrderView>(this.url + "restaurant/" + id);
     }
 
     async get(id: string): Promise<IFetchResponse<IOrder>> {

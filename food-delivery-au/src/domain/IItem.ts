@@ -32,5 +32,6 @@ export interface IItemEdit {
     name: string;
     pictureLink?: string;
     price: number;
+    restaurantId: string;
     description?: string;
 }

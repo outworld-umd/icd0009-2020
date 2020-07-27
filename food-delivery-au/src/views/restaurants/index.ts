@@ -39,19 +39,33 @@ export class RestaurantIndex {
         this._currentId = null;
     }
 
-    saveEdit(): void {
-        this._initial.forEach(view => {
+    async saveEdit(): Promise<void> {
+        for (const view of this._initial) {
             if (!this._selected.includes(view.id)) {
                 console.log("delete restaurantcategory", view.restaurantCategoryId);
-                this.restaurantCategoryService.delete(view.restaurantCategoryId);
+                await this.restaurantCategoryService.delete(view.restaurantCategoryId);
             }
-        })
-        this._selected.forEach(id => {
+        }
+        for (const id of this._selected) {
             if (!this._initial.map(c => c.id).includes(id)) {
                 console.log("add category", id, "to restaurant", this._currentId)
-                this.restaurantCategoryService.post({ categoryId: id, restaurantId: this._currentId });
+                await this.restaurantCategoryService.post({ categoryId: id, restaurantId: this._currentId });
             }
-        })
+        }
+        await this.restaurantService.getAll().then(
+            response => {
+                console.log("updated")
+                if (response.isSuccessful) {
+                    this._alert = null;
+                    this._restaurants = response.data;
+                } else {
+                    this._alert = {
+                        message: response.statusCode.toString() + ' - ' + response.messages,
+                        type: AlertType.Danger,
+                        dismissable: true,
+                    }
+                }
+            });
         this.closeEdit();
     }
 

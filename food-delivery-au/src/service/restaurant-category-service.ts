@@ -11,10 +11,6 @@ export class RestaurantCategoryService extends BaseService {
         return super.basePost<IRestaurantCategory>(this.url, address);
     }
 
-    async put(id: string, address: IRestaurantCategory): Promise<IFetchResponse> {
-        return super.basePut(this.url, id, address);
-    }
-
     async delete(id: string): Promise<IFetchResponse<IRestaurantCategory>> {
         return super.baseDelete<IRestaurantCategory>(this.url, id);
     }
