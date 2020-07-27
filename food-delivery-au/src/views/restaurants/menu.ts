@@ -202,27 +202,19 @@ export class RestaurantMenu {
 
     async submitItemType(): Promise<void> {
         if (this._itemTypeName && this._restaurantId) {
+            const itemTypeCreate: IItemTypeCreate = {
+                name: this._itemTypeName,
+                description: this._itemTypeDescription,
+                isSpecial: this._itemTypeIsSpecial ?? false,
+                restaurantId: this._restaurantId
+            }
             if (this._itemTypeId) {
-                const itemType: IItemTypeEdit = {
-                    id: this._itemTypeId,
-                    name: this._itemTypeName,
-                    description: this._itemTypeDescription,
-                    isSpecial: this._itemTypeIsSpecial,
-                    restaurantId: this._restaurantId
-                }
-                console.log("update")
-                console.log(itemType)
-                await this.itemTypeService.put(this._itemTypeId, itemType);
+                const itemTypeEdit: IItemTypeEdit = { id: this._itemTypeId, ...itemTypeCreate }
+                console.log("update", itemTypeEdit)
+                await this.itemTypeService.put(this._itemTypeId, itemTypeEdit);
             } else {
-                const itemType: IItemTypeCreate = {
-                    name: this._itemTypeName,
-                    description: this._itemTypeDescription,
-                    isSpecial: this._itemTypeIsSpecial ?? false,
-                    restaurantId: this._restaurantId
-                }
-                console.log("create")
-                console.log(itemType)
-                await this.itemTypeService.post(itemType);
+                console.log("create", itemTypeCreate)
+                await this.itemTypeService.post(itemTypeCreate);
             }
             await this.restaurantService.get(this._restaurantId);
         }
@@ -251,27 +243,19 @@ export class RestaurantMenu {
 
     async submitItem(): Promise<void> {
         if (!this.validateItem) {
+            const itemTypeCreate: IItemCreate = {
+                name: this._itemName,
+                description: this._itemDescription,
+                restaurantId: this._restaurantId,
+                price: this._itemPrice
+            }
             if (this._itemId) {
-                const itemType: IItemEdit = {
-                    id: this._itemId,
-                    name: this._itemName,
-                    description: this._itemDescription,
-                    restaurantId: this._restaurantId,
-                    price: this._itemPrice
-                }
-                console.log("update")
-                console.log(itemType)
-                await this.itemService.put(this._itemTypeId, itemType);
+                const itemTypeEdit: IItemEdit = { id: this._itemId, ...itemTypeCreate }
+                console.log("update", itemTypeEdit)
+                await this.itemService.put(this._itemTypeId, itemTypeEdit);
             } else {
-                const itemType: IItemCreate = {
-                    name: this._itemName,
-                    description: this._itemDescription,
-                    restaurantId: this._restaurantId,
-                    price: this._itemPrice
-                }
-                console.log("create")
-                console.log(itemType)
-                await this.itemService.post(itemType);
+                console.log("create", itemTypeCreate)
+                await this.itemService.post(itemTypeCreate);
             }
             await this.itemService.getAll(this._restaurantId);
         }
