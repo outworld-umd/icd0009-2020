@@ -1,13 +1,13 @@
 ﻿@model WebApp.ViewModels.UserManagerDetailsDeleteViewModel
 
-<h4>NutritionInfo</h4>
+<h4>User</h4>
 <hr/>
 <dl class="row">
     <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.Role)
+        @Html.DisplayNameFor(model => model.CurrentRoles)
     </dt>
     <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Role.Name)
+        @Html.DisplayFor(model => model.CurrentRoles)
     </dd>
     <dt class="col-sm-2">
         @Html.DisplayNameFor(model => model.User.Id)
@@ -22,17 +22,17 @@
         @Html.DisplayFor(model => model.User.SecurityStamp)
     </dd>
     <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.User.UserName)
+        Email(User Login)
     </dt>
     <dd class="col-sm-10">
         @Html.DisplayFor(model => model.User.UserName)
     </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.User.NormalizedUserName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User.NormalizedUserName)
-        </dd>
+    <dt class="col-sm-2">
+        Normalized User Login
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.User.NormalizedUserName)
+    </dd>
     <dt class="col-sm-2">
         @Html.DisplayNameFor(model => model.User.FirstName)
     </dt>

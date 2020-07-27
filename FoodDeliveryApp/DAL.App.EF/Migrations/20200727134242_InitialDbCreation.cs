@@ -480,6 +480,7 @@ namespace DAL.App.EF.Migrations
                     ChangedBy = table.Column<string>(nullable: true),
                     ChangedAt = table.Column<DateTime>(nullable: false),
                     ItemId = table.Column<Guid>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
                     OrderId = table.Column<Guid>(nullable: false),
                     Amount = table.Column<int>(nullable: false),
                     Cost = table.Column<decimal>(type: "decimal(6,2)", nullable: false),

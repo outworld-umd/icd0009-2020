@@ -15,7 +15,7 @@ using IAppBLL = Contracts.BLL.App.IAppBLL;
 
 namespace WebApp.Controllers
 {
-    // [Authorize(Roles = "Customer")]
+    [Authorize(Roles = "Customer")]
     public class AddressesController : Controller
     {
         private readonly IAppBLL _bll;
@@ -28,7 +28,8 @@ namespace WebApp.Controllers
         // GET: Addresses
         public async Task<IActionResult> Index()
         {
-            return View(await _bll.Addresses.GetAllAsync(User.UserGuidId()));
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            return View((await _bll.Addresses.GetAllAsync(userIdTKey)));
         } 
 
         // GET: Addresses/Details/5
@@ -39,7 +40,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var address = await _bll.Addresses.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            var address = await _bll.Addresses.FirstOrDefaultAsync(id.Value, userIdTKey);
             if (address == null)
             {
                 return NotFound();
@@ -80,7 +82,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var address = await _bll.Addresses.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            var address = await _bll.Addresses.FirstOrDefaultAsync(id.Value, userIdTKey);
             if (address == null)
             {
                 return NotFound();
@@ -131,7 +134,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var address = await _bll.Addresses.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            var address = await _bll.Addresses.FirstOrDefaultAsync(id.Value, userIdTKey);
             if (address == null)
             {
                 return NotFound();
@@ -145,7 +149,9 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _bll.Addresses.RemoveAsync(id, User.UserGuidId());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            var address = await _bll.Addresses.FirstOrDefaultAsync(id, userIdTKey);
+            await _bll.Addresses.RemoveAsync(address);
             await _bll.SaveChangesAsync();
             
             return RedirectToAction(nameof(Index));
