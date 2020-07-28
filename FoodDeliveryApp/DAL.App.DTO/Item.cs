@@ -18,6 +18,8 @@ namespace DAL.App.DTO
         public string? PictureLink { get; set; }
         public decimal Price { get; set; }
         public string? Description { get; set; }
+        public Guid? RestaurantId { get; set; }
+        public Restaurant? Restaurant { get; set; }
         
         public ICollection<OrderRow>? OrderRows { get; set; }
         public ICollection<ItemInType>? ItemInTypes { get; set; }

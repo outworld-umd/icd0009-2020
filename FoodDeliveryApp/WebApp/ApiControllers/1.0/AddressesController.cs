@@ -38,7 +38,7 @@ namespace WebApp.ApiControllers._1._0
         /// <summary>
         /// Get addresses for single session 
         /// </summary>
-        /// <returns>categorys for session</returns>
+        /// <returns>Addresses for session</returns>
         [HttpGet]
         [Produces("application/json")]
         [Consumes("application/json")]
@@ -53,8 +53,8 @@ namespace WebApp.ApiControllers._1._0
         /// <summary>
         /// Get a single address
         /// </summary>
-        /// <param name="id">id for category</param>
-        /// <returns>category</returns>
+        /// <param name="id">id for address</param>
+        /// <returns>address</returns>
         [HttpGet("{id}")]
         [Produces("application/json")]
         [Consumes("application/json")]
@@ -70,7 +70,7 @@ namespace WebApp.ApiControllers._1._0
                 return NotFound(new V1DTO.MessageDTO($"Address with id {id} not found"));
             }
 
-            return Ok(_mapper.Map(address));
+            return Ok(_mapper.MapAddress(address));
         }
 
         // PUT: api/Address/5

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -97,24 +99,24 @@ namespace WebApp
                     };
                 });
 
-            // services.Configure<RequestLocalizationOptions>(options =>
-            // {
-            //     var supportedCultures = new[]
-            //     {
-            //         new CultureInfo(name: "en-GB"),
-            //         new CultureInfo(name: "et-EE"),
-            //         new CultureInfo(name: "ru-RU")
-            //     };
-            //
-            //     // State what the default culture for your application is. 
-            //     options.DefaultRequestCulture = new RequestCulture(culture: "en-GB", uiCulture: "en-GB");
-            //
-            //     // You must explicitly state which cultures your application supports.
-            //     options.SupportedCultures = supportedCultures;
-            //
-            //     // These are the cultures the app supports for UI strings
-            //     options.SupportedUICultures = supportedCultures;
-            // });
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[]
+                {
+                    new CultureInfo(name: "en-GB"),
+                    new CultureInfo(name: "et-EE"),
+                    new CultureInfo(name: "ru-RU")
+                };
+            
+                // State what the default culture for your application is. 
+                options.DefaultRequestCulture = new RequestCulture(culture: "en-GB", uiCulture: "en-GB");
+            
+                // You must explicitly state which cultures your application supports.
+                options.SupportedCultures = supportedCultures;
+            
+                // These are the cultures the app supports for UI strings
+                options.SupportedUICultures = supportedCultures;
+            });
 
 
             services.AddApiVersioning(options =>
@@ -128,9 +130,8 @@ namespace WebApp
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
             services.AddSwaggerGen();
 
-            services.AddDbContext<AppDbContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("AppDbContext")));
-
+            // services.AddDbContext<AppDbContext>(options =>
+            //         options.UseSqlServer(Configuration.GetConnectionString("AppDbContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

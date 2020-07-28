@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Contracts.DAL.App;
 using Domain;
 using Domain.App.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -62,7 +63,8 @@ namespace WebApp.Controllers
             var vm = new UserManagerDetailsDeleteViewModel
             {
                 User = user,
-                Role = role
+                Role = role,
+                CurrentRoles = string.Join(", ", roles.ToArray())
             };
             if (user == null)
             {
@@ -114,12 +116,15 @@ namespace WebApp.Controllers
             }
 
 
-            var roles = await _userManager.GetRolesAsync(await _userManager.Users.FirstAsync(u => u.Id == id));
+            var user = await _userManager.Users.FirstAsync(u => u.Id == id);
+            var roles = await _userManager.GetRolesAsync(user);
+            var role = _roleManager.FindByNameAsync(roles.First()).Result;
             var vm = new UserManagerEditViewModel
             {
-                User = await _userManager.Users.FirstAsync(u => u.Id == id),
-                Role = _roleManager.FindByNameAsync(roles.First()).Result,
-                Roles = new SelectList(_roleManager.Roles, nameof(AppRole.Name), nameof(AppRole.Name))
+                User = user,
+                Role = role,
+                Roles = new SelectList(_roleManager.Roles.Where(r => !roles.Contains(r.Name)), nameof(AppRole.Name), nameof(AppRole.Name)),
+                CurrentRoles =  string.Join(", ", roles.ToArray())
             };
 
             return View(vm);
@@ -192,7 +197,8 @@ namespace WebApp.Controllers
             var vm = new UserManagerDetailsDeleteViewModel
             {
                 User = user,
-                Role = role
+                Role = role,
+                CurrentRoles = string.Join(", ", roles.ToArray())
             };
             if (user == null)
             {

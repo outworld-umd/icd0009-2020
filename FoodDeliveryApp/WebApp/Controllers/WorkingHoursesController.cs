@@ -137,7 +137,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var workingHours = await _bll.WorkingHourses.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            var workingHours = await _bll.WorkingHourses.FirstOrDefaultAsync(id.Value);
             if (workingHours == null)
             {
                 return NotFound();
@@ -151,7 +151,7 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _bll.Addresses.RemoveAsync(id, User.UserGuidId());
+            await _bll.WorkingHourses.RemoveAsync(id, User.UserGuidId());
             await _bll.SaveChangesAsync();
             
             return RedirectToAction(nameof(Index));
@@ -159,7 +159,7 @@ namespace WebApp.Controllers
 
         private bool WorkingHoursExists(Guid id)
         {
-            return _bll.WorkingHourses.Exists(id);
+            return _bll.WorkingHourses.Any(e => e.Id.Equals(id));
         }
     }
 }

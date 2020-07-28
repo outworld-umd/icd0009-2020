@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Contracts.Domain;
 using Contracts.Domain.Combined;
 using Domain.Base;
@@ -13,9 +14,9 @@ namespace BLL.App.DTO
     public class ItemType<TKey> : IDomainEntityIdMetadata<TKey>
         where TKey : IEquatable<TKey>
     {
-        public string Name { get; set; } = default!;
-        public bool IsSpecial { get; set; }
-        public string? Description { get; set; }
+        [MinLength(2)] [MaxLength(64)] [Required] public string Name { get; set; } = default!;
+        [Required] public bool IsSpecial { get; set; }
+        [MaxLength(512)] public string? Description { get; set; }
 
         public TKey RestaurantId { get; set; } = default!;
         public Restaurant? Restaurant { get; set; }

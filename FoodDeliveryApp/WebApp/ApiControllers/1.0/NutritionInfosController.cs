@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts.BLL.App;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using DAL.App.EF;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using PublicApi.DTO.v1;
+using V1DTO=PublicApi.DTO.v1;
 using PublicApi.DTO.v1.Mappers;
 
 namespace WebApp.ApiControllers._1._0
@@ -30,20 +27,20 @@ namespace WebApp.ApiControllers._1._0
 
         // GET: api/NutritionInfo
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<NutritionInfo>>> GetNutritionInfos()
+        public async Task<ActionResult<IEnumerable<V1DTO.NutritionInfo>>> GetNutritionInfos()
         {
             return Ok((await _bll.NutritionInfos.GetAllAsync()).Select(e => _mapper.MapNutritionInfo(e)));
         }
 
         // GET: api/NutritionInfo/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<NutritionInfo>> GetNutritionInfo(Guid id)
+        public async Task<ActionResult<V1DTO.NutritionInfo>> GetNutritionInfo(Guid id)
         {
             var nutritionInfo = await _bll.NutritionInfos.FirstOrDefaultAsync(id);
 
             if (nutritionInfo == null)
             {
-                return NotFound(new MessageDTO($"NutritionInfo with id {id} not found"));
+                return NotFound(new V1DTO.MessageDTO($"NutritionInfo with id {id} not found"));
             }
 
             return Ok(_mapper.Map(nutritionInfo));
@@ -53,11 +50,11 @@ namespace WebApp.ApiControllers._1._0
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutNutritionInfo(Guid id, NutritionInfo nutritionInfo)
+        public async Task<IActionResult> PutNutritionInfo(Guid id, V1DTO.NutritionInfo nutritionInfo)
         {
             if (id != nutritionInfo.Id)
             {
-                return BadRequest(new MessageDTO("Id and NutritionInfo.Id do not match"));
+                return BadRequest(new V1DTO.MessageDTO("Id and NutritionInfo.Id do not match"));
             }
 
             await _bll.NutritionInfos.UpdateAsync(_mapper.Map(nutritionInfo));
@@ -70,7 +67,7 @@ namespace WebApp.ApiControllers._1._0
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<NutritionInfo>> PostNutritionInfo(NutritionInfo nutritionInfo)
+        public async Task<ActionResult<V1DTO.NutritionInfo>> PostNutritionInfo(V1DTO.NutritionInfo nutritionInfo)
         {
             var bllEntity = _mapper.Map(nutritionInfo);
             _bll.NutritionInfos.Add(bllEntity);
@@ -84,12 +81,12 @@ namespace WebApp.ApiControllers._1._0
 
         // DELETE: api/NutritionInfo/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<NutritionInfo>> DeleteNutritionInfo(Guid id)
+        public async Task<ActionResult<V1DTO.NutritionInfo>> DeleteNutritionInfo(Guid id)
         {
             var nutritionInfo = await _bll.NutritionInfos.FirstOrDefaultAsync(id);
             if (nutritionInfo == null)
             {
-                return NotFound(new MessageDTO("NutritionInfo not found"));
+                return NotFound(new V1DTO.MessageDTO("NutritionInfo not found"));
             }
 
             await _bll.NutritionInfos.RemoveAsync(nutritionInfo);

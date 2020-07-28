@@ -18,14 +18,16 @@ namespace BLL.App.DTO {
     {
         public TKey AppUserId { get; set; } = default!;
         public TUser? AppUser { get; set; }
-
+        
+        [MaxLength(64)] [MinLength(2)] [Required] 
+        // [Display(Name = "County", ResourceType = typeof(Resources.BLL.App.DTO.Address.Address))]
         public string County { get; set; } = default!;
-        public string City { get; set; } = default!;
-        public string Street { get; set; } = default!;
-        public string BuildingNumber { get; set; } = default!;
-        public string? Apartment { get; set; }
-        public string Name { get; set; } = default!;
-        public string? Comment { get; set; }
+        [MaxLength(64)] [MinLength(2)] [Required] public string City { get; set; } = default!;
+        [MaxLength(64)] [MinLength(2)] [Required] public string Street { get; set; } = default!;
+        [MaxLength(64)] [MinLength(2)] [Required] public string BuildingNumber { get; set; } = default!;
+        [MaxLength(64)] public string? Apartment { get; set; }
+        [MaxLength(64)] [MinLength(2)] [Required] public string Name { get; set; }= default!;
+        [MaxLength(256)] public string? Comment { get; set; }
         public TKey Id { get; set; } = default!;
         public string? CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }

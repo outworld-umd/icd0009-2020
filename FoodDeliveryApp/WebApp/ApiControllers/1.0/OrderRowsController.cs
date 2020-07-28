@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts.BLL.App;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using DAL.App.EF;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using PublicApi.DTO.v1;
+using Microsoft.AspNetCore.Http;
+using V1DTO=PublicApi.DTO.v1;
 using PublicApi.DTO.v1.Mappers;
 
 namespace WebApp.ApiControllers._1._0
@@ -23,27 +21,46 @@ namespace WebApp.ApiControllers._1._0
         private readonly IAppBLL _bll;
         private readonly OrderRowMapper _mapper = new OrderRowMapper();
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public OrderRowsController(IAppBLL bll)
         {
             _bll = bll;
         }
 
         // GET: api/OrderRow
+        /// <summary>
+        /// Get order rows for single session 
+        /// </summary>
+        /// <returns>order rows for session</returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<OrderRow>>> GetOrderRows()
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.OrderRow>))]
+        public async Task<ActionResult<IEnumerable<V1DTO.OrderRow>>> GetOrderRows()
         {
             return Ok((await _bll.OrderRows.GetAllAsync()).Select(e => _mapper.MapOrderRow(e)));
         }
 
         // GET: api/OrderRow/5
+        /// <summary>
+        /// Get a single order row
+        /// </summary>
+        /// <param name="id">id for order row</param>
+        /// <returns>order row</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<OrderRow>> GetOrderRow(Guid id)
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.OrderRow))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.OrderRow))]
+        public async Task<ActionResult<V1DTO.OrderRow>> GetOrderRow(Guid id)
         {
             var orderRow = await _bll.OrderRows.FirstOrDefaultAsync(id);
 
             if (orderRow == null)
             {
-                return NotFound(new MessageDTO($"OrderRow with id {id} not found"));
+                return NotFound(new V1DTO.MessageDTO($"OrderRow with id {id} not found"));
             }
 
             return Ok(_mapper.Map(orderRow));
@@ -52,12 +69,23 @@ namespace WebApp.ApiControllers._1._0
         // PUT: api/OrderRow/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        /// <summary>
+        /// Update order row
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="orderRow"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutOrderRow(Guid id, OrderRow orderRow)
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(V1DTO.MessageDTO))]
+        public async Task<IActionResult> PutOrderRow(Guid id, V1DTO.OrderRow orderRow)
         {
             if (id != orderRow.Id)
             {
-                return BadRequest(new MessageDTO("Id and OrderRow.Id do not match"));
+                return BadRequest(new V1DTO.MessageDTO("Id and OrderRow.Id do not match"));
             }
 
             await _bll.OrderRows.UpdateAsync(_mapper.Map(orderRow));
@@ -69,8 +97,16 @@ namespace WebApp.ApiControllers._1._0
         // POST: api/OrderRow
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        /// <summary>
+        /// Create/add a new order row
+        /// </summary>
+        /// <param name="orderRow">Order row info</param>
+        /// <returns></returns>
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(V1DTO.OrderRow))]
         [HttpPost]
-        public async Task<ActionResult<OrderRow>> PostOrderRow(OrderRow orderRow)
+        public async Task<ActionResult<V1DTO.OrderRow>> PostOrderRow(V1DTO.OrderRow orderRow)
         {
             var bllEntity = _mapper.Map(orderRow);
             _bll.OrderRows.Add(bllEntity);
@@ -83,13 +119,20 @@ namespace WebApp.ApiControllers._1._0
         }
 
         // DELETE: api/OrderRow/5
+        /// <summary>
+        /// Deletes the order row
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.OrderRow))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         [HttpDelete("{id}")]
-        public async Task<ActionResult<OrderRow>> DeleteOrderRow(Guid id)
+        public async Task<ActionResult<V1DTO.OrderRow>> DeleteOrderRow(Guid id)
         {
             var orderRow = await _bll.OrderRows.FirstOrDefaultAsync(id);
             if (orderRow == null)
             {
-                return NotFound(new MessageDTO("OrderRow not found"));
+                return NotFound(new V1DTO.MessageDTO("OrderRow not found"));
             }
 
             await _bll.OrderRows.RemoveAsync(orderRow);

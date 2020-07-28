@@ -5,9 +5,7 @@ using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
 using DAL.App.DTO;
 using DAL.App.EF.Mappers;
-using DAL.Base.EF.Mappers;
 using DAL.Base.EF.Repositories;
-using Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories {
@@ -19,8 +17,12 @@ namespace DAL.App.EF.Repositories {
         {
             var query = PrepareQuery(userId, noTracking);
             var domainEntities = await query
+                .Include(a => a.AppUser)
+                .Include(o => o.Restaurant)
                 .Include(o => o.OrderRows)
-                .ThenInclude(or => or.OrderItemChoices).ToListAsync();
+                .ThenInclude(or => or.OrderItemChoices)
+                .ThenInclude(oic => oic.ItemChoice)
+                .ToListAsync();
             var result = domainEntities.Select(e => DALMapper.Map(e));
             return result;
         }
@@ -29,10 +31,26 @@ namespace DAL.App.EF.Repositories {
         {
             var query = PrepareQuery(userId, noTracking);
             var entity = await query
+                .Include(a => a.AppUser)
+                .Include(o => o.Restaurant)
                 .Include(o => o.OrderRows)
-                .ThenInclude(or => or.OrderItemChoices).FirstOrDefaultAsync(e => e.Id.Equals(id));
+                .ThenInclude(or => or.OrderItemChoices)
+                .ThenInclude(oic => oic.ItemChoice)
+                .FirstOrDefaultAsync(e => e.Id.Equals(id));
             return DALMapper.Map(entity);
         }
-    }
 
+        public async Task<IEnumerable<Order>> GetAllByRestaurantAsync(Guid restaurantId, object? userId = null, bool noTracking = true) {
+            var query = PrepareQuery(userId, noTracking);
+            var domainEntities = await query.Where(order => order.RestaurantId.Equals(restaurantId))
+                .Include(a => a.AppUser)
+                .Include(o => o.Restaurant)
+                .Include(o => o.OrderRows)
+                .ThenInclude(or => or.OrderItemChoices)
+                .ThenInclude(oic => oic.ItemChoice)
+                .ToListAsync();
+            var result = domainEntities.Select(e => DALMapper.Map(e));
+            return result;
+        }
+    }
 }

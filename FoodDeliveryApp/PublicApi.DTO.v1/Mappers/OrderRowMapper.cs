@@ -1,5 +1,8 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using PublicApi.DTO.v1.Mappers.Base;
+using BLLAppDTO=BLL.App.DTO;
+
 
 namespace PublicApi.DTO.v1.Mappers
 {
@@ -13,7 +16,10 @@ namespace PublicApi.DTO.v1.Mappers
 
         public OrderRow MapOrderRow(BLL.App.DTO.OrderRow inObject)
         {
-            return Mapper.Map<OrderRow>(inObject);
+            var orderRow = Mapper.Map<OrderRow>(inObject);
+            orderRow.OrderItemChoices = inObject.OrderItemChoices.Select(oic => new OrderItemChoiceMapper().MapOrderItemChoice(oic))
+                .ToList();
+            return orderRow;
         }
     }
 }

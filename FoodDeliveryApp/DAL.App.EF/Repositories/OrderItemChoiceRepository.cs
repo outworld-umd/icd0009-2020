@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
+using DAL.App.DTO;
 using DAL.App.EF.Mappers;
 using DAL.Base.EF.Mappers;
 using DAL.Base.EF.Repositories;
@@ -10,21 +12,28 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories {
 
-    public class OrderItemChoiceRepository : EFBaseRepository<AppDbContext, Domain.App.Identity.AppUser, Domain.App.OrderItemChoice, DTO.OrderItemChoice>, IOrderItemChoiceRepository {
-        public OrderItemChoiceRepository(AppDbContext dbContext) : base(dbContext, new DALMapper<Domain.App.OrderItemChoice, DTO.OrderItemChoice>()) { }
+    public class OrderItemChoiceRepository : EFBaseRepository<AppDbContext, Domain.App.Identity.AppUser, Domain.App.OrderItemChoice, OrderItemChoice>, IOrderItemChoiceRepository {
+        public OrderItemChoiceRepository(AppDbContext dbContext) : base(dbContext, new DALMapper<Domain.App.OrderItemChoice, OrderItemChoice>()) { }
         
-        // public override async Task<IEnumerable<OrderItemChoice>> AllAsync() {
-        //     return await RepoDbSet
-        //         .Include(o => o.ItemChoice)
-        //         .Include(o => o.OrderRow).ToListAsync();
-        // }
-        //
-        // public override async Task<OrderItemChoice> FindAsync(params object[] id) {
-        //     return await RepoDbSet
-        //         .Include(o => o.ItemChoice)
-        //         .Include(o => o.OrderRow)
-        //         .FirstOrDefaultAsync(m => m.Id == (Guid) id[0]);
-        // }
-    }
+        public override async Task<IEnumerable<OrderItemChoice>> GetAllAsync(object? userId = null, bool noTracking = true)
+        {
+            var query = PrepareQuery(userId, noTracking);
+            var domainEntities = await query
+                .Include(oic => oic.ItemChoice)
+                .Include(oic => oic.OrderRow)
+                .ToListAsync();
+            var result = domainEntities.Select(e => DALMapper.Map(e));
+            return result;
+        }
 
+        public override async Task<OrderItemChoice> FirstOrDefaultAsync(Guid id, object? userId = null, bool noTracking = true)
+        {
+            var query = PrepareQuery(userId, noTracking);
+            var entity = await query
+                .Include(oic => oic.ItemChoice)
+                .Include(oic => oic.OrderRow)
+                .FirstOrDefaultAsync(e => e.Id.Equals(id));
+            return DALMapper.Map(entity);
+        }
+    }
 }

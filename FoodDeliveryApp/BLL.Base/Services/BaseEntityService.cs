@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using BLL.Base.Mappers;
 using Contracts.BLL.Base.Mappers;
 using Contracts.BLL.Base.Services;
 using Contracts.DAL.Base;
-using Contracts.DAL.Base.Mappers;
 using Contracts.Domain.Repositories;
 using Contracts.Domain.Basic;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace BLL.Base.Services
 {
@@ -38,12 +39,14 @@ namespace BLL.Base.Services
         protected readonly TUnitOfWork ServiceUnitOfWork;
         protected readonly IBaseBLLMapper<TDALEntity, TBLLEntity> BLLMapper;
         protected readonly TRepository ServiceRepository;
+        protected readonly ExpressionMapper<TBLLEntity, TDALEntity> ExpressionMapper;
 
         public BaseEntityService(TUnitOfWork unitOfWork, TRepository serviceRepository, IBaseBLLMapper<TDALEntity, TBLLEntity> mapper)
         {
             ServiceUnitOfWork = unitOfWork;
             ServiceRepository = serviceRepository;
             BLLMapper = mapper;
+            ExpressionMapper = new ExpressionMapper<TBLLEntity, TDALEntity>();
         }
         
         public virtual async Task<IEnumerable<TBLLEntity>> GetAllAsync(object? userId = null, bool noTracking = true)
@@ -73,7 +76,8 @@ namespace BLL.Base.Services
             ServiceUnitOfWork.AddToEntityTracker(trackedDALEntity, entity);
             var result = BLLMapper.Map(trackedDALEntity);
             
-            return result;        }
+            return result;
+        }
 
         public virtual async Task<TBLLEntity> UpdateAsync(TBLLEntity entity, object? userId = null)
         {
@@ -108,6 +112,19 @@ namespace BLL.Base.Services
         {
             var result = ServiceRepository.Exists(id, userId);
             return result; 
+        }
+
+        public virtual async Task<bool> AnyAsync(Expression<Func<TBLLEntity, bool>> predicate, object? userId = null) {
+            var dalEntityPredicate = ExpressionMapper.Convert(predicate);
+            var result = await ServiceRepository.AnyAsync(dalEntityPredicate, userId);
+            return result;
+        }
+
+        public virtual bool Any(Expression<Func<TBLLEntity, bool>> predicate, object? userId = null)
+        {
+            var dalEntityPredicate = ExpressionMapper.Convert(predicate);
+            var result = ServiceRepository.Any(dalEntityPredicate, userId);
+            return result;
         }
 
 
