@@ -14,7 +14,7 @@
                 <div class="fa fa-shopping-basket m-1"></div>
                 <div class="m-1">{{ restaurant.deliveryCost }}€</div>
             </div>
-            <div class="card-footer text-muted mt-2">{{ restaurant.categories.join("  ") }}</div>
+            <div class="card-footer text-muted mt-2">{{ restaurant.categories.map(c => c.name).join("  ") }}</div>
         </div>
     </div>
 </template>

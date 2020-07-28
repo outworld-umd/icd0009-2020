@@ -3,7 +3,7 @@ import { IFetchResponse } from "@/types/IFetchResponse";
 import { IRestaurant, IRestaurantView } from "@/domain/IRestaurant";
 
 export abstract class RestaurantAPI extends BaseAPI {
-    static url = 'Restaurant/';
+    static url = 'Restaurants/';
 
     static async getAll(): Promise<IFetchResponse<IRestaurantView[]>> {
         return super.baseGetAll<IRestaurantView>(this.url);

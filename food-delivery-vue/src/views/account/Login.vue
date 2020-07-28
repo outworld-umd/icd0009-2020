@@ -25,7 +25,7 @@ import store from "../../store";
 import router from "../../router";
 import { ILoginRequest } from "@/domain/identity/ILoginRequest";
 import { getModule } from "vuex-module-decorators";
-import UserModule from "../../store/modules/UserModule";
+import UserModule from "@/store/modules/UserModule";
 
 @Component
 export default class AccountLogin extends Vue {

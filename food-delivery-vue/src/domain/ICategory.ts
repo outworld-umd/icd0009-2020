@@ -5,3 +5,9 @@ export interface ICategory {
     name: string;
     restaurants: IRestaurantView[]
 }
+
+export interface ICategoryView {
+    restaurantCategoryId: string;
+    id: string;
+    name: string;
+}

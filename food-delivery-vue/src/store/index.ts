@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate';
 import { IRestaurant, IRestaurantView } from "@/domain/IRestaurant";
-import { DayOfWeek } from "@/domain/IWorkingHours";
 import { IItem } from "@/domain/IItem";
 import UserModule from "@/store/modules/UserModule";
 import OrderModule from "@/store/modules/OrderModule";
@@ -10,8 +9,8 @@ import { IAddress, IAddressCreate } from "@/domain/IAddress";
 import { IOrder, IOrderView } from "@/domain/IOrder";
 import { AddressAPI } from "@/services/AddressAPI";
 import { RestaurantAPI } from "@/services/RestaurantAPI";
-import {ItemAPI} from "@/services/ItemAPI";
-import {OrderAPI} from "@/services/OrderAPI";
+import { ItemAPI } from "@/services/ItemAPI";
+import { OrderAPI } from "@/services/OrderAPI";
 
 Vue.use(Vuex)
 
