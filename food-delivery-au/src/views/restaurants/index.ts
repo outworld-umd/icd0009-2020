@@ -25,6 +25,23 @@ export class RestaurantIndex {
 
     }
 
+    async getRestaurants() {
+        await this.restaurantService.getAll().then(
+            response => {
+                console.log("updated")
+                if (response.isSuccessful) {
+                    this._alert = null;
+                    this._restaurants = response.data;
+                } else {
+                    this._alert = {
+                        message: response.statusCode.toString() + ' - ' + response.messages,
+                        type: AlertType.Danger,
+                        dismissable: true,
+                    }
+                }
+            });
+    }
+
     editCategories(id: string, categories: ICategoryView[]): void {
         this._isEdited = true;
         this._currentId = id;
@@ -54,52 +71,12 @@ export class RestaurantIndex {
                 console.log(response)
             }
         }
-        await this.restaurantService.getAll().then(
-            response => {
-                console.log("updated")
-                if (response.isSuccessful) {
-                    this._alert = null;
-                    this._restaurants = response.data;
-                } else {
-                    this._alert = {
-                        message: response.statusCode.toString() + ' - ' + response.messages,
-                        type: AlertType.Danger,
-                        dismissable: true,
-                    }
-                }
-            });
+        await this.getRestaurants();
         this.closeEdit();
     }
 
-    attached() {
-        this.restaurantService.getAll().then(
-            response => {
-                if (response.isSuccessful) {
-                    this._alert = null;
-                    this._restaurants = response.data;
-                } else {
-                    this._alert = {
-                        message: response.statusCode.toString() + ' - ' + response.messages,
-                        type: AlertType.Danger,
-                        dismissable: true,
-                    }
-                    this._restaurants = [
-                        {
-                            id: "1",
-                            name: "Testing Food",
-                            deliveryCost: 2.34,
-                            isOpen: true,
-                            categories: [
-                                {
-                                    restaurantCategoryId: "450",
-                                    id: "1",
-                                    name: "Mexican food"
-                                }
-                            ]
-                        }
-                    ]
-                }
-            });
+    async attached() {
+        await this.getRestaurants();
         this.categoryService.getAll().then(
             response => {
                 if (response.isSuccessful) {
@@ -113,17 +90,6 @@ export class RestaurantIndex {
                         type: AlertType.Danger,
                         dismissable: true,
                     }
-                    this._categories = [
-                        {
-                            id: "1",
-                            name: "Mexican food"
-                        },
-                        {
-                            id: "2",
-                            name: "Mom is fucked"
-                        }
-                    ]
-
                 }
 
             });

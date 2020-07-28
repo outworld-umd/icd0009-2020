@@ -20,7 +20,7 @@ namespace DAL.App.DTO
         public TKey OrderRowId { get; set; } // ZDES BIL 0!!!!!!!!!!!!!!!
         public OrderRow? OrderRow { get; set; }
 
-        public TKey ItemChoiceId { get; set; } = default!;
+        public Guid? ItemChoiceId { get; set; } = default!;
         public ItemChoice? ItemChoice { get; set; }
         
         public string Name { get; set; }

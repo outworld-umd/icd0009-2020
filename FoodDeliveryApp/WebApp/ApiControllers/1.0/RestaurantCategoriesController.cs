@@ -127,7 +127,7 @@ namespace WebApp.ApiControllers._1._0
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.RestaurantCategory))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         [HttpDelete("{id}")]
         public async Task<ActionResult<V1DTO.Restaurant>> DeleteRestaurantCategory(Guid id)
@@ -141,7 +141,7 @@ namespace WebApp.ApiControllers._1._0
             await _bll.RestaurantCategories.RemoveAsync(restaurantCategory);
             await _bll.SaveChangesAsync();
 
-            return Ok(restaurantCategory);
+            return NoContent();
         }
 
         private bool RestaurantCategoryExists(Guid id)

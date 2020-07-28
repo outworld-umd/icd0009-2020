@@ -16,10 +16,10 @@ namespace Domain.App
     public class OrderItemChoice<TKey> : DomainEntityIdMetadata<TKey>
         where TKey : IEquatable<TKey> 
     {
-        public TKey OrderRowId { get; set; } // ZDES BIL 0!!!!!!!!!!!!!!!
+        public TKey OrderRowId { get; set; }
         public OrderRow? OrderRow { get; set; }
 
-        public TKey ItemChoiceId { get; set; } = default!;
+        public Guid? ItemChoiceId { get; set; } = default!;
         public ItemChoice? ItemChoice { get; set; }
         
         public string Name { get; set; }

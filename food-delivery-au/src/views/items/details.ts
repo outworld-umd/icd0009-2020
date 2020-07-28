@@ -40,111 +40,6 @@ export class ItemIndex {
                             type: AlertType.Danger,
                             dismissable: true,
                         }
-                        this._item = {
-                            id: "1",
-                            name: "Burger Meal",
-                            price: 2.3,
-                            description: "Very vkusno",
-                            restaurantId: "4",
-                            nutritionInfos: [
-                                {
-                                    id: "1",
-                                    name: "Sugar",
-                                    amount: 50,
-                                    unit: "g"
-                                },
-                                {
-                                    id: "2",
-                                    name: "Calories",
-                                    amount: 600,
-                                    unit: "kcal"
-                                }
-                            ],
-                            options: [
-                                {
-                                    id: "option1",
-                                    name: "Fries",
-                                    isSingle: true,
-                                    isRequired: true,
-                                    choices: [
-                                        {
-                                            id: "choice11",
-                                            name: "Small fries",
-                                            additionalPrice: 0
-                                        },
-                                        {
-                                            id: "choice12",
-                                            name: "Medium fries",
-                                            additionalPrice: 0.3
-                                        },
-                                        {
-                                            id: "choice13",
-                                            name: "Small fries",
-                                            additionalPrice: 0.5
-                                        }
-                                    ]
-                                },
-                                {
-                                    id: "option2",
-                                    name: "Drinks",
-                                    isSingle: false,
-                                    isRequired: true,
-                                    choices: [
-                                        {
-                                            id: "choice21",
-                                            name: "Coca-Cola Cherry",
-                                            additionalPrice: 0.3
-                                        },
-                                        {
-                                            id: "choice22",
-                                            name: "Coca-Cola Vanilla",
-                                            additionalPrice: 0.5
-                                        },
-                                        {
-                                            id: "choice23",
-                                            name: "Coca-Cola Peach",
-                                            additionalPrice: 0.5
-                                        }
-                                    ]
-                                },
-                                {
-                                    id: "option3",
-                                    name: "Sauce",
-                                    isSingle: true,
-                                    isRequired: false,
-                                    choices: [
-                                        {
-                                            id: "choice31",
-                                            name: "Gay Sauce",
-                                            additionalPrice: 0
-                                        },
-                                        {
-                                            id: "choice32",
-                                            name: "Not Gay Sauce",
-                                            additionalPrice: 0.3
-                                        }
-                                    ]
-                                },
-                                {
-                                    id: "option4",
-                                    name: "Other",
-                                    isSingle: false,
-                                    isRequired: false,
-                                    choices: [
-                                        {
-                                            id: "choice41",
-                                            name: "Condoms",
-                                            additionalPrice: 0.69
-                                        },
-                                        {
-                                            id: "choice42",
-                                            name: "Plastic Bag",
-                                            additionalPrice: 20
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
                     }
                 });
         }
@@ -163,6 +58,22 @@ export class ItemIndex {
         return !(this._choiceName);
     }
 
+    async getItem(id: string) {
+        await this.itemService.get(id).then(
+            response => {
+                if (response.isSuccessful) {
+                    this._alert = null;
+                    this._item = response.data;
+                } else {
+                    this._alert = {
+                        message: response.statusCode.toString() + ' - ' + response.messages,
+                        type: AlertType.Danger,
+                        dismissable: true,
+                    }
+                }
+            });
+    }
+
     async submitChoice(): Promise<void> {
         if (!this.validateChoice) {
             const choiceCreate: IChoiceCreate = {
@@ -178,19 +89,7 @@ export class ItemIndex {
                 console.log("create", choiceCreate)
                 await this.itemChoiceService.post(choiceCreate);
             }
-            await this.itemService.get(this._itemId).then(
-                response => {
-                    if (response.isSuccessful) {
-                        this._alert = null;
-                        this._item = response.data;
-                    } else {
-                        this._alert = {
-                            message: response.statusCode.toString() + ' - ' + response.messages,
-                            type: AlertType.Danger,
-                            dismissable: true,
-                        }
-                    }
-                });
+            await this.getItem(this._itemId);
         }
         this.choiceInputMode(false, null, null)
     }
@@ -207,19 +106,7 @@ export class ItemIndex {
     async deleteChoice(id: string): Promise<void> {
         console.log("delete", id)
         await this.itemChoiceService.delete(id);
-        await this.itemService.get(this._itemId).then(
-            response => {
-                if (response.isSuccessful) {
-                    this._alert = null;
-                    this._item = response.data;
-                } else {
-                    this._alert = {
-                        message: response.statusCode.toString() + ' - ' + response.messages,
-                        type: AlertType.Danger,
-                        dismissable: true,
-                    }
-                }
-            });
+        await this.getItem(this._itemId);
     }
 
 
@@ -250,19 +137,7 @@ export class ItemIndex {
                 console.log("create", optionCreate)
                 await this.itemOptionService.post(optionCreate);
             }
-            await this.itemService.get(this._itemId).then(
-                    response => {
-                        if (response.isSuccessful) {
-                            this._alert = null;
-                            this._item = response.data;
-                        } else {
-                            this._alert = {
-                                message: response.statusCode.toString() + ' - ' + response.messages,
-                                type: AlertType.Danger,
-                                dismissable: true,
-                            }
-                        }
-                    });
+            await this.getItem(this._itemId);
         }
         this.optionInputMode(false, null)
     }
@@ -279,19 +154,7 @@ export class ItemIndex {
     async deleteOption(id: string): Promise<void> {
         console.log("delete", id)
         await this.itemOptionService.delete(id);
-        await this.itemService.get(this._itemId).then(
-                    response => {
-                        if (response.isSuccessful) {
-                            this._alert = null;
-                            this._item = response.data;
-                        } else {
-                            this._alert = {
-                                message: response.statusCode.toString() + ' - ' + response.messages,
-                                type: AlertType.Danger,
-                                dismissable: true,
-                            }
-                        }
-                    });
+        await this.getItem(this._itemId);
     }
 
     // NUTRITIONINFO EDITOR/CREATOR
@@ -323,19 +186,7 @@ export class ItemIndex {
                 console.log("create", infoCreate)
                 await this.nutritionInfoService.post(infoCreate);
             }
-            await this.itemService.get(this._itemId).then(
-                    response => {
-                        if (response.isSuccessful) {
-                            this._alert = null;
-                            this._item = response.data;
-                        } else {
-                            this._alert = {
-                                message: response.statusCode.toString() + ' - ' + response.messages,
-                                type: AlertType.Danger,
-                                dismissable: true,
-                            }
-                        }
-                    });
+            await this.getItem(this._itemId);
         }
         this.infoInputMode(false, null)
     }
@@ -352,18 +203,6 @@ export class ItemIndex {
     async deleteInfo(id: string): Promise<void> {
         console.log("delete", id)
         await this.nutritionInfoService.delete(id);
-        await this.itemService.get(this._itemId).then(
-                    response => {
-                        if (response.isSuccessful) {
-                            this._alert = null;
-                            this._item = response.data;
-                        } else {
-                            this._alert = {
-                                message: response.statusCode.toString() + ' - ' + response.messages,
-                                type: AlertType.Danger,
-                                dismissable: true,
-                            }
-                        }
-                    });
+        await this.getItem(this._itemId);
     }
 }

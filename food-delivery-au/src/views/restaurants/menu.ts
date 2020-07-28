@@ -27,37 +27,45 @@ export class RestaurantMenu {
     constructor(private restaurantService: RestaurantService, private itemTypeService: ItemTypeService, private itemInTypeService: ItemInTypeService, private itemService: ItemService, private appState: AppState, private router: Router) {
     }
 
-    activate(params: any, routeConfig: RouteConfig, navigationInstruction: NavigationInstruction) {
+    async getItems(id: string) {
+        await this.itemService.getAll(id).then(
+            response => {
+                if (response.isSuccessful) {
+                    this._alert = null;
+                    this._items = response.data;
+                } else {
+                    console.log("nerjhbejhfjebf")
+                    // show error message
+                    this._alert = {
+                        message: response.statusCode.toString() + ' - ' + response.messages,
+                        type: AlertType.Danger,
+                        dismissable: true,
+                    }
+                }
+            });
+    }
+
+    async getRestaurant(id: string) {
+        this.restaurantService.get(id).then(
+            response => {
+                if (response.isSuccessful) {
+                    this._alert = null;
+                    this._restaurant = response.data;
+                } else {
+                    this._alert = {
+                        message: response.statusCode.toString() + ' - ' + response.messages,
+                        type: AlertType.Danger,
+                        dismissable: true,
+                    }
+                }
+            });
+    }
+
+    async activate(params: any, routeConfig: RouteConfig, navigationInstruction: NavigationInstruction) {
         if (params.id && typeof (params.id) == 'string') {
             this._restaurantId = params.id;
-            this.restaurantService.get(params.id).then(
-                response => {
-                    if (response.isSuccessful) {
-                        this._alert = null;
-                        this._restaurant = response.data;
-                    } else {
-                        this._alert = {
-                            message: response.statusCode.toString() + ' - ' + response.messages,
-                            type: AlertType.Danger,
-                            dismissable: true,
-                        }
-                    }
-                });
-            this.itemService.getAll(params.id).then(
-                response => {
-                    if (response.isSuccessful) {
-                        this._alert = null;
-                        this._items = response.data;
-                    } else {
-                        console.log("nerjhbejhfjebf")
-                        // show error message
-                        this._alert = {
-                            message: response.statusCode.toString() + ' - ' + response.messages,
-                            type: AlertType.Danger,
-                            dismissable: true,
-                        }
-                    }
-                });
+            await this.getRestaurant(this._restaurantId);
+            await this.getItems(this._restaurantId);
         }
     }
 
@@ -94,20 +102,7 @@ export class RestaurantMenu {
                 await this.itemInTypeService.post({itemId: id, itemTypeId: this._currentId});
             }
         }
-        await this.restaurantService.get(this._restaurantId).then(
-            response => {
-                console.log("updated")
-                if (response.isSuccessful) {
-                    this._alert = null;
-                    this._restaurant = response.data;
-                } else {
-                    this._alert = {
-                        message: response.statusCode.toString() + ' - ' + response.messages,
-                        type: AlertType.Danger,
-                        dismissable: true,
-                    }
-                }
-            });
+        await this.getRestaurant(this._restaurantId);
         this.closeEdit();
     }
 
@@ -140,21 +135,7 @@ export class RestaurantMenu {
                 console.log("create", itemTypeCreate)
                 await this.itemTypeService.post(itemTypeCreate);
             }
-            await this.restaurantService.get(this._restaurantId).then(
-                response => {
-                    if (response.isSuccessful) {
-                        this._alert = null;
-                        this._restaurant = response.data;
-                    } else {
-                        console.log("nerjhbejhfjebf")
-                        // show error message
-                        this._alert = {
-                            message: response.statusCode.toString() + ' - ' + response.messages,
-                            type: AlertType.Danger,
-                            dismissable: true,
-                        }
-                    }
-                });
+            await this.getRestaurant(this._restaurantId);
         }
         this.itemTypeInputMode(false, null)
     }
@@ -171,21 +152,7 @@ export class RestaurantMenu {
     async deleteItemType(id: string): Promise<void> {
         console.log("delete")
         await this.itemTypeService.delete(id);
-        await this.restaurantService.get(this._restaurantId).then(
-            response => {
-                if (response.isSuccessful) {
-                    this._alert = null;
-                    this._restaurant = response.data;
-                } else {
-                    console.log("nerjhbejhfjebf")
-                    // show error message
-                    this._alert = {
-                        message: response.statusCode.toString() + ' - ' + response.messages,
-                        type: AlertType.Danger,
-                        dismissable: true,
-                    }
-                }
-            });
+        await this.getRestaurant(this._restaurantId);
     }
 
     // ITEM EDITOR/CREATOR
@@ -216,21 +183,7 @@ export class RestaurantMenu {
                 console.log("create", itemCreate)
                 await this.itemService.post(itemCreate);
             }
-            await this.itemService.getAll(this._restaurantId).then(
-                response => {
-                    if (response.isSuccessful) {
-                        this._alert = null;
-                        this._items = response.data;
-                    } else {
-                        console.log("nerjhbejhfjebf")
-                        // show error message
-                        this._alert = {
-                            message: response.statusCode.toString() + ' - ' + response.messages,
-                            type: AlertType.Danger,
-                            dismissable: true,
-                        }
-                    }
-                });
+            await this.getItems(this._restaurantId);
         }
         this.itemInputMode(false, null)
     }
@@ -247,20 +200,6 @@ export class RestaurantMenu {
     async deleteItem(id: string): Promise<void> {
         console.log("delete")
         await this.itemService.delete(id);
-        await this.itemService.getAll(this._restaurantId).then(
-            response => {
-                if (response.isSuccessful) {
-                    this._alert = null;
-                    this._items = response.data;
-                } else {
-                    console.log("nerjhbejhfjebf")
-                    // show error message
-                    this._alert = {
-                        message: response.statusCode.toString() + ' - ' + response.messages,
-                        type: AlertType.Danger,
-                        dismissable: true,
-                    }
-                }
-            });;
+        await this.getItems(this._restaurantId);
     }
 }

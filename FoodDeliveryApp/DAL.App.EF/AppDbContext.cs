@@ -65,6 +65,10 @@ namespace DAL.App.EF {
                 .HasOne(p => p.Item)
                 .WithMany(b => b!.OrderRows)
                 .OnDelete(DeleteBehavior.SetNull);
+            modelBuilder.Entity<OrderItemChoice>()
+                .HasOne(p => p.ItemChoice)
+                .WithMany(b => b!.OrderItemChoices)
+                .OnDelete(DeleteBehavior.SetNull);
         }
         
         private void SaveChangesMetadataUpdate()
