@@ -18,12 +18,12 @@ namespace Domain.App
         where TKey : IEquatable<TKey>
         where TUser : IdentityUser<TKey> 
     {
-        public OrderStatus OrderStatus { get; set; }
-        public PaymentMethod PaymentMethod { get; set; }
+        [Required] public OrderStatus OrderStatus { get; set; }
+        [Required] public PaymentMethod PaymentMethod { get; set; }
 
-        [Column(TypeName = "decimal(6,2)")] public decimal FoodCost { get; set; }
-        [Column(TypeName = "decimal(6,2)")] public decimal DeliveryCost { get; set; }
-        [MinLength(2)] [MaxLength(512)] public string Address { get; set; } = default!;
+        [Column(TypeName = "decimal(6,2)")] [Required] public decimal FoodCost { get; set; }
+        [Column(TypeName = "decimal(6,2)")] [Required] public decimal DeliveryCost { get; set; }
+        [MinLength(2)] [MaxLength(512)] [Required] public string Address { get; set; } = default!;
         [MinLength(2)] [MaxLength(512)] public string? Apartment { get; set; }
 
         [MinLength(2)] [MaxLength(64)] public string? RestaurantName { get; set; }

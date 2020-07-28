@@ -17,9 +17,9 @@ namespace Domain.App
     public class Item<TKey> : DomainEntityIdMetadata<TKey>
         where TKey : IEquatable<TKey>
     {
-        [MinLength(2)] [MaxLength(64)] public string Name { get; set; } = default!;
+        [MaxLength(64)] [MinLength(2)] [Required] public string Name { get; set; } = default!;
         [MaxLength(512)] public string? PictureLink { get; set; }
-        [Column(TypeName = "decimal(6,2)")] public decimal Price { get; set; }
+        [Column(TypeName = "decimal(6,2)")] [Required] public decimal Price { get; set; }
         [MaxLength(512)] public string? Description { get; set; }
         public Guid? RestaurantId { get; set; }
         public Restaurant? Restaurant { get; set; }

@@ -13,8 +13,8 @@ namespace Domain.App
     public class ItemType<TKey> : DomainEntityIdMetadata<TKey>
         where TKey : IEquatable<TKey> 
     {
-        [MinLength(2)] [MaxLength(64)] public string Name { get; set; } = default!;
-        public bool IsSpecial { get; set; }
+        [MinLength(2)] [MaxLength(64)] [Required] public string Name { get; set; } = default!;
+        [Required] public bool IsSpecial { get; set; }
         [MaxLength(512)] public string? Description { get; set; }
 
         public TKey RestaurantId { get; set; } = default!;

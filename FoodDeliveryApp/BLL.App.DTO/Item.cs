@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Contracts.Domain;
 using Contracts.Domain.Combined;
 using Domain.Base;
@@ -13,13 +15,12 @@ namespace BLL.App.DTO
     public class Item<TKey> : IDomainEntityIdMetadata<TKey>
         where TKey : IEquatable<TKey>
     {
-        public string Name { get; set; } = default!;
-        public string? PictureLink { get; set; }
-        public decimal Price { get; set; }
-        public string? Description { get; set; }
+        [MaxLength(64)] [MinLength(2)] [Required] public string Name { get; set; } = default!;
+        [MaxLength(512)] public string? PictureLink { get; set; }
+        [Column(TypeName = "decimal(6,2)")] [Required] public decimal Price { get; set; }
+        [MaxLength(512)] public string? Description { get; set; }
         public Guid? RestaurantId { get; set; }
         public Restaurant? Restaurant { get; set; }
-        
         public ICollection<OrderRow>? OrderRows { get; set; }
         public ICollection<ItemInType>? ItemInTypes { get; set; }
         public ICollection<NutritionInfo>? NutritionInfos { get; set; }

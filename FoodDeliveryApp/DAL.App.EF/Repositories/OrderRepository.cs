@@ -17,6 +17,7 @@ namespace DAL.App.EF.Repositories {
         {
             var query = PrepareQuery(userId, noTracking);
             var domainEntities = await query
+                .Include(a => a.AppUser)
                 .Include(o => o.Restaurant)
                 .Include(o => o.OrderRows)
                 .ThenInclude(or => or.OrderItemChoices)
@@ -30,6 +31,7 @@ namespace DAL.App.EF.Repositories {
         {
             var query = PrepareQuery(userId, noTracking);
             var entity = await query
+                .Include(a => a.AppUser)
                 .Include(o => o.Restaurant)
                 .Include(o => o.OrderRows)
                 .ThenInclude(or => or.OrderItemChoices)
@@ -41,6 +43,7 @@ namespace DAL.App.EF.Repositories {
         public async Task<IEnumerable<Order>> GetAllByRestaurantAsync(Guid restaurantId, object? userId = null, bool noTracking = true) {
             var query = PrepareQuery(userId, noTracking);
             var domainEntities = await query.Where(order => order.RestaurantId.Equals(restaurantId))
+                .Include(a => a.AppUser)
                 .Include(o => o.Restaurant)
                 .Include(o => o.OrderRows)
                 .ThenInclude(or => or.OrderItemChoices)

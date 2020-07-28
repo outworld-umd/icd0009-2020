@@ -15,9 +15,9 @@ namespace Domain.App
     public class WorkingHours<TKey> : DomainEntityIdMetadata<TKey>
         where TKey : IEquatable<TKey> 
     {
-        public DayOfWeek WeekDay { get; set; }
-        public DateTime OpeningTime { get; set; }
-        public DateTime ClosingTime { get; set; }
+        [Required] public DayOfWeek WeekDay { get; set; }
+        [Required] public DateTime OpeningTime { get; set; }
+        [Required] public DateTime ClosingTime { get; set; }
 
         public TKey RestaurantId { get; set; } = default!;
         public Restaurant? Restaurant { get; set; }

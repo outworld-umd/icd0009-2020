@@ -13,9 +13,9 @@ namespace Domain.App
     public class ItemOption<TKey> : DomainEntityIdMetadata<TKey>
         where TKey : IEquatable<TKey>
     {
-        [MinLength(2)] [MaxLength(64)] public string Name { get; set; } = default!;
-        public bool IsRequired { get; set; }
-        public bool IsSingle { get; set; }
+        [MinLength(2)] [MaxLength(64)] [Required] public string Name { get; set; } = default!;
+        [Required] public bool IsRequired { get; set; }
+        [Required] public bool IsSingle { get; set; }
         
         public TKey ItemId { get; set; } = default!;
         public Item? Item { get; set; }

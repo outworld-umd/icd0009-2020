@@ -67,6 +67,92 @@ namespace DAL.App.EF.Helpers
 
             var roleResult = userManager.AddToRoleAsync(user, "Admin").Result;
             roleResult = userManager.AddToRoleAsync(user, "Customer").Result;
+            
+            
+            userName = "test@cust.com";
+            passWord = "Test.cust.2020";
+            firstName = "Test";
+            lastName = "Customer";
+            phone = "88005553535";
+
+            user = userManager.FindByNameAsync(userName).Result;
+            if (user == null)
+            {
+                user = new AppUser
+                {
+                    Email = userName,
+                    UserName = userName,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Phone = phone,
+                    Id = new Guid("00000000-0000-0000-0000-000000000002")
+                };
+
+                var result = userManager.CreateAsync(user, passWord).Result;
+                if (!result.Succeeded)
+                {
+                    throw new ApplicationException("User creation failed!");
+                }
+            }
+            
+            userName = "test@admi.com";
+            passWord = "Test.admi.2020";
+            firstName = "Test";
+            lastName = "Admin";
+            phone = "88005553535";
+            
+            roleResult = userManager.AddToRoleAsync(user, "Admin").Result;
+
+
+            user = userManager.FindByNameAsync(userName).Result;
+            if (user == null)
+            {
+                user = new AppUser
+                {
+                    Email = userName,
+                    UserName = userName,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Phone = phone,
+                    Id = new Guid("00000000-0000-0000-0000-000000000003")
+                };
+
+                var result = userManager.CreateAsync(user, passWord).Result;
+                if (!result.Succeeded)
+                {
+                    throw new ApplicationException("User creation failed!");
+                }
+            }
+            
+            roleResult = userManager.AddToRoleAsync(user, "Customer").Result;
+            
+            userName = "test@rest.com";
+            passWord = "Test.rest.2020";
+            firstName = "Test";
+            lastName = "Restaurant";
+            phone = "88005553535";
+
+            user = userManager.FindByNameAsync(userName).Result;
+            if (user == null)
+            {
+                user = new AppUser
+                {
+                    Email = userName,
+                    UserName = userName,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Phone = phone,
+                    Id = new Guid("00000000-0000-0000-0000-000000000004")
+                };
+
+                var result = userManager.CreateAsync(user, passWord).Result;
+                if (!result.Succeeded)
+                {
+                    throw new ApplicationException("User creation failed!");
+                }
+            }
+            
+            roleResult = userManager.AddToRoleAsync(user, "Restaurant").Result;
         }
 
         public static void SeedData(AppDbContext context)
