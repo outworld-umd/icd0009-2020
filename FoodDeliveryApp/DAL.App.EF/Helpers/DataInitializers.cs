@@ -21,7 +21,7 @@ namespace DAL.App.EF.Helpers
 
         public static void SeedIdentity(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
-            var roleNames = new string[] {"Admin", "Customer", "Restaurant"};
+            var roleNames = new[] {"Admin", "Customer", "Restaurant"};
             foreach (var roleName in roleNames)
             {
                 var role = roleManager.FindByNameAsync(roleName).Result;
@@ -36,14 +36,15 @@ namespace DAL.App.EF.Helpers
                     }
                 }
             }
-
-
-            var userName = "dubistdum@dubistdum.com";
-            var passWord = "Kala.maja.2020";
-            var firstName = "DuBistDumm";
-            var lastName = "DuBistDumm";
-            var phone = "3453245632";
-
+            
+            // ================ ADMIN TEST USER ================
+            
+            var userName = "test@admi.com";
+            var passWord = "Test.admi.2020";
+            var firstName = "Test";
+            var lastName = "Admin";
+            var phone = "88005553535";
+            
             var user = userManager.FindByNameAsync(userName).Result;
             if (user == null)
             {
@@ -63,12 +64,9 @@ namespace DAL.App.EF.Helpers
                     throw new ApplicationException("User creation failed!");
                 }
             }
-
-
+            
             var roleResult = userManager.AddToRoleAsync(user, "Admin").Result;
-            roleResult = userManager.AddToRoleAsync(user, "Customer").Result;
-            
-            
+
             userName = "test@cust.com";
             passWord = "Test.cust.2020";
             firstName = "Test";
@@ -86,35 +84,6 @@ namespace DAL.App.EF.Helpers
                     LastName = lastName,
                     Phone = phone,
                     Id = new Guid("00000000-0000-0000-0000-000000000002")
-                };
-
-                var result = userManager.CreateAsync(user, passWord).Result;
-                if (!result.Succeeded)
-                {
-                    throw new ApplicationException("User creation failed!");
-                }
-            }
-            
-            userName = "test@admi.com";
-            passWord = "Test.admi.2020";
-            firstName = "Test";
-            lastName = "Admin";
-            phone = "88005553535";
-            
-            roleResult = userManager.AddToRoleAsync(user, "Admin").Result;
-
-
-            user = userManager.FindByNameAsync(userName).Result;
-            if (user == null)
-            {
-                user = new AppUser
-                {
-                    Email = userName,
-                    UserName = userName,
-                    FirstName = firstName,
-                    LastName = lastName,
-                    Phone = phone,
-                    Id = new Guid("00000000-0000-0000-0000-000000000003")
                 };
 
                 var result = userManager.CreateAsync(user, passWord).Result;
@@ -142,7 +111,7 @@ namespace DAL.App.EF.Helpers
                     FirstName = firstName,
                     LastName = lastName,
                     Phone = phone,
-                    Id = new Guid("00000000-0000-0000-0000-000000000004")
+                    Id = new Guid("00000000-0000-0000-0000-000000000003")
                 };
 
                 var result = userManager.CreateAsync(user, passWord).Result;
@@ -403,7 +372,7 @@ namespace DAL.App.EF.Helpers
                     BuildingNumber = "7/2",
                     Apartment = "201b",
                     Name = "Uhikas",
-                    AppUserId = new Guid("00000000-0000-0000-0000-000000000001"),
+                    AppUserId = new Guid("00000000-0000-0000-0000-000000000002"),
                     Id = new Guid("00000000-0000-0000-0000-000000000001")
 
                 },
@@ -415,7 +384,7 @@ namespace DAL.App.EF.Helpers
                     BuildingNumber = "212",
                     Apartment = "27",
                     Name = "Home",
-                    AppUserId = new Guid("00000000-0000-0000-0000-000000000001"),
+                    AppUserId = new Guid("00000000-0000-0000-0000-000000000002"),
                     Id = new Guid("00000000-0000-0000-0000-000000000002")
                 },
             };
@@ -435,7 +404,7 @@ namespace DAL.App.EF.Helpers
                 new RestaurantUser()
                 {
                     RestaurantId =  new Guid("00000000-0000-0000-0000-000000000001"),
-                    AppUserId = new Guid("00000000-0000-0000-0000-000000000004"),
+                    AppUserId = new Guid("00000000-0000-0000-0000-000000000003"),
                     Id = new Guid("00000000-0000-0000-0000-000000000001")
                 },
             };

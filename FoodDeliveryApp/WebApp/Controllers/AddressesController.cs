@@ -11,6 +11,7 @@ using DAL.App.EF;
 using BLL.App.DTO;
 using Extensions;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 using IAppBLL = Contracts.BLL.App.IAppBLL;
 
 namespace WebApp.Controllers
@@ -29,7 +30,7 @@ namespace WebApp.Controllers
         public async Task<IActionResult> Index()
         {
             var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
-            return View((await _bll.Addresses.GetAllAsync(userIdTKey)));
+            return View(await _bll.Addresses.GetAllAsync(userIdTKey));
         } 
 
         // GET: Addresses/Details/5
