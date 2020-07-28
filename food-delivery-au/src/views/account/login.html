@@ -1,19 +1,19 @@
 <template>
     <div class="container w-25">
         <div>
-            <h3 class="font-weight-light text-danger mt-5" if.bind="_loginWasOk === false">{{ $t('account.badLogin') }}</h3>
+            <h3 class="font-weight-light text-danger mt-5" if.bind="_loginWasOk === false">Bad Login</h3>
             <div class="text-left">
                 <label class="control-label w-100 form-group font-weight-light font-italic">
-                    {{ $t('account.email') }}
-                    <input value.bind="_email" class="form-control font-weight-light" type="email" :placeholder="$t('account.email')"/>
+                    Email
+                    <input value.bind="_email" class="form-control font-weight-light" type="email" placeholder="Email"/>
                 </label>
                 <label class="control-label w-100 form-group font-weight-light font-italic">
-                    {{ $t('account.password') }}
-                    <input value.bind="_password" class="form-control font-weight-light" type="password" :placeholder="$t('account.password')"/>
+                    Password
+                    <input value.bind="_password" class="form-control font-weight-light" type="password" placeholder="Password"/>
                 </label>
             </div>
             <div class="form-group mt-5">
-                <button click.delegate="loginOnClick()" class="btn px-4 btn-success font-weight-bold shadow-none" disabled.bind="!_email.length || !_password.length">{{ $t('account.login') }}</button>
+                <button click.delegate="loginOnClick()" class="btn px-4 btn-success font-weight-bold shadow-none" disabled.bind="!_email.length || !_password.length">Login</button>
             </div>
         </div>
     </div>

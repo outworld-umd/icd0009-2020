@@ -83,7 +83,7 @@ import store from '@/store';
 import OrderModule from "@/store/modules/OrderModule";
 import { Component, Vue } from "vue-property-decorator";
 import { getModule } from "vuex-module-decorators";
-import { IOrderRowTemp } from "@/domain/IOrderRow";
+import { IOrderRowCreate } from "@/domain/IOrderRow";
 import { IOrderItemChoiceTemp } from "@/domain/IOrderItemChoice";
 import router from "@/router";
 import { IAddress } from "@/domain/IAddress";
@@ -108,7 +108,7 @@ export default class OrderCreate extends Vue {
         return getModule(OrderModule, store).currentRestaurantName;
     }
 
-    get orderRows(): IOrderRowTemp[] {
+    get orderRows(): IOrderRowCreate[] {
         return getModule(OrderModule, store).orderRows;
     }
 
@@ -132,15 +132,15 @@ export default class OrderCreate extends Vue {
         return this.foodCost + this.deliveryCost;
     }
 
-    increment(row: IOrderRowTemp): void {
+    increment(row: IOrderRowCreate): void {
         getModule(OrderModule, store).increment(row);
     }
 
-    decrement(row: IOrderRowTemp): void {
+    decrement(row: IOrderRowCreate): void {
         getModule(OrderModule, store).decrement(row);
     }
 
-    rowCost(row: IOrderRowTemp): number {
+    rowCost(row: IOrderRowCreate): number {
         return row.cost * row.amount + row.choices.reduce((a: number, b: IOrderItemChoiceTemp) => a + b.amount * b.cost, 0)
     }
 
@@ -175,7 +175,7 @@ export default class OrderCreate extends Vue {
         })
     }
 
-    deleteRowFromOrder(row: IOrderRowTemp) {
+    deleteRowFromOrder(row: IOrderRowCreate) {
         getModule(OrderModule, store).deleteRowFromOrder(row)
     }
 
