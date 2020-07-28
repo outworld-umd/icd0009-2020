@@ -18,7 +18,14 @@ namespace PublicApi.DTO.v1.Mappers
         {
             var itemType = Mapper.Map<ItemType>(inObject);
             itemType.Items = inObject.ItemInTypes
-                .Select(ic => new ItemMapper().MapItemView(ic.Item!))
+                .Select(ic => new ItemView
+                {
+                    ItemInTypeId = ic.Id,
+                    Name = ic.Item!.Name,
+                    PictureLink = ic.Item!.PictureLink,
+                    Price = ic.Item!.Price,
+                    Id = ic.ItemId
+                })
                 .ToList();
             return itemType;
         }
