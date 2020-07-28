@@ -41,50 +41,6 @@ export class RestaurantMenu {
                             type: AlertType.Danger,
                             dismissable: true,
                         }
-                        this._restaurant = {
-                            address: "Vilde tee",
-                            deliveryCost: 2.34,
-                            description: "asdasdasdasdasdasd",
-                            id: "1",
-                            itemTypes: [
-                                {
-                                    id: "1",
-                                    name: "Special",
-                                    isSpecial: true,
-                                    items: [
-                                        {
-                                            id: "1",
-                                            itemInTypeId: "340",
-                                            name: "Naise soe sitt",
-                                            price: 2.3
-                                        },
-                                        {
-                                            id: "2",
-                                            itemInTypeId: "850",
-                                            name: "Mehe soe sitt",
-                                            price: 2.35
-                                        },
-                                    ]
-                                },
-                                {
-                                    id: "2",
-                                    name: "Other",
-                                    isSpecial: false,
-                                    items: [
-                                        {
-                                            id: "3",
-                                            itemInTypeId: "952",
-                                            name: "Tuss",
-                                            price: 0.69
-                                        }
-                                    ]
-                                },
-                            ],
-                            name: "asdasdasd",
-                            phone: "asdasd",
-                            workingHours: []
-
-                        }
                     }
                 });
             this.itemService.getAll(params.id).then(
@@ -100,40 +56,6 @@ export class RestaurantMenu {
                             type: AlertType.Danger,
                             dismissable: true,
                         }
-                        this._items = [
-                            {
-                                id: "1",
-                                name: "Naise soe sitt",
-                                price: 2.3,
-                                nutritionInfos: [],
-                                options: [],
-                                restaurantId: "4"
-                            },
-                            {
-                                id: "2",
-                                name: "Mehe soe sitt",
-                                price: 2.35,
-                                nutritionInfos: [],
-                                options: [],
-                                restaurantId: "4"
-                            },
-                            {
-                                id: "3",
-                                name: "Tuss",
-                                price: 0.69,
-                                nutritionInfos: [],
-                                options: [],
-                                restaurantId: "4"
-                            },
-                            {
-                                id: "4",
-                                name: "Türa",
-                                price: 1.69,
-                                nutritionInfos: [],
-                                options: [],
-                                restaurantId: "4"
-                            }
-                        ]
                     }
                 });
         }

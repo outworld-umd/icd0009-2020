@@ -539,6 +539,10 @@ namespace DAL.App.EF.Migrations
                     b.Property<Guid>("ItemChoiceId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("OrderRowId")
                         .HasColumnType("uniqueidentifier");
 
@@ -583,7 +587,6 @@ namespace DAL.App.EF.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("OrderId")

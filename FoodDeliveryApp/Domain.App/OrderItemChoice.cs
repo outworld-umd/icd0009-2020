@@ -22,6 +22,8 @@ namespace Domain.App
         public TKey ItemChoiceId { get; set; } = default!;
         public ItemChoice? ItemChoice { get; set; }
         
+        public string Name { get; set; }
+        
         [Range(1, 20)] [Required] public int Amount { get; set; }
         [Column(TypeName = "decimal(6,2)")] [Required] public decimal Cost { get; set; }
     }

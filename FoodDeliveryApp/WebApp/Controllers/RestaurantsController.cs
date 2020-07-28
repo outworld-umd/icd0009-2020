@@ -37,7 +37,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var restaurant = await _bll.Restaurants.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            var restaurant = await _bll.Restaurants.FirstOrDefaultAsync(id.Value);
             if (restaurant == null)
             {
                 return NotFound();

@@ -50,7 +50,7 @@ dotnet aspnet-codegenerator controller -name NutritionInfoController -actions -m
 dotnet aspnet-codegenerator controller -name OrderController -actions -m Domain.App.Order -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
 dotnet aspnet-codegenerator controller -name OrderItemChoiceController -actions -m Domain.App.OrderItemChoice -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
 dotnet aspnet-codegenerator controller -name OrderRowController -actions -m Domain.App.OrderRow -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
-dotnet aspnet-codegenerator controller -name RestaurantController -actions -m Domain.App.Restaurant -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
+dotnet aspnet-codegenerator controller -name RestaurantCategoriesController -actions -m Domain.App.RestaurantCategory -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
 dotnet aspnet-codegenerator controller -name WorkingHoursController -actions -m Domain.App.WorkingHours -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
 ```
 ##### To generate Identity UI:

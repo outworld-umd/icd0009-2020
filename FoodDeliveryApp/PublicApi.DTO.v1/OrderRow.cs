@@ -13,7 +13,7 @@ namespace PublicApi.DTO.v1
         public int Amount { get; set; }
         public decimal Cost { get; set; }
         public string? Comment { get; set; }
-        public ICollection<OrderItemChoice>? OrderItemChoices { get; set; }
+        public ICollection<OrderItemChoice>? Choices { get; set; }
         
         public Guid Id { get; set; } = default!;
     }

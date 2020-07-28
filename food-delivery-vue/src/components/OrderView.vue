@@ -2,7 +2,7 @@
     <div class="d-flex align-items-center">
         <div class="p-2 mx-3 text-left w-75">
             <div>{{ orderView.restaurantName }}</div>
-            <div class="font-weight-bold">{{ orderView.foodCost.toFixed(2) }}€</div>
+            <div class="font-weight-bold">{{ totalCost }}€</div>
         </div>
         <h4 class="w-25 mr-4">
             <span v-if="orderView.orderStatus === 0" class="badge badge-secondary w-100">{{ $t('order.sent') }}</span>
@@ -28,6 +28,10 @@ export default class OrderView extends Vue {
 
     showModal(id: string) {
         this.$bvModal.show(id);
+    }
+
+    get totalCost(): string {
+        return (this.orderView.deliveryCost + this.orderView.foodCost).toFixed(2)
     }
 }
 </script>

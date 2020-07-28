@@ -6,20 +6,7 @@ using DALAppDTO=DAL.App.DTO;
 
 namespace BLL.App.Mappers
 {
-    public class OrderItemChoiceServiceMapper: BaseBLLMapper<DALAppDTO.OrderItemChoice, BLLAppDTO.OrderItemChoice>, IOrderItemChoiceServiceMapper
+    public class OrderItemChoiceServiceMapper: BLLMapper<DALAppDTO.OrderItemChoice, BLLAppDTO.OrderItemChoice>, IOrderItemChoiceServiceMapper
     {
-        public OrderItemChoiceServiceMapper()
-        {
-            MapperConfigurationExpression.CreateMap<BLLAppDTO.OrderItemChoice, DALAppDTO.OrderItemChoice>();
-            MapperConfigurationExpression.CreateMap<DALAppDTO.OrderItemChoice, BLLAppDTO.OrderItemChoice>();
-
-            MapperConfigurationExpression.CreateMap<BLLAppDTO.OrderRow, DALAppDTO.OrderRow>();
-            MapperConfigurationExpression.CreateMap<DALAppDTO.OrderRow, BLLAppDTO.OrderRow>();
-
-            MapperConfigurationExpression.CreateMap<BLLAppDTO.ItemChoice, DALAppDTO.ItemChoice>();
-            MapperConfigurationExpression.CreateMap<DALAppDTO.ItemChoice, BLLAppDTO.ItemChoice>();
-            
-            Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));
-        }
     }
 }

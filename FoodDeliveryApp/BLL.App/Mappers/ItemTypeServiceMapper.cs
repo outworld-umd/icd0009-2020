@@ -7,17 +7,7 @@ using DALAppDTO=DAL.App.DTO;
 
 namespace BLL.App.Mappers
 {
-    public class ItemTypeServiceMapper: BaseBLLMapper<DALAppDTO.ItemType, BLLAppDTO.ItemType>, IItemTypeServiceMapper
+    public class ItemTypeServiceMapper: BLLMapper<DALAppDTO.ItemType, BLLAppDTO.ItemType>, IItemTypeServiceMapper
     {
-        public ItemTypeServiceMapper()
-        {
-            MapperConfigurationExpression.CreateMap<BLLAppDTO.ItemType, DALAppDTO.ItemType>();
-            MapperConfigurationExpression.CreateMap<DALAppDTO.ItemType, BLLAppDTO.ItemType>();
-
-            MapperConfigurationExpression.CreateMap<BLLAppDTO.Restaurant, DALAppDTO.Restaurant>();
-            MapperConfigurationExpression.CreateMap<DALAppDTO.Restaurant, BLLAppDTO.Restaurant>();
-            
-            Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));
-        }
     }
 }

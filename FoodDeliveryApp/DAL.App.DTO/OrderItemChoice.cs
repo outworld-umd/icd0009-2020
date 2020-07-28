@@ -22,6 +22,9 @@ namespace DAL.App.DTO
 
         public TKey ItemChoiceId { get; set; } = default!;
         public ItemChoice? ItemChoice { get; set; }
+        
+        public string Name { get; set; }
+        
 
         public TKey Id { get; set; } = default!;
         public string? CreatedBy { get; set; }

@@ -6,14 +6,8 @@ using BLLAppDTO=BLL.App.DTO;
 
 namespace PublicApi.DTO.v1.Mappers
 {
-    public class CategoryMapper: BaseAPIMapper<BLL.App.DTO.Category, Category>
+    public class CategoryMapper: APIMapper<BLL.App.DTO.Category, Category>
     {
-        public CategoryMapper()
-        {
-            MapperConfigurationExpression.CreateMap<BLLAppDTO.Category, Category>();
-
-            Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));
-        }
 
         public Category MapCategory(BLL.App.DTO.Category inObject)
         {

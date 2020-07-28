@@ -243,9 +243,9 @@ export class ItemIndex {
                 isRequired: this._optionRequired
             }
             if (this._optionId) {
-                const optionEdit: IOptionEdit = { id: this._itemId, ...optionCreate }
+                const optionEdit: IOptionEdit = { id: this._optionId, ...optionCreate }
                 console.log("update", optionEdit)
-                await this.itemOptionService.put(this._itemId, optionEdit);
+                await this.itemOptionService.put(this._optionId, optionEdit);
             } else {
                 console.log("create", optionCreate)
                 await this.itemOptionService.post(optionCreate);
@@ -317,7 +317,8 @@ export class ItemIndex {
             if (this._infoId) {
                 const infoEdit: INutritionInfoEdit = { id: this._infoId, ...infoCreate }
                 console.log("update", infoEdit)
-                await this.nutritionInfoService.put(this._itemId, infoEdit);
+                const response = await this.nutritionInfoService.put(this._infoId, infoEdit);
+                console.log(response)
             } else {
                 console.log("create", infoCreate)
                 await this.nutritionInfoService.post(infoCreate);

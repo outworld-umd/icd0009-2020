@@ -14,14 +14,5 @@ namespace BLL.App.Services
         public OrderRowService(IAppUnitOfWork unitOfWork) : base(unitOfWork, unitOfWork.OrderRows, new OrderRowServiceMapper())
         {
         }
-
-        public new OrderRow Add(OrderRow entity) {
-            if (entity.ItemId != null) 
-            {
-                entity.Name ??= ServiceUnitOfWork.Items.FirstOrDefaultAsync(entity.ItemId.Value).Result.Name;
-            }
-            entity.Name ??= "";
-            return base.Add(entity);
-        }
     }
 }

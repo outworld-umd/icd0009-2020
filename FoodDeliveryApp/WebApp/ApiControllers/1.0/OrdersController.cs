@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper.Internal;
 using Contracts.BLL.App;
 using Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using V1DTO=PublicApi.DTO.v1;
 using PublicApi.DTO.v1.Mappers;
 
@@ -21,6 +23,8 @@ namespace WebApp.ApiControllers._1._0
     {
         private readonly IAppBLL _bll;
         private readonly OrderMapper _mapper = new OrderMapper();
+        private readonly OrderRowMapper _rowMapper = new OrderRowMapper();
+        private readonly OrderItemChoiceMapper _choiceMapper = new OrderItemChoiceMapper();
 
         /// <summary>
         /// Constructor
@@ -150,8 +154,8 @@ namespace WebApp.ApiControllers._1._0
             {
                 return Unauthorized(new V1DTO.MessageDTO("User not authorized for this restaurant"));
             }
-            
             var bllEntity = _mapper.Map(order);
+            bllEntity.AppUserId = User.UserGuidId();
             _bll.Orders.Add(bllEntity);
             await _bll.SaveChangesAsync();
             order.Id = bllEntity.Id;

@@ -10,7 +10,7 @@ namespace PublicApi.DTO.v1
         public Guid RestaurantId { get; set; }
         
         public ICollection<NutritionInfo>? NutritionInfos { get; set; }
-        public ICollection<ItemOption>? ItemOptions { get; set; }
+        public ICollection<ItemOption>? Options { get; set; }
         public string Name { get; set; } = default!;
         public string? PictureLink { get; set; }
         public decimal Price { get; set; }

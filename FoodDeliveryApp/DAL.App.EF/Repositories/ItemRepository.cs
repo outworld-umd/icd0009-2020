@@ -35,8 +35,8 @@ namespace DAL.App.EF.Repositories
             var query = PrepareQuery(userId, noTracking);
             var entity = await query
                 .Include(i => i.ItemOptions)
-                .Include(i => i.ItemInTypes)
-                .ThenInclude(iit => iit.ItemType)
+                .ThenInclude(io => io.ItemChoices)
+                .Include(i => i.NutritionInfos)
                 .FirstOrDefaultAsync(e => e.Id.Equals(id));
             return DALMapper.Map(entity);
         }

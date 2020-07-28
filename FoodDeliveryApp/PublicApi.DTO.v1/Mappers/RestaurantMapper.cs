@@ -7,15 +7,8 @@ using BLLAppDTO=BLL.App.DTO;
 
 namespace PublicApi.DTO.v1.Mappers
 {
-    public class RestaurantMapper: BaseAPIMapper<BLL.App.DTO.Restaurant, Restaurant>
+    public class RestaurantMapper: APIMapper<BLL.App.DTO.Restaurant, Restaurant>
     {
-        public RestaurantMapper()
-        {
-            MapperConfigurationExpression.CreateMap<BLL.App.DTO.Restaurant, Restaurant>();
-            MapperConfigurationExpression.CreateMap<BLL.App.DTO.Restaurant, RestaurantView>();
-
-            Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));
-        }
 
         public Restaurant MapRestaurant(BLL.App.DTO.Restaurant inObject)
         {
@@ -27,7 +20,8 @@ namespace PublicApi.DTO.v1.Mappers
                 Name = rc.Category!.Name,
                 RestaurantCategoryId = rc.Id
             }).ToList();
-            restaurant.IsOpen = IsRestaurantOpen(inObject);
+            // restaurant.IsOpen = IsRestaurantOpen(inObject);
+            restaurant.IsOpen = true;
             return restaurant;
         }
         
@@ -39,7 +33,8 @@ namespace PublicApi.DTO.v1.Mappers
                 Name = rc.Category!.Name,
                 RestaurantCategoryId = rc.Id
             }).ToList();
-            restaurant.IsOpen = IsRestaurantOpen(inObject);
+            // restaurant.IsOpen = IsRestaurantOpen(inObject);
+            restaurant.IsOpen = true;
             return restaurant;
         }
 

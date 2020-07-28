@@ -6,6 +6,7 @@ using Contracts.BLL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 using V1DTO=PublicApi.DTO.v1;
 using PublicApi.DTO.v1.Mappers;
 
@@ -43,7 +44,7 @@ namespace WebApp.ApiControllers._1._0
                 return NotFound(new V1DTO.MessageDTO($"ItemType with id {id} not found"));
             }
 
-            return Ok(_mapper.Map(itemType));
+            return Ok(_mapper.MapItemType(itemType));
         }
 
         // PUT: api/ItemType/5

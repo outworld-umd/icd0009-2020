@@ -6,6 +6,7 @@ using Contracts.BLL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 using V1DTO=PublicApi.DTO.v1;
 using PublicApi.DTO.v1.Mappers;
 

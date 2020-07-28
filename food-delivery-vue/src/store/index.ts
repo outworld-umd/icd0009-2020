@@ -51,6 +51,7 @@ export default new Vuex.Store({
         },
         async getOrder(context, id: string): Promise<void> {
             const response = await OrderAPI.get(id);
+            console.log(response)
             context.commit('setOrder', response.data)
         },
         async getRestaurants(context): Promise<void> {

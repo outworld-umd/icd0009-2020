@@ -21,7 +21,7 @@ export interface IOrder {
     deliveryCost: number;
     restaurantId?: string;
     restaurantName?: string;
-    createdAt: Date;
+    createdAt: string;
 }
 
 export interface IOrderTemp {

@@ -9,5 +9,7 @@ namespace PublicApi.DTO.v1
         public decimal AdditionalPrice { get; set; }
 
         public Guid Id { get; set; } = default!;
+        public Guid ItemOptionId { get; set; } = default!;
+
     }
 }

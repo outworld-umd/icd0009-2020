@@ -12,7 +12,7 @@ namespace PublicApi.DTO.v1
         public Guid OrderRowId { get; set; } // ZDES BIL 0!!!!!!!!!!!!!!!
 
         public Guid ItemChoiceId { get; set; } = default!;
-        public string? ItemChoiceName { get; set; }
+        public string Name { get; set; }
 
         public Guid Id { get; set; } = default!;
     }

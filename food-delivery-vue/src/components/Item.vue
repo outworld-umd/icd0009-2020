@@ -1,5 +1,5 @@
 <template>
-    <b-modal :id="id" hide-footer @show="beforeShown" @hide="beforeHidden" style="overflow-y:scroll;">
+    <b-modal :id="typeId + id" hide-footer @show="beforeShown" @hide="beforeHidden" style="overflow-y:scroll;">
         <template v-if="item" v-slot:modal-header>
             <h3>{{ item.name }}</h3>
         </template>
@@ -61,7 +61,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import store from "@/store";
 import OrderModule from '@/store/modules/OrderModule';
 import { IItem } from "@/domain/IItem";
-import { IOrderRowTemp } from "@/domain/IOrderRow";
+import { IOrderRowCreate } from "@/domain/IOrderRow";
 import { IOrderItemChoiceTemp } from "@/domain/IOrderItemChoice";
 import { getModule } from "vuex-module-decorators";
 import { IChoice } from "@/domain/IChoice";
@@ -70,6 +70,7 @@ import { IRadioChoice } from "@/types/IRadioChoice";
 @Component
 export default class Item extends Vue {
     @Prop() id!: string;
+    @Prop() typeId!: string;
     @Prop() restaurantId!: string;
     @Prop() restaurantName!: string;
     @Prop() deliveryCost!: number;
@@ -142,7 +143,7 @@ export default class Item extends Vue {
                     name: choice.name
                 })
             }
-            const orderRow: IOrderRowTemp = {
+            const orderRow: IOrderRowCreate = {
                 itemId: this.id,
                 amount: this.amount,
                 name: this.item?.name ?? "",
@@ -152,7 +153,7 @@ export default class Item extends Vue {
             };
             store.commit('addOrderRow', orderRow)
         }
-        this.$bvModal.hide(this.id)
+        this.$bvModal.hide(this.typeId + this.id)
     }
 
     beforeShown(): void {

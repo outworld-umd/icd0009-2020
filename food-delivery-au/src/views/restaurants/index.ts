@@ -43,13 +43,15 @@ export class RestaurantIndex {
         for (const view of this._initial) {
             if (!this._selected.includes(view.id)) {
                 console.log("delete restaurantcategory", view.restaurantCategoryId);
-                await this.restaurantCategoryService.delete(view.restaurantCategoryId);
+                const response = await this.restaurantCategoryService.delete(view.restaurantCategoryId);
+                console.log(response)
             }
         }
         for (const id of this._selected) {
             if (!this._initial.map(c => c.id).includes(id)) {
                 console.log("add category", id, "to restaurant", this._currentId)
-                await this.restaurantCategoryService.post({ categoryId: id, restaurantId: this._currentId });
+                const response = await this.restaurantCategoryService.post({ categoryId: id, restaurantId: this._currentId });
+                console.log(response)
             }
         }
         await this.restaurantService.getAll().then(

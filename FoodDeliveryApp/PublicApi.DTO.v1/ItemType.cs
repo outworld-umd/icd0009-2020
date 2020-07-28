@@ -9,6 +9,7 @@ namespace PublicApi.DTO.v1
         public string Name { get; set; } = default!;
         public bool IsSpecial { get; set; }
         public string? Description { get; set; }
+        public Guid RestaurantId { get; set; } = default!;
 
         public ICollection<ItemView>? Items { get; set; }
 

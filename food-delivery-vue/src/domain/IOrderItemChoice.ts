@@ -12,7 +12,9 @@ export interface IOrderItemChoiceTemp {
 }
 
 export interface IOrderItemChoiceCreate {
+    orderRowId: string;
     itemChoiceId: string;
     amount: number;
     cost: number;
+    name: string;
 }

@@ -10,8 +10,10 @@ namespace PublicApi.DTO.v1
         public bool IsRequired { get; set; }
         public bool IsSingle { get; set; }
         
-        public ICollection<ItemChoice>? ItemChoices { get; set; }
+        public ICollection<ItemChoice>? Choices { get; set; }
         
         public Guid Id { get; set; } = default!;
+        public Guid ItemId { get; set; } = default!;
+
     }
 }

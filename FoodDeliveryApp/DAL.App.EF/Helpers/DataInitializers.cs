@@ -355,28 +355,33 @@ namespace DAL.App.EF.Helpers
                     Name = "KFC Kristiine",
                     Phone  = "550 1234",
                     Address = "Endla 45",
-                    DeliveryCost = 3
+                    DeliveryCost = 3,
+                    Id = new Guid("00000000-0000-0000-0000-000000000001")
+                    
                 },
                 new Restaurant()
                 {
                     Name = "Burger King Rocca al Mare",
                     Phone  = "665 9345",
                     Address = "Paldiski maantee 102",
-                    DeliveryCost = 3
+                    DeliveryCost = 3,
+                    Id = new Guid("00000000-0000-0000-0000-000000000002")
                 },
                 new Restaurant()
                 {
                     Name = "McDonald's Mustamäe",
                     Phone  = "5561 7012",
                     Address = " A. H. Tammsaare tee 76",
-                    DeliveryCost = 3
+                    DeliveryCost = 3,
+                    Id = new Guid("00000000-0000-0000-0000-000000000003")
                 },
                 new Restaurant()
                 {
                     Name = "Dodo Pizza Sõpruse pst.",
                     Phone  = "629 9209",
                     Address = "Sõpruse pst. 211a",
-                    DeliveryCost = 3
+                    DeliveryCost = 3,
+                    Id = new Guid("00000000-0000-0000-0000-000000000004")
                 },
             };
             
@@ -398,7 +403,9 @@ namespace DAL.App.EF.Helpers
                     BuildingNumber = "7/2",
                     Apartment = "201b",
                     Name = "Uhikas",
-                    AppUserId = new Guid("00000000-0000-0000-0000-000000000001")
+                    AppUserId = new Guid("00000000-0000-0000-0000-000000000001"),
+                    Id = new Guid("00000000-0000-0000-0000-000000000001")
+
                 },
                 new Address()
                 {
@@ -408,7 +415,8 @@ namespace DAL.App.EF.Helpers
                     BuildingNumber = "212",
                     Apartment = "27",
                     Name = "Home",
-                    AppUserId = new Guid("00000000-0000-0000-0000-000000000001")
+                    AppUserId = new Guid("00000000-0000-0000-0000-000000000001"),
+                    Id = new Guid("00000000-0000-0000-0000-000000000002")
                 },
             };
             
@@ -417,6 +425,26 @@ namespace DAL.App.EF.Helpers
                 if (!context.Addresses.Any(l => l.Id == address.Id))
                 {
                     context.Addresses.Add(address);
+                }
+            }
+
+            context.SaveChanges();
+            
+            var restaurantUsers = new RestaurantUser[]
+            {
+                new RestaurantUser()
+                {
+                    RestaurantId =  new Guid("00000000-0000-0000-0000-000000000001"),
+                    AppUserId = new Guid("00000000-0000-0000-0000-000000000004"),
+                    Id = new Guid("00000000-0000-0000-0000-000000000001")
+                },
+            };
+            
+            foreach (var restaurantUser in restaurantUsers)
+            {
+                if (!context.RestaurantUsers.Any(l => l.Id == restaurantUser.Id))
+                {
+                    context.RestaurantUsers.Add(restaurantUser);
                 }
             }
 

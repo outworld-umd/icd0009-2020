@@ -6,7 +6,7 @@
                 <h2 class="font-weight-bold">{{ order.restaurantName }}</h2>
             </div>
             <div class="my-3 mx-5 h5 font-weight-light">
-                <div>{{ $d(order.createdAt, 'long') }}</div>
+                <div>{{ $d(new Date(order.createdAt), 'long') }}</div>
             </div>
         </template>
         <div v-if="order" class="m-4">

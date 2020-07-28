@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using PublicApi.DTO.v1.Mappers;
 using V1DTO = PublicApi.DTO.v1;
 
@@ -73,7 +74,6 @@ namespace WebApp.ApiControllers._1._0 {
             var item = await _bll.Items.FirstOrDefaultAsync(id, User.UserGuidId());
 
             if (item == null) return NotFound(new V1DTO.MessageDTO($"Item with id {id} not found"));
-
             return Ok(_mapper.MapItem(item));
         }
 
@@ -95,6 +95,9 @@ namespace WebApp.ApiControllers._1._0 {
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(V1DTO.MessageDTO))]
         public async Task<IActionResult> PutItem(Guid id, V1DTO.Item item) {
             if (id != item.Id) return BadRequest(new V1DTO.MessageDTO("Id and Item.Id do not match"));
+            if (!(await _bll.RestaurantUsers.GetAllAsync()).Any(ru => ru.AppUserId.Equals(User.UserGuidId()) && ru.RestaurantId.Equals(item.RestaurantId))) {
+                return Unauthorized(new V1DTO.MessageDTO("User not authorized for this restaurant"));
+            }
             await _bll.Items.UpdateAsync(_mapper.Map(item));
             await _bll.SaveChangesAsync();
 
@@ -114,8 +117,7 @@ namespace WebApp.ApiControllers._1._0 {
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(V1DTO.Item))]
         [HttpPost]
         public async Task<ActionResult<V1DTO.Item>> PostItem(V1DTO.Item item) {
-            if (!await _bll.RestaurantUsers.AnyAsync(ru =>
-                ru.AppUserId.Equals(User.UserGuidId()) && ru.RestaurantId.Equals(item.RestaurantId))) {
+            if (!(await _bll.RestaurantUsers.GetAllAsync()).Any(ru => ru.AppUserId.Equals(User.UserGuidId()) && ru.RestaurantId.Equals(item.RestaurantId))) {
                 return Unauthorized(new V1DTO.MessageDTO("User not authorized for this restaurant"));
             }
             var bllEntity = _mapper.Map(item);
@@ -134,21 +136,20 @@ namespace WebApp.ApiControllers._1._0 {
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.Item))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         [HttpDelete("{id}")]
-        public async Task<ActionResult<V1DTO.Item>> DeleteItem(Guid id) {
+        public async Task<ActionResult> DeleteItem(Guid id) {
             var item = await _bll.Items.FirstOrDefaultAsync(id);
             if (item == null) return NotFound(new V1DTO.MessageDTO("Item not found"));
-            if (!await _bll.RestaurantUsers.AnyAsync(ru =>
-                ru.AppUserId.Equals(User.UserGuidId()) && ru.RestaurantId.Equals(item.RestaurantId))) {
+            if (!(await _bll.RestaurantUsers.GetAllAsync()).Any(ru => ru.AppUserId.Equals(User.UserGuidId()) && ru.RestaurantId.Equals(item.RestaurantId))) {
                 return Unauthorized(new V1DTO.MessageDTO("User not authorized for this restaurant"));
             }
             
             await _bll.Items.RemoveAsync(item);
             await _bll.SaveChangesAsync();
 
-            return Ok(item);
+            return NoContent();
         }
 
         private bool ItemExists(Guid id) {

@@ -1,5 +1,5 @@
 import { getModule, Module, Mutation, VuexModule, Action } from "vuex-module-decorators";
-import { IOrderRowTemp } from "@/domain/IOrderRow";
+import { IOrderRowCreate } from "@/domain/IOrderRow";
 import store from "@/store";
 import { IOrderCreate, IOrderTemp } from "@/domain/IOrder";
 import { OrderAPI } from "@/services/OrderAPI";
@@ -9,7 +9,7 @@ export default class OrderModule extends VuexModule {
     currentRestaurantId: string | null = null;
     currentRestaurantName: string | null = null;
     deliveryCost = 0;
-    orderRows: IOrderRowTemp[] = [];
+    orderRows: IOrderRowCreate[] = [];
     loading = false;
 
     get orderHasItems(): boolean {
@@ -18,22 +18,22 @@ export default class OrderModule extends VuexModule {
 
     get foodCost(): number {
         return this.orderRows.reduce(
-            (a: number, b: IOrderRowTemp) => a + b.amount * b.cost + b.choices.reduce(
+            (a: number, b: IOrderRowCreate) => a + b.amount * b.cost + b.choices.reduce(
                 (c, d) => c + d.amount * d.cost, 0), 0);
     }
 
     get amountOfItem() {
         return function (id: string) {
-            return getModule(OrderModule, store).orderRows.filter((r: IOrderRowTemp) => r.itemId === id).reduce((a: number, b: IOrderRowTemp) => a + b.amount, 0)
+            return getModule(OrderModule, store).orderRows.filter((r: IOrderRowCreate) => r.itemId === id).reduce((a: number, b: IOrderRowCreate) => a + b.amount, 0)
         }
     }
 
     get totalAmount(): number {
-        return this.orderRows.reduce((a: number, b: IOrderRowTemp) => a + b.amount, 0)
+        return this.orderRows.reduce((a: number, b: IOrderRowCreate) => a + b.amount, 0)
     }
 
     @Mutation
-    deleteRowFromOrder(orderRow: IOrderRowTemp) {
+    deleteRowFromOrder(orderRow: IOrderRowCreate) {
         this.orderRows = this.orderRows.filter(o => o !== orderRow)
         if (!this.orderRows.length) {
             this.currentRestaurantName = null;
@@ -50,7 +50,7 @@ export default class OrderModule extends VuexModule {
     }
 
     @Mutation
-    increment(row: IOrderRowTemp) {
+    increment(row: IOrderRowCreate) {
         const index = this.orderRows.findIndex(r => r === row);
         row.amount++;
         row.choices.forEach(c => c.amount++);
@@ -58,7 +58,7 @@ export default class OrderModule extends VuexModule {
     }
 
     @Mutation
-    decrement(row: IOrderRowTemp) {
+    decrement(row: IOrderRowCreate) {
         const index = this.orderRows.findIndex(r => r === row);
         row.amount--;
         row.choices.forEach(c => c.amount--);
@@ -90,7 +90,7 @@ export default class OrderModule extends VuexModule {
 
     @Mutation
     deleteFromOrder(id: string) {
-        this.orderRows = this.orderRows.filter((o: IOrderRowTemp) => o.itemId !== id);
+        this.orderRows = this.orderRows.filter((o: IOrderRowCreate) => o.itemId !== id);
         if (!this.orderRows.length) {
             this.currentRestaurantName = null;
             this.currentRestaurantId = null;
@@ -99,7 +99,7 @@ export default class OrderModule extends VuexModule {
     }
 
     @Mutation
-    addOrderRow(orderRowTemp: IOrderRowTemp) {
+    addOrderRow(orderRowTemp: IOrderRowCreate) {
         if (orderRowTemp.amount) {
             this.orderRows.push(orderRowTemp)
         }
@@ -121,6 +121,7 @@ export default class OrderModule extends VuexModule {
         }
         getModule(OrderModule, store).setLoading(true);
         const response = await OrderAPI.post(orderCreate)
+        console.log(response.data);
         const p = response.isSuccessful;
         getModule(OrderModule, store).setLoading(false);
         console.log(JSON.stringify(orderCreate))

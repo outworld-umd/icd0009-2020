@@ -7,8 +7,8 @@
             <div>{{ itemView.name }}</div>
             <div class="font-weight-bold">{{ itemView.price.toFixed(2) }}€</div>
         </div>
-        <b-button class="ml-auto p-2 btn btn-secondary px-4" @click="showModal(itemView.id)" v-b-modal="itemView.id">{{$t('buttons.order')}}</b-button>
-        <Item :id="itemView.id" :restaurant-id="restaurant.id" :restaurant-name="restaurant.name" :delivery-cost="restaurant.deliveryCost" />
+        <b-button class="ml-auto p-2 btn btn-secondary px-4" @click="showModal(typeId + itemView.id)" v-b-modal="typeId + itemView.id">{{$t('buttons.order')}}</b-button>
+        <Item :id="itemView.id" :typeId="typeId" :restaurant-id="restaurant.id" :restaurant-name="restaurant.name" :delivery-cost="restaurant.deliveryCost" />
     </div>
 </template>
 
@@ -28,6 +28,7 @@ import Item from "@/components/Item.vue";
 })
 export default class ItemView extends Vue {
     @Prop() itemView!: IItemView;
+    @Prop() typeId!: string;
     @Prop() restaurant!: IRestaurant;
     @Prop() deliveryCost!: number;
 

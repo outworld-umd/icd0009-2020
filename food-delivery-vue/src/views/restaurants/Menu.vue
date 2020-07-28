@@ -12,11 +12,10 @@
                     <p>{{ itemType.description }}</p>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <ItemView class="list-group-item" v-for="item in itemType.items" :key="item.id" :itemView="item" :restaurant="restaurant"/>
+                    <ItemView class="list-group-item" v-for="item in itemType.items" :key="item.id" :itemView="item" :type-id="itemType.id" :restaurant="restaurant"/>
                 </ul>
             </div>
         </div>
-        <h4 v-else class="text-danger">Restaurant not found</h4>
         <CurrentOrder/>
     </div>
 </template>

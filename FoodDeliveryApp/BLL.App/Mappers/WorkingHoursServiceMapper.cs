@@ -6,17 +6,7 @@ using DALAppDTO=DAL.App.DTO;
 
 namespace BLL.App.Mappers
 {
-    public class WorkingHoursServiceMapper: BaseBLLMapper<DALAppDTO.WorkingHours, BLLAppDTO.WorkingHours>, IWorkingHoursServiceMapper
+    public class WorkingHoursServiceMapper: BLLMapper<DALAppDTO.WorkingHours, BLLAppDTO.WorkingHours>, IWorkingHoursServiceMapper
     {
-        public WorkingHoursServiceMapper()
-        {
-            MapperConfigurationExpression.CreateMap<BLLAppDTO.WorkingHours, DALAppDTO.WorkingHours>();
-            MapperConfigurationExpression.CreateMap<DALAppDTO.WorkingHours, BLLAppDTO.WorkingHours>();
-            
-            MapperConfigurationExpression.CreateMap<BLLAppDTO.Restaurant, DALAppDTO.Restaurant>();
-            MapperConfigurationExpression.CreateMap<DALAppDTO.Restaurant, BLLAppDTO.Restaurant>();
-            
-            Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));
-        }
     }
 }
