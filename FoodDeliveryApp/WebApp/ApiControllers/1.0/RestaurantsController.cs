@@ -41,7 +41,10 @@ namespace WebApp.ApiControllers._1._0
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.RestaurantView>))]
         public async Task<ActionResult<IEnumerable<V1DTO.RestaurantView>>> GetRestaurants()
         {
-            return Ok((await _bll.Restaurants.GetAllAsync(User.UserGuidId())).Select(e => _mapper.MapRestaurantView(e)));
+            return Ok((User.IsInRole("Restaurant") ? 
+                await _bll.Restaurants.GetAllAsync(User.UserGuidId()) : 
+                await _bll.Restaurants.GetAllSortedByDeliveryAsync())
+                .Select(e => _mapper.MapRestaurantView(e)));
         }
 
         // GET: api/Restaurant/5
