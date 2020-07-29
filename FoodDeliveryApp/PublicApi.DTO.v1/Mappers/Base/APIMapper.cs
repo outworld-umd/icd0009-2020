@@ -36,6 +36,7 @@ namespace PublicApi.DTO.v1.Mappers.Base
             MapperConfigurationExpression.CreateMap<BLL.App.DTO.Address, Address>();
             MapperConfigurationExpression.CreateMap<BLL.App.DTO.Category, Category>();
             MapperConfigurationExpression.CreateMap<BLL.App.DTO.Category, CategoryView>();
+            MapperConfigurationExpression.CreateMap<BLL.App.DTO.Category, CategoryListView>();
             MapperConfigurationExpression.CreateMap<BLL.App.DTO.Item, Item>()
                 .ForMember(d => d.Options, 
                     opt => opt.MapFrom(src => src.ItemOptions));

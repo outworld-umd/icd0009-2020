@@ -15,6 +15,9 @@ using PublicApi.DTO.v1.Mappers;
 
 namespace WebApp.ApiControllers._1._0
 {
+    /// <summary>
+    /// Saved addresses of customers
+    /// </summary>
     [ApiController]
     [ApiVersion( "1.0" )]
     [Route("api/v{version:apiVersion}/[controller]")]
@@ -28,7 +31,6 @@ namespace WebApp.ApiControllers._1._0
         /// <summary>
         /// Constructor
         /// </summary>
-
         public AddressesController(IAppBLL bll)
         {
             _bll = bll;
@@ -36,28 +38,45 @@ namespace WebApp.ApiControllers._1._0
 
         // GET: api/Address
         /// <summary>
-        /// Get addresses for single session 
+        /// Get all the addresses. If user is a customer, then only user-specific addresses
         /// </summary>
-        /// <returns>Addresses for session</returns>
+        /// <returns>Array consisting of addresses</returns>
         [HttpGet]
         [Produces("application/json")]
         [Consumes("application/json")]
+        [Authorize(Roles = "Customer, Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.Address>))]
         public async Task<ActionResult<IEnumerable<V1DTO.Address>>> GetAddresses()
         {
             var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
             return Ok((await _bll.Addresses.GetAllAsync(userIdTKey)).Select(e => _mapper.MapAddress(e)));
         }
+        
+        // GET: api/Address/User/5
+        /// <summary>
+        /// Get addresses that belong to a certain user
+        /// </summary>
+        /// <returns>Addresses for session</returns>
+        [HttpGet("User/{id}")]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.Address>))]
+        public async Task<ActionResult<IEnumerable<V1DTO.Address>>> GetAddressesByUser(Guid id)
+        {
+            return Ok((await _bll.Addresses.GetAllAsync(id)).Select(e => _mapper.MapAddress(e)));
+        }
 
         // GET: api/Address/5
         /// <summary>
-        /// Get a single address
+        /// Get a single address by given id
         /// </summary>
-        /// <param name="id">id for address</param>
-        /// <returns>address</returns>
+        /// <param name="id">Id for address</param>
+        /// <returns>Address</returns>
         [HttpGet("{id}")]
         [Produces("application/json")]
         [Consumes("application/json")]
+        [Authorize(Roles = "Customer, Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.Address))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.Address))]
         public async Task<ActionResult<V1DTO.Address>> GetAddress(Guid id)
@@ -77,14 +96,15 @@ namespace WebApp.ApiControllers._1._0
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         /// <summary>
-        /// Update address
+        /// Update the address
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="address"></param>
-        /// <returns></returns>
+        /// <param name="id">Id for address</param>
+        /// <param name="address">Edited address</param>
+        /// <returns>No content</returns>
         [HttpPut("{id}")]
         [Produces("application/json")]
         [Consumes("application/json")]
+        [Authorize(Roles = "Customer, Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(V1DTO.MessageDTO))]
@@ -110,12 +130,13 @@ namespace WebApp.ApiControllers._1._0
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         /// <summary>
-        /// Create/add a new address
+        /// Create a new address for a current user
         /// </summary>
-        /// <param name="address">Address info</param>
-        /// <returns></returns>
+        /// <param name="address">New address info</param>
+        /// <returns>Newly created address</returns>
         [Produces("application/json")]
         [Consumes("application/json")]
+        [Authorize(Roles = "Customer, Admin")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(V1DTO.Address))]
         [HttpPost]
         public async Task<ActionResult<V1DTO.Address>> PostAddress(V1DTO.Address address)
@@ -125,19 +146,46 @@ namespace WebApp.ApiControllers._1._0
             _bll.Addresses.Add(bllEntity);
             await _bll.SaveChangesAsync();
             address.Id = bllEntity.Id;
-            return CreatedAtAction("GetAddress",
+            return CreatedAtAction(nameof(GetAddress),
+                new {id = address.Id, version = HttpContext.GetRequestedApiVersion()?.ToString() ?? "0"},
+                address);
+        }
+        
+        // POST: api/Address/User/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        /// <summary>
+        /// Create a new address for a specific user
+        /// </summary>
+        /// <param name="id">Target user id</param>
+        /// <param name="address">New address info</param>
+        /// <returns>Newly created address</returns>
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(V1DTO.Address))]
+        [HttpPost("User/{id}")]
+        public async Task<ActionResult<V1DTO.Address>> PostAddressByUser(Guid id, [FromBody] V1DTO.Address address)
+        {
+            var bllEntity = _mapper.Map(address);
+            bllEntity.AppUserId = id;
+            _bll.Addresses.Add(bllEntity);
+            await _bll.SaveChangesAsync();
+            address.Id = bllEntity.Id;
+            return CreatedAtAction(nameof(GetAddress),
                 new {id = address.Id, version = HttpContext.GetRequestedApiVersion()?.ToString() ?? "0"},
                 address);
         }
 
         // DELETE: api/Address/5
         /// <summary>
-        /// Deletes the address
+        /// Delete the address
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.Address))]
+        /// <param name="id">Id for address</param>
+        /// <returns>No content</returns>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
+        [Authorize(Roles = "Customer, Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<V1DTO.Address>> DeleteAddress(Guid id)
         {
@@ -150,7 +198,7 @@ namespace WebApp.ApiControllers._1._0
             await _bll.Addresses.RemoveAsync(address);
             await _bll.SaveChangesAsync();
 
-            return Ok(address);
+            return NoContent();
         }
 
         private bool AddressExists(Guid id)

@@ -13,6 +13,9 @@ using PublicApi.DTO.v1.Mappers;
 
 namespace WebApp.ApiControllers._1._0
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [ApiController]
     [ApiVersion( "1.0" )]
     [Route("api/v{version:apiVersion}/[controller]")]
@@ -29,38 +32,53 @@ namespace WebApp.ApiControllers._1._0
         {
             _bll = bll;
         }
-
+        
+        
         // GET: api/Category
         /// <summary>
-        /// Get categories for single session 
+        /// Get all the categories
         /// </summary>
-        /// <returns>categories for session</returns>
+        /// <returns>Array consisting of categories</returns>
         [HttpGet]
         [Produces("application/json")]
         [Consumes("application/json")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.Category>))]
-        public async Task<ActionResult<IEnumerable<V1DTO.Category>>> GetCategories()
+        [Authorize(Roles = "Customer, Restaurant, Admin")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.CategoryListView>))]
+        public async Task<ActionResult<IEnumerable<V1DTO.CategoryListView>>> GetCategories()
         {
-            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            return Ok((await _bll.Categories.GetAllAsync()).Select(e => _mapper.MapCategoryListView(e)));
+        }
 
-            return Ok((await _bll.Categories.GetAllAsync(userIdTKey)).Select(e => _mapper.MapCategory(e)));
+        // GET: api/Category/Restaurants
+        /// <summary>
+        /// Get all the categories along with all the belonging restaurants
+        /// </summary>
+        /// <returns>Array consisting of categories</returns>
+        [HttpGet("Restaurants")]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [Authorize(Roles = "Customer, Restaurant, Admin")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.Category>))]
+        public async Task<ActionResult<IEnumerable<V1DTO.Category>>> GetCategoriesWithRestaurants()
+        {
+            return Ok((await _bll.Categories.GetAllAsync()).Select(e => _mapper.MapCategory(e)));
         }
 
         // GET: api/Category/5
         /// <summary>
-        /// Get a single category
+        /// Get a single category with all the belonging restaurants
         /// </summary>
         /// <param name="id">id for category</param>
-        /// <returns>category</returns>
+        /// <returns>Category</returns>
         [HttpGet("{id}")]
         [Produces("application/json")]
         [Consumes("application/json")]
+        [Authorize(Roles = "Customer, Restaurant, Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.Category))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.Category))]
         public async Task<ActionResult<V1DTO.Category>> GetCategory(Guid id)
         {
-            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
-            var category = await _bll.Categories.FirstOrDefaultAsync(id, userIdTKey);
+            var category = await _bll.Categories.FirstOrDefaultAsync(id);
 
             if (category == null)
             {
@@ -75,25 +93,25 @@ namespace WebApp.ApiControllers._1._0
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         /// <summary>
-        /// Update category
+        /// Update the category
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="address"></param>
-        /// <returns></returns>
+        /// <param name="id">Id for category</param>
+        /// <param name="category">Edited category</param>
+        /// <returns>No content</returns>
         [HttpPut("{id}")]
         [Produces("application/json")]
         [Consumes("application/json")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(V1DTO.MessageDTO))]
         public async Task<IActionResult> PutCategory(Guid id, V1DTO.Category category)
         {
-            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
             if (id != category.Id)
             {
                 return BadRequest(new V1DTO.MessageDTO("Id and Category.Id do not match"));
             }
-            if (!await _bll.Addresses.ExistsAsync(category.Id, userIdTKey))
+            if (!await _bll.Addresses.ExistsAsync(category.Id))
             {
                 return NotFound(new V1DTO.MessageDTO($"Current user does not have session with this id {id}"));
             }
@@ -107,12 +125,13 @@ namespace WebApp.ApiControllers._1._0
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         /// <summary>
-        /// Create/add a new category
+        /// Create a new category
         /// </summary>
-        /// <param name="category">Category info</param>
-        /// <returns></returns>
+        /// <param name="category">New category info</param>
+        /// <returns>Newly created category</returns>
         [Produces("application/json")]
         [Consumes("application/json")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(V1DTO.Category))]
         [HttpPost]
         public async Task<ActionResult<V1DTO.Category>> PostCategory(V1DTO.Category category)
@@ -122,19 +141,20 @@ namespace WebApp.ApiControllers._1._0
             await _bll.SaveChangesAsync();
             category.Id = bllEntity.Id;
 
-            return CreatedAtAction("GetCategory",
+            return CreatedAtAction(nameof(GetCategory),
                 new {id = category.Id, version = HttpContext.GetRequestedApiVersion()?.ToString() ?? "0"},
                 category);
         }
 
         // DELETE: api/Category/5
         /// <summary>
-        /// Deletes the category
+        /// Delete the category
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.Category))]
+        /// <param name="id">Id for category</param>
+        /// <returns>No content</returns>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<V1DTO.Category>> DeleteCategory(Guid id)
         {
@@ -147,7 +167,7 @@ namespace WebApp.ApiControllers._1._0
             await _bll.Categories.RemoveAsync(category);
             await _bll.SaveChangesAsync();
 
-            return Ok(category);
+            return NoContent();
         }
 
         private bool CategoryExists(Guid id)
