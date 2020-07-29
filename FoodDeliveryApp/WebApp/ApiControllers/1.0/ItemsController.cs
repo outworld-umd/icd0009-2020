@@ -37,6 +37,7 @@ namespace WebApp.ApiControllers._1._0 {
         [HttpGet]
         [Produces("application/json")]
         [Consumes("application/json")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.Item>))]
         public async Task<ActionResult<IEnumerable<V1DTO.Item>>> GetItems() {
             var userTKey = User.IsInRole("Customer") ? (Guid?) User.UserGuidId() : null;
@@ -54,6 +55,7 @@ namespace WebApp.ApiControllers._1._0 {
         [Route("Restaurant/{id}")]
         [Produces("application/json")]
         [Consumes("application/json")]
+        [Authorize(Roles = "Customer, Restaurant, Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.Item))]
         public async Task<ActionResult<IEnumerable<V1DTO.Item>>> GetItemsByRestaurant(Guid id) {
             return Ok((await _bll.Items.GetAllByRestaurantAsync(id)).Select(e => _mapper.MapItem(e)));
@@ -68,6 +70,7 @@ namespace WebApp.ApiControllers._1._0 {
         [HttpGet("{id}")]
         [Produces("application/json")]
         [Consumes("application/json")]
+        [Authorize(Roles = "Customer, Restaurant, Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.Item))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.Item))]
         public async Task<ActionResult<V1DTO.Item>> GetItem(Guid id) {
@@ -89,7 +92,7 @@ namespace WebApp.ApiControllers._1._0 {
         [HttpPut("{id}")]
         [Produces("application/json")]
         [Consumes("application/json")]
-        [Authorize(Roles="Restaurant")]
+        [Authorize(Roles = "Restaurant, Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(V1DTO.MessageDTO))]
@@ -114,6 +117,7 @@ namespace WebApp.ApiControllers._1._0 {
         /// <returns></returns>
         [Produces("application/json")]
         [Consumes("application/json")]
+        [Authorize(Roles = "Restaurant, Admin")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(V1DTO.Item))]
         [HttpPost]
         public async Task<ActionResult<V1DTO.Item>> PostItem(V1DTO.Item item) {
@@ -136,6 +140,7 @@ namespace WebApp.ApiControllers._1._0 {
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Authorize(Roles = "Restaurant, Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         [HttpDelete("{id}")]

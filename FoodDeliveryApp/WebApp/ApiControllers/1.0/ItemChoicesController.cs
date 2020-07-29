@@ -42,7 +42,8 @@ namespace WebApp.ApiControllers._1._0
         [HttpGet]
         [Produces("application/json")]
         [Consumes("application/json")]
-        [Authorize(Roles = "Customer, Restaurant, Admin")]
+        [Authorize(Roles = "Restaurant, Admin")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.ItemChoice>))]
         public async Task<ActionResult<IEnumerable<V1DTO.ItemChoice>>> GetItemChoice()
         {
             return Ok((await _bll.ItemChoices.GetAllAsync()).Select(e => _mapper.MapItemChoice(e)));
@@ -57,7 +58,9 @@ namespace WebApp.ApiControllers._1._0
         [HttpGet("{id}")]
         [Produces("application/json")]
         [Consumes("application/json")]
-        [Authorize(Roles = "Customer, Restaurant, Admin")]
+        [Authorize(Roles = "Restaurant, Admin")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.ItemChoice))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         public async Task<ActionResult<V1DTO.ItemChoice>> GetItemChoice(Guid id)
         {
             var itemChoice = await _bll.ItemChoices.FirstOrDefaultAsync(id);

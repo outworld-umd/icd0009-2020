@@ -99,7 +99,7 @@ namespace WebApp.ApiControllers._1._0
             return NoContent();
         }
 
-        private bool ItemTypeExists(Guid id)
+        private bool ItemInTypeExists(Guid id)
         {
             return _bll.ItemInTypes.Exists(id);
         }

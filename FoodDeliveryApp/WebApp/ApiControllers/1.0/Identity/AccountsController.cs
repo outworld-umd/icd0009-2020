@@ -82,6 +82,7 @@ namespace WebApp.ApiControllers._1._0.Identity
                 UserName = dto.Email,
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
+                Phone = dto.Phone
             };
             var result = await _userManager.CreateAsync(appUser, dto.Password);
             if (result.Succeeded)
@@ -114,20 +115,6 @@ namespace WebApp.ApiControllers._1._0.Identity
 
             var errors = result.Errors.Select(error => error.Description).ToList();
             return BadRequest(new MessageDTO() {Messages = errors});
-        }
-
-        public class LoginDTO
-        {
-            public string Email { get; set; } = default!;
-            public string Password { get; set; } = default!;
-        }
-
-        public class RegisterDTO
-        {
-            public string Email { get; set; } = default!;
-            public string Password { get; set; } = default!;
-            public string FirstName { get; set; } = default!;
-            public string LastName { get; set; } = default!;
         }
     }
 }

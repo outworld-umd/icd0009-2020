@@ -57,14 +57,14 @@ namespace WebApp.ApiControllers._1._0
         /// Get addresses that belong to a certain user
         /// </summary>
         /// <returns>Addresses for session</returns>
-        [HttpGet("User/{id}")]
+        [HttpGet("User/{userId}")]
         [Produces("application/json")]
         [Consumes("application/json")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.Address>))]
-        public async Task<ActionResult<IEnumerable<V1DTO.Address>>> GetAddressesByUser(Guid id)
+        public async Task<ActionResult<IEnumerable<V1DTO.Address>>> GetAddressesByUser(Guid userId)
         {
-            return Ok((await _bll.Addresses.GetAllAsync(id)).Select(e => _mapper.MapAddress(e)));
+            return Ok((await _bll.Addresses.GetAllAsync(userId)).Select(e => _mapper.MapAddress(e)));
         }
 
         // GET: api/Address/5
@@ -78,7 +78,7 @@ namespace WebApp.ApiControllers._1._0
         [Consumes("application/json")]
         [Authorize(Roles = "Customer, Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.Address))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.Address))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         public async Task<ActionResult<V1DTO.Address>> GetAddress(Guid id)
         {
             var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
@@ -157,18 +157,18 @@ namespace WebApp.ApiControllers._1._0
         /// <summary>
         /// Create a new address for a specific user
         /// </summary>
-        /// <param name="id">Target user id</param>
+        /// <param name="userId">Target user id</param>
         /// <param name="address">New address info</param>
         /// <returns>Newly created address</returns>
         [Produces("application/json")]
         [Consumes("application/json")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(V1DTO.Address))]
-        [HttpPost("User/{id}")]
-        public async Task<ActionResult<V1DTO.Address>> PostAddressByUser(Guid id, [FromBody] V1DTO.Address address)
+        [HttpPost("User/{userId}")]
+        public async Task<ActionResult<V1DTO.Address>> PostAddressByUser(Guid userId, [FromBody] V1DTO.Address address)
         {
             var bllEntity = _mapper.Map(address);
-            bllEntity.AppUserId = id;
+            bllEntity.AppUserId = userId;
             _bll.Addresses.Add(bllEntity);
             await _bll.SaveChangesAsync();
             address.Id = bllEntity.Id;
