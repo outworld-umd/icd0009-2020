@@ -27,6 +27,7 @@ namespace WebApp.ApiControllers._1._0
 
         // GET: api/WorkingHours
         [HttpGet]
+        [Authorize(Roles = "Customer, Restaurant, Admin")]
         public async Task<ActionResult<IEnumerable<V1DTO.WorkingHours>>> GetWorkingHourses()
         {
             return Ok((await _bll.WorkingHourses.GetAllAsync()).Select(e => _mapper.MapWorkingHours(e)));
@@ -34,6 +35,7 @@ namespace WebApp.ApiControllers._1._0
 
         // GET: api/WorkingHours/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "Customer, Restaurant, Admin")]
         public async Task<ActionResult<V1DTO.WorkingHours>> GetWorkingHours(Guid id)
         {
             var workingHours = await _bll.WorkingHourses.FirstOrDefaultAsync(id);
@@ -50,6 +52,7 @@ namespace WebApp.ApiControllers._1._0
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
+        [Authorize(Roles = "Restaurant, Admin")]
         public async Task<IActionResult> PutWorkingHours(Guid id, V1DTO.WorkingHours workingHours)
         {
             if (id != workingHours.Id)
@@ -67,6 +70,7 @@ namespace WebApp.ApiControllers._1._0
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
+        [Authorize(Roles = "Restaurant, Admin")]
         public async Task<ActionResult<V1DTO.WorkingHours>> PostWorkingHours(V1DTO.WorkingHours workingHours)
         {
             var bllEntity = _mapper.Map(workingHours);
@@ -81,6 +85,7 @@ namespace WebApp.ApiControllers._1._0
 
         // DELETE: api/WorkingHours/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Restaurant, Admin")]
         public async Task<ActionResult<V1DTO.WorkingHours>> DeleteWorkingHours(Guid id)
         {
             var workingHours = await _bll.WorkingHourses.FirstOrDefaultAsync(id);
