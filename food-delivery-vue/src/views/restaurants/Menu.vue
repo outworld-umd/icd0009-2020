@@ -45,6 +45,7 @@ export default class RestaurantMenu extends Vue {
         router.push({
             path: '/restaurants'
         })
+        store.commit('setRestaurant', null)
     }
 
     mounted(): void {

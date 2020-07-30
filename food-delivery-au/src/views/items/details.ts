@@ -15,6 +15,8 @@ import { IChoice, IChoiceCreate, IChoiceEdit } from "../../domain/IChoice";
 @autoinject
 export class ItemIndex {
 
+    private loading = false;
+
     private _alert: IAlertData | null = null;
     private _item: IItem | null = null;
     private _itemId: string | null = null;
@@ -75,6 +77,7 @@ export class ItemIndex {
     }
 
     async submitChoice(): Promise<void> {
+        this.loading = true;
         if (!this.validateChoice) {
             const choiceCreate: IChoiceCreate = {
                 additionalPrice: Number(this._choicePrice ?? 0),
@@ -92,6 +95,7 @@ export class ItemIndex {
             await this.getItem(this._itemId);
         }
         this.choiceInputMode(false, null, null)
+        this.loading = false;
     }
 
     choiceInputMode(turnOn: boolean, choice: IChoice | null, optionId: string | null) {
@@ -104,9 +108,11 @@ export class ItemIndex {
     }
 
     async deleteChoice(id: string): Promise<void> {
+        this.loading = true;
         console.log("delete", id)
         await this.itemChoiceService.delete(id);
         await this.getItem(this._itemId);
+        this.loading = false;
     }
 
 
@@ -122,6 +128,7 @@ export class ItemIndex {
     }
 
     async submitOption(): Promise<void> {
+        this.loading = true;
         if (!this.validateOption) {
             const optionCreate: IOptionCreate = {
                 isSingle: this._optionSingle,
@@ -139,7 +146,8 @@ export class ItemIndex {
             }
             await this.getItem(this._itemId);
         }
-        this.optionInputMode(false, null)
+        this.optionInputMode(false, null);
+        this.loading = false;
     }
 
     optionInputMode(turnOn: boolean, option: IOption | null) {
@@ -152,9 +160,11 @@ export class ItemIndex {
     }
 
     async deleteOption(id: string): Promise<void> {
+        this.loading = true;
         console.log("delete", id)
         await this.itemOptionService.delete(id);
         await this.getItem(this._itemId);
+        this.loading = false;
     }
 
     // NUTRITIONINFO EDITOR/CREATOR
@@ -170,6 +180,7 @@ export class ItemIndex {
     }
 
     async submitInfo(): Promise<void> {
+        this.loading = true;
         if (!this.validateInfo) {
             const infoCreate: INutritionInfoCreate = {
                 amount: Number(this._infoAmount),
@@ -188,7 +199,8 @@ export class ItemIndex {
             }
             await this.getItem(this._itemId);
         }
-        this.infoInputMode(false, null)
+        this.infoInputMode(false, null);
+        this.loading = false;
     }
 
     infoInputMode(turnOn: boolean, info: INutritionInfo | null) {
@@ -201,8 +213,10 @@ export class ItemIndex {
     }
 
     async deleteInfo(id: string): Promise<void> {
+        this.loading = true;
         console.log("delete", id)
         await this.nutritionInfoService.delete(id);
         await this.getItem(this._itemId);
+        this.loading = false;
     }
 }
