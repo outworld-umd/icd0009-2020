@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Create">
+        <value>Loo uus</value>
+    </data>
+    <data name="Edit">
+        <value>Redigeeri</value>
+    </data>
+    <data name="Details">
+        <value>Detailid</value>
+    </data>
+    <data name="Delete">
+        <value>Kustuta</value>
+    </data>
+    <data name="Back">
+        <value>Tagasi</value>
+    </data>
+    <data name="Save">
+        <value>Salvesta</value>
+    </data>
+    <data name="AreYouSure">
+        <value>Kas soovite selle kindlasti kustutada?</value>
+    </data>
+    <data name="Addresses">
+        <value>Addressid</value>
+    </data>
+    <data name="Categories">
+        <value>Kategooriad</value>
+    </data>
+    <data name="Items">
+        <value>Tooded</value>
+    </data>
+    <data name="ItemChoices">
+        <value>Toode valikud</value>
+    </data>
+    <data name="ItemInTypes">
+        <value>Toode tüüpis</value>
+    </data>
+    <data name="ItemOptions">
+        <value>Toode lisaoptsioonid</value>
+    </data>
+    <data name="ItemTypes">
+        <value>Toode tüübid</value>
+    </data>
+    <data name="NutritionInfos">
+        <value>Toitumise infod</value>
+    </data>
+    <data name="Orders">
+        <value>Tellimused</value>
+    </data>
+    <data name="OrderItemChoices">
+        <value>Tellimuste toodete lisaoptsioonid</value>
+    </data>
+    <data name="OrderRows">
+        <value>Tellimisread</value>
+    </data>
+    <data name="Restaurants">
+        <value>Restoranid</value>
+    </data>
+    <data name="RestaurantCategories">
+        <value>Restoranide kategooriad</value>
+    </data>
+    <data name="RestaurantUsers">
+        <value>Restoranide kasutajad</value>
+    </data>
+    <data name="WorkingHourses">
+        <value>Töötunnid</value>
+    </data>
+    <data name="UserManager">
+        <value>Kasutajahaldur</value>
+    </data>
+    <data name="Address">
+        <value>Address</value>
+    </data>
+    <data name="Category">
+        <value>Kategooria</value>
+    </data>
+    <data name="Item">
+        <value>Toode</value>
+    </data>
+    <data name="ItemChoice">
+        <value>Toode valik</value>
+    </data>
+    <data name="ItemInType">
+        <value>Toode tüüpis</value>
+    </data>
+    <data name="ItemOption">
+        <value>Toode lisaoptsioon</value>
+    </data>
+    <data name="ItemType">
+        <value>Toode tüübid</value>
+    </data>
+    <data name="NutritionInfo">
+        <value>Toitumise info</value>
+    </data>
+    <data name="Order">
+        <value>Tellimus</value>
+    </data>
+    <data name="OrderItemChoice">
+        <value>Tellimuse toode lisaoptsioon</value>
+    </data>
+    <data name="OrderRow">
+        <value>Tellimisrida</value>
+    </data>
+    <data name="Restaurant">
+        <value>Restoran</value>
+    </data>
+    <data name="RestaurantCategory">
+        <value>Restorani kategooria</value>
+    </data>
+    <data name="RestaurantUser">
+        <value>Restorani kasutaja</value>
+    </data>
+    <data name="WorkingHours">
+        <value>Töötunnid</value>
+    </data>
+    <data name="User">
+        <value>Kasutaja</value>
+    </data>
+</root>

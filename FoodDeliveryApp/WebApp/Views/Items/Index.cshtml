@@ -1,13 +1,13 @@
 @model IEnumerable<BLL.App.DTO.Item>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = @Resources.Views.Index.CreDelDetEdiInd.Items;
 }
 
-<h1>Index</h1>
+<h1>@Resources.Views.Index.CreDelDetEdiInd.Items</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">@Resources.Views.Index.CreDelDetEdiInd.Create</a>
 </p>
 <table class="table">
     <thead>

@@ -1,13 +1,8 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = @Resources.Views.Home.Index.HomePage;
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <p>@DateTime.Now.ToShortDateString()</p>
-    <p>@DateTime.Now.ToShortTimeString()</p>
-    <p>@DateTime.Now.ToLongDateString()</p>
-    <p>@DateTime.Now.ToLongTimeString()</p>
-    <p>@(500.ToString("c"))</p>
+    <h1 class="display-4">@Resources.Views.Home.Index.Welcome</h1>
+    <p>@Resources.Views.Home.Index.Learn<a href="https://docs.microsoft.com/aspnet/core">@Resources.Views.Home.Index.Building</a>.</p>
 </div>

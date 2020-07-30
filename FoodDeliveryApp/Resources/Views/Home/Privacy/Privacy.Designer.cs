@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Resources.Views.Shared {
+namespace Resources.Views.Home {
     using System;
     
     
@@ -22,24 +22,24 @@ namespace Resources.Views.Shared {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class _Layout {
+    public class Privacy {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal _Layout() {
+        internal Privacy() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Resources.Views.Shared._Layout", typeof(_Layout).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Resources.Views.Home.Privacy.Privacy", typeof(Privacy).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace Resources.Views.Shared {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,20 +61,38 @@ namespace Resources.Views.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Home.
+        ///   Looks up a localized string similar to building Web apps with ASP.NET Core.
         /// </summary>
-        public static string Home {
+        public static string Building {
             get {
-                return ResourceManager.GetString("Home", resourceCulture);
+                return ResourceManager.GetString("Building", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Privacy.
+        ///   Looks up a localized string similar to Learn about .
         /// </summary>
-        public static string Privacy {
+        public static string Learn {
             get {
-                return ResourceManager.GetString("Privacy", resourceCulture);
+                return ResourceManager.GetString("Learn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Privacy Policy.
+        /// </summary>
+        public static string PrivacyPolicy {
+            get {
+                return ResourceManager.GetString("PrivacyPolicy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome.
+        /// </summary>
+        public static string Welcome {
+            get {
+                return ResourceManager.GetString("Welcome", resourceCulture);
             }
         }
     }

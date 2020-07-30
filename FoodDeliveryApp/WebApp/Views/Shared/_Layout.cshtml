@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"] - WebApp</title>
+    <title>@ViewData["Title"] - Colt</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css"/>
 </head>
@@ -14,7 +14,7 @@
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ColtFood</a>
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Colt</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -29,43 +29,43 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">@Resources.Views.Shared._Layout.Privacy</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Restaurants" asp-action="Index">Restaurants</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Restaurants" asp-action="Index">@Resources.Views.Shared._Layout.Restaurants</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="Index">Orders</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="Index">@Resources.Views.Shared._Layout.Orders</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Addresses" asp-action="Index">Addresses</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Addresses" asp-action="Index">@Resources.Views.Shared._Layout.Addresses</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index">Categories</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index">@Resources.Views.Shared._Layout.Categories</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="RestaurantCategories" asp-action="Index">RestaurantCategories</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="RestaurantCategories" asp-action="Index">@Resources.Views.Shared._Layout.RestaurantCategories</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="WorkingHourses" asp-action="Index">WorkingHourses</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="WorkingHourses" asp-action="Index">@Resources.Views.Shared._Layout.WorkingHourses</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="ItemTypes" asp-action="Index">ItemTypes</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="ItemTypes" asp-action="Index">@Resources.Views.Shared._Layout.ItemTypes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Items" asp-action="Index">Items</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Items" asp-action="Index">@Resources.Views.Shared._Layout.Items</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="OrderRows" asp-action="Index">OrderRows</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="OrderRows" asp-action="Index">@Resources.Views.Shared._Layout.OrderRows</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="OrderItemChoices" asp-action="Index">OrderItemChoices</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="OrderItemChoices" asp-action="Index">@Resources.Views.Shared._Layout.OrderItemChoices</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="NutritionInfos" asp-action="Index">NutritionInfos</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="NutritionInfos" asp-action="Index">@Resources.Views.Shared._Layout.NutritionInfos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="ItemChoices" asp-action="Index">ItemChoices</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="ItemChoices" asp-action="Index">@Resources.Views.Shared._Layout.ItemChoices</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="ItemOptions" asp-action="Index">ItemOptions</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="ItemOptions" asp-action="Index">@Resources.Views.Shared._Layout.ItemOptions</a>
                     </li>
 
                 </ul>
@@ -81,7 +81,8 @@
 
 <footer class="border-top footer text-muted">
     <div class="container">
-        &copy; 2020 - WebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> Culture: @Thread.CurrentThread.CurrentCulture.Name UICulture: @Thread.CurrentThread.CurrentUICulture.Name
+        &copy; 2020 - Colt - <a asp-area="" asp-controller="Home" asp-action="Privacy">@Resources.Views.Shared._Layout.Privacy</a>
+        Culture: @Thread.CurrentThread.CurrentCulture.Name
     </div>
 </footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>

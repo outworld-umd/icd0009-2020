@@ -1,15 +1,15 @@
 @model BLL.App.DTO.RestaurantUser
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = @Resources.Views.Index.CreDelDetEdiInd.Details;
 }
 
-<h1>Details</h1>
+<h1>@Resources.Views.Index.CreDelDetEdiInd.Details</h1>
 
 <div>
     <partial name="Shared/_DetailsDelete"/>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">@Resources.Views.Index.CreDelDetEdiInd.Edit</a> |
+    <a asp-action="Index">@Resources.Views.Index.CreDelDetEdiInd.Back</a>
 </div>

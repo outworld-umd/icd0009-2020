@@ -1,52 +1,52 @@
 ﻿@model WebApp.ViewModels.UserManagerDetailsDeleteViewModel
 
-<h4>User</h4>
+<h4>@Resources.Views.Index.CreDelDetEdiInd.User</h4>
 <hr/>
 <dl class="row">
     <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.CurrentRoles)
+        @Resources.Views.Index.UserManager.CurrentRoles
     </dt>
     <dd class="col-sm-10">
         @Html.DisplayFor(model => model.CurrentRoles)
     </dd>
     <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.User.Id)
+        @Resources.Views.Index.UserManager.Id
     </dt>
     <dd class="col-sm-10">
         @Html.DisplayFor(model => model.User.Id)
     </dd>
     <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.User.SecurityStamp)
+        @Resources.Views.Index.UserManager.SecurityStamp
     </dt>
     <dd class="col-sm-10">
         @Html.DisplayFor(model => model.User.SecurityStamp)
     </dd>
     <dt class="col-sm-2">
-        Email(User Login)
+        @Resources.Views.Index.UserManager.Username
     </dt>
     <dd class="col-sm-10">
         @Html.DisplayFor(model => model.User.UserName)
     </dd>
     <dt class="col-sm-2">
-        Normalized User Login
+        @Resources.Views.Index.UserManager.NormalizedUserName
     </dt>
     <dd class="col-sm-10">
         @Html.DisplayFor(model => model.User.NormalizedUserName)
     </dd>
     <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.User.FirstName)
+        @Resources.Views.Index.UserManager.FirstName
     </dt>
     <dd class="col-sm-10">
         @Html.DisplayFor(model => model.User.FirstName)
     </dd>
     <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.User.LastName)
+        @Resources.Views.Index.UserManager.LastName
     </dt>
     <dd class="col-sm-10">
         @Html.DisplayFor(model => model.User.LastName)
     </dd>
     <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.User.Phone)
+        @Resources.Views.Index.UserManager.Phone
     </dt>
     <dd class="col-sm-10">
         @Html.DisplayFor(model => model.User.Phone)

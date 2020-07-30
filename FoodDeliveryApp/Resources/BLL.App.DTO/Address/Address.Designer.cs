@@ -36,7 +36,7 @@ namespace Resources.BLL.App.DTO.Address {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Resources.BLL.App.DTO.Address.Address", typeof(Address).Assembly);
@@ -51,7 +51,7 @@ namespace Resources.BLL.App.DTO.Address {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,16 +63,25 @@ namespace Resources.BLL.App.DTO.Address {
         /// <summary>
         ///   Looks up a localized string similar to Apartment.
         /// </summary>
-        internal static string Apartment {
+        public static string Apartment {
             get {
                 return ResourceManager.GetString("Apartment", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User.
+        /// </summary>
+        public static string AppUser {
+            get {
+                return ResourceManager.GetString("AppUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Building Number.
         /// </summary>
-        internal static string BuildingNumber {
+        public static string BuildingNumber {
             get {
                 return ResourceManager.GetString("BuildingNumber", resourceCulture);
             }
@@ -81,7 +90,7 @@ namespace Resources.BLL.App.DTO.Address {
         /// <summary>
         ///   Looks up a localized string similar to Changed At.
         /// </summary>
-        internal static string ChangedAt {
+        public static string ChangedAt {
             get {
                 return ResourceManager.GetString("ChangedAt", resourceCulture);
             }
@@ -90,7 +99,7 @@ namespace Resources.BLL.App.DTO.Address {
         /// <summary>
         ///   Looks up a localized string similar to Changed By.
         /// </summary>
-        internal static string ChangedBy {
+        public static string ChangedBy {
             get {
                 return ResourceManager.GetString("ChangedBy", resourceCulture);
             }
@@ -99,7 +108,7 @@ namespace Resources.BLL.App.DTO.Address {
         /// <summary>
         ///   Looks up a localized string similar to City.
         /// </summary>
-        internal static string City {
+        public static string City {
             get {
                 return ResourceManager.GetString("City", resourceCulture);
             }
@@ -108,7 +117,7 @@ namespace Resources.BLL.App.DTO.Address {
         /// <summary>
         ///   Looks up a localized string similar to Comment.
         /// </summary>
-        internal static string Comment {
+        public static string Comment {
             get {
                 return ResourceManager.GetString("Comment", resourceCulture);
             }
@@ -117,7 +126,7 @@ namespace Resources.BLL.App.DTO.Address {
         /// <summary>
         ///   Looks up a localized string similar to County.
         /// </summary>
-        internal static string County {
+        public static string County {
             get {
                 return ResourceManager.GetString("County", resourceCulture);
             }
@@ -126,7 +135,7 @@ namespace Resources.BLL.App.DTO.Address {
         /// <summary>
         ///   Looks up a localized string similar to Created At.
         /// </summary>
-        internal static string CreatedAt {
+        public static string CreatedAt {
             get {
                 return ResourceManager.GetString("CreatedAt", resourceCulture);
             }
@@ -135,7 +144,7 @@ namespace Resources.BLL.App.DTO.Address {
         /// <summary>
         ///   Looks up a localized string similar to Created By.
         /// </summary>
-        internal static string CreatedBy {
+        public static string CreatedBy {
             get {
                 return ResourceManager.GetString("CreatedBy", resourceCulture);
             }
@@ -144,7 +153,7 @@ namespace Resources.BLL.App.DTO.Address {
         /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
-        internal static string Name {
+        public static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
             }
@@ -153,7 +162,7 @@ namespace Resources.BLL.App.DTO.Address {
         /// <summary>
         ///   Looks up a localized string similar to Street.
         /// </summary>
-        internal static string Street {
+        public static string Street {
             get {
                 return ResourceManager.GetString("Street", resourceCulture);
             }
