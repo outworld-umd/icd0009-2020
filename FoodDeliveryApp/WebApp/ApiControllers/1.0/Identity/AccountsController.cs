@@ -85,10 +85,10 @@ namespace WebApp.ApiControllers._1._0.Identity
                 Phone = dto.Phone
             };
             var result = await _userManager.CreateAsync(appUser, dto.Password);
+            await _userManager.AddToRolesAsync(appUser, dto.Roles);
             if (result.Succeeded)
             {
                 _logger.LogInformation($"User {appUser.Email} created a new account with password.");
-
                 var user = await _userManager.FindByEmailAsync(appUser.Email);
                 if (user != null)
                 {
@@ -104,8 +104,11 @@ namespace WebApp.ApiControllers._1._0.Identity
                     _logger.LogInformation($"WebApi register. User {user.Email} logged in.");
                     return Ok(new JwtResponseDTO()
                     {
-                        Token = jwt, Status = $"User {user.Email} created and logged in.",
-                        FirstName = appUser.FirstName, LastName = appUser.LastName
+                        Token = jwt, 
+                        Status = $"User {user.Email} created and logged in.",
+                        FirstName = appUser.FirstName, 
+                        LastName = appUser.LastName,
+                        Roles = _userManager.GetRolesAsync(appUser)?.Result ?? new Collection<string>()
                     });
                 }
 

@@ -55,11 +55,27 @@
     "badLogin": "Bad login attempt",
     "yourOrders": "Your orders",
     "yourAddresses": "Your addresses",
-    "account": "Account"
+    "account": "Account",
+    "dontHaveAccount": "Do not have an account? Register here!",
+    "register": "Register",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "phone": "Phone",
+    "confirmPassword": "Confirm password",
+    "passwordMatch": "Passwords do not match!"
   },
   "paymentMethods": {
     "cash": "Cash",
     "card": "Banking Card",
     "app": "In Application"
+  },
+  "days": {
+    "sunday": "Sunday",
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday"
   }
 }

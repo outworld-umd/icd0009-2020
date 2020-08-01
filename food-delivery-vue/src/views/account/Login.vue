@@ -15,6 +15,7 @@
             <div class="form-group mt-5">
                 <button @click="loginOnClick" class="btn px-4 btn-success font-weight-bold shadow-none" :disabled="!this.loginInfo.email.length || !this.loginInfo.password.length">{{ $t('account.login') }}</button>
             </div>
+            <router-link to="/account/register" class="nav-link">{{ $t('account.dontHaveAccount') }}</router-link>
         </div>
     </div>
 </template>

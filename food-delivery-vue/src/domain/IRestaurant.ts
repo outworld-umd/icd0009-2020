@@ -14,7 +14,7 @@ export interface IRestaurant {
     id: string;
     name: string;
     deliveryCost: number;
-    workingHours: IWorkingHours[];
+    workingHourses: IWorkingHours[];
     phone: string;
     address: string;
     description?: string;

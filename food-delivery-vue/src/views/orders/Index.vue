@@ -1,6 +1,11 @@
 <template>
     <div>
         <h2 class="font-weight-bold">{{ $t('account.yourOrders') }}</h2>
+        <div v-if="!orders" class="text-center">
+            <div class="spinner-border m-5 text-success" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
         <ul class="list-group list-group-flush">
             <OrderView class="list-group-item" v-for="order in orders" :key="order.id" :orderView="order"/>
         </ul>

@@ -1,11 +1,16 @@
 <template>
     <b-modal :id="typeId + id" hide-footer @show="beforeShown" @hide="beforeHidden" style="overflow-y:scroll;">
-        <template v-if="item" v-slot:modal-header>
-            <h3>{{ item.name }}</h3>
+        <template v-slot:modal-header>
+            <h3 v-if="item">{{ item.name }}</h3>
         </template>
+        <div v-if="!item" class="text-center">
+            <div class="spinner-border m-5 text-success" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
         <div v-if="item">
             <p class="mb-5 font-weight-light">{{ item.description }}</p>
-            <div class="container" >
+            <div class="container">
                 <hr v-if="item.nutritionInfos.length"/>
                 <table v-if="item.nutritionInfos" class="table table-borderless table-sm w-75 text-center mx-auto small">
                     <tbody>

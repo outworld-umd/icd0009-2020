@@ -55,12 +55,28 @@
     "badLogin": "Ошибка входа",
     "yourOrders": "Ваши заказы",
     "yourAddresses": "Ваши адреса",
-    "account": "Аккаунт"
+    "account": "Аккаунт",
+    "dontHaveAccount": "Нет аккаунта? Зарегистрируйтесь сейчас!",
+    "register": "Регистрация",
+    "firstName": "Имя",
+    "lastName": "Фамилия",
+    "phone": "Номер телефона",
+    "confirmPassword": "Повторите пароль",
+    "passwordMatch": "Пароли не совпадают!"
   },
   "paymentMethods": {
     "cash": "Наличные",
     "card": "Банковская карта",
     "app": "В приложении"
+  },
+  "days": {
+    "sunday": "Воскресенье",
+    "monday": "Понедельник",
+    "tuesday": "Вторник",
+    "wednesday": "Среда",
+    "thursday": "Четверг",
+    "friday": "Пятница",
+    "saturday": "Суббота"
   }
 }
 

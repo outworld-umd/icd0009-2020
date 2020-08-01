@@ -4,4 +4,5 @@ export interface IRegisterRequest {
     phone: string;
     email: string;
     password: string;
+    roles: string[];
 }

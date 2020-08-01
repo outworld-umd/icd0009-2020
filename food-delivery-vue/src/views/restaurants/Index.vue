@@ -1,6 +1,10 @@
 <template>
     <div class="container">
-
+        <div v-if="!restaurants" class="text-center">
+            <div class="spinner-border m-5 text-success" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
         <div class="row">
             <RestaurantView v-for="restaurant in restaurants" :key="restaurant.id" :restaurant="restaurant"/>
         </div>

@@ -60,6 +60,7 @@ export default new Vuex.Store({
         },
         async getRestaurant(context, id: string): Promise<void> {
             const response = await RestaurantAPI.get(id);
+            console.log(response.data)
             context.commit('setRestaurant', response.data);
         },
         async getItem(context, id: string): Promise<void> {

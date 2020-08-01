@@ -9,6 +9,7 @@ import AddressIndex from "@/views/addresses/Index.vue";
 import { getModule } from "vuex-module-decorators";
 import store from '@/store'
 import UserModule from "@/store/modules/UserModule";
+import AccountRegister from "@/views/account/Register.vue";
 
 Vue.use(VueRouter)
 
@@ -70,6 +71,14 @@ const routes: Array<RouteConfig> = [
         }
     },
     {
+        path: '/account/register',
+        name: 'AccountRegister',
+        component: AccountRegister,
+        meta: {
+            title: "Register"
+        }
+    },
+    {
         path: '*'
     }
 ]
@@ -79,7 +88,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    document.title = `${to.meta.title} | ${appName}`;
+    document.title = (to.meta.title ? `${to.meta.title} | ` : "") + appName;
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (getModule(UserModule, store).jwt == null) {
             next('/account/login')
