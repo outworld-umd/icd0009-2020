@@ -12,7 +12,8 @@ export enum DayOfWeek {
     WEDNESDAY,
     THURSDAY,
     FRIDAY,
-    SATURDAY
+    SATURDAY,
+    SUNDAY2
 }
 
 export const DayNames = {
@@ -22,5 +23,6 @@ export const DayNames = {
     [DayOfWeek.WEDNESDAY]: 'days.wednesday',
     [DayOfWeek.THURSDAY]: 'days.thursday',
     [DayOfWeek.FRIDAY]: 'days.friday',
-    [DayOfWeek.SATURDAY]: 'days.saturday'
+    [DayOfWeek.SATURDAY]: 'days.saturday',
+    [DayOfWeek.SUNDAY2]: 'days.sunday'
 }

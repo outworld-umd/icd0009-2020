@@ -12,7 +12,7 @@
             </div>
             <table class="table table-borderless table-sm w-75 text-center mx-auto small">
                 <tbody>
-                <tr v-for="wh in restaurant.workingHourses" :key="wh.id">
+                <tr v-for="wh in workingHours" :key="wh.id">
                     <td>{{ $t(getWeekdayName(wh.weekDay)) }}</td>
                     <td>{{ getTime(wh.openingTime) }} - {{ getTime(wh.closingTime) }}</td>
                 </tr>
@@ -35,10 +35,10 @@
 
 <script lang="ts">
 import router from '@/router';
-import { DayNames, DayOfWeek } from '@/domain/IWorkingHours';
+import { DayNames, DayOfWeek, IWorkingHours } from '@/domain/IWorkingHours';
 import store from '@/store';
 import OrderModule from '@/store/modules/OrderModule';
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import { IRestaurant } from "@/domain/IRestaurant";
 import ItemView from "@/components/ItemView.vue";
 import { getModule } from "vuex-module-decorators";
@@ -53,6 +53,18 @@ export default class RestaurantMenu extends Vue {
 
     get restaurant(): IRestaurant | null {
         return store.state.restaurant;
+    }
+
+    get workingHours(): IWorkingHours[] {
+        const workingHours = this.restaurant?.workingHourses ?? [];
+        workingHours.filter(e => {
+            if (this.$i18n.locale === 'en') {
+                if (e.weekDay === DayOfWeek.SUNDAY2) e.weekDay = DayOfWeek.SUNDAY;
+            } else {
+                if (e.weekDay === DayOfWeek.SUNDAY) e.weekDay = DayOfWeek.SUNDAY2;
+            }
+        })
+        return workingHours.sort((h1, h2) => h1.weekDay - h2.weekDay)
     }
 
     getWeekdayName(day: DayOfWeek): string {

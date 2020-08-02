@@ -31,6 +31,10 @@ export default class OrderIndex extends Vue {
     mounted(): void {
         store.dispatch('getOrders')
     }
+
+    destroyed(): void {
+        store.commit('setOrders', null)
+    }
 }
 </script>
 
