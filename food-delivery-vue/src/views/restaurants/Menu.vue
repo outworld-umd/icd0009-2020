@@ -10,7 +10,7 @@
             <div>
                 <h2 class="m-4 font-weight-bold">{{ restaurant.name }}</h2>
             </div>
-            <table class="table table-borderless table-sm w-75 text-center mx-auto small">
+            <table class="table table-borderless table-sm w-25 text-center mx-auto small">
                 <tbody>
                 <tr v-for="wh in workingHours" :key="wh.id">
                     <td>{{ $t(getWeekdayName(wh.weekDay)) }}</td>

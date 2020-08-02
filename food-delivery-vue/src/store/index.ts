@@ -21,7 +21,8 @@ export default new Vuex.Store({
         item: null as IItem | null,
         addresses: [] as IAddress[],
         orders: [] as IOrderView[],
-        order: null as IOrder | null
+        order: null as IOrder | null,
+        loading: false
     },
     getters: {},
     mutations: {
@@ -42,12 +43,17 @@ export default new Vuex.Store({
         },
         setAddresses(state, addresses: IAddress[]) {
             state.addresses = addresses;
+        },
+        setLoading(state, loading: boolean) {
+            state.loading = loading;
         }
     },
     actions: {
         async getOrders(context): Promise<void> {
+            context.commit('setLoading', true)
             const response = await OrderAPI.getAll();
             context.commit('setOrders', response.data)
+            context.commit('setLoading', false)
         },
         async getOrder(context, id: string): Promise<void> {
             const response = await OrderAPI.get(id);
@@ -55,8 +61,10 @@ export default new Vuex.Store({
             context.commit('setOrder', response.data)
         },
         async getRestaurants(context): Promise<void> {
+            context.commit('setLoading', true)
             const response = await RestaurantAPI.getAll()
             context.commit('setRestaurants', response.data);
+            context.commit('setLoading', false)
         },
         async getRestaurant(context, id: string): Promise<void> {
             const response = await RestaurantAPI.get(id);

@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2 class="font-weight-bold">{{ $t('account.yourOrders') }}</h2>
-        <div v-if="!orders" class="text-center">
+        <div v-if="loading" class="text-center">
             <div class="spinner-border m-5 text-success" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
@@ -26,6 +26,10 @@ import store from '@/store'
 export default class OrderIndex extends Vue {
     get orders(): IOrderView[] {
         return store.state.orders;
+    }
+
+    get loading(): boolean {
+        return store.state.loading;
     }
 
     mounted(): void {
