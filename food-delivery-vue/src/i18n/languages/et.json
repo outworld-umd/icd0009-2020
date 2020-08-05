@@ -25,7 +25,9 @@
   "restaurant": {
     "closed": "Restoran on suletud",
     "showMenu": "Menüü",
-    "offer": "Eripakkumine!"
+    "offer": "Eripakkumine!",
+    "restaurants": "Kõik restoranid",
+    "search": "Otsing nime järgi"
   },
   "order": {
     "deleteOld": "Teie vana tellimus kustutakse ära. Soovite jätkata?",
@@ -55,11 +57,27 @@
     "badLogin": "Sisselogimine ei õnnestunud",
     "yourOrders": "Sinu tellimused",
     "yourAddresses": "Sinu aadressid",
-    "account": "Konto"
+    "account": "Konto",
+    "dontHaveAccount": "Pole kontot? Registreeri nüüd!",
+    "register": "Registreeri",
+    "firstName": "Eesnimi",
+    "lastName": "Perekonnanimi",
+    "phone": "Telefon",
+    "confirmPassword": "Korda parooli",
+    "passwordMatch": "Paroolid on erinevad!"
   },
   "paymentMethods": {
     "cash": "Sularaha",
     "card": "Pangakaart",
     "app": "Rakenduses"
+  },
+  "days": {
+    "sunday": "Pühapäev",
+    "monday": "Esmaspäev",
+    "tuesday": "Teisipäev",
+    "wednesday": "Kolmapäev",
+    "thursday": "Neljapäev",
+    "friday": "Reede",
+    "saturday": "Laupäev"
   }
 }

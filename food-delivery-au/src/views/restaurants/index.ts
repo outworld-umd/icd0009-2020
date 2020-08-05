@@ -12,6 +12,8 @@ import { ICategory, ICategoryView } from "../../domain/ICategory";
 @autoinject
 export class RestaurantIndex {
 
+    private loading = false;
+
     private _alert: IAlertData | null = null;
     private _restaurants: IRestaurantView[] | null = null;
     private _categories: ICategory[] = [];
@@ -28,7 +30,7 @@ export class RestaurantIndex {
     async getRestaurants() {
         await this.restaurantService.getAll().then(
             response => {
-                console.log("updated")
+                console.log("updated", response.data)
                 if (response.isSuccessful) {
                     this._alert = null;
                     this._restaurants = response.data;
@@ -57,6 +59,7 @@ export class RestaurantIndex {
     }
 
     async saveEdit(): Promise<void> {
+        this.loading = true;
         for (const view of this._initial) {
             if (!this._selected.includes(view.id)) {
                 console.log("delete restaurantcategory", view.restaurantCategoryId);
@@ -73,6 +76,7 @@ export class RestaurantIndex {
         }
         await this.getRestaurants();
         this.closeEdit();
+        this.loading = false;
     }
 
     async attached() {

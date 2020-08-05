@@ -1,5 +1,10 @@
 <template>
     <div>
+        <div v-if="!addresses" class="text-center">
+            <div class="spinner-border m-5 text-success" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
         <table class="container table table-borderless">
             <tr class="h5">
                 <th>{{ $t('address.nameSmall') }}</th>

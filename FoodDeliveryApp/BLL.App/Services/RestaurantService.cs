@@ -21,5 +21,10 @@ namespace BLL.App.Services
         public async Task<IEnumerable<Restaurant>> GetAllSortedByDeliveryAsync(object? userId = null, bool noTracking = true) {
             return (await base.GetAllAsync(userId, noTracking)).OrderBy(e => e.DeliveryCost);
         }
+
+        public async Task<IEnumerable<Restaurant>> GetAllByUser(Guid userId, bool noTracking = true) {
+            var restaurantIds = (await ServiceUnitOfWork.RestaurantUsers.GetAllAsync(userId, noTracking)).Select(e => e.RestaurantId);
+            return (await base.GetAllAsync(userId, noTracking)).Where(e => restaurantIds.Contains(e.Id));
+        }
     }
 }

@@ -3,6 +3,7 @@ import { Locales } from "@/i18n/locales";
 import { defaultLocale } from "@/i18n";
 import { ILoginRequest } from "@/domain/identity/ILoginRequest";
 import { AccountAPI } from "@/services/AccountAPI";
+import { IRegisterRequest } from "@/domain/identity/IRegisterRequest";
 
 @Module({ name: 'user' })
 export default class UserModule extends VuexModule {
@@ -38,6 +39,15 @@ export default class UserModule extends VuexModule {
     async authenticateUser(loginDTO: ILoginRequest): Promise<boolean> {
         console.log(loginDTO)
         const jwt = await AccountAPI.login(loginDTO);
+        console.log(jwt)
+        if (jwt.data) this.setJwt(jwt.data.token);
+        return this.jwt !== null;
+    }
+
+    @Action
+    async registerUser(registerDTO: IRegisterRequest): Promise<boolean> {
+        console.log(registerDTO)
+        const jwt = await AccountAPI.register(registerDTO);
         console.log(jwt)
         if (jwt.data) this.setJwt(jwt.data.token);
         return this.jwt !== null;

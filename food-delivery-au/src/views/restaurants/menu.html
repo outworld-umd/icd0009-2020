@@ -2,129 +2,134 @@
     <div class="container">
         <require from="../../components/alert"></require>
         <alert alert-data.bind="_alert"></alert>
-        <div>
-            <a class="d-flex btn px-4 btn-secondary position-absolute" route-href="route: restaurants-index;">Back to List</a>
-        </div>
-        <div class="text-center">
-            <h2 class="m-4 font-weight-bold">${_restaurant.name}</h2>
-        </div>
-        <div class="container my-5">
-            <h4 class="m-4 font-weight-bold">Your Categories</h4>
-            <div class="card my-4" repeat.for="itemType of _restaurant.itemTypes">
-                <div class="card-header text-left ${itemType.isSpecial ? 'alert-success' : ''}">
-                    <h6 if.bind="itemType.isSpecial" class="position-absolute m-3" style="top: 0; right: 0">Special offer!</h6>
-                    <a href="#" data-target="${'#' + itemType.name + itemType.id}" data-toggle="collapse" style="text-decoration: none;">
-                        <h3>${itemType.name}</h3>
-                    </a>
-                    <p>${itemType.description}</p>
-                    <div class="ml-auto my-auto pull-right">
-                        <div class.bind="isEdited ? 'invisible' : ''">
-                            <button class="btn btn-success btn-circle btn-circle-sm rounded-circle text-white shadow-none" click.delegate="editCategories(itemType.id, itemType.items)"><span class="fa fa-plus"></span></button>
-                            <button class="btn btn-info mx-2 btn-circle btn-circle-sm rounded-circle text-white shadow-none" click.delegate="itemTypeInputMode(true, itemType)"><span class="fa fa-pencil"></span></button>
-                            <button class="btn btn-danger btn-circle btn-circle-sm rounded-circle text-white shadow-none"  click.delegate="deleteItemType(itemType.id)"><span class="fa fa-trash"></span></button>
+        <div if.bind="_restaurant">
+            <div>
+                <a class="d-flex btn px-4 btn-secondary position-absolute" route-href="route: restaurants-index;">Back to List</a>
+            </div>
+            <div class="text-center">
+                <h2 class="m-4 font-weight-bold">${_restaurant.name}</h2>
+            </div>
+            <div class="container my-5">
+                <h4 class="m-4 font-weight-bold">Your Categories</h4>
+                <div class="card my-4" repeat.for="itemType of _restaurant.itemTypes">
+                    <div class="card-header text-left ${itemType.isSpecial ? 'alert-success' : ''}">
+                        <h6 if.bind="itemType.isSpecial" class="position-absolute m-3" style="top: 0; right: 0">Special offer!</h6>
+                        <a href="#" data-target="${'#' + itemType.name + itemType.id}" data-toggle="collapse" style="text-decoration: none;">
+                            <h3>${itemType.name}</h3>
+                        </a>
+                        <p>${itemType.description}</p>
+                        <div class="ml-auto my-auto pull-right">
+                            <div class.bind="isEdited ? 'invisible' : ''">
+                                <button class="btn btn-success btn-circle btn-circle-sm rounded-circle text-white shadow-none" click.delegate="editCategories(itemType.id, itemType.items)"><span class="fa fa-plus"></span></button>
+                                <button class="btn btn-info mx-2 btn-circle btn-circle-sm rounded-circle text-white shadow-none" click.delegate="itemTypeInputMode(true, itemType)"><span class="fa fa-pencil"></span></button>
+                                <button class.bind="loading ? 'disabled' : ''" class="btn btn-danger btn-circle btn-circle-sm rounded-circle text-white shadow-none"  click.delegate="deleteItemType(itemType.id)"><span class="fa fa-trash"></span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collapse" id="${itemType.name + itemType.id}">
+                        <ul class="list-group list-group-flush">
+                            <li class="d-flex align-items-center list-group-item" repeat.for="itemView of itemType.items">
+                                <div class="p-2 mx-3 text-left">
+                                    <div>${itemView.name}</div>
+                                    <div class="font-weight-bold">${itemView.price.toFixed(2)}€</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button class.bind="isEdited ? 'invisible' : ''" class="btn btn-success btn-circle btn-circle-sm text-white shadow-none px-3" click.delegate="itemTypeInputMode(true, null)"><span class="fa fa-plus mr-2"></span>Add Categories</button>
+                </div>
+            </div>
+            <div class="container my-5">
+                <h4 class="m-4 font-weight-bold">Your Products</h4>
+                <h6 class="mx-4 my-2 font-weight-light">Click on item to see its options</h6>
+                <ul class="list-group list-group-flush my-4">
+                    <li repeat.for="item of _items" class="d-flex align-items-center list-group-item">
+                        <div class="p-2 mx-3 text-left w-25">
+                            <a route-href="route: item; params.bind: { id: item.id }">${item.name}</a>
+                            <div class="font-weight-bold">${item.price.toFixed(2)}€</div>
+                        </div>
+                        <div class="text-left w-50">
+                            <div class="font-italic font-weight-light" if.bind="item.description">Description:</div>
+                            <div class="font-weight-light">${item.description}</div>
+                        </div>
+                        <div class.bind="isEdited ? 'invisible' : ''" class="ml-auto p-2 px-4">
+                            <button class="btn btn-info mx-2 btn-circle btn-circle-sm rounded-circle text-white shadow-none" click.delegate="itemInputMode(true, item)"><span class="fa fa-pencil"></span></button>
+                            <button class.bind="loading ? 'disabled' : ''" class="btn btn-danger btn-circle btn-circle-sm rounded-circle text-white shadow-none"  click.delegate="deleteItem(item.id)"><span class="fa fa-trash"></span></button>
+                        </div>
+                    </li>
+                </ul>
+                <div class="text-center">
+                    <button class.bind="isEdited ? 'invisible' : ''" class="btn btn-success btn-circle btn-circle-sm text-white shadow-none px-3" click.delegate="itemInputMode(true, null)"><span class="fa fa-plus mr-2"></span>Add Products</button>
+                </div>
+            </div>
+            <div>
+                <div if.bind="_isEdited" class="h-50 container p-3 fixed-bottom bg-white border overflow-auto border-dark rounded-top">
+                    <div class="container overflow-auto" style="height: 85%">
+                        <ul class="row row-cols-4">
+                            <li repeat.for="item of _items" class="d-flex align-items-center col p-2">
+                                <div class="ml-4 mr-1 mb-4">
+                                    <input type="checkbox" class="form-check-input" model.bind="item.id" checked.bind="_selected">
+                                </div>
+                                <div class="mx-3 text-left">
+                                    <div>${item.name}</div>
+                                    <div class="font-weight-bold">${item.price.toFixed(2)}€</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="btn-group w-50">
+                            <button type="button" class="btn btn-danger shadow-none font-weight-bold w-50 btn-sm" click.delegate="closeEdit()">Cancel</button>
+                            <button type="button" class.bind="loading ? 'disabled' : ''" class="btn btn-success shadow-none font-weight-bold w-50 btn-sm" click.delegate="saveEdit()">Save</button>
+                            <span class.bind="loading ? '' : 'invisible'" class="spinner-border ml-3 spinner-border-sm text-success" role="status"></span>
                         </div>
                     </div>
                 </div>
-                <div class="collapse" id="${itemType.name + itemType.id}">
-                    <ul class="list-group list-group-flush">
-                        <li class="d-flex align-items-center list-group-item" repeat.for="itemView of itemType.items">
-                            <div class="p-2 mx-3 text-left">
-                                <div>${itemView.name}</div>
-                                <div class="font-weight-bold">${itemView.price.toFixed(2)}€</div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="text-center">
-                <button class.bind="isEdited ? 'invisible' : ''" class="btn btn-success btn-circle btn-circle-sm text-white shadow-none px-3" click.delegate="itemTypeInputMode(true, null)"><span class="fa fa-plus mr-2"></span>Add Categories</button>
-            </div>
-        </div>
-        <div class="container my-5">
-            <h4 class="m-4 font-weight-bold">Your Products</h4>
-            <h6 class="m-2 font-weight-light">Click on item to see its options</h6>
-            <ul class="list-group list-group-flush my-4">
-                <li repeat.for="item of _items" class="d-flex align-items-center list-group-item">
-                    <div class="p-2 mx-3 text-left w-25">
-                        <a route-href="route: item; params.bind: { id: item.id }">${item.name}</a>
-                        <div class="font-weight-bold">${item.price.toFixed(2)}€</div>
+                <div if.bind="_isItemTypeEdited" class="container p-3 fixed-bottom bg-white border border-dark rounded-top">
+                    <div class="d-flex">
+                        <label class="container w-25 text-left">
+                            <span class="my-3 font-italic font-weight-light required">Category name</span>
+                            <input type="text" class="form-control font-weight-light shadow-none" value.bind="_itemTypeName" maxlength="100">
+                        </label>
+                        <label class="container w-75 text-left">
+                            <span class="my-3 font-italic font-weight-light">Description</span>
+                            <input type="text" class="form-control font-weight-light shadow-none" value.bind="_itemTypeDescription" maxlength="200">
+                        </label>
                     </div>
-                    <div class="text-left w-50">
-                        <div class="font-italic font-weight-light" if.bind="item.description">Description:</div>
-                        <div class="font-weight-light">${item.description}</div>
+                    <div class="d-flex w-50 px-4 py-2">
+                        <label class="container">
+                            <input type="checkbox" class="form-check-input font-weight-light shadow-none" checked.bind="_itemTypeIsSpecial">
+                            <span class="font-italic font-weight-light form-check-label">Is this category a special offer?</span>
+                        </label>
                     </div>
-                    <div class.bind="isEdited ? 'invisible' : ''" class="ml-auto p-2 px-4">
-                        <button class="btn btn-info mx-2 btn-circle btn-circle-sm rounded-circle text-white shadow-none" click.delegate="itemInputMode(true, item)"><span class="fa fa-pencil"></span></button>
-                        <button class="btn btn-danger btn-circle btn-circle-sm rounded-circle text-white shadow-none"  click.delegate="deleteItem(item.id)"><span class="fa fa-trash"></span></button>
-                    </div>
-                </li>
-            </ul>
-            <div class="text-center">
-                <button class.bind="isEdited ? 'invisible' : ''" class="btn btn-success btn-circle btn-circle-sm text-white shadow-none px-3" click.delegate="itemInputMode(true, null)"><span class="fa fa-plus mr-2"></span>Add Products</button>
-            </div>
-        </div>
-        <div>
-            <div if.bind="_isEdited" class="h-50 container p-3 fixed-bottom bg-white border overflow-auto border-dark rounded-top">
-                <div class="container overflow-auto" style="height: 85%">
-                    <ul class="row row-cols-4">
-                        <li repeat.for="item of _items" class="d-flex align-items-center col p-2">
-                            <div class="ml-4 mr-1 mb-4">
-                                <input type="checkbox" class="form-check-input" model.bind="item.id" checked.bind="_selected">
-                            </div>
-                            <div class="mx-3 text-left">
-                                <div>${item.name}</div>
-                                <div class="font-weight-bold">${item.price.toFixed(2)}€</div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="d-flex justify-content-center">
-                    <div class="btn-group w-50">
-                        <button type="button" class="btn btn-danger shadow-none font-weight-bold w-50 btn-sm" click.delegate="closeEdit()">Cancel</button>
-                        <button type="button" class="btn btn-success shadow-none font-weight-bold w-50 btn-sm" click.delegate="saveEdit()">Save</button>
+                    <div class="d-flex mt-3 btn-group">
+                        <button type="button" class="btn btn-danger shadow-none font-weight-bold w-50 btn-sm" click.delegate="itemTypeInputMode(false, null)">Cancel</button>
+                        <button type="button" class.bind="loading ? 'disabled' : ''" class="btn btn-success shadow-none font-weight-bold w-50 btn-sm" disabled.bind="validateItemType" click.delegate="submitItemType()">Save</button>
+                        <span class.bind="loading ? '' : 'invisible'" class="spinner-border ml-3 spinner-border-sm text-success" role="status"></span>
                     </div>
                 </div>
-            </div>
-            <div if.bind="_isItemTypeEdited" class="container p-3 fixed-bottom bg-white border border-dark rounded-top">
-                <div class="d-flex">
-                    <label class="container w-25 text-left">
-                        <span class="my-3 font-italic font-weight-light required">Category name</span>
-                        <input type="text" class="form-control font-weight-light shadow-none" value.bind="_itemTypeName" maxlength="100">
-                    </label>
-                    <label class="container w-75 text-left">
-                        <span class="my-3 font-italic font-weight-light">Description</span>
-                        <input type="text" class="form-control font-weight-light shadow-none" value.bind="_itemTypeDescription" maxlength="200">
-                    </label>
-                </div>
-                <div class="d-flex w-50 px-4 py-2">
-                    <label class="container">
-                        <input type="checkbox" class="form-check-input font-weight-light shadow-none" checked.bind="_itemTypeIsSpecial">
-                        <span class="font-italic font-weight-light form-check-label">Is this category a special offer?</span>
-                    </label>
-                </div>
-                <div class="d-flex mt-3 btn-group">
-                    <button type="button" class="btn btn-danger shadow-none font-weight-bold w-50 btn-sm" click.delegate="itemTypeInputMode(false, null)">Cancel</button>
-                    <button type="button" class="btn btn-success shadow-none font-weight-bold w-50 btn-sm" disabled.bind="validateItemType" click.delegate="submitItemType()">Save</button>
-                </div>
-            </div>
-            <div if.bind="_isItemEdited" class="container p-3 fixed-bottom bg-white border border-dark rounded-top">
-                <div class="d-flex">
-                    <label class="container w-25 text-left">
-                        <span class="my-3 font-italic font-weight-light required">Name</span>
-                        <input type="text" class="form-control font-weight-light shadow-none" value.bind="_itemName" maxlength="100">
-                    </label>
-                    <label class="container w-50 text-left">
-                        <span class="my-3 font-italic font-weight-light">Description</span>
-                        <input type="text" class="form-control font-weight-light shadow-none" value.bind="_itemDescription" maxlength="200">
-                    </label>
-                    <label class="container w-25 text-left">
-                        <span class="my-3 font-italic font-weight-light required">Price</span>
-                        <input type="number" class="form-control font-weight-light shadow-none" value.bind="_itemPrice" maxlength="200">
-                    </label>
-                </div>
-                <div class="d-flex mt-3 btn-group">
-                    <button type="button" class="btn btn-danger shadow-none font-weight-bold w-50 btn-sm" click.delegate="itemInputMode(false, null)">Cancel</button>
-                    <button type="button" class="btn btn-success shadow-none font-weight-bold w-50 btn-sm" disabled.bind="validateItem" click.delegate="submitItem()">Save</button>
+                <div if.bind="_isItemEdited" class="container p-3 fixed-bottom bg-white border border-dark rounded-top">
+                    <div class="d-flex">
+                        <label class="container w-25 text-left">
+                            <span class="my-3 font-italic font-weight-light required">Name</span>
+                            <input type="text" class="form-control font-weight-light shadow-none" value.bind="_itemName" maxlength="100">
+                        </label>
+                        <label class="container w-50 text-left">
+                            <span class="my-3 font-italic font-weight-light">Description</span>
+                            <input type="text" class="form-control font-weight-light shadow-none" value.bind="_itemDescription" maxlength="200">
+                        </label>
+                        <label class="container w-25 text-left">
+                            <span class="my-3 font-italic font-weight-light required">Price</span>
+                            <input type="number" class="form-control font-weight-light shadow-none" value.bind="_itemPrice" maxlength="200">
+                        </label>
+                    </div>
+                    <div class="d-flex mt-3 btn-group">
+                        <button type="button" class="btn btn-danger shadow-none font-weight-bold w-50 btn-sm" click.delegate="itemInputMode(false, null)">Cancel</button>
+                        <button type="button" class.bind="loading ? 'disabled' : ''" class="btn btn-success shadow-none font-weight-bold w-50 btn-sm" disabled.bind="validateItem" click.delegate="submitItem()">Save</button>
+                        <span class.bind="loading ? '' : 'invisible'" class="spinner-border ml-3 spinner-border-sm text-success" role="status"></span>
+                    </div>
                 </div>
             </div>
         </div>

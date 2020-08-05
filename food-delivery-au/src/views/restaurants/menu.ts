@@ -14,6 +14,8 @@ import { IItemType, IItemTypeCreate, IItemTypeEdit } from "../../domain/IItemTyp
 @autoinject
 export class RestaurantMenu {
 
+    private loading = false;
+
     private _alert: IAlertData | null = null;
     private _restaurant: IRestaurant | null = null;
     private _items: IItem[] = [];
@@ -90,6 +92,7 @@ export class RestaurantMenu {
     }
 
     async saveEdit(): Promise<void> {
+        this.loading = true;
         for (const view of this._initial) {
             if (!this._selected.includes(view.id)) {
                 console.log("delete itemInType", view.itemInTypeId);
@@ -104,6 +107,7 @@ export class RestaurantMenu {
         }
         await this.getRestaurant(this._restaurantId);
         this.closeEdit();
+        this.loading = false;
     }
 
     // ITEMTYPE EDITOR/CREATOR
@@ -120,6 +124,7 @@ export class RestaurantMenu {
     }
 
     async submitItemType(): Promise<void> {
+        this.loading = true;
         if (this._itemTypeName && this._restaurantId) {
             const itemTypeCreate: IItemTypeCreate = {
                 name: this._itemTypeName,
@@ -138,6 +143,7 @@ export class RestaurantMenu {
             await this.getRestaurant(this._restaurantId);
         }
         this.itemTypeInputMode(false, null)
+        this.loading = false;
     }
 
     itemTypeInputMode(turnOn: boolean, itemType: IItemType | null) {
@@ -150,9 +156,11 @@ export class RestaurantMenu {
     }
 
     async deleteItemType(id: string): Promise<void> {
+        this.loading = true;
         console.log("delete")
         await this.itemTypeService.delete(id);
         await this.getRestaurant(this._restaurantId);
+        this.loading = false;
     }
 
     // ITEM EDITOR/CREATOR
@@ -168,6 +176,7 @@ export class RestaurantMenu {
     }
 
     async submitItem(): Promise<void> {
+        this.loading = true;
         if (!this.validateItem) {
             const itemCreate: IItemCreate = {
                 name: this._itemName,
@@ -186,6 +195,7 @@ export class RestaurantMenu {
             await this.getItems(this._restaurantId);
         }
         this.itemInputMode(false, null)
+        this.loading = false;
     }
 
     itemInputMode(turnOn: boolean, item: IItem | null) {
@@ -198,8 +208,10 @@ export class RestaurantMenu {
     }
 
     async deleteItem(id: string): Promise<void> {
+        this.loading = true;
         console.log("delete")
         await this.itemService.delete(id);
         await this.getItems(this._restaurantId);
+        this.loading = false;
     }
 }

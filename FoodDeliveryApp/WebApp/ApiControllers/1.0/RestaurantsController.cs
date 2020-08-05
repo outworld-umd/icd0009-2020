@@ -43,7 +43,7 @@ namespace WebApp.ApiControllers._1._0
         public async Task<ActionResult<IEnumerable<V1DTO.RestaurantView>>> GetRestaurants()
         {
             return Ok((User.IsInRole("Restaurant") ? 
-                await _bll.Restaurants.GetAllAsync(User.UserGuidId()) : 
+                await _bll.Restaurants.GetAllByUser(User.UserGuidId()) : 
                 await _bll.Restaurants.GetAllSortedByDeliveryAsync())
                 .Select(e => _mapper.MapRestaurantView(e)));
         }

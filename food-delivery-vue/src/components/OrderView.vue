@@ -3,6 +3,7 @@
         <div class="p-2 mx-3 text-left w-75">
             <div>{{ orderView.restaurantName }}</div>
             <div class="font-weight-bold">{{ totalCost }}€</div>
+            <div>{{ $d(new Date(orderView.createdAt), 'long') }}</div>
         </div>
         <h4 class="w-25 mr-4">
             <span v-if="orderView.orderStatus === 0" class="badge badge-secondary w-100">{{ $t('order.sent') }}</span>
