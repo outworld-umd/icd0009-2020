@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <label for="search" class="control-label w-100 font-weight-light font-italic">{{ $t('restaurant.search') }}</label>
-        <div class="input-group">
+        <div class="input-group mb-4">
             <div class="input-group-prepend">
                 <span class="input-group-text"><span class="fa fa-search"/></span>
             </div>

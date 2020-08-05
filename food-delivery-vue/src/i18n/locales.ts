@@ -1,7 +1,7 @@
 export enum Locales {
-    EN = 'en',
-    ET = 'et',
-    RU = 'ru'
+    EN = 'en-US',
+    ET = 'et-EE',
+    RU = 'ru-RU'
 }
 
 export const LOCALES = [
