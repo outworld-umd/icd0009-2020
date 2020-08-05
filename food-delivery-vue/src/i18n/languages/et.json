@@ -25,7 +25,9 @@
   "restaurant": {
     "closed": "Restoran on suletud",
     "showMenu": "Menüü",
-    "offer": "Eripakkumine!"
+    "offer": "Eripakkumine!",
+    "restaurants": "Kõik restoranid",
+    "search": "Otsing nime järgi"
   },
   "order": {
     "deleteOld": "Teie vana tellimus kustutakse ära. Soovite jätkata?",

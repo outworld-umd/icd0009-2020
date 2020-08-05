@@ -25,7 +25,9 @@
   "restaurant": {
     "closed": "Restaurant is closed",
     "showMenu": "Menu",
-    "offer": "Special offer!"
+    "offer": "Special offer!",
+    "restaurants": "All Restaurants",
+    "search": "Search by name"
   },
   "order": {
     "deleteOld": "Your previous order will not be saved. Proceed?",

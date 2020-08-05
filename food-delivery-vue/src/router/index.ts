@@ -88,12 +88,12 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    document.title = (to.meta.title ? `${to.meta.title} | ` : "") + appName;
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (getModule(UserModule, store).jwt == null) {
             next('/account/login')
         } else next()
     } else next()
+    document.title = (to.meta.title ? `${to.meta.title} | ` : "") + appName;
 })
 
 export default router

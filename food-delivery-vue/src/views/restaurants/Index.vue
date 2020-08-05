@@ -1,12 +1,19 @@
 <template>
     <div class="container">
+        <label for="search" class="control-label w-100 font-weight-light font-italic">{{ $t('restaurant.search') }}</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><span class="fa fa-search"/></span>
+            </div>
+            <input id="search" v-model="searchByName" class="form-control font-weight-light" type="text" :placeholder="$t('restaurant.search')"/>
+        </div>
         <div v-if="loading" class="text-center">
             <div class="spinner-border m-5 text-success" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
         </div>
         <div class="row">
-            <RestaurantView v-for="restaurant in restaurants" :key="restaurant.id" :restaurant="restaurant"/>
+            <RestaurantView v-for="restaurant in filteredRestaurants" :key="restaurant.id" :restaurant="restaurant"/>
         </div>
         <CurrentOrder/>
     </div>
@@ -23,8 +30,16 @@ import CurrentOrder from "@/components/CurrentOrder.vue";
     components: { RestaurantView, CurrentOrder }
 })
 export default class RestaurantIndex extends Vue {
+    searchByName = '';
+
     get restaurants(): IRestaurantView[] {
         return store.state.restaurants;
+    }
+
+    get filteredRestaurants(): IRestaurantView[] {
+        return this.restaurants.filter(r => {
+            return r.name.toLowerCase().includes(this.searchByName.toLowerCase())
+        })
     }
 
     get loading(): boolean {
