@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Username">
+        <value>Kasutaja nimi</value>
+    </data>
+    <data name="FullName">
+        <value>Täisnimi</value>
+    </data>
+    <data name="Phone">
+        <value>Telefon</value>
+    </data>
+    <data name="Role">
+        <value>Roll</value>
+    </data>
+    <data name="Email">
+        <value>Email</value>
+    </data>
+    <data name="FirstName">
+        <value>Eesnimi</value>
+    </data>
+    <data name="LastName">
+        <value>Perekonnanimi</value>
+    </data>
+    <data name="Password">
+        <value>Salasõna</value>
+    </data>
+    <data name="ConfirmPassword">
+        <value>Kinnita salasõna</value>
+    </data>
+    <data name="CurrentRoles">
+        <value>Praegused rollid</value>
+    </data>
+    <data name="Id">
+        <value>ID</value>
+    </data>
+    <data name="SecurityStamp">
+        <value>Turvatempel</value>
+    </data>
+    <data name="NormalizedUserName">
+        <value>Normaliseeritud kasutajanimi</value>
+    </data>
+    <data name="AddRole">
+        <value>Lisa roll</value>
+    </data>
+</root>

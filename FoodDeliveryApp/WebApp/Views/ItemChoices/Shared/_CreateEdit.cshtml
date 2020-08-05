@@ -12,6 +12,6 @@
     <span asp-validation-for="ItemChoice.AdditionalPrice" class="text-danger"></span>
 </div>
 <div class="form-group">
-    <label asp-for="ItemChoice.ItemOptionId" class="control-label"></label>
+    <label asp-for="ItemChoice.ItemOptionId" class="control-label">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.ItemOption</label>
     <select asp-for="ItemChoice.ItemOptionId" class="form-control" asp-items="Model.ItemOptions"></select>
 </div>

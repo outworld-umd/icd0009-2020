@@ -98,12 +98,12 @@ namespace DAL.App.EF.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                    b.Property<Guid>("NameId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("NameId");
 
                     b.ToTable("Categories");
                 });
@@ -409,6 +409,29 @@ namespace DAL.App.EF.Migrations
                     b.ToTable("ItemTypes");
                 });
 
+            modelBuilder.Entity("Domain.App.LangStr", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ChangedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ChangedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LangStrings");
+                });
+
             modelBuilder.Entity("Domain.App.NutritionInfo", b =>
                 {
                     b.Property<Guid>("Id")
@@ -489,6 +512,10 @@ namespace DAL.App.EF.Migrations
 
                     b.Property<decimal>("FoodCost")
                         .HasColumnType("decimal(6,2)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
 
                     b.Property<int>("OrderStatus")
                         .HasColumnType("int");
@@ -712,6 +739,44 @@ namespace DAL.App.EF.Migrations
                     b.ToTable("RestaurantUsers");
                 });
 
+            modelBuilder.Entity("Domain.App.Translation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ChangedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ChangedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Culture")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(5)")
+                        .HasMaxLength(5);
+
+                    b.Property<Guid>("LangStrId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(10240);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LangStrId");
+
+                    b.ToTable("Translations");
+                });
+
             modelBuilder.Entity("Domain.App.WorkingHours", b =>
                 {
                     b.Property<Guid>("Id")
@@ -724,8 +789,8 @@ namespace DAL.App.EF.Migrations
                     b.Property<string>("ChangedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ClosingTime")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeSpan>("ClosingTime")
+                        .HasColumnType("time");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -733,8 +798,8 @@ namespace DAL.App.EF.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("OpeningTime")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeSpan>("OpeningTime")
+                        .HasColumnType("time");
 
                     b.Property<Guid>("RestaurantId")
                         .HasColumnType("uniqueidentifier");
@@ -855,6 +920,15 @@ namespace DAL.App.EF.Migrations
                     b.HasOne("Domain.App.Identity.AppUser", "AppUser")
                         .WithMany()
                         .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.App.Category", b =>
+                {
+                    b.HasOne("Domain.App.LangStr", "Name")
+                        .WithMany("CategoryNames")
+                        .HasForeignKey("NameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -986,6 +1060,15 @@ namespace DAL.App.EF.Migrations
                     b.HasOne("Domain.App.Restaurant", "Restaurant")
                         .WithMany("RestaurantUsers")
                         .HasForeignKey("RestaurantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.App.Translation", b =>
+                {
+                    b.HasOne("Domain.App.LangStr", "LangStr")
+                        .WithMany("Translations")
+                        .HasForeignKey("LangStrId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

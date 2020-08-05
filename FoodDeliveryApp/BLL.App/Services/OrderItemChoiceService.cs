@@ -1,3 +1,4 @@
+using System;
 using BLL.App.DTO;
 using BLL.App.Mappers;
 using BLL.Base.Services;
@@ -12,6 +13,12 @@ namespace BLL.App.Services
     {
         public OrderItemChoiceService(IAppUnitOfWork unitOfWork) : base(unitOfWork, unitOfWork.OrderItemChoices, new OrderItemChoiceServiceMapper())
         {
+        }
+
+        public new OrderItemChoice Add(OrderItemChoice entity)
+        {
+            entity.Name = (ServiceUnitOfWork.ItemChoices.FirstOrDefaultAsync(entity.ItemChoiceId!.Value).Result).Name;
+            return base.Add(entity);
         }
     }
 }

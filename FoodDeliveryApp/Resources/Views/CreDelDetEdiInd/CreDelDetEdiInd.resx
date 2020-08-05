@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Create">
+        <value>Create new</value>
+    </data>
+    <data name="Edit">
+        <value>Edit</value>
+    </data>
+    <data name="Details">
+        <value>Details</value>
+    </data>
+    <data name="Delete">
+        <value>Delete</value>
+    </data>
+    <data name="Back">
+        <value>Back</value>
+    </data>
+    <data name="Save">
+        <value>Save</value>
+    </data>
+    <data name="AreYouSure">
+        <value>Are you sure you want to delete this?</value>
+    </data>
+    <data name="Addresses">
+        <value>Addresses</value>
+    </data>
+    <data name="Categories">
+        <value>Categories</value>
+    </data>
+    <data name="Items">
+        <value>Items</value>
+    </data>
+    <data name="ItemChoices">
+        <value>Item Choices</value>
+    </data>
+    <data name="ItemInTypes">
+        <value>Item In Types</value>
+    </data>
+    <data name="ItemOptions">
+        <value>Item Options</value>
+    </data>
+    <data name="ItemTypes">
+        <value>Item Types</value>
+    </data>
+    <data name="NutritionInfos">
+        <value>Nutrition Infos</value>
+    </data>
+    <data name="Orders">
+        <value>Orders</value>
+    </data>
+    <data name="OrderItemChoices">
+        <value>Order Item Choices</value>
+    </data>
+    <data name="OrderRows">
+        <value>Order Rows</value>
+    </data>
+    <data name="Restaurants">
+        <value>Restaurants</value>
+    </data>
+    <data name="RestaurantCategories">
+        <value>Restaurant Categories</value>
+    </data>
+    <data name="RestaurantUsers">
+        <value>Restaurant Users</value>
+    </data>
+    <data name="WorkingHourses">
+        <value>Working Hours</value>
+    </data>
+    <data name="UserManager">
+        <value>User Manager</value>
+    </data>
+    <data name="Address">
+        <value>Address</value>
+    </data>
+    <data name="Category">
+        <value>Category</value>
+    </data>
+    <data name="Item">
+        <value>Item</value>
+    </data>
+    <data name="ItemChoice">
+        <value>Item Choice</value>
+    </data>
+    <data name="ItemInType">
+        <value>Item In Type</value>
+    </data>
+    <data name="ItemOption">
+        <value>Item Option</value>
+    </data>
+    <data name="ItemType">
+        <value>Item Type</value>
+    </data>
+    <data name="NutritionInfo">
+        <value>Nutrition Info</value>
+    </data>
+    <data name="Order">
+        <value>Order</value>
+    </data>
+    <data name="OrderItemChoice">
+        <value>Order Item Choice</value>
+    </data>
+    <data name="OrderRow">
+        <value>Order Rows</value>
+    </data>
+    <data name="Restaurant">
+        <value>Restaurants</value>
+    </data>
+    <data name="RestaurantCategory">
+        <value>Restaurant Category</value>
+    </data>
+    <data name="RestaurantUser">
+        <value>Restaurant Users</value>
+    </data>
+    <data name="WorkingHours">
+        <value>Working Hours</value>
+    </data>
+    <data name="User">
+        <value>User</value>
+    </data>
+    <data name="PleaseSelect">
+        <value>Please select</value>
+    </data>
+</root>

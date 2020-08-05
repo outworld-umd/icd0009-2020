@@ -5,22 +5,101 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Views\Address" />
-      <Folder Include="Views\Home" />
-    </ItemGroup>
-
-    <ItemGroup>
         <EmbeddedResource Update="BLL.App.DTO\Address\Address.resx">
             <Generator>PublicResXFileCodeGenerator</Generator>
             <LastGenOutput>Address.Designer.cs</LastGenOutput>
         </EmbeddedResource>
-        <EmbeddedResource Update="Views\Shared\_Layout.resx">
-            <Generator>PublicResXFileCodeGenerator</Generator>
-            <LastGenOutput>_Layout.Designer.cs</LastGenOutput>
+        <EmbeddedResource Update="BLL.App.DTO\Category\Category.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>Category.Designer.cs</LastGenOutput>
         </EmbeddedResource>
-        <EmbeddedResource Update="Common.resx">
-            <Generator>PublicResXFileCodeGenerator</Generator>
-            <LastGenOutput>Common.Designer.cs</LastGenOutput>
+        <EmbeddedResource Update="BLL.App.DTO\Item\Item.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>Item.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="BLL.App.DTO\ItemChoice\ItemChoice.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>ItemChoice.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="BLL.App.DTO\ItemInType\ItemInType.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>ItemInType.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="BLL.App.DTO\ItemOption\ItemOption.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>ItemOption.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="BLL.App.DTO\ItemType\ItemType.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>ItemType.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="BLL.App.DTO\NutritionInfo\NutritionInfo.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>NutritionInfo.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="BLL.App.DTO\Order\Order.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>Order.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="BLL.App.DTO\OrderItemChoice\OrderItemChoice.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>OrderItemChoice.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="BLL.App.DTO\OrderRow\OrderRow.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>OrderRow.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="BLL.App.DTO\Restaurant\Restaurant.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>Restaurant.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="BLL.App.DTO\RestaurantCategory\RestaurantCategory.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>RestaurantCategory.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="BLL.App.DTO\WorkingHours\WorkingHours.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>WorkingHours.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="BLL.App.DTO\RestaurantUser\RestaurantUser.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>RestaurantUser.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Views\Home\Index\Index.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>Index.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Views\Home\Privacy\Privacy.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>Privacy.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Views\Shared\Layout\_Layout.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>_Layout.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Views\Shared\_LanguageSelection\_LanguageSelection.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>_LanguageSelection.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Views\Shared\_LoginPartial\_LoginPartial.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>_LoginPartial.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Common\Common.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>Common.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="BLL.App.DTO\Identity\User.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>User.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Enums\OrderStatus\OrderStatus.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>OrderStatus.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Enums\PaymentMethod\PaymentMethod.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>PaymentMethod.Designer.cs</LastGenOutput>
         </EmbeddedResource>
     </ItemGroup>
 
@@ -30,16 +109,116 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>Address.resx</DependentUpon>
         </Compile>
-        <Compile Update="Views\Shared\_Layout.Designer.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>_Layout.resx</DependentUpon>
+        <Compile Update="BLL.App.DTO\Category\Category.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Category.resx</DependentUpon>
         </Compile>
-        <Compile Update="Common.Designer.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>Common.resx</DependentUpon>
+        <Compile Update="BLL.App.DTO\Item\Item.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Item.resx</DependentUpon>
+        </Compile>
+        <Compile Update="BLL.App.DTO\ItemChoice\ItemChoice.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>ItemChoice.resx</DependentUpon>
+        </Compile>
+        <Compile Update="BLL.App.DTO\ItemInType\ItemInType.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>ItemInType.resx</DependentUpon>
+        </Compile>
+        <Compile Update="BLL.App.DTO\ItemOption\ItemOption.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>ItemOption.resx</DependentUpon>
+        </Compile>
+        <Compile Update="BLL.App.DTO\ItemType\ItemType.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>ItemType.resx</DependentUpon>
+        </Compile>
+        <Compile Update="BLL.App.DTO\NutritionInfo\NutritionInfo.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>NutritionInfo.resx</DependentUpon>
+        </Compile>
+        <Compile Update="BLL.App.DTO\Order\Order.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Order.resx</DependentUpon>
+        </Compile>
+        <Compile Update="BLL.App.DTO\OrderItemChoice\OrderItemChoice.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>OrderItemChoice.resx</DependentUpon>
+        </Compile>
+        <Compile Update="BLL.App.DTO\OrderRow\OrderRow.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>OrderRow.resx</DependentUpon>
+        </Compile>
+        <Compile Update="BLL.App.DTO\Restaurant\Restaurant.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Restaurant.resx</DependentUpon>
+        </Compile>
+        <Compile Update="BLL.App.DTO\RestaurantCategory\RestaurantCategory.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>RestaurantCategory.resx</DependentUpon>
+        </Compile>
+        <Compile Update="BLL.App.DTO\WorkingHours\WorkingHours.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>WorkingHours.resx</DependentUpon>
+        </Compile>
+        <Compile Update="BLL.App.DTO\RestaurantUser\RestaurantUser.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>RestaurantUser.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Views\Home\Index\Index.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Index.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Views\Home\Privacy\Privacy.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Privacy.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Views\Shared\Layout\_Layout.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>_Layout.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Common\Common.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Common.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Views\Index\Index.Designer.cs">
+          <DependentUpon>_Layout.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Views\UserManager\UserManager.Designer.cs">
+          <DependentUpon>CreDelDetEdiInd.resx</DependentUpon>
+        </Compile>
+        <Compile Update="BLL.App.DTO\Identity\User.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Category.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Enums\OrderStatus\OrderStatus.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>OrderStatus.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Enums\PaymentMethod\PaymentMethod.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>PaymentMethod.resx</DependentUpon>
         </Compile>
     </ItemGroup>
-
 </Project>

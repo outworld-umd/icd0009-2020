@@ -19,7 +19,22 @@ namespace DAL.App.EF.Repositories {
             var domainEntities = await query
                 .Include(с => с.RestaurantCategories)
                 .ThenInclude(rc => rc.Restaurant)
+                .Include(l => l.Name)
+                .ThenInclude(t => t!.Translations)
                 .ToListAsync();
+            var result = domainEntities.Select(e => DALMapper.Map(e));
+            return result;
+        }
+
+        public override IEnumerable<Category> GetAll(object? userId = null, bool noTracking = true)
+        {
+            var query = PrepareQuery(userId, noTracking);
+            var domainEntities = query
+                .Include(с => с.RestaurantCategories)
+                .ThenInclude(rc => rc.Restaurant)
+                .Include(l => l.Name)
+                .ThenInclude(t => t!.Translations)
+                .ToList();
             var result = domainEntities.Select(e => DALMapper.Map(e));
             return result;
         }
@@ -32,6 +47,22 @@ namespace DAL.App.EF.Repositories {
                 .ThenInclude(rc => rc.Restaurant)
                 .FirstOrDefaultAsync(e => e.Id.Equals(id));
             return DALMapper.Map(entity);
+        }
+        
+        public override async Task<Category> UpdateAsync(Category entity, object? userId = null)
+        {
+            var domainEntity = DALMapper.Map(entity);
+
+            // fix the language string - from mapper we get new ones - so duplicate values will be created in db
+            // load back from db the originals 
+            domainEntity.Name = await RepoDbContext.LangStrings.Include(t => t.Translations).FirstAsync(s => s.Id == domainEntity.NameId);
+            domainEntity.Name.SetTranslation(entity.Name);
+
+            await CheckDomainEntityOwnership(domainEntity, userId);
+            
+            var trackedDomainEntity = RepoDbSet.Update(domainEntity).Entity;
+            var result = DALMapper.Map(trackedDomainEntity);
+            return result;        
         }
     }
 }

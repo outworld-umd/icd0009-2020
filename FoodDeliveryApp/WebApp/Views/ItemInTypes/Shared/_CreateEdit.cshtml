@@ -1,0 +1,11 @@
+﻿@model WebApp.ViewModels.ItemInTypeCreateEditViewModel
+
+<div asp-validation-summary="All" class="text-danger"></div>
+<div class="form-group">
+    <label asp-for="ItemInType.ItemTypeId" class="control-label">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.ItemType</label>
+    <select asp-for="ItemInType.ItemTypeId" class="form-control" asp-items="Model.ItemTypes"></select>
+</div>
+<div class="form-group">
+    <label asp-for="ItemInType.ItemId" class="control-label">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Item</label>
+    <select asp-for="ItemInType.ItemId" class="form-control" asp-items="Model.Items"></select>
+</div>

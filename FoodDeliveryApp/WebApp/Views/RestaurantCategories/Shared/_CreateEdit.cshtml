@@ -2,10 +2,10 @@
 
 <div asp-validation-summary="All" class="text-danger"></div>
 <div class="form-group">
-    <label asp-for="RestaurantCategory.CategoryId" class="control-label"></label>
+    <label asp-for="RestaurantCategory.CategoryId" class="control-label">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Category</label>
     <select asp-for="RestaurantCategory.CategoryId" class="form-control" asp-items="Model.Categories"></select>
 </div>
 <div class="form-group">
-    <label asp-for="RestaurantCategory.RestaurantId" class="control-label"></label>
+    <label asp-for="RestaurantCategory.RestaurantId" class="control-label">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Restaurant</label>
     <select asp-for="RestaurantCategory.RestaurantId" class="form-control" asp-items="Model.Restaurants"></select>
 </div>

@@ -46,5 +46,4 @@ namespace DAL.App.EF.Repositories {
             return DALMapper.Map(entity);
         }
     }
-
 }

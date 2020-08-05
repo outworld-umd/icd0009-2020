@@ -18,16 +18,37 @@ namespace BLL.App.DTO
         where TKey : IEquatable<TKey>
         where TUser : AppUser<TKey>
     {
+        public TKey Id { get; set; } = default!;
+
         public TKey AppUserId { get; set; } = default!;
+        [Display(Name = "AppUser", ResourceType = typeof(Resources.BLL.App.DTO.Restaurant.Restaurant))]
         public TUser? AppUser { get; set; }
         
-        [MinLength(2)] [MaxLength(64)] [Required] public string Name { get; set; } = default!;
-        [MinLength(2)] [MaxLength(64)] [Required] public string Phone { get; set; } = default!;
-        [MinLength(2)] [MaxLength(512)] [Required] public string Address { get; set; } = default!;
-        [MaxLength(512)] public string? Description { get; set; }
-        [Column(TypeName = "decimal(6,2)")] [Required] public decimal DeliveryCost { get; set; }
-
-
+        [MaxLength(64, ErrorMessageResourceName = "ErrorMessage_MaxLength", ErrorMessageResourceType = typeof(Resources.Common.Common))]
+        [MinLength(2, ErrorMessageResourceName = "ErrorMessage_MinLength", ErrorMessageResourceType = typeof(Resources.Common.Common))] 
+        [Required(ErrorMessageResourceName = "ErrorMessage_Required", ErrorMessageResourceType = typeof(Resources.Common.Common))] 
+        [Display(Name = "Name", ResourceType = typeof(Resources.BLL.App.DTO.Restaurant.Restaurant))]
+        public string Name { get; set; } = default!;
+        
+        [MaxLength(64, ErrorMessageResourceName = "ErrorMessage_MaxLength", ErrorMessageResourceType = typeof(Resources.Common.Common))]
+        [MinLength(2, ErrorMessageResourceName = "ErrorMessage_MinLength", ErrorMessageResourceType = typeof(Resources.Common.Common))] 
+        [Required(ErrorMessageResourceName = "ErrorMessage_Required", ErrorMessageResourceType = typeof(Resources.Common.Common))] 
+        [Display(Name = "Phone", ResourceType = typeof(Resources.BLL.App.DTO.Restaurant.Restaurant))]
+        public string Phone { get; set; } = default!;
+        
+        [MaxLength(512, ErrorMessageResourceName = "ErrorMessage_MaxLength", ErrorMessageResourceType = typeof(Resources.Common.Common))]
+        [MinLength(2, ErrorMessageResourceName = "ErrorMessage_MinLength", ErrorMessageResourceType = typeof(Resources.Common.Common))] 
+        [Required(ErrorMessageResourceName = "ErrorMessage_Required", ErrorMessageResourceType = typeof(Resources.Common.Common))] 
+        [Display(Name = "Address", ResourceType = typeof(Resources.BLL.App.DTO.Restaurant.Restaurant))]
+        public string Address { get; set; } = default!;
+        [MaxLength(512)] 
+        [Display(Name = "Description", ResourceType = typeof(Resources.BLL.App.DTO.Restaurant.Restaurant))]
+        public string? Description { get; set; }
+        [Column(TypeName = "decimal(6,2)")] 
+        [Required(ErrorMessageResourceName = "ErrorMessage_Required", ErrorMessageResourceType = typeof(Resources.Common.Common))] 
+        [Display(Name = "DeliveryCost", ResourceType = typeof(Resources.BLL.App.DTO.Restaurant.Restaurant))]
+        public decimal DeliveryCost { get; set; }
+        
         public ICollection<WorkingHours>? WorkingHourses { get; set; }
         public ICollection<RestaurantCategory>? RestaurantCategories { get; set; }
         public ICollection<Order>? Orders { get; set; }
@@ -35,10 +56,13 @@ namespace BLL.App.DTO
         public ICollection<ItemType>? ItemTypes { get; set; }
         public ICollection<RestaurantUser>? RestaurantUsers { get; set; }
 
-        public TKey Id { get; set; } = default!;
+        [Display(Name = nameof(CreatedBy), ResourceType = typeof(Resources.BLL.App.DTO.Restaurant.Restaurant))]
         public string? CreatedBy { get; set; }
+        [Display(Name = nameof(CreatedAt), ResourceType = typeof(Resources.BLL.App.DTO.Restaurant.Restaurant))]
         public DateTime CreatedAt { get; set; }
+        [Display(Name = nameof(ChangedBy), ResourceType = typeof(Resources.BLL.App.DTO.Restaurant.Restaurant))]
         public string? ChangedBy { get; set; }
+        [Display(Name = nameof(ChangedAt), ResourceType = typeof(Resources.BLL.App.DTO.Restaurant.Restaurant))]
         public DateTime ChangedAt { get; set; }
     }
 }

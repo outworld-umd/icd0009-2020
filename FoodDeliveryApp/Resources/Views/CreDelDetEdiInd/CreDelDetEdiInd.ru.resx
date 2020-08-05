@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Create">
+        <value>Создать новый</value>
+    </data>
+    <data name="Edit">
+        <value>Изменить</value>
+    </data>
+    <data name="Details">
+        <value>Детали</value>
+    </data>
+    <data name="Delete">
+        <value>Удалить</value>
+    </data>
+    <data name="Back">
+        <value>Назад</value>
+    </data>
+    <data name="Save">
+        <value>Сохранить</value>
+    </data>
+    <data name="AreYouSure">
+        <value>Вы уверены, что хотите удалить это?</value>
+    </data>
+    <data name="Addresses">
+        <value>Адреса</value>
+    </data>
+    <data name="Categories">
+        <value>Категории</value>
+    </data>
+    <data name="Items">
+        <value>Товары</value>
+    </data>
+    <data name="ItemChoices">
+        <value>Варианты выбора</value>
+    </data>
+    <data name="ItemInTypes">
+        <value>Товары в типах</value>
+    </data>
+    <data name="ItemOptions">
+        <value>Варианты товаров</value>
+    </data>
+    <data name="ItemTypes">
+        <value>Типы товаров</value>
+    </data>
+    <data name="NutritionInfos">
+        <value>Информация о питании</value>
+    </data>
+    <data name="Orders">
+        <value>Заказы</value>
+    </data>
+    <data name="OrderItemChoices">
+        <value>Выбранные товары заказов</value>
+    </data>
+    <data name="OrderRows">
+        <value>Строки заказов</value>
+    </data>
+    <data name="Restaurants">
+        <value>Рестораны</value>
+    </data>
+    <data name="RestaurantCategories">
+        <value>Категории ресторанов</value>
+    </data>
+    <data name="RestaurantUsers">
+        <value>Пользователи ресторанов</value>
+    </data>
+    <data name="WorkingHourses">
+        <value>Рабочие часы</value>
+    </data>
+    <data name="UserManager">
+        <value>Диспетчер пользователей</value>
+    </data>
+    <data name="Address">
+        <value>Адрес</value>
+    </data>
+    <data name="Category">
+        <value>Категория</value>
+    </data>
+    <data name="Item">
+        <value>Товар</value>
+    </data>
+    <data name="ItemChoice">
+        <value>Вариант выбора</value>
+    </data>
+    <data name="ItemInType">
+        <value>Товар в типе</value>
+    </data>
+    <data name="ItemOption">
+        <value>Вариант товара</value>
+    </data>
+    <data name="ItemType">
+        <value>Тип товара</value>
+    </data>
+    <data name="NutritionInfo">
+        <value>Информация о питании</value>
+    </data>
+    <data name="Order">
+        <value>Заказ</value>
+    </data>
+    <data name="OrderItemChoice">
+        <value>Выбранный товар заказа</value>
+    </data>
+    <data name="OrderRow">
+        <value>Строка заказа</value>
+    </data>
+    <data name="Restaurant">
+        <value>Ресторан</value>
+    </data>
+    <data name="RestaurantCategory">
+        <value>Категория ресторана</value>
+    </data>
+    <data name="RestaurantUser">
+        <value>Пользователь ресторана</value>
+    </data>
+    <data name="WorkingHours">
+        <value>Рабочие часы</value>
+    </data>
+    <data name="User">
+        <value>Пользователь</value>
+    </data>
+    <data name="PleaseSelect">
+        <value>Выберите</value>
+    </data>
+</root>

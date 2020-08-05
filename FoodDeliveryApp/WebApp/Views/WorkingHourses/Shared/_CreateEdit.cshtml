@@ -4,7 +4,7 @@
 <div class="form-group">
     <label asp-for="WorkingHours.WeekDay" class="control-label"></label>
     <select asp-for="WorkingHours.WeekDay" class="form-control" asp-items="Html.GetEnumSelectList<DayOfWeek>()">
-        <option selected="selected" value="">Please select</option>
+        <option selected="selected" value="">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.PleaseSelect</option>
     </select>
     <span asp-validation-for="WorkingHours.WeekDay" class="text-danger"></span>
 </div>
@@ -19,6 +19,6 @@
     <span asp-validation-for="WorkingHours.ClosingTime" class="text-danger"></span>
 </div>
 <div class="form-group">
-    <label asp-for="WorkingHours.RestaurantId" class="control-label"></label>
+    <label asp-for="WorkingHours.RestaurantId" class="control-label">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Restaurant</label>
     <select asp-for="WorkingHours.RestaurantId" class="form-control" asp-items="Model.Restaurants"></select>
 </div>

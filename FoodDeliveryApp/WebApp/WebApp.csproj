@@ -16,6 +16,7 @@
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.6" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.6" />
         <PackageReference Include="Microsoft.AspNetCore.Localization" Version="2.2.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.6" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.1.1" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="4.1.1" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.6" />
@@ -55,6 +56,13 @@
       <_ContentIncludedByDefault Remove="Views\Customers\Details.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Customers\Edit.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Customers\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Restaurant\Views\WorkingHourses\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Restaurant\Views\WorkingHourses\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Restaurant\Views\WorkingHourses\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Restaurant\Views\WorkingHourses\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Restaurant\Views\WorkingHourses\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Restaurant\Views\WorkingHourses\Shared\_CreateEdit.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Restaurant\Views\WorkingHourses\Shared\_DetailsDelete.cshtml" />
     </ItemGroup>
 
     <ItemGroup>
@@ -214,6 +222,24 @@
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </Content>
+      <Content Update="Views\Shared\_AdminPartial.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Views\Translations\Shared\_CreateEdit.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Views\Translations\Shared\_DetailsDelete.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Areas\Admin\Views" />
+      <Folder Include="Areas\Customer\Views" />
+      <Folder Include="Areas\Restaurant\Views" />
     </ItemGroup>
 
 </Project>

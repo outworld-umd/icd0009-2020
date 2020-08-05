@@ -2,11 +2,16 @@
 
 <div asp-validation-summary="All" class="text-danger"></div>
 <div class="form-group">
-    <label asp-for="OrderRow.ItemId" class="control-label"></label>
+    <label asp-for="OrderRow.Name" class="control-label"></label>
+    <input asp-for="OrderRow.Name" class="form-control"/>
+    <span asp-validation-for="OrderRow.Name" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="OrderRow.ItemId" class="control-label">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Item</label>
     <select asp-for="OrderRow.ItemId" class="form-control" asp-items="Model.Items"></select>
 </div>
 <div class="form-group">
-    <label asp-for="OrderRow.OrderId" class="control-label"></label>
+    <label asp-for="OrderRow.OrderId" class="control-label">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Order</label>
     <select asp-for="OrderRow.OrderId" class="form-control" asp-items="Model.Orders"></select>
 </div>
 <div class="form-group">

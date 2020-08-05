@@ -64,7 +64,7 @@ namespace WebApp
                 .AddDefaultTokenProviders();
 
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();;
             services.AddRazorPages();
 
             // makes httpcontext injectable - needed to resolve username in dal layer

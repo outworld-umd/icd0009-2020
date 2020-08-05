@@ -28,6 +28,8 @@ namespace BLL.App.Mappers
             MapperConfigurationExpression.CreateMap<RestaurantCategory, DAL.App.DTO.RestaurantCategory>();
             MapperConfigurationExpression.CreateMap<RestaurantUser, DAL.App.DTO.RestaurantUser>();
             MapperConfigurationExpression.CreateMap<WorkingHours, DAL.App.DTO.WorkingHours>();
+            MapperConfigurationExpression.CreateMap<LangStr, DAL.App.DTO.LangStr>();
+            MapperConfigurationExpression.CreateMap<Translation, DAL.App.DTO.Translation>();
 
             
             MapperConfigurationExpression.CreateMap<DAL.App.DTO.Identity.AppUser, AppUser>();
@@ -46,6 +48,8 @@ namespace BLL.App.Mappers
             MapperConfigurationExpression.CreateMap<DAL.App.DTO.RestaurantCategory, RestaurantCategory>();
             MapperConfigurationExpression.CreateMap<DAL.App.DTO.RestaurantUser, RestaurantUser>();
             MapperConfigurationExpression.CreateMap<DAL.App.DTO.WorkingHours, WorkingHours>();
+            MapperConfigurationExpression.CreateMap<DAL.App.DTO.LangStr, LangStr>();
+            MapperConfigurationExpression.CreateMap<DAL.App.DTO.Translation, Translation>();
             
             Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));
         }

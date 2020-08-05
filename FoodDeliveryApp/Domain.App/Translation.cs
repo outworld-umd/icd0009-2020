@@ -1,0 +1,22 @@
+using System;
+using System.ComponentModel.DataAnnotations;
+using Contracts.Domain.Basic;
+using Contracts.Domain.Combined;
+using Domain.Base;
+
+namespace Domain.App
+{
+    public class Translation : Translation<Guid>, IDomainEntityIdMetadata
+    {
+        
+    }
+    public class Translation<TKey> : DomainEntityIdMetadata<TKey>
+        where TKey : IEquatable<TKey>
+    {
+        [MaxLength(5)] public string Culture { get; set; }
+        [MaxLength(10240)] public string Value { get; set; }
+
+        public TKey LangStrId { get; set; } = default!;
+        public LangStr? LangStr { get; set; }
+    }
+}
