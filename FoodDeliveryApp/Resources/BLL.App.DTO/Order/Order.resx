@@ -42,6 +42,9 @@
     <data name="RestaurantName">
         <value>Restaurant Name</value>
     </data>
+    <data name="Name">
+        <value>Name</value>
+    </data>
     <data name="Comment">
         <value>Comment</value>
     </data>

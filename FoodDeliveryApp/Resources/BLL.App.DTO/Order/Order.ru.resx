@@ -42,6 +42,9 @@
     <data name="RestaurantName">
         <value>Название ресторана</value>
     </data>
+    <data name="Name">
+        <value>Название</value>
+    </data>
     <data name="Comment">
         <value>Комментарий</value>
     </data>
@@ -59,5 +62,8 @@
     </data>
     <data name="ChangedAt">
         <value>Изменено</value>
+    </data>
+    <data name="Name">
+        <value>Name</value>
     </data>
 </root>

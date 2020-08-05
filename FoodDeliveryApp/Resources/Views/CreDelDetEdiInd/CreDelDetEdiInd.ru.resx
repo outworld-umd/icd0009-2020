@@ -135,4 +135,7 @@
     <data name="User">
         <value>Пользователь</value>
     </data>
+    <data name="PleaseSelect">
+        <value>Выберите</value>
+    </data>
 </root>

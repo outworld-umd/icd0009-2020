@@ -29,6 +29,7 @@ namespace DAL.App.DTO
         public string? Apartment { get; set; }
 
         public string? RestaurantName { get; set; }
+        public string? Name { get; set; }
         public string? Comment { get; set; }
 
         public Guid? RestaurantId { get; set; }

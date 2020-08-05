@@ -23,56 +23,67 @@
                 <partial name="_LoginPartial"/>
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">@Resources.Views.Shared._Layout.Home</a>
-                    </li>
+                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">@Resources.Views.Shared._Layout.Home</a>
+                         </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">@Resources.Views.Shared._Layout.Privacy</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Restaurants" asp-action="Index">@Resources.Views.Shared._Layout.Restaurants</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="Index">@Resources.Views.Shared._Layout.Orders</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Addresses" asp-action="Index">@Resources.Views.Shared._Layout.Addresses</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index">@Resources.Views.Shared._Layout.Categories</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="RestaurantCategories" asp-action="Index">@Resources.Views.Shared._Layout.RestaurantCategories</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="WorkingHourses" asp-action="Index">@Resources.Views.Shared._Layout.WorkingHourses</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="ItemTypes" asp-action="Index">@Resources.Views.Shared._Layout.ItemTypes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Items" asp-action="Index">@Resources.Views.Shared._Layout.Items</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="OrderRows" asp-action="Index">@Resources.Views.Shared._Layout.OrderRows</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="OrderItemChoices" asp-action="Index">@Resources.Views.Shared._Layout.OrderItemChoices</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="NutritionInfos" asp-action="Index">@Resources.Views.Shared._Layout.NutritionInfos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="ItemChoices" asp-action="Index">@Resources.Views.Shared._Layout.ItemChoices</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="ItemOptions" asp-action="Index">@Resources.Views.Shared._Layout.ItemOptions</a>
-                    </li>
-
+                    @if (User.IsInRole("Customer"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Customer" asp-controller="Addresses" asp-action="Index">@Resources.Views.Shared._Layout.Addresses</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Customer" asp-controller="Orders" asp-action="Index">@Resources.Views.Shared._Layout.Orders</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Customer" asp-controller="OrderRows" asp-action="Index">@Resources.Views.Shared._Layout.OrderRows</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Customer" asp-controller="OrderItemChoices" asp-action="Index">@Resources.Views.Shared._Layout.OrderItemChoices</a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Restaurant"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Restaurant" asp-controller="Restaurants" asp-action="Index">@Resources.Views.Shared._Layout.Restaurants</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Restaurant" asp-controller="RestaurantCategories" asp-action="Index">@Resources.Views.Shared._Layout.RestaurantCategories</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Restaurant" asp-controller="WorkingHourses" asp-action="Index">@Resources.Views.Shared._Layout.WorkingHourses</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Restaurant" asp-controller="Items" asp-action="Index">@Resources.Views.Shared._Layout.Items</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Restaurant" asp-controller="ItemInTypes" asp-action="Index">@Resources.Views.Shared._Layout.ItemInTypes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Restaurant" asp-controller="ItemTypes" asp-action="Index">@Resources.Views.Shared._Layout.ItemTypes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Restaurant" asp-controller="NutritionInfos" asp-action="Index">@Resources.Views.Shared._Layout.NutritionInfos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Restaurant" asp-controller="ItemChoices" asp-action="Index">@Resources.Views.Shared._Layout.ItemChoices</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Restaurant" asp-controller="ItemOptions" asp-action="Index">@Resources.Views.Shared._Layout.ItemOptions</a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>
     </nav>
+    @if (User.IsInRole("Admin"))
+    {
+        <partial name="_AdminPartial"/>
+    }
+
 </header>
+
 <div class="container">
     <main role="main" class="pb-3">
         @RenderBody()

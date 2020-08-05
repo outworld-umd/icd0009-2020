@@ -32,6 +32,8 @@ namespace DAL.App.EF {
         public DbSet<RestaurantUser> RestaurantUsers { get; set; } = default!;
         public DbSet<RestaurantCategory> RestaurantCategories { get; set; } = default!;
         public DbSet<WorkingHours> WorkingHourses { get; set; } = default!;
+        public DbSet<LangStr> LangStrings { get; set; } = default!;
+        public DbSet<Translation> Translations { get; set; } = default!;
         
         private readonly Dictionary<IDomainEntityId<Guid>, IDomainEntityId<Guid>> _entityTracker =
             new Dictionary<IDomainEntityId<Guid>, IDomainEntityId<Guid>>();

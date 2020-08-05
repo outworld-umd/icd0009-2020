@@ -16,17 +16,5 @@ namespace BLL.App.Services
         public RestaurantUserService(IAppUnitOfWork unitOfWork) : base(unitOfWork, unitOfWork.RestaurantUsers, new RestaurantUserServiceMapper())
         {
         }
-        // TODO AnyAsyncForRU
-        // public async Task<bool> AnyAsync(Expression<Func<RestaurantUser, bool>> predicate, object? userId = null)
-        // {
-        //     var result = await ServiceRepository.AnyAsync(predicate, userId);
-        //     return result; 
-        // }
-        //
-        // public bool Any(Expression<Func<RestaurantUser, bool>> predicate, object? userId = null)
-        // {
-        //     var result = ServiceRepository.Any(predicate, userId);
-        //     return result; 
-        // }
     }
 }

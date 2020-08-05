@@ -115,7 +115,7 @@ namespace Resources.BLL.App.DTO.Restaurant {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tarne.
+        ///   Looks up a localized string similar to Delivery Cost.
         /// </summary>
         public static string DeliveryCost {
             get {
@@ -124,7 +124,7 @@ namespace Resources.BLL.App.DTO.Restaurant {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Kirjeldus.
+        ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string Description {
             get {
@@ -133,7 +133,7 @@ namespace Resources.BLL.App.DTO.Restaurant {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nimi.
+        ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Name {
             get {
@@ -142,7 +142,7 @@ namespace Resources.BLL.App.DTO.Restaurant {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Telefon.
+        ///   Looks up a localized string similar to Phone.
         /// </summary>
         public static string Phone {
             get {

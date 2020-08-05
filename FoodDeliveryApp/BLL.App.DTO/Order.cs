@@ -57,9 +57,16 @@ namespace BLL.App.DTO
         [MinLength(2, ErrorMessageResourceName = "ErrorMessage_MinLength", ErrorMessageResourceType = typeof(Resources.Common.Common))] 
         [Display(Name = nameof(RestaurantName), ResourceType = typeof(Resources.BLL.App.DTO.Order.Order))]
         public string? RestaurantName { get; set; }
+        [MaxLength(64, ErrorMessageResourceName = "ErrorMessage_MaxLength", ErrorMessageResourceType = typeof(Resources.Common.Common))]
+        [Display(Name = nameof(Name), ResourceType = typeof(Resources.BLL.App.DTO.Order.Order))]
+        public string? Name { get; set; }
+        
         [MaxLength(512, ErrorMessageResourceName = "ErrorMessage_MaxLength", ErrorMessageResourceType = typeof(Resources.Common.Common))]
         [Display(Name = nameof(Comment), ResourceType = typeof(Resources.BLL.App.DTO.Order.Order))]
         public string? Comment { get; set; }
+        
+
+
 
         public Guid? RestaurantId { get; set; }
         [Display(Name = nameof(Restaurant), ResourceType = typeof(Resources.BLL.App.DTO.Order.Order))]

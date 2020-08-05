@@ -135,4 +135,7 @@
     <data name="User">
         <value>User</value>
     </data>
+    <data name="PleaseSelect">
+        <value>Please select</value>
+    </data>
 </root>

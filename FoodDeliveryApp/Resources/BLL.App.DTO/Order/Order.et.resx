@@ -42,6 +42,9 @@
     <data name="RestaurantName">
         <value>Restorani nimi</value>
     </data>
+    <data name="Name">
+        <value>Nimi</value>
+    </data>
     <data name="Comment">
         <value>Kommentaar</value>
     </data>
@@ -60,4 +63,5 @@
     <data name="ChangedAt">
         <value>Muudetud</value>
     </data>
+
 </root>

@@ -36,7 +36,7 @@ namespace DAL.App.EF.Helpers
                     }
                 }
             }
-            
+
             // ================ ADMIN TEST USER ================
             
             var userName = "test@admi.com";
@@ -63,10 +63,13 @@ namespace DAL.App.EF.Helpers
                 {
                     throw new ApplicationException("User creation failed!");
                 }
+
+                var identityResult = userManager.AddToRoleAsync(user, "Admin").Result;
             }
             
-            var roleResult = userManager.AddToRoleAsync(user, "Admin").Result;
+            // ================ CUSTOMER TEST USER ================
 
+            
             userName = "test@cust.com";
             passWord = "Test.cust.2020";
             firstName = "Test";
@@ -91,14 +94,16 @@ namespace DAL.App.EF.Helpers
                 {
                     throw new ApplicationException("User creation failed!");
                 }
+                var identityResult = userManager.AddToRoleAsync(user, "Customer").Result;
             }
             
-            roleResult = userManager.AddToRoleAsync(user, "Customer").Result;
+            // ================ CUSTOMER0 TEST USER ================
+
             
-            userName = "test@rest.com";
-            passWord = "Test.rest.2020";
+            userName = "test@cust0.com";
+            passWord = "Test.cust0.2020";
             firstName = "Test";
-            lastName = "Restaurant";
+            lastName = "Customer0";
             phone = "88005553535";
 
             user = userManager.FindByNameAsync(userName).Result;
@@ -119,189 +124,247 @@ namespace DAL.App.EF.Helpers
                 {
                     throw new ApplicationException("User creation failed!");
                 }
+                var identityResult = userManager.AddToRoleAsync(user, "Customer").Result;
             }
             
-            roleResult = userManager.AddToRoleAsync(user, "Restaurant").Result;
+            // ================ RESTAURANT TEST USER ================
+
+            userName = "test@rest.com";
+            passWord = "Test.rest.2020";
+            firstName = "Test";
+            lastName = "Restaurant";
+            phone = "88005553535";
+
+            user = userManager.FindByNameAsync(userName).Result;
+            if (user == null)
+            {
+                user = new AppUser
+                {
+                    Email = userName,
+                    UserName = userName,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Phone = phone,
+                    Id = new Guid("00000000-0000-0000-0000-000000000004")
+                };
+
+                var result = userManager.CreateAsync(user, passWord).Result;
+                if (!result.Succeeded)
+                {
+                    throw new ApplicationException("User creation failed!");
+                }
+
+                var identityResult = userManager.AddToRoleAsync(user, "Restaurant").Result;
+            }
+            
+            // ================ RESTAURANT0 TEST USER ================
+
+            userName = "test@rest0.com";
+            passWord = "Test.rest0.2020";
+            firstName = "Test";
+            lastName = "Restaurant0";
+            phone = "88005553535";
+
+            user = userManager.FindByNameAsync(userName).Result;
+            if (user == null)
+            {
+                user = new AppUser
+                {
+                    Email = userName,
+                    UserName = userName,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Phone = phone,
+                    Id = new Guid("00000000-0000-0000-0000-000000000005")
+                };
+
+                var result = userManager.CreateAsync(user, passWord).Result;
+                if (!result.Succeeded)
+                {
+                    throw new ApplicationException("User creation failed!");
+                }
+
+                var identityResult = userManager.AddToRoleAsync(user, "Restaurant").Result;
+            }
         }
 
         public static void SeedData(AppDbContext context)
         {
-            // insert predefined location types
             var categories = new Category[]
             {
                 new Category()
                 {
-                    Name =  "Sushi",
+                    Name = "Sushi",
                     Id = new Guid("00000000-0000-0000-0000-000000000001")
                 },
                 new Category()
                 {
-                    Name =  "Burger",
+                    Name = "Burger",
                     Id = new Guid("00000000-0000-0000-0000-000000000002")
                 },
                 new Category()
                 {
-                    Name =  "Pasta",
+                    Name = "Pasta",
                     Id = new Guid("00000000-0000-0000-0000-000000000003")
                 },
                 new Category()
                 {
-                    Name =  "Pizza",
+                    Name = "Pizza",
                     Id = new Guid("00000000-0000-0000-0000-000000000004")
                 },
                 new Category()
                 {
-                    Name =  "Vegan",
+                    Name = "Vegan",
                     Id = new Guid("00000000-0000-0000-0000-000000000005")
                 },
                 new Category()
                 {
-                    Name =  "Healthy",
+                    Name = "Healthy",
                     Id = new Guid("00000000-0000-0000-0000-000000000006")
                 },
                 new Category()
                 {
-                    Name =  "Dessert",
+                    Name = "Dessert",
                     Id = new Guid("00000000-0000-0000-0000-000000000007")
                 },
                 new Category()
                 {
-                    Name =  "Noodles",
+                    Name = "Noodles",
                     Id = new Guid("00000000-0000-0000-0000-000000000008")
                 },
                 new Category()
                 {
-                    Name =  "Breakfast",
+                    Name = "Breakfast",
                     Id = new Guid("00000000-0000-0000-0000-000000000009")
                 },
                 new Category()
                 {
-                    Name =  "Smoothie",
+                    Name = "Smoothie",
                     Id = new Guid("00000000-0000-0000-0000-000000000010")
                 },
                 new Category()
                 {
-                    Name =  "Kebab",
+                    Name = "Kebab",
                     Id = new Guid("00000000-0000-0000-0000-000000000011")
                 },
                 new Category()
                 {
-                    Name =  "Salad",
+                    Name = "Salad",
                     Id = new Guid("00000000-0000-0000-0000-000000000012")
                 },
                 new Category()
                 {
-                    Name =  "Vegetarian",
+                    Name = "Vegetarian",
                     Id = new Guid("00000000-0000-0000-0000-000000000013")
                 },
                 new Category()
                 {
-                    Name =  "Ramen",
+                    Name = "Ramen",
                     Id = new Guid("00000000-0000-0000-0000-000000000014")
                 },
                 new Category()
                 {
-                    Name =  "Smoothie",
+                    Name = "Smoothie",
                     Id = new Guid("00000000-0000-0000-0000-000000000015")
                 },
                 new Category()
                 {
-                    Name =  "Kebab",
+                    Name = "Kebab",
                     Id = new Guid("00000000-0000-0000-0000-000000000016")
                 },
                 new Category()
                 {
-                    Name =  "Salad",
+                    Name = "Salad",
                     Id = new Guid("00000000-0000-0000-0000-000000000017")
                 },
                 new Category()
                 {
-                    Name =  "Mexican",
+                    Name = "Mexican",
                     Id = new Guid("00000000-0000-0000-0000-000000000018")
                 },
                 new Category()
                 {
-                    Name =  "Thai",
+                    Name = "Thai",
                     Id = new Guid("00000000-0000-0000-0000-000000000019")
                 },
                 new Category()
                 {
-                    Name =  "Italian",
+                    Name = "Italian",
                     Id = new Guid("00000000-0000-0000-0000-000000000020")
                 },
                 new Category()
                 {
-                    Name =  "Indian",
+                    Name = "Indian",
                     Id = new Guid("00000000-0000-0000-0000-000000000021")
                 },
                 new Category()
                 {
-                    Name =  "Japanese",
+                    Name = "Japanese",
                     Id = new Guid("00000000-0000-0000-0000-000000000022")
                 },
                 new Category()
                 {
-                    Name =  "American",
+                    Name = "American",
                     Id = new Guid("00000000-0000-0000-0000-000000000023")
                 },
                 new Category()
                 {
-                    Name =  "Chinese",
+                    Name = "Chinese",
                     Id = new Guid("00000000-0000-0000-0000-000000000024")
                 },
                 new Category()
                 {
-                    Name =  "Vietnamese",
+                    Name = "Vietnamese",
                     Id = new Guid("00000000-0000-0000-0000-000000000025")
                 },
                 new Category()
                 {
-                    Name =  "Nepalese",
+                    Name = "Nepalese",
                     Id = new Guid("00000000-0000-0000-0000-000000000026")
                 },
                 new Category()
                 {
-                    Name =  "Georgian",
+                    Name = "Georgian",
                     Id = new Guid("00000000-0000-0000-0000-000000000027")
                 },
                 new Category()
                 {
-                    Name =  "Street Food",
+                    Name = "Street Food",
                     Id = new Guid("00000000-0000-0000-0000-000000000028")
                 },
                 new Category()
                 {
-                    Name =  "Steak",
+                    Name = "Steak",
                     Id = new Guid("00000000-0000-0000-0000-000000000029")
                 },
                 new Category()
                 {
-                    Name =  "Mediterranean",
+                    Name = "Mediterranean",
                     Id = new Guid("00000000-0000-0000-0000-000000000030")
                 },
                 new Category()
                 {
-                    Name =  "Sandwich",
+                    Name = "Sandwich",
                     Id = new Guid("00000000-0000-0000-0000-000000000031")
                 },
                 new Category()
                 {
-                    Name =  "Soup",
+                    Name = "Soup",
                     Id = new Guid("00000000-0000-0000-0000-000000000032")
                 },
                 new Category()
                 {
-                    Name =  "Fish",
+                    Name = "Fish",
                     Id = new Guid("00000000-0000-0000-0000-000000000033")
                 },
                 new Category()
                 {
-                    Name =  "Cafe",
+                    Name = "Cafe",
                     Id = new Guid("00000000-0000-0000-0000-000000000034")
                 },
                 new Category()
                 {
-                    Name =  "Tapas",
+                    Name = "Tapas",
                     Id = new Guid("00000000-0000-0000-0000-000000000035")
                 }
                 
@@ -325,8 +388,7 @@ namespace DAL.App.EF.Helpers
                     Phone  = "550 1234",
                     Address = "Endla 45",
                     DeliveryCost = 3,
-                    Id = new Guid("00000000-0000-0000-0000-000000000001")
-                    
+                    Id = new Guid("00000000-0000-0000-0000-000000000001"),
                 },
                 new Restaurant()
                 {
@@ -384,7 +446,7 @@ namespace DAL.App.EF.Helpers
                     BuildingNumber = "212",
                     Apartment = "27",
                     Name = "Home",
-                    AppUserId = new Guid("00000000-0000-0000-0000-000000000002"),
+                    AppUserId = new Guid("00000000-0000-0000-0000-000000000004"),
                     Id = new Guid("00000000-0000-0000-0000-000000000002")
                 },
             };
@@ -404,8 +466,14 @@ namespace DAL.App.EF.Helpers
                 new RestaurantUser()
                 {
                     RestaurantId =  new Guid("00000000-0000-0000-0000-000000000001"),
-                    AppUserId = new Guid("00000000-0000-0000-0000-000000000003"),
+                    AppUserId = new Guid("00000000-0000-0000-0000-000000000004"),
                     Id = new Guid("00000000-0000-0000-0000-000000000001")
+                },
+                new RestaurantUser()
+                {
+                    RestaurantId =  new Guid("00000000-0000-0000-0000-000000000002"),
+                    AppUserId = new Guid("00000000-0000-0000-0000-000000000005"),
+                    Id = new Guid("00000000-0000-0000-0000-000000000002")
                 },
             };
             

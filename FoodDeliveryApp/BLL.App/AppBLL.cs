@@ -32,6 +32,7 @@ namespace BLL.App
         public IRestaurantService Restaurants => GetService<IRestaurantService>(() => new RestaurantService(UnitOfWork));
         public IRestaurantUserService RestaurantUsers => GetService<IRestaurantUserService>(() => new RestaurantUserService(UnitOfWork));
         public IWorkingHoursService WorkingHourses => GetService<IWorkingHoursService>(() => new WorkingHoursService(UnitOfWork));
-        
+        public ILangStrService LangStrings => GetService<ILangStrService>(() => new LangStrService(UnitOfWork));
+        public ITranslationService Translations => GetService<ITranslationService>(() => new TranslationService(UnitOfWork));
     }
 }

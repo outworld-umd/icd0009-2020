@@ -22,19 +22,19 @@
         <value>User</value>
     </data>
     <data name="Name">
-        <value>Nimi</value>
+        <value>Name</value>
     </data>
     <data name="Phone">
-        <value>Telefon</value>
+        <value>Phone</value>
     </data>
     <data name="Address">
         <value>Address</value>
     </data>
     <data name="Description">
-        <value>Kirjeldus</value>
+        <value>Description</value>
     </data>    
     <data name="DeliveryCost">
-        <value>Tarne</value>
+        <value>Delivery Cost</value>
     </data>
     <data name="CreatedBy">
         <value>Created By</value>

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Resources.Views.Index {
+namespace Resources.Views.CreDelDetEdiInd {
     using System;
     
     
@@ -309,6 +309,15 @@ namespace Resources.Views.Index {
         public static string Orders {
             get {
                 return ResourceManager.GetString("Orders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select.
+        /// </summary>
+        public static string PleaseSelect {
+            get {
+                return ResourceManager.GetString("PleaseSelect", resourceCulture);
             }
         }
         

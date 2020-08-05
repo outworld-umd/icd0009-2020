@@ -27,6 +27,7 @@ namespace Domain.App
         [MinLength(2)] [MaxLength(512)] public string? Apartment { get; set; }
 
         [MinLength(2)] [MaxLength(64)] public string? RestaurantName { get; set; }
+        [MaxLength(64)] public string? Name { get; set; }
         [MaxLength(512)] public string? Comment { get; set; }
 
         public Guid? RestaurantId { get; set; }

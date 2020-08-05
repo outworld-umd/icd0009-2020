@@ -1,23 +1,27 @@
-﻿@model BLL.App.DTO.Item
+﻿@model ItemCreateEditViewModel
 
 <div asp-validation-summary="All" class="text-danger"></div>
 <div class="form-group">
-    <label asp-for="Name" class="control-label"></label>
-    <input asp-for="Name" class="form-control"/>
-    <span asp-validation-for="Name" class="text-danger"></span>
+    <label asp-for="Item.Name" class="control-label"></label>
+    <input asp-for="Item.Name" class="form-control"/>
+    <span asp-validation-for="Item.Name" class="text-danger"></span>
 </div>
 <div class="form-group">
-    <label asp-for="PictureLink" class="control-label"></label>
-    <input asp-for="PictureLink" class="form-control"/>
-    <span asp-validation-for="PictureLink" class="text-danger"></span>
+    <label asp-for="Item.PictureLink" class="control-label"></label>
+    <input asp-for="Item.PictureLink" class="form-control"/>
+    <span asp-validation-for="Item.PictureLink" class="text-danger"></span>
 </div>
 <div class="form-group">
-    <label asp-for="Price" class="control-label"></label>
-    <input asp-for="Price" class="form-control"/>
-    <span asp-validation-for="Price" class="text-danger"></span>
+    <label asp-for="Item.Price" class="control-label"></label>
+    <input asp-for="Item.Price" class="form-control"/>
+    <span asp-validation-for="Item.Price" class="text-danger"></span>
 </div>
 <div class="form-group">
-    <label asp-for="Description" class="control-label"></label>
-    <input asp-for="Description" class="form-control"/>
-    <span asp-validation-for="Description" class="text-danger"></span>
+    <label asp-for="Item.Description" class="control-label"></label>
+    <input asp-for="Item.Description" class="form-control"/>
+    <span asp-validation-for="Item.Description" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Item.RestaurantId" class="control-label">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Restaurant</label>
+    <select asp-for="Item.RestaurantId" class="form-control" asp-items="Model.Restaurants"></select>
 </div>

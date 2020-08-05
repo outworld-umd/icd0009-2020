@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Resources.Views.Index {
+namespace Resources.Views.CreDelDetEdiInd {
     using System;
     
     

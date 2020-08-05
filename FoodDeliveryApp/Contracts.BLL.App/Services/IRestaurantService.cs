@@ -10,5 +10,6 @@ namespace Contracts.BLL.App.Services
     {
 
         public Task<IEnumerable<Restaurant>> GetAllSortedByDeliveryAsync(object? userId = null, bool noTracking = true);
+
     }
 }

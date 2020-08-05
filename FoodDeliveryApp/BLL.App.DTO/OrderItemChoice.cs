@@ -24,9 +24,9 @@ namespace BLL.App.DTO
         public Guid? ItemChoiceId { get; set; } = default!;
         [Display(Name = nameof(ItemChoice), ResourceType = typeof(Resources.BLL.App.DTO.OrderItemChoice.OrderItemChoice))]
         public ItemChoice? ItemChoice { get; set; }
-        
+
         [Display(Name = nameof(Name), ResourceType = typeof(Resources.BLL.App.DTO.OrderItemChoice.OrderItemChoice))]
-        public string Name { get; set; }
+        public string? Name { get; set; } = default!;
         
         [Range(1, 20)] 
         [Required(ErrorMessageResourceName = "ErrorMessage_Required", ErrorMessageResourceType = typeof(Resources.Common.Common))]         

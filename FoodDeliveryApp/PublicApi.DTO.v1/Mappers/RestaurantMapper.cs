@@ -38,12 +38,12 @@ namespace PublicApi.DTO.v1.Mappers
             return restaurant;
         }
 
-        private static bool IsRestaurantOpen(BLL.App.DTO.Restaurant inObject)
-        {
-            var start = inObject.WorkingHourses.Single(wh => wh.WeekDay.Equals(DateTime.Today.DayOfWeek)).OpeningTime;
-            var end = inObject.WorkingHourses.Single(wh => wh.WeekDay.Equals(DateTime.Today.DayOfWeek)).ClosingTime;
-            var now = DateTime.Now;
-            return (now > start) && (now < end);
-        }
+        // private static bool IsRestaurantOpen(BLL.App.DTO.Restaurant inObject)
+        // {
+        //     var start = inObject.WorkingHourses.Single(wh => wh.WeekDay.Equals(DateTime.Today.DayOfWeek)).OpeningTime;
+        //     var end = inObject.WorkingHourses.Single(wh => wh.WeekDay.Equals(DateTime.Today.DayOfWeek)).ClosingTime;
+        //     var now = DateTime.Now;
+        //     return (now > start) && (now < end);
+        // }
     }
 }

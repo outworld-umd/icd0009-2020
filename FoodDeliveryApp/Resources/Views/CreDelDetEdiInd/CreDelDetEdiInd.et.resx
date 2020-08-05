@@ -135,4 +135,7 @@
     <data name="User">
         <value>Kasutaja</value>
     </data>
+    <data name="PleaseSelect">
+        <value>Valige</value>
+    </data>
 </root>

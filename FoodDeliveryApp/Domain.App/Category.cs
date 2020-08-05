@@ -13,7 +13,8 @@ namespace Domain.App
     public class Category<TKey> : DomainEntityIdMetadata<TKey>
         where TKey : IEquatable<TKey>
     {
-        [MaxLength(64)] [MinLength(2)] [Required] public string Name { get; set; } = default!;
+        public TKey NameId { get; set; }
+        [MaxLength(64)] [MinLength(2)] [Required] public LangStr Name { get; set; } = default!;
         
         public ICollection<RestaurantCategory>? RestaurantCategories { get; set; }
     }

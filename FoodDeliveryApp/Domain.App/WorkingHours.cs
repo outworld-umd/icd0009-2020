@@ -16,10 +16,8 @@ namespace Domain.App
         where TKey : IEquatable<TKey> 
     {
         [Required] public DayOfWeek WeekDay { get; set; }
-        [Required] public DateTime OpeningTime { get; set; }
-        [Required] public DateTime ClosingTime { get; set; }
-
-        public TKey RestaurantId { get; set; } = default!;
+        [Required] public TimeSpan OpeningTime { get; set; }
+        [Required] public TimeSpan ClosingTime { get; set; }public TKey RestaurantId { get; set; } = default!;
         public Restaurant? Restaurant { get; set; }
     }
 }

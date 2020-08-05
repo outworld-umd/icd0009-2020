@@ -1,17 +1,17 @@
 @model BLL.App.DTO.OrderRow
 
 @{
-    ViewData["Title"] = @Resources.Views.Index.CreDelDetEdiInd.Delete;
+    ViewData["Title"] = @Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Delete;
 }
 
-<h1>@Resources.Views.Index.CreDelDetEdiInd.Delete</h1>
+<h1>@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Delete</h1>
 
-<h3>@Resources.Views.Index.CreDelDetEdiInd.AreYouSure</h3>
+<h3>@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.AreYouSure</h3>
 <div>
     <partial name="Shared/_DetailsDelete"/>
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id"/>
-        <input type="submit" value=@Resources.Views.Index.CreDelDetEdiInd.Delete class="btn btn-danger"/> |
-        <a asp-action="Index">@Resources.Views.Index.CreDelDetEdiInd.Back</a>
+        <input type="submit" value=@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Delete class="btn btn-danger"/> |
+        <a asp-action="Index">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Back</a>
     </form>
 </div>

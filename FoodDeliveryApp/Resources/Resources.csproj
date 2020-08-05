@@ -93,6 +93,14 @@
           <Generator>PublicResXFileCodeGenerator</Generator>
           <LastGenOutput>User.Designer.cs</LastGenOutput>
         </EmbeddedResource>
+        <EmbeddedResource Update="Enums\OrderStatus\OrderStatus.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>OrderStatus.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Enums\PaymentMethod\PaymentMethod.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>PaymentMethod.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>
@@ -201,6 +209,16 @@
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
           <DependentUpon>Category.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Enums\OrderStatus\OrderStatus.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>OrderStatus.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Enums\PaymentMethod\PaymentMethod.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>PaymentMethod.resx</DependentUpon>
         </Compile>
     </ItemGroup>
 </Project>
