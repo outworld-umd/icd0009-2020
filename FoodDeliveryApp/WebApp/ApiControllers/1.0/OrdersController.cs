@@ -58,7 +58,7 @@ namespace WebApp.ApiControllers._1._0
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("restaurant/{id}")]
+        [Route("Restaurant/{id}")]
         [Authorize(Roles = "Restaurant, Admin")]
         [Produces("application/json")]
         [Consumes("application/json")]

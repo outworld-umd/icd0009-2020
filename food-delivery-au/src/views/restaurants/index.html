@@ -7,9 +7,14 @@
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">${restaurant.name}</h5>
-                        <a if.bind="restaurant.isOpen" route-href="route: restaurant; params.bind: { id: restaurant.id }">
-                            <button class="btn btn-success">Menu</button>
-                        </a>
+                        <div if.bind="restaurant.isOpen" class="btn-group">
+                            <a route-href="route: restaurant; params.bind: { id: restaurant.id }" class="btn btn-success">
+                                Menu
+                            </a>
+                            <a route-href="route: orders; params.bind: { id: restaurant.id }" class="btn btn-primary">
+                                Orders
+                            </a>
+                        </div>
                         <div if.bind="!restaurant.isOpen" class="btn text-muted">
                             <div>Restaurant is closed</div>
                         </div>
@@ -33,8 +38,8 @@
             </div>
         </div>
         <div if.bind="_isEdited" class="container p-3 fixed-bottom bg-white border border-dark">
-            <div class="form-check mx-3">
-                <label repeat.for="category of _categories" class="form-check-label row">
+            <div class="form-check mx-3 row">
+                <label repeat.for="category of _categories" class="form-check-label col-md-3">
                     <input type="checkbox" class="form-check-input"  model.bind="category.id" checked.bind="_selected">
                     ${category.name}
                 </label>

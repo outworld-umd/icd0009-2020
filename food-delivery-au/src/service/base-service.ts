@@ -113,4 +113,20 @@ export class BaseService {
                 }
             })
     }
+
+    async basePatch(url: string, id: string, entity: any, isAuth = true): Promise<IFetchResponse<null>> {
+        return this.axios.patch(url + id, entity, this.getConfig(isAuth))
+            .then(function (response: AxiosResponse) {
+                return {
+                    isSuccessful: response.status < 300,
+                    statusCode: response.status
+                }
+            }).catch(function (error: AxiosError) {
+                return {
+                    isSuccessful: false,
+                    statusCode: error.response?.status ?? 500,
+                    messages: (error.response?.data as IMessage)?.messages ?? []
+                }
+            })
+    }
 }
