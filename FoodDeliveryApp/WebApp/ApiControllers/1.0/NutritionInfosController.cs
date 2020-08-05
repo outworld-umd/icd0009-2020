@@ -28,6 +28,9 @@ namespace WebApp.ApiControllers._1._0
 
         // GET: api/NutritionInfo
         [HttpGet]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [Authorize(Roles = "Restaurant, Admin")]
         public async Task<ActionResult<IEnumerable<V1DTO.NutritionInfo>>> GetNutritionInfos()
         {
             return Ok((await _bll.NutritionInfos.GetAllAsync()).Select(e => _mapper.MapNutritionInfo(e)));
@@ -35,6 +38,9 @@ namespace WebApp.ApiControllers._1._0
 
         // GET: api/NutritionInfo/5
         [HttpGet("{id}")]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [Authorize(Roles = "Customer, Restaurant, Admin")]
         public async Task<ActionResult<V1DTO.NutritionInfo>> GetNutritionInfo(Guid id)
         {
             var nutritionInfo = await _bll.NutritionInfos.FirstOrDefaultAsync(id);
@@ -46,11 +52,23 @@ namespace WebApp.ApiControllers._1._0
 
             return Ok(_mapper.Map(nutritionInfo));
         }
+        
+        [HttpGet("Item/{itemId}")]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [Authorize(Roles = "Customer, Restaurant, Admin")]
+        public async Task<ActionResult<IEnumerable<V1DTO.NutritionInfo>>> GetNutritionInfosByItem(Guid itemId)
+        {
+            return Ok((await _bll.NutritionInfos.GetAllByItemAsync(itemId)).Select(e => _mapper.MapNutritionInfo(e)));
+        }
 
         // PUT: api/NutritionInfo/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [Authorize(Roles = "Restaurant, Admin")]
         public async Task<IActionResult> PutNutritionInfo(Guid id, V1DTO.NutritionInfo nutritionInfo)
         {
             if (id != nutritionInfo.Id)
@@ -68,6 +86,9 @@ namespace WebApp.ApiControllers._1._0
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [Authorize(Roles = "Restaurant, Admin")]
         public async Task<ActionResult<V1DTO.NutritionInfo>> PostNutritionInfo(V1DTO.NutritionInfo nutritionInfo)
         {
             var bllEntity = _mapper.Map(nutritionInfo);
@@ -82,6 +103,9 @@ namespace WebApp.ApiControllers._1._0
 
         // DELETE: api/NutritionInfo/5
         [HttpDelete("{id}")]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [Authorize(Roles = "Restaurant, Admin")]
         public async Task<ActionResult<V1DTO.NutritionInfo>> DeleteNutritionInfo(Guid id)
         {
             var nutritionInfo = await _bll.NutritionInfos.FirstOrDefaultAsync(id);

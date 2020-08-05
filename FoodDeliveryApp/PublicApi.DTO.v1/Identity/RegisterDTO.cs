@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace PublicApi.DTO.v1.Identity
@@ -26,6 +27,8 @@ namespace PublicApi.DTO.v1.Identity
         public string LastName { get; set; } = default!;
         
         public string Phone { get; set; } = default!;
+
+        public ICollection<string> Roles { get; set; } = default!;
 
     }
 }

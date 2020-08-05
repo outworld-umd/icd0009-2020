@@ -27,6 +27,7 @@ namespace WebApp.ApiControllers._1._0
 
         // GET: api/OrderItemChoice
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<V1DTO.OrderItemChoice>>> GetOrderItemChoices()
         {
             return Ok((await _bll.OrderItemChoices.GetAllAsync()).Select(e => _mapper.MapOrderItemChoice(e)));
@@ -34,6 +35,7 @@ namespace WebApp.ApiControllers._1._0
 
         // GET: api/OrderItemChoice/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<V1DTO.OrderItemChoice>> GetOrderItemChoice(Guid id)
         {
             var orderItemChoice = await _bll.OrderItemChoices.FirstOrDefaultAsync(id);
@@ -50,6 +52,7 @@ namespace WebApp.ApiControllers._1._0
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutOrderItemChoice(Guid id, V1DTO.OrderItemChoice orderItemChoice)
         {
             if (id != orderItemChoice.Id)
@@ -67,6 +70,7 @@ namespace WebApp.ApiControllers._1._0
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<V1DTO.OrderItemChoice>> PostOrderItemChoice(V1DTO.OrderItemChoice orderItemChoice)
         {
             var bllEntity = _mapper.Map(orderItemChoice);
@@ -81,6 +85,7 @@ namespace WebApp.ApiControllers._1._0
 
         // DELETE: api/OrderItemChoice/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<V1DTO.OrderItemChoice>> DeleteOrderItemChoice(Guid id)
         {
             var orderItemChoice = await _bll.OrderItemChoices.FirstOrDefaultAsync(id);

@@ -9,8 +9,11 @@ import AddressIndex from "@/views/addresses/Index.vue";
 import { getModule } from "vuex-module-decorators";
 import store from '@/store'
 import UserModule from "@/store/modules/UserModule";
+import AccountRegister from "@/views/account/Register.vue";
 
 Vue.use(VueRouter)
+
+const appName = "Colt Food Client"
 
 const routes: Array<RouteConfig> = [
     {
@@ -18,7 +21,8 @@ const routes: Array<RouteConfig> = [
         name: 'Restaurants',
         component: RestaurantIndex,
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            title: "Restaurants"
         }
     },
     {
@@ -27,7 +31,8 @@ const routes: Array<RouteConfig> = [
         component: RestaurantMenu,
         props: true,
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            title: "Menu"
         }
     },
     {
@@ -35,7 +40,8 @@ const routes: Array<RouteConfig> = [
         name: 'Orders',
         component: OrderIndex,
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            title: "Orders"
         }
     },
     {
@@ -43,7 +49,8 @@ const routes: Array<RouteConfig> = [
         name: 'New Order',
         component: OrderCreate,
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            title: "New Order"
         }
     },
     {
@@ -51,13 +58,28 @@ const routes: Array<RouteConfig> = [
         name: 'Addresses',
         component: AddressIndex,
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            title: "Addresses"
         }
     },
     {
         path: '/account/login',
         name: 'AccountLogin',
-        component: AccountLogin
+        component: AccountLogin,
+        meta: {
+            title: "Login"
+        }
+    },
+    {
+        path: '/account/register',
+        name: 'AccountRegister',
+        component: AccountRegister,
+        meta: {
+            title: "Register"
+        }
+    },
+    {
+        path: '*'
     }
 ]
 
@@ -71,6 +93,7 @@ router.beforeEach((to, from, next) => {
             next('/account/login')
         } else next()
     } else next()
+    document.title = (to.meta.title ? `${to.meta.title} | ` : "") + appName;
 })
 
 export default router

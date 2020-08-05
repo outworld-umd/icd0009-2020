@@ -5,12 +5,16 @@ using System.Threading.Tasks;
 using Contracts.BLL.App;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using V1DTO=PublicApi.DTO.v1;
 using PublicApi.DTO.v1.Mappers;
 
 namespace WebApp.ApiControllers._1._0
 {
+    /// <summary>
+    /// Relation between item and its type
+    /// </summary>
     [ApiController]
     [ApiVersion( "1.0" )]
     [Route("api/v{version:apiVersion}/[controller]")]
@@ -20,20 +24,18 @@ namespace WebApp.ApiControllers._1._0
         private readonly IAppBLL _bll;
         private readonly ItemInTypeMapper _mapper = new ItemInTypeMapper();
         
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public ItemInTypesController(IAppBLL bll)
         {
             _bll = bll;
         }
 
-        // GET: api/ItemInType
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<V1DTO.ItemInType>>> GetItemInType()
-        {
-            return Ok((await _bll.ItemInTypes.GetAllAsync()).Select(e => _mapper.MapItemInType(e)));
-        }
 
         // GET: api/ItemInType/5
         [HttpGet("{id}")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<ActionResult<V1DTO.ItemInType>> GetItemInType(Guid id)
         {
             var itemInType = await _bll.ItemInTypes.FirstOrDefaultAsync(id);
@@ -46,27 +48,19 @@ namespace WebApp.ApiControllers._1._0
             return Ok(_mapper.Map(itemInType));
         }
 
-        // PUT: api/ItemInType/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutItemType(Guid id, V1DTO.ItemInType itemInType)
-        {
-            if (id != itemInType.Id)
-            {
-                return BadRequest(new V1DTO.MessageDTO("Id and ItemInType.Id do not match"));
-            }
-
-            await _bll.ItemInTypes.UpdateAsync(_mapper.Map(itemInType));
-            await _bll.SaveChangesAsync();
-
-            return NoContent();
-        }
-
         // POST: api/ItemInType
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        /// <summary>
+        /// Create a new relation between item and type
+        /// </summary>
+        /// <param name="itemInType">New relation</param>
+        /// <returns>Newly created relation</returns>
         [HttpPost]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [Authorize(Roles = "Restaurant, Admin")]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(V1DTO.ItemChoice))]
         public async Task<ActionResult<V1DTO.ItemInType>> PostItemInType(V1DTO.ItemInType itemInType)
         {
             var bllEntity = _mapper.Map(itemInType);
@@ -74,13 +68,23 @@ namespace WebApp.ApiControllers._1._0
             await _bll.SaveChangesAsync();
             itemInType.Id = bllEntity.Id;
 
-            return CreatedAtAction("GetItemInType",
+            return CreatedAtAction(nameof(GetItemInType),
                 new {id = itemInType.Id, version = HttpContext.GetRequestedApiVersion()?.ToString() ?? "0"},
                 itemInType);
         }
 
         // DELETE: api/ItemInType/5
+        /// <summary>
+        /// Delete the relation between item and type
+        /// </summary>
+        /// <param name="id">Id for relation</param>
+        /// <returns>No content</returns>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
+        [Produces("application/json")]
+        [Consumes("application/json")]
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Restaurant, Admin")]
         public async Task<ActionResult<V1DTO.ItemInType>> DeleteItemInType(Guid id)
         {
             var ItemInType = await _bll.ItemInTypes.FirstOrDefaultAsync(id);
@@ -92,10 +96,10 @@ namespace WebApp.ApiControllers._1._0
             await _bll.ItemInTypes.RemoveAsync(ItemInType);
             await _bll.SaveChangesAsync();
 
-            return Ok(ItemInType);
+            return NoContent();
         }
 
-        private bool ItemTypeExists(Guid id)
+        private bool ItemInTypeExists(Guid id)
         {
             return _bll.ItemInTypes.Exists(id);
         }

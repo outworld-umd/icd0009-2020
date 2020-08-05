@@ -9,6 +9,11 @@
                 <div>{{ $d(new Date(order.createdAt), 'long') }}</div>
             </div>
         </template>
+        <div v-if="!order" class="text-center">
+            <div class="spinner-border m-5 text-success" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
         <div v-if="order" class="m-4">
             <div class="container justify-content-center w-75">
                 <table class="table table-borderless font-weight-light h5">

@@ -6,6 +6,7 @@ using Contracts.BLL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using V1DTO=PublicApi.DTO.v1;
 using PublicApi.DTO.v1.Mappers;
 
@@ -27,6 +28,9 @@ namespace WebApp.ApiControllers._1._0
 
         // GET: api/ItemOption
         [HttpGet]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [Authorize(Roles = "Restaurant, Admin")]
         public async Task<ActionResult<IEnumerable<V1DTO.ItemOption>>> GetItemOptions()
         {
             return Ok((await _bll.ItemOptions.GetAllAsync()).Select(e => _mapper.MapItemOption(e)));
@@ -34,6 +38,9 @@ namespace WebApp.ApiControllers._1._0
 
         // GET: api/ItemOption/5
         [HttpGet("{id}")]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [Authorize(Roles = "Restaurant, Admin")]
         public async Task<ActionResult<V1DTO.ItemOption>> GetItemOption(Guid id)
         {
             var itemOption = await _bll.ItemOptions.FirstOrDefaultAsync(id);
@@ -50,6 +57,11 @@ namespace WebApp.ApiControllers._1._0
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [Authorize(Roles = "Restaurant, Admin")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(V1DTO.MessageDTO))]
         public async Task<IActionResult> PutItemOption(Guid id, V1DTO.ItemOption itemOption)
         {
             if (id != itemOption.Id)
@@ -67,6 +79,10 @@ namespace WebApp.ApiControllers._1._0
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [Authorize(Roles = "Restaurant, Admin")]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(V1DTO.ItemOption))]
         public async Task<ActionResult<V1DTO.ItemOption>> PostItemOption(V1DTO.ItemOption itemOption)
         {
             var bllEntity = _mapper.Map(itemOption);
@@ -81,6 +97,11 @@ namespace WebApp.ApiControllers._1._0
 
         // DELETE: api/ItemOption/5
         [HttpDelete("{id}")]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [Authorize(Roles = "Restaurant, Admin")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         public async Task<ActionResult<V1DTO.ItemOption>> DeleteItemOption(Guid id)
         {
             var itemOption = await _bll.ItemOptions.FirstOrDefaultAsync(id);
@@ -92,7 +113,7 @@ namespace WebApp.ApiControllers._1._0
             await _bll.ItemOptions.RemoveAsync(itemOption);
             await _bll.SaveChangesAsync();
 
-            return Ok(itemOption);
+            return NoContent();
         }
 
         private bool ItemOptionExists(Guid id)

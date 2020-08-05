@@ -1,6 +1,11 @@
 <template>
     <div>
         <h2 class="font-weight-bold">{{ $t('account.yourOrders') }}</h2>
+        <div v-if="loading" class="text-center">
+            <div class="spinner-border m-5 text-success" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
         <ul class="list-group list-group-flush">
             <OrderView class="list-group-item" v-for="order in orders" :key="order.id" :orderView="order"/>
         </ul>
@@ -23,8 +28,16 @@ export default class OrderIndex extends Vue {
         return store.state.orders;
     }
 
+    get loading(): boolean {
+        return store.state.loading;
+    }
+
     mounted(): void {
         store.dispatch('getOrders')
+    }
+
+    destroyed(): void {
+        store.commit('setOrders', null)
     }
 }
 </script>

@@ -1,6 +1,6 @@
 export interface IWorkingHours {
     id: string;
-    weekday: DayOfWeek;
+    weekDay: DayOfWeek;
     openingTime: string;
     closingTime: string;
 }
@@ -12,5 +12,17 @@ export enum DayOfWeek {
     WEDNESDAY,
     THURSDAY,
     FRIDAY,
-    SATURDAY
+    SATURDAY,
+    SUNDAY2
+}
+
+export const DayNames = {
+    [DayOfWeek.SUNDAY]: 'days.sunday',
+    [DayOfWeek.MONDAY]: 'days.monday',
+    [DayOfWeek.TUESDAY]: 'days.tuesday',
+    [DayOfWeek.WEDNESDAY]: 'days.wednesday',
+    [DayOfWeek.THURSDAY]: 'days.thursday',
+    [DayOfWeek.FRIDAY]: 'days.friday',
+    [DayOfWeek.SATURDAY]: 'days.saturday',
+    [DayOfWeek.SUNDAY2]: 'days.sunday'
 }

@@ -17,5 +17,10 @@ namespace PublicApi.DTO.v1.Mappers
                 .ToList();
             return category;
         }
+        
+        public CategoryListView MapCategoryListView(BLL.App.DTO.Category inObject)
+        {
+            return Mapper.Map<CategoryListView>(inObject);
+        }
     }
 }

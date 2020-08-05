@@ -20,4 +20,11 @@ namespace PublicApi.DTO.v1
 
         public Guid Id { get; set; } = default!;
     }
+    
+    public class CategoryListView
+    {
+        public string Name { get; set; } = default!;
+
+        public Guid Id { get; set; } = default!;
+    }
 }

@@ -82,12 +82,13 @@ namespace WebApp.ApiControllers._1._0.Identity
                 UserName = dto.Email,
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
+                Phone = dto.Phone
             };
             var result = await _userManager.CreateAsync(appUser, dto.Password);
+            await _userManager.AddToRolesAsync(appUser, dto.Roles);
             if (result.Succeeded)
             {
                 _logger.LogInformation($"User {appUser.Email} created a new account with password.");
-
                 var user = await _userManager.FindByEmailAsync(appUser.Email);
                 if (user != null)
                 {
@@ -103,8 +104,11 @@ namespace WebApp.ApiControllers._1._0.Identity
                     _logger.LogInformation($"WebApi register. User {user.Email} logged in.");
                     return Ok(new JwtResponseDTO()
                     {
-                        Token = jwt, Status = $"User {user.Email} created and logged in.",
-                        FirstName = appUser.FirstName, LastName = appUser.LastName
+                        Token = jwt, 
+                        Status = $"User {user.Email} created and logged in.",
+                        FirstName = appUser.FirstName, 
+                        LastName = appUser.LastName,
+                        Roles = _userManager.GetRolesAsync(appUser)?.Result ?? new Collection<string>()
                     });
                 }
 
@@ -114,20 +118,6 @@ namespace WebApp.ApiControllers._1._0.Identity
 
             var errors = result.Errors.Select(error => error.Description).ToList();
             return BadRequest(new MessageDTO() {Messages = errors});
-        }
-
-        public class LoginDTO
-        {
-            public string Email { get; set; } = default!;
-            public string Password { get; set; } = default!;
-        }
-
-        public class RegisterDTO
-        {
-            public string Email { get; set; } = default!;
-            public string Password { get; set; } = default!;
-            public string FirstName { get; set; } = default!;
-            public string LastName { get; set; } = default!;
         }
     }
 }

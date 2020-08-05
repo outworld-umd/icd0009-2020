@@ -40,7 +40,7 @@ namespace WebApp.ApiControllers._1._0
         /// </summary>
         /// <returns>orders for session</returns>
         [HttpGet]
-        [Authorize(Roles = "Customer,Admin")]
+        [Authorize(Roles = "Customer, Admin")]
         [Produces("application/json")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.OrderView>))]
@@ -59,7 +59,7 @@ namespace WebApp.ApiControllers._1._0
         /// <returns></returns>
         [HttpGet]
         [Route("restaurant/{id}")]
-        [Authorize(Roles = "Restaurant")]
+        [Authorize(Roles = "Restaurant, Admin")]
         [Produces("application/json")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.Item))]
@@ -79,6 +79,7 @@ namespace WebApp.ApiControllers._1._0
         [HttpGet("{id}")]
         [Produces("application/json")]
         [Consumes("application/json")]
+        [Authorize(Roles = "Customer, Restaurant, Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.Order))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.Order))]
         public async Task<ActionResult<V1DTO.Order>> GetOrder(Guid id)
@@ -113,6 +114,7 @@ namespace WebApp.ApiControllers._1._0
         [HttpPut("{id}")]
         [Produces("application/json")]
         [Consumes("application/json")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(V1DTO.MessageDTO))]
@@ -145,6 +147,7 @@ namespace WebApp.ApiControllers._1._0
         /// <returns></returns>
         [Produces("application/json")]
         [Consumes("application/json")]
+        [Authorize(Roles = "Customer, Admin")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(V1DTO.Order))]
         [HttpPost]
         public async Task<ActionResult<V1DTO.Order>> PostOrder(V1DTO.Order order)
@@ -177,6 +180,7 @@ namespace WebApp.ApiControllers._1._0
         [HttpPatch("{id}")]
         [Produces("application/json")]
         [Consumes("application/json")]
+        [Authorize(Roles = "Restaurant, Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(V1DTO.MessageDTO))]
@@ -212,6 +216,7 @@ namespace WebApp.ApiControllers._1._0
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.Order))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<V1DTO.Order>> DeleteOrder(Guid id)
         {
             var order = await _bll.Orders.FirstOrDefaultAsync(id);

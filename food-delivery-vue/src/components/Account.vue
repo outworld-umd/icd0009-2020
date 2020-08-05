@@ -14,9 +14,14 @@
                 <a @click="logoutOnClick" class="nav-link" href>{{ $t('account.logoutButton') }}</a>
             </li>
         </template>
-        <li v-else class="nav-item mx-3">
-            <router-link to="/account/login" class="nav-link">{{ $t('account.login') }}</router-link>
-        </li>
+        <template v-else>
+            <li class="nav-item mx-3">
+                <router-link to="/account/login" class="nav-link">{{ $t('account.login') }}</router-link>
+            </li>
+            <li class="nav-item mr-3">
+                <router-link to="/account/register" class="nav-link">{{ $t('account.register') }}</router-link>
+            </li>
+        </template>
     </ul>
 </template>
 <script lang="ts">

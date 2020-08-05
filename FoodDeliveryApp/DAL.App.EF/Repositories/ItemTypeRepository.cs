@@ -37,5 +37,16 @@ namespace DAL.App.EF.Repositories {
                 .FirstOrDefaultAsync(e => e.Id.Equals(id));
             return DALMapper.Map(entity);
         }
+
+        public async Task<IEnumerable<ItemType>> GetAllByRestaurantAsync(Guid restaurantId, object? userId = null, bool noTracking = true) {
+            var query = PrepareQuery(userId, noTracking);
+            var domainEntities = await query.Where(item => item.RestaurantId.Equals(restaurantId))
+                .Include(it => it.ItemInTypes)
+                .ThenInclude(iit => iit.Item)
+                .Include(it => it.Restaurant)
+                .ToListAsync();
+            var result = domainEntities.Select(e => DALMapper.Map(e));
+            return result;
+        }
     }
 }

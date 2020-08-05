@@ -37,6 +37,7 @@ namespace WebApp.ApiControllers._1._0
         [HttpGet]
         [Produces("application/json")]
         [Consumes("application/json")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.OrderRow>))]
         public async Task<ActionResult<IEnumerable<V1DTO.OrderRow>>> GetOrderRows()
         {
@@ -52,6 +53,7 @@ namespace WebApp.ApiControllers._1._0
         [HttpGet("{id}")]
         [Produces("application/json")]
         [Consumes("application/json")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.OrderRow))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.OrderRow))]
         public async Task<ActionResult<V1DTO.OrderRow>> GetOrderRow(Guid id)
@@ -78,6 +80,7 @@ namespace WebApp.ApiControllers._1._0
         [HttpPut("{id}")]
         [Produces("application/json")]
         [Consumes("application/json")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(V1DTO.MessageDTO))]
@@ -104,6 +107,7 @@ namespace WebApp.ApiControllers._1._0
         /// <returns></returns>
         [Produces("application/json")]
         [Consumes("application/json")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(V1DTO.OrderRow))]
         [HttpPost]
         public async Task<ActionResult<V1DTO.OrderRow>> PostOrderRow(V1DTO.OrderRow orderRow)
@@ -127,6 +131,7 @@ namespace WebApp.ApiControllers._1._0
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.OrderRow))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<V1DTO.OrderRow>> DeleteOrderRow(Guid id)
         {
             var orderRow = await _bll.OrderRows.FirstOrDefaultAsync(id);
