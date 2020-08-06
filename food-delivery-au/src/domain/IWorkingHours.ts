@@ -1,13 +1,21 @@
 export interface IWorkingHours {
     id: string;
-    weekday: DayOfWeek;
+    weekDay: DayOfWeek;
     openingTime: string;
     closingTime: string;
 }
 
 export interface IWorkingHoursCreate {
     restaurantId: string;
-    weekday: DayOfWeek;
+    weekDay: DayOfWeek;
+    openingTime: string;
+    closingTime: string;
+}
+
+export interface IWorkingHoursEdit {
+    id: string;
+    restaurantId: string;
+    weekDay: DayOfWeek;
     openingTime: string;
     closingTime: string;
 }

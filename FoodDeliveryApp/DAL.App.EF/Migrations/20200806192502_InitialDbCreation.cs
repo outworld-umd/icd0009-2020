@@ -393,8 +393,8 @@ namespace DAL.App.EF.Migrations
                     ChangedBy = table.Column<string>(nullable: true),
                     ChangedAt = table.Column<DateTime>(nullable: false),
                     WeekDay = table.Column<int>(nullable: false),
-                    OpeningTime = table.Column<TimeSpan>(nullable: false),
-                    ClosingTime = table.Column<TimeSpan>(nullable: false),
+                    OpeningTime = table.Column<DateTime>(nullable: false),
+                    ClosingTime = table.Column<DateTime>(nullable: false),
                     RestaurantId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>

@@ -24,9 +24,15 @@ export interface IOrder {
     createdAt: Date;
 }
 
-export interface IOrderPatch {
+export interface IOrderEdit {
     id: string;
+    comment?: string;
+    address: string;
+    paymentMethod: PaymentMethod;
     orderStatus: OrderStatus;
+    foodCost: number;
+    deliveryCost: number;
+    restaurantId: string;
 }
 
 export enum OrderStatus {

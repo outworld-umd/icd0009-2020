@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.App.EF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200805165504_InitialDbCreation")]
+    [Migration("20200806192502_InitialDbCreation")]
     partial class InitialDbCreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -791,8 +791,8 @@ namespace DAL.App.EF.Migrations
                     b.Property<string>("ChangedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<TimeSpan>("ClosingTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("ClosingTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -800,8 +800,8 @@ namespace DAL.App.EF.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<TimeSpan>("OpeningTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("OpeningTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("RestaurantId")
                         .HasColumnType("uniqueidentifier");

@@ -1,7 +1,7 @@
 import { autoinject } from 'aurelia-framework';
 import { BaseService } from "./base-service";
 import { IFetchResponse } from "../types/IFetchResponse";
-import { IWorkingHours, IWorkingHoursCreate } from "../domain/IWorkingHours";
+import { IWorkingHours, IWorkingHoursCreate, IWorkingHoursEdit } from "../domain/IWorkingHours";
 
 @autoinject
 export class WorkingHoursService extends BaseService {
@@ -11,7 +11,7 @@ export class WorkingHoursService extends BaseService {
         return super.basePost<IWorkingHours>(this.url, address);
     }
 
-    async put(id: string, address: IWorkingHours): Promise<IFetchResponse> {
+    async put(id: string, address: IWorkingHoursEdit): Promise<IFetchResponse> {
         return super.basePut(this.url, id, address);
     }
 

@@ -27,7 +27,8 @@
     "showMenu": "Menu",
     "offer": "Special offer!",
     "restaurants": "All Restaurants",
-    "search": "Search by name"
+    "search": "Search by name",
+    "hours": "Working hours"
   },
   "order": {
     "deleteOld": "Your previous order will not be saved. Proceed?",

@@ -4,17 +4,19 @@ import { AppState } from "../../state/app-state";
 import { NavigationInstruction, RouteConfig, Router } from "aurelia-router";
 import { OrderService } from "../../service/order-service";
 import { AlertType } from "../../types/AlertType";
-import { IOrderView } from "../../domain/IOrder";
+import { IOrder, IOrderEdit, IOrderView, OrderStatus } from "../../domain/IOrder";
+import { IOrderRow } from "../../domain/IOrderRow";
+import { IOrderItemChoice } from "../../domain/IOrderItemChoice";
 
 @autoinject
-export class OrderIndex {
+export class OrderDetails {
 
     private loading = false;
 
     private _alert: IAlertData | null = null;
-    private _orders: IOrderView[] = [];
+    private _order: IOrder | null = null;
 
-    private _restaurantId: string | null = null;
+    private _orderId: string | null = null;
 
     get isEdited(): boolean {
         return false;
@@ -25,8 +27,8 @@ export class OrderIndex {
 
     async activate(params: any, routeConfig: RouteConfig, navigationInstruction: NavigationInstruction) {
         if (params.id && typeof (params.id) == 'string') {
-            this._restaurantId = params.id;
-            await this.getOrders(this._restaurantId);
+            this._orderId = params.id;
+            await this.getOrder(this._orderId);
         }
     }
 
@@ -34,17 +36,17 @@ export class OrderIndex {
         return (orderView.deliveryCost + orderView.foodCost).toFixed(2)
     }
 
-    localDate(orderView: IOrderView): string {
-        return new Date(orderView.createdAt).toLocaleString('en-GB');
+    rowCost(row: IOrderRow): number {
+        return row.cost * row.amount + row.choices.reduce((a: number, b: IOrderItemChoice) => a + b.amount * b.cost, 0)
     }
 
-    async getOrders(id: string) {
+    async getOrder(id: string) {
         this.loading = true;
-        await this.orderService.getAll(id).then(
+        await this.orderService.get(id).then(
             response => {
                 if (response.isSuccessful) {
                     this._alert = null;
-                    this._orders = response.data;
+                    this._order = response.data;
                 } else {
                     this._alert = {
                         message: response.statusCode.toString() + ' - ' + response.messages,
@@ -53,6 +55,14 @@ export class OrderIndex {
                     }
                 }
             });
+        this.loading = false;
+    }
+
+    async changeStatus(status: OrderStatus): Promise<void> {
+        this.loading = true;
+        const order: IOrderEdit = this._order;
+        order.orderStatus = status
+        await this.orderService.put(this._orderId, order);
         this.loading = false;
     }
 }
