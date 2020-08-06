@@ -27,6 +27,8 @@ export class App {
 
             { route: ['products/:id?'], name: 'item', moduleId: PLATFORM.moduleName('views/items/details'), nav: false, title: 'Product Page' },
             { route: ['restaurants/:id?/orders'], name: 'orders', moduleId: PLATFORM.moduleName('views/restaurants/orders'), nav: false, title: 'Orders' },
+            { route: ['restaurants/order/:id?'], name: 'order', moduleId: PLATFORM.moduleName('views/restaurants/order'), nav: false, title: 'Order' },
+            { route: ['restaurants/:id?/details'], name: 'details', moduleId: PLATFORM.moduleName('views/restaurants/details'), nav: false, title: 'Restaurant Details' }
         ]);
 
         config.mapUnknownRoutes('views/home/index');

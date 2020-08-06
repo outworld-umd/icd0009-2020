@@ -1,7 +1,8 @@
 import { autoinject } from 'aurelia-framework';
 import { BaseService } from "./base-service";
 import { IFetchResponse } from "../types/IFetchResponse";
-import { IOrder, IOrderPatch, IOrderView } from "../domain/IOrder";
+import { IOrder, IOrderEdit, IOrderView } from "../domain/IOrder";
+import { IItemEdit } from "../domain/IItem";
 
 @autoinject
 export class OrderService extends BaseService {
@@ -15,7 +16,7 @@ export class OrderService extends BaseService {
         return super.baseGet<IOrder>(this.url, id);
     }
 
-    async patch(id: string, order: IOrderPatch): Promise<IFetchResponse> {
-        return super.basePatch(this.url, id, order);
+    async put(id: string, itemEdit: IOrderEdit): Promise<IFetchResponse> {
+        return super.basePut(this.url, id, itemEdit);
     }
 }
