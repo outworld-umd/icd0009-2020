@@ -1,12 +1,19 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Contracts.BLL.App;
+using Contracts.DAL.App;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using DAL.App.EF;
+using Domain;
 using Extensions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using IAppBLL = Contracts.BLL.App.IAppBLL;
 
-namespace WebApp.Areas.Restaurant.Controllers
+namespace WebApp.Controllers
 {
     [Authorize(Roles = "Restaurant, Admin")]
     public class RestaurantsController : Controller
@@ -22,7 +29,7 @@ namespace WebApp.Areas.Restaurant.Controllers
         public async Task<IActionResult> Index()
         {
             var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
-            return View(await _bll.Restaurants.GetAllByUser(userIdTKey));
+            return View(await _bll.Restaurants.GetAllByUser(userIdTKey!.Value));
         }
 
         // GET: Restaurants/Details/5

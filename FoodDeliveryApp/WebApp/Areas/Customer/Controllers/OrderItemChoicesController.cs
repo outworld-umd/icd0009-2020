@@ -1,16 +1,22 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using BLL.App.DTO;
-using Extensions;
-using Microsoft.AspNetCore.Authorization;
+using Contracts.BLL.App;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using WebApp.Areas.Customer.ViewModels;
+using DAL.App.EF;
+using Domain;
+using Extensions;
+using Microsoft.AspNetCore.Authorization;
 using WebApp.ViewModels;
 using IAppBLL = Contracts.BLL.App.IAppBLL;
+using Order = PublicApi.DTO.v1.Order;
 
-namespace WebApp.Areas.Customer.Controllers
+namespace WebApp.Controllers
 {
     [Authorize(Roles = "Customer, Admin")]
     public class OrderItemChoicesController : Controller

@@ -1,4 +1,4 @@
-@model WebApp.Areas.Restaurant.ViewModels.RestaurantCategoryCreateEditViewModel
+@model WebApp.ViewModels.RestaurantCategoryCreateEditViewModel
 
 @{
     ViewData["Title"] = @Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Create;
@@ -13,7 +13,7 @@
         <form asp-action="Create">
             <partial name="Shared/_CreateEdit"/>
             <div class="form-group">
-                <input type="submit" value="@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Create" class="btn btn-primary"/>
+                <input type="submit" value=@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Create class="btn btn-primary"/>
             </div>
         </form>
     </div>

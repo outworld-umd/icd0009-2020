@@ -1,15 +1,21 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Extensions;
-using Microsoft.AspNetCore.Authorization;
+using BLL.App.DTO;
+using Contracts.BLL.App;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using WebApp.Areas.Restaurant.ViewModels;
+using DAL.App.EF;
+using Domain;
+using Extensions;
+using Microsoft.AspNetCore.Authorization;
 using WebApp.ViewModels;
 using IAppBLL = Contracts.BLL.App.IAppBLL;
 
-namespace WebApp.Areas.Restaurant.Controllers
+namespace WebApp.Controllers
 {
     [Authorize(Roles = "Restaurant, Admin")]
     public class ItemsController : Controller
@@ -49,7 +55,7 @@ namespace WebApp.Areas.Restaurant.Controllers
         public IActionResult Create()
         {
             var vm = new ItemCreateEditViewModel {
-                Restaurants = new SelectList(_bll.Restaurants.GetAll(), nameof(BLL.App.DTO.Restaurant.Id), nameof(BLL.App.DTO.Restaurant.Name)) // TODO Get all relative rest
+                Restaurants = new SelectList(_bll.Restaurants.GetAll(), nameof(Restaurant.Id), nameof(Restaurant.Name)) // TODO Get all relative rest
             };
             return View(vm);
         }

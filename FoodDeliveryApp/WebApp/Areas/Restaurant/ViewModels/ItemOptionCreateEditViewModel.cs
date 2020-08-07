@@ -1,7 +1,7 @@
 using BLL.App.DTO;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace WebApp.Areas.Restaurant.ViewModels {
+namespace WebApp.ViewModels {
 
     public class ItemOptionCreateEditViewModel {
         public ItemOption ItemOption { get; set; } = default!;

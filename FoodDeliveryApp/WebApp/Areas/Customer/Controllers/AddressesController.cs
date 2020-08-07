@@ -1,13 +1,20 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Contracts.BLL.App;
+using Contracts.DAL.App;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using DAL.App.EF;
 using BLL.App.DTO;
 using Extensions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using IAppBLL = Contracts.BLL.App.IAppBLL;
 
-namespace WebApp.Areas.Customer.Controllers
+namespace WebApp.Controllers
 {
     [Authorize(Roles = "Customer, Admin")]
     public class AddressesController : Controller

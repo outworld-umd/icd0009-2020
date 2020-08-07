@@ -17,6 +17,6 @@ namespace Domain.App
         [MaxLength(10240)] public string Value { get; set; } = default!;
 
         public TKey LangStrId { get; set; } = default!;
-        public LangString? LangStr { get; set; } = default!;
+        public LangStr? LangStr { get; set; } = default!;
     }
 }

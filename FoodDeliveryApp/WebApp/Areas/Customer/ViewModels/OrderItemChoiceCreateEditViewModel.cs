@@ -1,7 +1,7 @@
 using BLL.App.DTO;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace WebApp.Areas.Customer.ViewModels {
+namespace WebApp.ViewModels {
 
     public class OrderItemChoiceCreateEditViewModel {
         public OrderItemChoice OrderItemChoice { get; set; } = default!;

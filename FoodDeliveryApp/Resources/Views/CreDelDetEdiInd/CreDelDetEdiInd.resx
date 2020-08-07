@@ -138,10 +138,4 @@
     <data name="PleaseSelect">
         <value>Please select</value>
     </data>
-    <data name="Translation">
-        <value>Translation</value>
-    </data>
-    <data name="Translations">
-        <value>Translations</value>
-    </data>
 </root>

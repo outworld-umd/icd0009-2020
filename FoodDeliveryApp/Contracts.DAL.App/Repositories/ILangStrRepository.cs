@@ -3,7 +3,7 @@ using DAL.App.DTO;
 
 namespace Contracts.DAL.App.Repositories
 {
-    public interface ILangStrRepository : IBaseRepository<LangString>
+    public interface ILangStrRepository : IBaseRepository<LangStr>
     {
         
     }

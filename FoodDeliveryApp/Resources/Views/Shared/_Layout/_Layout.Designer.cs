@@ -70,29 +70,11 @@ namespace Resources.Views.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Admin.
-        /// </summary>
-        public static string Admin {
-            get {
-                return ResourceManager.GetString("Admin", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Categories.
         /// </summary>
         public static string Categories {
             get {
                 return ResourceManager.GetString("Categories", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Customer.
-        /// </summary>
-        public static string Customer {
-            get {
-                return ResourceManager.GetString("Customer", resourceCulture);
             }
         }
         
@@ -196,15 +178,6 @@ namespace Resources.Views.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Restaurant.
-        /// </summary>
-        public static string Restaurant {
-            get {
-                return ResourceManager.GetString("Restaurant", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Restaurant Categories.
         /// </summary>
         public static string RestaurantCategories {
@@ -228,15 +201,6 @@ namespace Resources.Views.Shared {
         public static string RestaurantUsers {
             get {
                 return ResourceManager.GetString("RestaurantUsers", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Translations.
-        /// </summary>
-        public static string Translations {
-            get {
-                return ResourceManager.GetString("Translations", resourceCulture);
             }
         }
         
