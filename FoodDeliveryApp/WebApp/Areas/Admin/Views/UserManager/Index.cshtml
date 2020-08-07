@@ -1,0 +1,54 @@
+@model WebApp.Areas.Admin.ViewModels.UserManagerIndexViewModel
+
+@{
+    ViewData["Title"] = @Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.UserManager;
+}
+
+<h1>@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.UserManager</h1>
+
+<p>
+    <a asp-action="Create">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Create</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Resources.Views.CreDelDetEdiInd.UserManager.Username
+        </th>
+        <th>
+            @Resources.Views.CreDelDetEdiInd.UserManager.FullName
+        </th>
+        <th>
+            @Resources.Views.CreDelDetEdiInd.UserManager.Phone
+        </th>
+        <th>
+            @Resources.Views.CreDelDetEdiInd.UserManager.Role
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Users)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.UserRoles[item].Name)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -18,9 +18,13 @@ namespace BLL.App.Services
         {
         }
         
-        public async Task<IEnumerable<Restaurant>> GetAllByUser(Guid userId, bool noTracking = true) {
+        public async Task<IEnumerable<RestaurantCategory>> GetAllByUser(object? userId, bool noTracking = true) {
+            if (userId == null)
+            {
+                return (await base.GetAllAsync(userId, noTracking));
+            }
             var restaurantIds = (await ServiceUnitOfWork.RestaurantUsers.GetAllAsync(userId, noTracking)).Select(e => e.RestaurantId);
-            return (await base.GetAllAsync(userId, noTracking)).Select(rc => rc.Restaurant).Where(r => restaurantIds.Contains(r!.Id))!;
+            return (await base.GetAllAsync(userId, noTracking)).Where(e => restaurantIds.Contains(e.Id));
         }
     }
 }

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using BLL.App.DTO;
 using BLL.App.Mappers;
 using BLL.Base.Services;
@@ -12,6 +14,11 @@ namespace BLL.App.Services
     {
         public ItemOptionService(IAppUnitOfWork unitOfWork) : base(unitOfWork, unitOfWork.ItemOptions, new ItemOptionServiceMapper())
         {
+        }
+
+        public Task<IEnumerable<ItemOption>> GetAllByRestaurantAsync(object? restaurantId, object? userId = null, bool noTracking = true)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

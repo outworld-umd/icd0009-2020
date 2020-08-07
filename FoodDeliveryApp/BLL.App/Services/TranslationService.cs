@@ -21,8 +21,19 @@ namespace BLL.App.Services
         
         public async Task<IEnumerable<Translation>> GetAllAsyncWithoutDefault(object? userId = null, bool noTracking = true)
         {
-            var categoryNames = (await ServiceUnitOfWork.Categories.GetAllAsync(userId, noTracking)).Select(e => e.Name);
-            return (await base.GetAllAsync(userId, noTracking)).Where(e => !categoryNames.Contains(e.Value));
+            return (await base.GetAllAsync(userId, noTracking)).Where(e => e.Culture != "en-US");
+        }
+        
+        public async Task<IEnumerable<Translation>> GetAllAsyncDefault(object? userId = null, bool noTracking = true)
+        {
+            var categoryNames = (await ServiceUnitOfWork.Categories.GetAllAsync(userId, noTracking)).Select(c => c.Name);
+            return (await base.GetAllAsync(userId, noTracking)).Where(e => categoryNames.Contains(e.Value));
+        }
+        
+        public IEnumerable<Translation> GetAllDefault(object? userId = null, bool noTracking = true)
+        {
+            var categoryNames = ServiceUnitOfWork.Categories.GetAll(userId, noTracking).Select(c => c.Name);
+            return base.GetAll(userId, noTracking).Where(e => categoryNames.Contains(e.Value));
         }
     }
 }

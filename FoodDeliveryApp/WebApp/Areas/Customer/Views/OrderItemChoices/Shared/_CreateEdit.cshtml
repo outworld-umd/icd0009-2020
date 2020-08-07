@@ -1,0 +1,21 @@
+﻿@model WebApp.Areas.Customer.ViewModels.OrderItemChoiceCreateEditViewModel
+
+<div asp-validation-summary="All" class="text-danger"></div>
+<div class="form-group">
+    <label asp-for="OrderItemChoice.Amount" class="control-label"></label>
+    <input asp-for="OrderItemChoice.Amount" class="form-control"/>
+    <span asp-validation-for="OrderItemChoice.Amount" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="OrderItemChoice.Cost" class="control-label"></label>
+    <input asp-for="OrderItemChoice.Cost" class="form-control"/>
+    <span asp-validation-for="OrderItemChoice.Cost" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="OrderItemChoice.OrderRowId" class="control-label">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.OrderRow</label>
+    <select asp-for="OrderItemChoice.OrderRowId" class="form-control" asp-items="Model.OrderRows"></select>
+</div>
+<div class="form-group">
+    <label asp-for="OrderItemChoice.ItemChoiceId" class="control-label">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.ItemChoice</label>
+    <select asp-for="OrderItemChoice.ItemChoiceId" class="form-control" asp-items="Model.ItemChoices"></select>
+</div>

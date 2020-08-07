@@ -1,24 +1,19 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BLL.App.DTO;
 using Contracts.BLL.App;
-using Contracts.DAL.App;
+using Domain.App.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using DAL.App.EF;
-using Domain;
-using Domain.App.Identity;
-using Extensions;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using WebApp.ViewModels;
-using IAppBLL = Contracts.BLL.App.IAppBLL;
+using WebApp.Areas.Admin.ViewModels;
 
-namespace WebApp.Controllers
+namespace WebApp.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     [Authorize(Roles = "Admin")]
     public class RestaurantUsersController : Controller
     {
@@ -45,7 +40,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var restaurantUser = await _bll.RestaurantUsers.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            var restaurantUser = await _bll.RestaurantUsers.FirstOrDefaultAsync(id.Value);
             if (restaurantUser == null)
             {
                 return NotFound();
@@ -59,7 +54,7 @@ namespace WebApp.Controllers
         {
             var vm = new RestaurantUserCreateEditViewModel {
                 Users = new SelectList(_userManager.Users.ToList(), nameof(AppUser.Id), nameof(AppUser.FullName)),
-                Restaurants = new SelectList(_bll.Restaurants.GetAll(), nameof(Restaurant.Id), nameof(Restaurant.Name))
+                Restaurants = new SelectList(_bll.Restaurants.GetAll(), nameof(BLL.App.DTO.Restaurant.Id), nameof(BLL.App.DTO.Restaurant.Name))
             };
             return View(vm);
         }
@@ -79,7 +74,7 @@ namespace WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             vm.Users = new SelectList(await _userManager.Users.ToListAsync(), nameof(AppUser.Id), nameof(AppUser.FullName), vm.RestaurantUser.AppUserId);
-            vm.Restaurants = new SelectList(await _bll.Restaurants.GetAllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.RestaurantUser.RestaurantId);
+            vm.Restaurants = new SelectList(await _bll.Restaurants.GetAllAsync(), nameof(BLL.App.DTO.Restaurant.Id), nameof(BLL.App.DTO.Restaurant.Name), vm.RestaurantUser.RestaurantId);
             return View(vm);
         }
 
@@ -91,14 +86,14 @@ namespace WebApp.Controllers
                 return NotFound();
             }
             var vm = new RestaurantUserCreateEditViewModel {
-                RestaurantUser = await _bll.RestaurantUsers.FirstOrDefaultAsync(id.Value, User.UserGuidId())
+                RestaurantUser = await _bll.RestaurantUsers.FirstOrDefaultAsync(id.Value)
             };
             if (vm.RestaurantUser == null)
             {
                 return NotFound();
             }
             vm.Users = new SelectList(await _userManager.Users.ToListAsync(), nameof(AppUser.Id), nameof(AppUser.FullName), vm.RestaurantUser.AppUserId);
-            vm.Restaurants = new SelectList(await _bll.Restaurants.GetAllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.RestaurantUser.RestaurantId);
+            vm.Restaurants = new SelectList(await _bll.Restaurants.GetAllAsync(), nameof(BLL.App.DTO.Restaurant.Id), nameof(BLL.App.DTO.Restaurant.Name), vm.RestaurantUser.RestaurantId);
             return View(vm);
         }
 
@@ -135,7 +130,7 @@ namespace WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             vm.Users = new SelectList(await _userManager.Users.ToListAsync(), nameof(AppUser.Id), nameof(AppUser.FullName), vm.RestaurantUser.AppUserId);
-            vm.Restaurants = new SelectList(await _bll.Restaurants.GetAllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.RestaurantUser.RestaurantId);
+            vm.Restaurants = new SelectList(await _bll.Restaurants.GetAllAsync(), nameof(BLL.App.DTO.Restaurant.Id), nameof(BLL.App.DTO.Restaurant.Name), vm.RestaurantUser.RestaurantId);
             return View(vm);
         }
 
@@ -147,7 +142,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var restaurantUser = await _bll.RestaurantUsers.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            var restaurantUser = await _bll.RestaurantUsers.FirstOrDefaultAsync(id.Value);
             if (restaurantUser == null)
             {
                 return NotFound();
@@ -161,7 +156,7 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _bll.RestaurantUsers.RemoveAsync(id, User.UserGuidId());
+            await _bll.RestaurantUsers.RemoveAsync(id);
             await _bll.SaveChangesAsync();
             
             return RedirectToAction(nameof(Index));

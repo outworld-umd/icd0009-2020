@@ -1,22 +1,17 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using BLL.App.DTO;
 using Contracts.BLL.App;
-using Contracts.DAL.App;
+using Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using DAL.App.EF;
-using Domain;
-using Extensions;
-using Microsoft.AspNetCore.Authorization;
 using WebApp.ViewModels;
-using IAppBLL = Contracts.BLL.App.IAppBLL;
 
-namespace WebApp.Controllers
+namespace WebApp.Areas.Restaurant.Controllers
 {
+    [Area("Restaurant")]
     [Authorize(Roles = "Restaurant, Admin")]
     public class ItemChoicesController : Controller
     {

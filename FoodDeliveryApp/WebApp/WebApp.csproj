@@ -79,30 +79,95 @@
       <_ContentIncludedByDefault Remove="Views\Translation\Details.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Translation\Edit.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Translation\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\RestaurantUsers\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\RestaurantUsers\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\RestaurantUsers\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\RestaurantUsers\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\RestaurantUsers\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\RestaurantUsers\Shared\_CreateEdit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\RestaurantUsers\Shared\_DetailsDelete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\OrderItemChoices\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\OrderItemChoices\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\OrderItemChoices\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\OrderItemChoices\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\OrderItemChoices\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\OrderItemChoices\Shared\_CreateEdit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\OrderItemChoices\Shared\_DetailsDelete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\OrderRows\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\OrderRows\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\OrderRows\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\OrderRows\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\OrderRows\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\OrderRows\Shared\_CreateEdit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\OrderRows\Shared\_DetailsDelete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Orders\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Orders\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Orders\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Orders\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Orders\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Orders\Shared\_CreateEdit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Orders\Shared\_DetailsDelete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemChoices\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemChoices\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemChoices\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemChoices\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemChoices\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemChoices\Shared\_CreateEdit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemChoices\Shared\_DetailsDelete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemInTypes\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemInTypes\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemInTypes\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemInTypes\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemInTypes\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemInTypes\Shared\_CreateEdit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemInTypes\Shared\_DetailsDelete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemOptions\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemOptions\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemOptions\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemOptions\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemOptions\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemOptions\Shared\_CreateEdit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemOptions\Shared\_DetailsDelete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Items\Shared\_CreateEdit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Items\Shared\_DetailsDelete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemTypes\Shared\_CreateEdit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ItemTypes\Shared\_DetailsDelete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\NutritionInfos\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\NutritionInfos\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\NutritionInfos\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\NutritionInfos\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\NutritionInfos\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\NutritionInfos\Shared\_CreateEdit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\NutritionInfos\Shared\_DetailsDelete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\RestaurantCategories\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\RestaurantCategories\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\RestaurantCategories\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\RestaurantCategories\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\RestaurantCategories\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\RestaurantCategories\Shared\_CreateEdit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\RestaurantCategories\Shared\_DetailsDelete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Restaurants\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Restaurants\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Restaurants\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Restaurants\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Restaurants\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Restaurants\Shared\_CreateEdit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Restaurants\Shared\_DetailsDelete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\WorkingHourses\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\WorkingHourses\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\WorkingHourses\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\WorkingHourses\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\WorkingHourses\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\WorkingHourses\Shared\_CreateEdit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\WorkingHourses\Shared\_DetailsDelete.cshtml" />
     </ItemGroup>
 
     <ItemGroup>
-      <Content Update="Views\Addresses\Shared\_CreateEdit.cshtml">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </Content>
-      <Content Update="Views\Addresses\Shared\_DetailsDelete.cshtml">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </Content>
       <Content Update="Views\Categories\Shared\Shared\_PartialCU.cshtml">
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </Content>
       <Content Update="Views\Categories\Shared\Shared\_PartialRD.cshtml">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </Content>
-      <Content Update="Views\Categories\Shared\_CreateEdit.cshtml">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </Content>
-      <Content Update="Views\Categories\Shared\_DetailsDelete.cshtml">
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </Content>
@@ -210,30 +275,6 @@
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </Content>
-      <Content Update="Views\UserManager\Shared\_DetailsDelete.cshtml">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </Content>
-      <Content Update="Views\UserManager\Index.cshtml">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </Content>
-      <Content Update="Views\UserManager\Create.cshtml">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </Content>
-      <Content Update="Views\UserManager\Edit.cshtml">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </Content>
-      <Content Update="Views\UserManager\Delete.cshtml">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </Content>
-      <Content Update="Views\UserManager\Details.cshtml">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </Content>
       <Content Update="Views\Shared\_LanguageSelection.cshtml">
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -242,12 +283,43 @@
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </Content>
+      <Content Update="Areas\Admin\Views\_ViewImports.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Areas\Admin\Views\_ViewStart.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Areas\Customer\Views\_ViewImports.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Areas\Customer\Views\_ViewStart.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Areas\Restaurant\Views\_ViewImports.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Areas\Restaurant\Views\_ViewStart.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Areas\Admin\Views" />
-      <Folder Include="Areas\Customer\Views" />
-      <Folder Include="Areas\Restaurant\Views" />
+      <UpToDateCheckInput Remove="Views\Items\Create.cshtml" />
+      <UpToDateCheckInput Remove="Views\Items\Delete.cshtml" />
+      <UpToDateCheckInput Remove="Views\Items\Details.cshtml" />
+      <UpToDateCheckInput Remove="Views\Items\Edit.cshtml" />
+      <UpToDateCheckInput Remove="Views\Items\Index.cshtml" />
+      <UpToDateCheckInput Remove="Views\ItemTypes\Create.cshtml" />
+      <UpToDateCheckInput Remove="Views\ItemTypes\Delete.cshtml" />
+      <UpToDateCheckInput Remove="Views\ItemTypes\Details.cshtml" />
+      <UpToDateCheckInput Remove="Views\ItemTypes\Edit.cshtml" />
+      <UpToDateCheckInput Remove="Views\ItemTypes\Index.cshtml" />
     </ItemGroup>
 
 </Project>

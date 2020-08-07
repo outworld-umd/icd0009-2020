@@ -13,7 +13,9 @@ namespace DAL.App.DTO {
 
     public class Category<TKey> : IDomainEntityIdMetadata<TKey>
         where TKey : IEquatable<TKey>
-    {
+    {        
+        public TKey NameId { get; set; } = default!;
+
         public string Name { get; set; } = default!;
         public ICollection<RestaurantCategory>? RestaurantCategories { get; set; }
 

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Domain.App.Identity;
 
-namespace WebApp.ViewModels
+namespace WebApp.Areas.Admin.ViewModels
 {
     public class UserManagerIndexViewModel
     {

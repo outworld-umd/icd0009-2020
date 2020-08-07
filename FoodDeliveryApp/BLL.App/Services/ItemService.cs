@@ -18,7 +18,10 @@ namespace BLL.App.Services
         {
         }
         
-        public async Task<IEnumerable<Item>> GetAllByRestaurantAsync(Guid restaurantId, object? userId = null, bool noTracking = true) {
+
+
+        public async Task<IEnumerable<Item>> GetAllByRestaurantAsync(Guid restaurantId, object? userId = null, bool noTracking = true)
+        {
             var dalEntities = await ServiceRepository.GetAllByRestaurantAsync(restaurantId, userId, noTracking);
             return dalEntities.Select(e => BLLMapper.Map(e)).OrderBy(e => e.Name);
         }

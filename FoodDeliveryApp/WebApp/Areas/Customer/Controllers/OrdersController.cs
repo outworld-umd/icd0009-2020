@@ -1,22 +1,18 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using BLL.App.DTO;
 using Contracts.BLL.App;
-using Contracts.DAL.App;
+using Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using DAL.App.EF;
-using Domain;
-using Extensions;
-using Microsoft.AspNetCore.Authorization;
-using WebApp.ViewModels;
-using IAppBLL = Contracts.BLL.App.IAppBLL;
+using WebApp.Areas.Customer.ViewModels;
+using Restaurant = BLL.App.DTO.Restaurant;
 
-namespace WebApp.Controllers
+namespace WebApp.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     [Authorize(Roles = "Customer, Admin")]
     public class OrdersController : Controller
     {
@@ -55,7 +51,7 @@ namespace WebApp.Controllers
         public IActionResult Create()
         {
             var vm = new OrderCreateEditViewModel {
-                Restaurants = new SelectList(_bll.Restaurants.GetAll(), nameof(Restaurant.Id), nameof(Restaurant.Name))
+                Restaurants = new SelectList(_bll.Restaurants.GetAll(), nameof(BLL.App.DTO.Restaurant.Id), nameof(BLL.App.DTO.Restaurant.Name))
             };
             return View(vm);
         }
@@ -75,7 +71,7 @@ namespace WebApp.Controllers
                 await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            vm.Restaurants = new SelectList(await _bll.Restaurants.GetAllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.Order.RestaurantId);
+            vm.Restaurants = new SelectList(await _bll.Restaurants.GetAllAsync(), nameof(BLL.App.DTO.Restaurant.Id), nameof(BLL.App.DTO.Restaurant.Name), vm.Order.RestaurantId);
             return View(vm);
         }
 
@@ -94,7 +90,7 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            vm.Restaurants = new SelectList(await _bll.Restaurants.GetAllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.Order.RestaurantId);
+            vm.Restaurants = new SelectList(await _bll.Restaurants.GetAllAsync(), nameof(BLL.App.DTO.Restaurant.Id), nameof(BLL.App.DTO.Restaurant.Name), vm.Order.RestaurantId);
             return View(vm);
         }
 
@@ -130,7 +126,7 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            vm.Restaurants = new SelectList(await _bll.Restaurants.GetAllAsync(), nameof(Restaurant.Id), nameof(Restaurant.Name), vm.Order.RestaurantId);
+            vm.Restaurants = new SelectList(await _bll.Restaurants.GetAllAsync(), nameof(BLL.App.DTO.Restaurant.Id), nameof(BLL.App.DTO.Restaurant.Name), vm.Order.RestaurantId);
             return View(vm);
         }
 

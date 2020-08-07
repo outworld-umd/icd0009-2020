@@ -1,20 +1,13 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Contracts.BLL.App;
-using Contracts.DAL.App;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using DAL.App.EF;
-using Domain;
-using Extensions;
 using Microsoft.AspNetCore.Authorization;
-using IAppBLL = Contracts.BLL.App.IAppBLL;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-namespace WebApp.Controllers
+namespace WebApp.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     [Authorize(Roles = "Admin")]
     public class CategoriesController : Controller
     {
@@ -39,7 +32,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var category = await _bll.Categories.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            var category = await _bll.Categories.FirstOrDefaultAsync(id.Value);
             if (category == null)
             {
                 return NotFound();
@@ -79,7 +72,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var category = await _bll.Categories.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            var category = await _bll.Categories.FirstOrDefaultAsync(id.Value);
             if (category == null)
             {
                 return NotFound();
@@ -130,7 +123,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var category = await _bll.Categories.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            var category = await _bll.Categories.FirstOrDefaultAsync(id.Value);
             if (category == null)
             {
                 return NotFound();
@@ -144,7 +137,7 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _bll.Categories.RemoveAsync(id, User.UserGuidId());
+            await _bll.Categories.RemoveAsync(id);
             await _bll.SaveChangesAsync();
             
             return RedirectToAction(nameof(Index));
