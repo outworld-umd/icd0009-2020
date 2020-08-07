@@ -72,4 +72,16 @@
     <data name="UserManager">
         <value>Диспетчер пользователей</value>
     </data>
+    <data name="Translations">
+        <value>Переводы</value>
+    </data>
+    <data name="Admin">
+        <value>Администратор</value>
+    </data>
+    <data name="Customer">
+        <value>Клиент</value>
+    </data>
+    <data name="Restaurant">
+        <value>Ресторан</value>
+    </data>
 </root>

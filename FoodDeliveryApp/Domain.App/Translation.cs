@@ -16,7 +16,7 @@ namespace Domain.App
         [MaxLength(5)] public string Culture { get; set; } = default!;
         [MaxLength(10240)] public string Value { get; set; } = default!;
 
-        public TKey LangStrId { get; set; } = default!;
-        public LangStr? LangStr { get; set; } = default!;
+        public TKey LangStringId { get; set; } = default!;
+        public LangString? LangString { get; set; } = default!;
     }
 }

@@ -22,7 +22,7 @@ namespace Contracts.DAL.App {
         public IRestaurantUserRepository RestaurantUsers { get; }
         public IRestaurantCategoryRepository RestaurantCategories { get; }
         public IWorkingHoursRepository WorkingHourses { get; }
-        public ILangStrRepository LangStrings { get; }
+        public ILangStringRepository LangStrings { get; }
         public ITranslationRepository Translations { get; }
 
 

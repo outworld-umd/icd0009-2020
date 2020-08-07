@@ -34,8 +34,7 @@ dotnet aspnet-codegenerator controller -name RestaurantController -actions -m Do
 dotnet aspnet-codegenerator controller -name RestaurantCategoryController -actions -m Domain.App.RestaurantCategory -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
 dotnet aspnet-codegenerator controller -name RestaurantUserController -actions -m Domain.App.RestaurantUser -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
 dotnet aspnet-codegenerator controller -name WorkingHoursController -actions -m Domain.App.WorkingHours -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
-dotnet aspnet-codegenerator controller -name LangStrController -actions -m Domain.App.LangStr -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
-dotnet aspnet-codegenerator controller -name TranslationController -actions -m Domain.App.Translation -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
+dotnet aspnet-codegenerator controller -name TranslationsController -actions -m Domain.App.Translation -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
 
 ```
 ##### To create API controller:

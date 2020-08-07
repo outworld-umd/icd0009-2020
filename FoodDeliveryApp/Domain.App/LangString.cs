@@ -7,7 +7,7 @@ using Domain.Base;
 
 namespace Domain.App
 {
-    public class LangStr : DomainEntityIdMetadata
+    public class LangString : DomainEntityIdMetadata
     {
         private static string _defaultCulture = "en";
         public ICollection<Translation>? Translations { get; set; }
@@ -18,15 +18,15 @@ namespace Domain.App
 
         #region Constructors
 
-        public LangStr()
+        public LangString()
         {
         }
 
-        public LangStr(string value) : this(value, Thread.CurrentThread.CurrentUICulture.Name)
+        public LangString(string value) : this(value, Thread.CurrentThread.CurrentUICulture.Name)
         {
         }
 
-        public LangStr(string value, string culture)
+        public LangString(string value, string culture)
         {
             SetTranslation(value, culture);
         }
@@ -105,9 +105,9 @@ namespace Domain.App
 
         // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/user-defined-conversion-operators
         // define automatic (implicit) conversions when needed
-        // "foo" + new LangStr("bar") => "foobar"
-        public static implicit operator string(LangStr? l) => l?.ToString() ?? "null";
+        // "foo" + new LangString("bar") => "foobar"
+        public static implicit operator string(LangString? l) => l?.ToString() ?? "null";
         // langStrProperty = "foobar"
-        public static implicit operator LangStr(string s) => new LangStr(s);
+        public static implicit operator LangString(string s) => new LangString(s);
     }
 }

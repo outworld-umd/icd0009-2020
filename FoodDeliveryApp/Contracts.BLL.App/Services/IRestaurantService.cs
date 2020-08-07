@@ -11,6 +11,6 @@ namespace Contracts.BLL.App.Services
 
         public Task<IEnumerable<Restaurant>> GetAllSortedByDeliveryAsync(object? userId = null, bool noTracking = true);
 
-        public Task<IEnumerable<Restaurant>> GetAllByUser(Guid userId, bool noTracking = true);
+        public Task<IEnumerable<Restaurant>> GetAllByUser(object? userId, bool noTracking = true);
     }
 }

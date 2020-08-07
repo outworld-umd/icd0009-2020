@@ -101,6 +101,10 @@
           <Generator>PublicResXFileCodeGenerator</Generator>
           <LastGenOutput>PaymentMethod.Designer.cs</LastGenOutput>
         </EmbeddedResource>
+        <EmbeddedResource Update="BLL.App.DTO\Translation\Translation.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>Translation.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>
@@ -219,6 +223,11 @@
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
           <DependentUpon>PaymentMethod.resx</DependentUpon>
+        </Compile>
+        <Compile Update="BLL.App.DTO\Translation\Translation.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Translation.resx</DependentUpon>
         </Compile>
     </ItemGroup>
 </Project>

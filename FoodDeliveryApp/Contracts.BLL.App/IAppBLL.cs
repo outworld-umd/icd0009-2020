@@ -21,7 +21,7 @@ namespace Contracts.BLL.App
         public IRestaurantService Restaurants { get; }
         public IRestaurantUserService RestaurantUsers { get; }
         public IWorkingHoursService WorkingHourses { get; }
-        public ILangStrService LangStrings { get; }
+        public ILangStringService LangStrings { get; }
         public ITranslationService Translations { get; }
     }
 }

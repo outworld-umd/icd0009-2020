@@ -24,7 +24,7 @@ namespace DAL.App.EF {
         public IRestaurantUserRepository RestaurantUsers => GetRepository(() => new RestaurantUserRepository(UOWDbContext));
         public IRestaurantCategoryRepository RestaurantCategories => GetRepository(() => new RestaurantCategoryRepository(UOWDbContext));
         public IWorkingHoursRepository WorkingHourses => GetRepository(() => new WorkingHoursRepository(UOWDbContext));
-        public ILangStrRepository LangStrings => GetRepository(() => new LangStrRepository(UOWDbContext));
+        public ILangStringRepository LangStrings => GetRepository(() => new LangStringRepository(UOWDbContext));
         public ITranslationRepository Translations => GetRepository(() => new TranslationRepository(UOWDbContext));
         
         public AppUnitOfWork(AppDbContext uowDbContext) : base(uowDbContext) 

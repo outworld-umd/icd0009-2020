@@ -385,6 +385,24 @@ namespace Resources.Views.CreDelDetEdiInd {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Translation.
+        /// </summary>
+        public static string Translation {
+            get {
+                return ResourceManager.GetString("Translation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Translations.
+        /// </summary>
+        public static string Translations {
+            get {
+                return ResourceManager.GetString("Translations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User.
         /// </summary>
         public static string User {

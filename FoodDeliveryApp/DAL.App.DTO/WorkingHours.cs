@@ -14,8 +14,8 @@ namespace DAL.App.DTO
         where TKey : IEquatable<TKey>
     {
         public DayOfWeek WeekDay { get; set; }
-        public TimeSpan OpeningTime { get; set; }
-        public TimeSpan ClosingTime { get; set; }public TKey RestaurantId { get; set; } = default!;
+        public DateTime OpeningTime { get; set; }
+        public DateTime ClosingTime { get; set; }public TKey RestaurantId { get; set; } = default!;
         public Restaurant? Restaurant { get; set; }
         
         public TKey Id { get; set; } = default!;

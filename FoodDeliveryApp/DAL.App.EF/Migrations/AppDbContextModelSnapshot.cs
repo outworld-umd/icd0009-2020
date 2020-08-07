@@ -409,7 +409,7 @@ namespace DAL.App.EF.Migrations
                     b.ToTable("ItemTypes");
                 });
 
-            modelBuilder.Entity("Domain.App.LangStr", b =>
+            modelBuilder.Entity("Domain.App.LangString", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -429,7 +429,7 @@ namespace DAL.App.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LangStrings");
+                    b.ToTable("LangStringings");
                 });
 
             modelBuilder.Entity("Domain.App.NutritionInfo", b =>
@@ -762,7 +762,7 @@ namespace DAL.App.EF.Migrations
                         .HasColumnType("nvarchar(5)")
                         .HasMaxLength(5);
 
-                    b.Property<Guid>("LangStrId")
+                    b.Property<Guid>("LangStringId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Value")
@@ -772,7 +772,7 @@ namespace DAL.App.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LangStrId");
+                    b.HasIndex("LangStringId");
 
                     b.ToTable("Translations");
                 });
@@ -926,7 +926,7 @@ namespace DAL.App.EF.Migrations
 
             modelBuilder.Entity("Domain.App.Category", b =>
                 {
-                    b.HasOne("Domain.App.LangStr", "Name")
+                    b.HasOne("Domain.App.LangString", "Name")
                         .WithMany("CategoryNames")
                         .HasForeignKey("NameId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1066,9 +1066,9 @@ namespace DAL.App.EF.Migrations
 
             modelBuilder.Entity("Domain.App.Translation", b =>
                 {
-                    b.HasOne("Domain.App.LangStr", "LangStr")
+                    b.HasOne("Domain.App.LangString", "LangString")
                         .WithMany("Translations")
-                        .HasForeignKey("LangStrId")
+                        .HasForeignKey("LangStringId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
