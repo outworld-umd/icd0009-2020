@@ -32,9 +32,17 @@ namespace WebApp.ApiControllers._1._0
             _bll = bll;
         }
 
-
-        // GET: api/ItemInType/5
+        // GET: api/ItemInTypes
+        /// <summary>
+        /// Get all the item in types
+        /// </summary>
+        /// <returns>Array consisting of item choices</returns>
         [HttpGet("{id}")]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [Authorize(Roles = "Restaurant, Admin")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.ItemInType>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<ActionResult<V1DTO.ItemInType>> GetItemInType(Guid id)
         {

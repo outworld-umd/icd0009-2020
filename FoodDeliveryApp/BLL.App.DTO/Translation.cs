@@ -18,7 +18,7 @@ namespace BLL.App.DTO
         public TKey LangStrId { get; set; } = default!;
         public LangStr? LangStr { get; set; }
         
-        public TKey Id { get; set; }
+        public TKey Id { get; set; } = default!;
         public string? CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public string? ChangedBy { get; set; }

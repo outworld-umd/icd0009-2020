@@ -7,6 +7,7 @@
     
     <PropertyGroup>
       <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\WebApp.xml</DocumentationFile>
+      <NoWarn>1591</NoWarn>
     </PropertyGroup>
 
 

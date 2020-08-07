@@ -15,6 +15,9 @@ using PublicApi.DTO.v1.Mappers;
 
 namespace WebApp.ApiControllers._1._0
 {
+    /// <summary>
+    /// Saved orders
+    /// </summary>
     [ApiController]
     [ApiVersion( "1.0" )]
     [Route("api/v{version:apiVersion}/[controller]")]
@@ -44,6 +47,7 @@ namespace WebApp.ApiControllers._1._0
         [Produces("application/json")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.OrderView>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         public async Task<ActionResult<IEnumerable<V1DTO.Order>>> GetOrders()
         {
             var userTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
@@ -53,7 +57,7 @@ namespace WebApp.ApiControllers._1._0
         
         // GET: api/Item/restaurant/5
         /// <summary>
-        /// 
+        /// Get orders by restaurant
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -63,6 +67,7 @@ namespace WebApp.ApiControllers._1._0
         [Produces("application/json")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.Item))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         public async Task<ActionResult<IEnumerable<V1DTO.Item>>> GetOrdersByRestaurant(Guid id) {
             if (!await _bll.RestaurantUsers.AnyAsync(ru =>
                 ru.AppUserId.Equals(User.UserGuidId()) && ru.RestaurantId.Equals(id))) 
@@ -81,7 +86,7 @@ namespace WebApp.ApiControllers._1._0
         [Consumes("application/json")]
         [Authorize(Roles = "Customer, Restaurant, Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.Order))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.Order))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         public async Task<ActionResult<V1DTO.Order>> GetOrder(Guid id)
         {
             var userTKey = User.IsInRole("Customer") ? (Guid?) User.UserGuidId() : null;

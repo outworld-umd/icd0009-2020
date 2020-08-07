@@ -99,7 +99,7 @@ namespace WebApp.Controllers
                 vm.User.Email = vm.Email;
 
                 await _userManager.CreateAsync(vm.User, vm.Password);
-                await _userManager.AddToRoleAsync(vm.User, vm.Role.Name);
+                await _userManager.AddToRoleAsync(vm.User, vm.Role!.Name);
                 return RedirectToAction(nameof(Index));
             }
 
@@ -157,7 +157,7 @@ namespace WebApp.Controllers
                     user.LastName = vm.User.LastName;
                     // Console.WriteLine(role.Name + "Current role");
                     // Console.WriteLine(vm.Role.Name + "New role");
-                    if (role.Name != vm.Role.Name)
+                    if (role.Name != vm.Role!.Name)
                     {
                         await _userManager.RemoveFromRolesAsync(user, roles);
                         await _userManager.AddToRoleAsync(user, vm.Role.Name);

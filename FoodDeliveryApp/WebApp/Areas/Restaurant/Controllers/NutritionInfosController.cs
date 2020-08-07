@@ -30,7 +30,8 @@ namespace WebApp.Controllers
         // GET: NutritionInfos
         public async Task<IActionResult> Index()
         {
-            return View(await _bll.NutritionInfos.GetAllAsync());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            return View(await _bll.NutritionInfos.GetAllAsync(userIdTKey));
         }
 
         // GET: NutritionInfos/Details/5
@@ -40,8 +41,8 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
-            var nutritionInfo = await _bll.NutritionInfos.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            var nutritionInfo = await _bll.NutritionInfos.FirstOrDefaultAsync(id.Value, userIdTKey);
             if (nutritionInfo == null)
             {
                 return NotFound();
@@ -83,8 +84,9 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
             var vm = new NutritionInfoCreateEditViewModel {
-                NutritionInfo = await _bll.NutritionInfos.FirstOrDefaultAsync(id.Value, User.UserGuidId())
+                NutritionInfo = await _bll.NutritionInfos.FirstOrDefaultAsync(id.Value, userIdTKey)
             };
             if (vm.NutritionInfo == null)
             {
@@ -137,8 +139,8 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
-            var nutritionInfo = await _bll.NutritionInfos.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            var nutritionInfo = await _bll.NutritionInfos.FirstOrDefaultAsync(id.Value, userIdTKey);
             if (nutritionInfo == null)
             {
                 return NotFound();
@@ -152,7 +154,8 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _bll.NutritionInfos.RemoveAsync(id, User.UserGuidId());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            await _bll.NutritionInfos.RemoveAsync(id, userIdTKey);
             await _bll.SaveChangesAsync();
             
             return RedirectToAction(nameof(Index));

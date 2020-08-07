@@ -13,6 +13,9 @@ using PublicApi.DTO.v1.Mappers;
 
 namespace WebApp.ApiControllers._1._0
 {
+    /// <summary>
+    /// Saved restaurants
+    /// </summary>
     [ApiController]
     [ApiVersion( "1.0" )]
     [Route("api/v{version:apiVersion}/[controller]")]
@@ -40,6 +43,7 @@ namespace WebApp.ApiControllers._1._0
         [Consumes("application/json")]
         [Authorize(Roles = "Customer, Restaurant, Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.RestaurantView>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         public async Task<ActionResult<IEnumerable<V1DTO.RestaurantView>>> GetRestaurants()
         {
             return Ok((User.IsInRole("Restaurant") ? 
@@ -59,7 +63,7 @@ namespace WebApp.ApiControllers._1._0
         [Consumes("application/json")]
         [Authorize(Roles = "Customer, Restaurant, Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.Restaurant))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.Restaurant))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         public async Task<ActionResult<V1DTO.Restaurant>> GetRestaurant(Guid id)
         {
             var restaurant = await _bll.Restaurants.FirstOrDefaultAsync(id);
@@ -109,11 +113,11 @@ namespace WebApp.ApiControllers._1._0
         /// </summary>
         /// <param name="restaurant">Restaurant info</param>
         /// <returns></returns>
+        [HttpPost]
         [Produces("application/json")]
         [Consumes("application/json")]
         [Authorize(Roles = "Restaurant, Admin")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(V1DTO.Restaurant))]
-        [HttpPost]
         public async Task<ActionResult<V1DTO.Restaurant>> PostRestaurant(V1DTO.Restaurant restaurant)
         {
             var bllEntity = _mapper.Map(restaurant);
@@ -132,10 +136,10 @@ namespace WebApp.ApiControllers._1._0
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.Restaurant))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         [Authorize(Roles = "Restaurant, Admin")]
-        [HttpDelete("{id}")]
         public async Task<ActionResult<V1DTO.Restaurant>> DeleteRestaurant(Guid id)
         {
             var restaurant = await _bll.Restaurants.FirstOrDefaultAsync(id);

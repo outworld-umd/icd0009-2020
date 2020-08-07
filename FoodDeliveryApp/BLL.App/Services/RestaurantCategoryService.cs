@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using BLL.App.DTO;
 using BLL.App.Mappers;
 using BLL.Base.Services;
@@ -12,6 +16,11 @@ namespace BLL.App.Services
     {
         public RestaurantCategoryService(IAppUnitOfWork unitOfWork) : base(unitOfWork, unitOfWork.RestaurantCategories, new RestaurantCategoryServiceMapper())
         {
+        }
+        
+        public async Task<IEnumerable<Restaurant>> GetAllByUser(Guid userId, bool noTracking = true) {
+            var restaurantIds = (await ServiceUnitOfWork.RestaurantUsers.GetAllAsync(userId, noTracking)).Select(e => e.RestaurantId);
+            return (await base.GetAllAsync(userId, noTracking)).Select(rc => rc.Restaurant).Where(r => restaurantIds.Contains(r!.Id))!;
         }
     }
 }

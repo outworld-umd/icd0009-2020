@@ -55,10 +55,10 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.OrderRow.Id)
+                @Html.DisplayFor(modelItem => item.OrderRow!.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ItemChoice.Name)
+                @Html.DisplayFor(modelItem => item.ItemChoice!.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreatedBy)

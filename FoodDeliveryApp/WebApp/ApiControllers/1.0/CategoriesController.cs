@@ -14,7 +14,7 @@ using PublicApi.DTO.v1.Mappers;
 namespace WebApp.ApiControllers._1._0
 {
     /// <summary>
-    /// 
+    /// Saved addresses of restaurants
     /// </summary>
     [ApiController]
     [ApiVersion( "1.0" )]
@@ -44,6 +44,7 @@ namespace WebApp.ApiControllers._1._0
         [Consumes("application/json")]
         [Authorize(Roles = "Customer, Restaurant, Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.CategoryListView>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         public async Task<ActionResult<IEnumerable<V1DTO.CategoryListView>>> GetCategories()
         {
             return Ok((await _bll.Categories.GetAllAsync()).Select(e => _mapper.MapCategoryListView(e)));
@@ -59,6 +60,7 @@ namespace WebApp.ApiControllers._1._0
         [Consumes("application/json")]
         [Authorize(Roles = "Customer, Restaurant, Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.Category>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         public async Task<ActionResult<IEnumerable<V1DTO.Category>>> GetCategoriesWithRestaurants()
         {
             return Ok((await _bll.Categories.GetAllAsync()).Select(e => _mapper.MapCategory(e)));
@@ -75,7 +77,7 @@ namespace WebApp.ApiControllers._1._0
         [Consumes("application/json")]
         [Authorize(Roles = "Customer, Restaurant, Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.Category))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.Category))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         public async Task<ActionResult<V1DTO.Category>> GetCategory(Guid id)
         {
             var category = await _bll.Categories.FirstOrDefaultAsync(id);

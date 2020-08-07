@@ -52,7 +52,7 @@
                 @Html.DisplayFor(modelItem => item.IsSingle)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Item.Name)
+                @Html.DisplayFor(modelItem => item.Item!.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreatedBy)

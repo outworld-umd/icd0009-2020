@@ -17,7 +17,8 @@ namespace BLL.App.DTO
     {
         public TKey Id { get; set; } = default!;
 
-        public TKey OrderRowId { get; set; }
+        public TKey OrderRowId { get; set; } = default!;
+
         [Display(Name = nameof(OrderRow), ResourceType = typeof(Resources.BLL.App.DTO.OrderItemChoice.OrderItemChoice))]
         public OrderRow? OrderRow { get; set; }
 

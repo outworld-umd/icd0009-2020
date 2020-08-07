@@ -14,6 +14,9 @@ using V1DTO = PublicApi.DTO.v1;
 
 namespace WebApp.ApiControllers._1._0 {
 
+    /// <summary>
+    /// Items of restaurants
+    /// </summary>
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
@@ -39,6 +42,7 @@ namespace WebApp.ApiControllers._1._0 {
         [Consumes("application/json")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.Item>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         public async Task<ActionResult<IEnumerable<V1DTO.Item>>> GetItems() {
             var userTKey = User.IsInRole("Customer") ? (Guid?) User.UserGuidId() : null;
             
@@ -47,7 +51,7 @@ namespace WebApp.ApiControllers._1._0 {
         
         // GET: api/Item/restaurant/5
         /// <summary>
-        /// 
+        /// Get items by restaurant
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -57,6 +61,7 @@ namespace WebApp.ApiControllers._1._0 {
         [Consumes("application/json")]
         [Authorize(Roles = "Customer, Restaurant, Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.Item))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         public async Task<ActionResult<IEnumerable<V1DTO.Item>>> GetItemsByRestaurant(Guid id) {
             return Ok((await _bll.Items.GetAllByRestaurantAsync(id)).Select(e => _mapper.MapItem(e)));
         }
@@ -115,11 +120,11 @@ namespace WebApp.ApiControllers._1._0 {
         /// </summary>
         /// <param name="item">Item info</param>
         /// <returns></returns>
+        [HttpPost]
         [Produces("application/json")]
         [Consumes("application/json")]
         [Authorize(Roles = "Restaurant, Admin")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(V1DTO.Item))]
-        [HttpPost]
         public async Task<ActionResult<V1DTO.Item>> PostItem(V1DTO.Item item) {
             if (!(await _bll.RestaurantUsers.GetAllAsync()).Any(ru => ru.AppUserId.Equals(User.UserGuidId()) && ru.RestaurantId.Equals(item.RestaurantId))) {
                 return Unauthorized(new V1DTO.MessageDTO("User not authorized for this restaurant"));
@@ -140,10 +145,12 @@ namespace WebApp.ApiControllers._1._0 {
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [HttpDelete("{id}")]
+        [Produces("application/json")]
+        [Consumes("application/json")]
         [Authorize(Roles = "Restaurant, Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
-        [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteItem(Guid id) {
             var item = await _bll.Items.FirstOrDefaultAsync(id);
             if (item == null) return NotFound(new V1DTO.MessageDTO("Item not found"));

@@ -30,7 +30,8 @@ namespace WebApp.Controllers
         // GET: RestaurantCategories
         public async Task<IActionResult> Index()
         {
-            return View(await _bll.RestaurantCategories.GetAllAsync());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            return View(await _bll.RestaurantCategories.GetAllAsync(userIdTKey));
         }
 
         // GET: RestaurantCategories/Details/5
@@ -40,8 +41,8 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
-            var restaurantCategory = await _bll.RestaurantCategories.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            var restaurantCategory = await _bll.RestaurantCategories.FirstOrDefaultAsync(id.Value, userIdTKey);
             if (restaurantCategory == null)
             {
                 return NotFound();
@@ -86,8 +87,9 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
             var vm = new RestaurantCategoryCreateEditViewModel {
-                RestaurantCategory = await _bll.RestaurantCategories.FirstOrDefaultAsync(id.Value, User.UserGuidId())
+                RestaurantCategory = await _bll.RestaurantCategories.FirstOrDefaultAsync(id.Value, userIdTKey)
             };
             if (vm.RestaurantCategory == null)
             {
@@ -142,8 +144,8 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
-            var restaurantCategory = await _bll.RestaurantCategories.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            var restaurantCategory = await _bll.RestaurantCategories.FirstOrDefaultAsync(id.Value, userIdTKey);
             if (restaurantCategory == null)
             {
                 return NotFound();
@@ -157,7 +159,8 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _bll.RestaurantCategories.RemoveAsync(id, User.UserGuidId());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            await _bll.RestaurantCategories.RemoveAsync(id, userIdTKey);
             await _bll.SaveChangesAsync();
             
             return RedirectToAction(nameof(Index));

@@ -30,7 +30,8 @@ namespace WebApp.Controllers
         // GET: ItemTypes
         public async Task<IActionResult> Index()
         {
-            return View(await _bll.ItemTypes.GetAllAsync());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            return View(await _bll.ItemTypes.GetAllAsync(userIdTKey));
         }
 
         // GET: ItemTypes/Details/5
@@ -40,8 +41,8 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
-            var itemType = await _bll.ItemTypes.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            var itemType = await _bll.ItemTypes.FirstOrDefaultAsync(id.Value, userIdTKey);
             if (itemType == null)
             {
                 return NotFound();
@@ -84,8 +85,9 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
             var vm = new ItemTypeCreateEditViewModel {
-                ItemType = await _bll.ItemTypes.FirstOrDefaultAsync(id.Value, User.UserGuidId())
+                ItemType = await _bll.ItemTypes.FirstOrDefaultAsync(id.Value, userIdTKey)
             };
             if (vm.ItemType == null)
             {
@@ -138,8 +140,8 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
-            var itemType = await _bll.ItemTypes.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            var itemType = await _bll.ItemTypes.FirstOrDefaultAsync(id.Value, userIdTKey);
             if (itemType == null)
             {
                 return NotFound();
@@ -153,7 +155,8 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _bll.ItemTypes.RemoveAsync(id, User.UserGuidId());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            await _bll.ItemTypes.RemoveAsync(id, userIdTKey);
             await _bll.SaveChangesAsync();
             
             return RedirectToAction(nameof(Index));

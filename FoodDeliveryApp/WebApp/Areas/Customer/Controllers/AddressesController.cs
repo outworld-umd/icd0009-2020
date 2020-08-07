@@ -151,8 +151,7 @@ namespace WebApp.Controllers
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
-            var address = await _bll.Addresses.FirstOrDefaultAsync(id, userIdTKey);
-            await _bll.Addresses.RemoveAsync(address);
+            await _bll.Addresses.RemoveAsync(id, userIdTKey);
             await _bll.SaveChangesAsync();
             
             return RedirectToAction(nameof(Index));

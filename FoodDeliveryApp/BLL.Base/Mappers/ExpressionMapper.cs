@@ -10,14 +10,14 @@ namespace BLL.Base.Mappers {
             return (Expression<Func<TOutput, bool>>)Visit(expression);
         }
 
-        private ParameterExpression replaceParam;
+        private ParameterExpression _replaceParam = default!;
 
         protected override Expression VisitLambda<T>(Expression<T> node)
         {
             if (typeof(T) == typeof(Func<TInput, bool>))
             {
-                replaceParam = Expression.Parameter(typeof(TOutput), "p");
-                return Expression.Lambda<Func<TOutput, bool>>(Visit(node.Body), replaceParam);
+                _replaceParam = Expression.Parameter(typeof(TOutput), "p");
+                return Expression.Lambda<Func<TOutput, bool>>(Visit(node.Body), _replaceParam);
             }
             return base.VisitLambda<T>(node);
         }
@@ -25,7 +25,7 @@ namespace BLL.Base.Mappers {
         protected override Expression VisitParameter(ParameterExpression node)
         {
             if (node.Type == typeof(TInput))
-                return replaceParam;
+                return _replaceParam;
             return base.VisitParameter(node);
         }
 

@@ -23,6 +23,6 @@ namespace DAL.App.DTO
         public DateTime CreatedAt { get; set; }
         public string? ChangedBy { get; set; }
         public DateTime ChangedAt { get; set; }
-        public TKey Id { get; set; }
+        public TKey Id { get; set; } = default!;
     }
 }

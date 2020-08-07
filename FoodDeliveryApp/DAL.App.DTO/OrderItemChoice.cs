@@ -17,13 +17,13 @@ namespace DAL.App.DTO
         public int Amount { get; set; }
         public decimal Cost { get; set; }
 
-        public TKey OrderRowId { get; set; } // ZDES BIL 0!!!!!!!!!!!!!!!
+        public TKey OrderRowId { get; set; } = default!; // ZDES BIL 0!!!!!!!!!!!!!!!
         public OrderRow? OrderRow { get; set; }
 
         public Guid? ItemChoiceId { get; set; } = default!;
         public ItemChoice? ItemChoice { get; set; }
         
-        public string Name { get; set; }
+        public string Name { get; set; } = default!;
         
 
         public TKey Id { get; set; } = default!;

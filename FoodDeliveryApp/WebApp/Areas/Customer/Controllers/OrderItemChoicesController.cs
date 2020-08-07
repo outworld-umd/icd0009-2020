@@ -11,12 +11,14 @@ using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
 using Extensions;
+using Microsoft.AspNetCore.Authorization;
 using WebApp.ViewModels;
 using IAppBLL = Contracts.BLL.App.IAppBLL;
 using Order = PublicApi.DTO.v1.Order;
 
 namespace WebApp.Controllers
 {
+    [Authorize(Roles = "Customer, Admin")]
     public class OrderItemChoicesController : Controller
     {
         private readonly IAppBLL _bll;
@@ -29,7 +31,8 @@ namespace WebApp.Controllers
         // GET: OrderItemChoices
         public async Task<IActionResult> Index()
         {
-            return View(await _bll.OrderItemChoices.GetAllAsync());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            return View(await _bll.OrderItemChoices.GetAllAsync(userIdTKey));
         }
 
         // GET: OrderItemChoices/Details/5
@@ -39,8 +42,8 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
-            var orderItemChoice = await _bll.OrderItemChoices.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            var orderItemChoice = await _bll.OrderItemChoices.FirstOrDefaultAsync(id.Value, userIdTKey);
             if (orderItemChoice == null)
             {
                 return NotFound();
@@ -86,8 +89,10 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+
             var vm = new OrderItemChoiceCreateEditViewModel {
-                OrderItemChoice = await _bll.OrderItemChoices.FirstOrDefaultAsync(id.Value, User.UserGuidId())
+                OrderItemChoice = await _bll.OrderItemChoices.FirstOrDefaultAsync(id.Value, userIdTKey)
             };
             if (vm.OrderItemChoice == null)
             {
@@ -142,8 +147,8 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
-            var orderItemChoice = await _bll.OrderItemChoices.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            var orderItemChoice = await _bll.OrderItemChoices.FirstOrDefaultAsync(id.Value, userIdTKey);
             if (orderItemChoice == null)
             {
                 return NotFound();
@@ -157,7 +162,8 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _bll.OrderItemChoices.RemoveAsync(id, User.UserGuidId());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            await _bll.OrderItemChoices.RemoveAsync(id, userIdTKey);
             await _bll.SaveChangesAsync();
             
             return RedirectToAction(nameof(Index));

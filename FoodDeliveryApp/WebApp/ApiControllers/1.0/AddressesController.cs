@@ -46,6 +46,7 @@ namespace WebApp.ApiControllers._1._0
         [Consumes("application/json")]
         [Authorize(Roles = "Customer, Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.Address>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         public async Task<ActionResult<IEnumerable<V1DTO.Address>>> GetAddresses()
         {
             var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
@@ -62,6 +63,7 @@ namespace WebApp.ApiControllers._1._0
         [Consumes("application/json")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.Address>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         public async Task<ActionResult<IEnumerable<V1DTO.Address>>> GetAddressesByUser(Guid userId)
         {
             return Ok((await _bll.Addresses.GetAllAsync(userId)).Select(e => _mapper.MapAddress(e)));

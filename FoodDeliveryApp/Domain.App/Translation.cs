@@ -13,10 +13,10 @@ namespace Domain.App
     public class Translation<TKey> : DomainEntityIdMetadata<TKey>
         where TKey : IEquatable<TKey>
     {
-        [MaxLength(5)] public string Culture { get; set; }
-        [MaxLength(10240)] public string Value { get; set; }
+        [MaxLength(5)] public string Culture { get; set; } = default!;
+        [MaxLength(10240)] public string Value { get; set; } = default!;
 
         public TKey LangStrId { get; set; } = default!;
-        public LangStr? LangStr { get; set; }
+        public LangStr? LangStr { get; set; } = default!;
     }
 }

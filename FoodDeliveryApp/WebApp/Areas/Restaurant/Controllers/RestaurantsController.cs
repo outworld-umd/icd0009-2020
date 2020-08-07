@@ -28,9 +28,8 @@ namespace WebApp.Controllers
         // GET: Restaurants
         public async Task<IActionResult> Index()
         {
-            return View((User.IsInRole("Restaurant") ? 
-                await _bll.Restaurants.GetAllAsync(User.UserGuidId()) : 
-                await _bll.Restaurants.GetAllSortedByDeliveryAsync()));
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            return View(await _bll.Restaurants.GetAllByUser(userIdTKey!.Value));
         }
 
         // GET: Restaurants/Details/5
@@ -41,7 +40,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
             var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
-            var restaurant = await _bll.Restaurants.FirstOrDefaultAsync(id.Value, userIdTKey);
+            var restaurant = await _bll.Restaurants.FirstOrDefaultAsync(id.Value, userIdTKey!.Value);
             if (restaurant == null)
             {
                 return NotFound();

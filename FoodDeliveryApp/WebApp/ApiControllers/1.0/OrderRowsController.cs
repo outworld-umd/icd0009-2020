@@ -12,6 +12,9 @@ using PublicApi.DTO.v1.Mappers;
 
 namespace WebApp.ApiControllers._1._0
 {
+    /// <summary>
+    /// Saved rows of orders
+    /// </summary>
     [ApiController]
     [ApiVersion( "1.0" )]
     [Route("api/v{version:apiVersion}/[controller]")]
@@ -39,6 +42,7 @@ namespace WebApp.ApiControllers._1._0
         [Consumes("application/json")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.OrderRow>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         public async Task<ActionResult<IEnumerable<V1DTO.OrderRow>>> GetOrderRows()
         {
             return Ok((await _bll.OrderRows.GetAllAsync()).Select(e => _mapper.MapOrderRow(e)));
@@ -55,7 +59,7 @@ namespace WebApp.ApiControllers._1._0
         [Consumes("application/json")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.OrderRow))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.OrderRow))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         public async Task<ActionResult<V1DTO.OrderRow>> GetOrderRow(Guid id)
         {
             var orderRow = await _bll.OrderRows.FirstOrDefaultAsync(id);

@@ -15,6 +15,9 @@ using PublicApi.DTO.v1.Mappers.Base;
 
 namespace WebApp.ApiControllers._1._0
 {
+    /// <summary>
+    /// Saved categories of restaurants
+    /// </summary>
     [ApiController]
     [ApiVersion( "1.0" )]
     [Route("api/v{version:apiVersion}/[controller]")]
@@ -34,17 +37,16 @@ namespace WebApp.ApiControllers._1._0
 
         // GET: api/Restaurant/5
         /// <summary>
-        /// Get a single restaurant
+        /// Get a single restaurant category
         /// </summary>
-        /// <param name="id">id for restaurant</param>
-        /// <returns>restaurant</returns>
+        /// <param name="id">id for restaurant category</param>
+        /// <returns>restaurant category</returns>
         [HttpGet("{id}")]
         [Produces("application/json")]
         [Consumes("application/json")]
         [ApiExplorerSettings(IgnoreApi = true)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.RestaurantCategory))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.RestaurantCategory))]
-        
         public async Task<ActionResult<V1DTO.Restaurant>> GetRestaurantCategory(Guid id)
         {
             var restaurant = await _bll.RestaurantCategories.FirstOrDefaultAsync(id, User.UserGuidId());
@@ -61,9 +63,9 @@ namespace WebApp.ApiControllers._1._0
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         /// <summary>
-        /// Create/add a new restaurant
+        /// Create/add a new restaurant category
         /// </summary>
-        /// <param name="restaurantCategory">Restaurant info</param>
+        /// <param name="restaurantCategory">Restaurant category info</param>
         /// <returns></returns>
         [Produces("application/json")]
         [Consumes("application/json")]
@@ -84,7 +86,7 @@ namespace WebApp.ApiControllers._1._0
 
         // DELETE: api/Restaurant/5
         /// <summary>
-        /// Deletes the restaurant
+        /// Deletes the restaurant category
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

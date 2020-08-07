@@ -11,11 +11,13 @@ using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
 using Extensions;
+using Microsoft.AspNetCore.Authorization;
 using WebApp.ViewModels;
 using IAppBLL = Contracts.BLL.App.IAppBLL;
 
 namespace WebApp.Controllers
 {
+    [Authorize(Roles = "Customer, Admin")]
     public class OrderRowsController : Controller
     {
         private readonly IAppBLL _bll;
@@ -28,7 +30,8 @@ namespace WebApp.Controllers
         // GET: OrderRows
         public async Task<IActionResult> Index()
         {
-            return View(await _bll.OrderRows.GetAllAsync());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            return View(await _bll.OrderRows.GetAllAsync(userIdTKey));
         }
 
         // GET: OrderRows/Details/5
@@ -38,8 +41,9 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
 
-            var orderRow = await _bll.OrderRows.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            var orderRow = await _bll.OrderRows.FirstOrDefaultAsync(id.Value, userIdTKey);
             if (orderRow == null)
             {
                 return NotFound();
@@ -85,10 +89,10 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
             var vm = new OrderRowCreateEditViewModel
             {
-                OrderRow = await _bll.OrderRows.FirstOrDefaultAsync(id.Value, User.UserGuidId())
+                OrderRow = await _bll.OrderRows.FirstOrDefaultAsync(id.Value, userIdTKey)
             };
             if (vm.OrderRow == null)
             {
@@ -143,8 +147,8 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
-            var orderRow = await _bll.OrderRows.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            var orderRow = await _bll.OrderRows.FirstOrDefaultAsync(id.Value, userIdTKey);
             if (orderRow == null)
             {
                 return NotFound();
@@ -158,7 +162,8 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _bll.OrderRows.RemoveAsync(id, User.UserGuidId());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            await _bll.OrderRows.RemoveAsync(id, userIdTKey);
             await _bll.SaveChangesAsync();
             
             return RedirectToAction(nameof(Index));

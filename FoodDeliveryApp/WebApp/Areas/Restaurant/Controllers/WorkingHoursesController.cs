@@ -30,7 +30,8 @@ namespace WebApp.Controllers
         // GET: WorkingHourses
         public async Task<IActionResult> Index()
         {
-            return View(await _bll.WorkingHourses.GetAllAsync());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            return View(await _bll.WorkingHourses.GetAllAsync(userIdTKey));
         }
 
         // GET: WorkingHourses/Details/5
@@ -40,8 +41,8 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
-            var workingHours = await _bll.WorkingHourses.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            var workingHours = await _bll.WorkingHourses.FirstOrDefaultAsync(id.Value, userIdTKey);
             if (workingHours == null)
             {
                 return NotFound();
@@ -84,8 +85,9 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
             var vm = new WorkingHoursCreateEditViewModel {
-                WorkingHours = await _bll.WorkingHourses.FirstOrDefaultAsync(id.Value, User.UserGuidId())
+                WorkingHours = await _bll.WorkingHourses.FirstOrDefaultAsync(id.Value, userIdTKey)
             };
             if (vm.WorkingHours == null)
             {
@@ -139,7 +141,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var workingHours = await _bll.WorkingHourses.FirstOrDefaultAsync(id.Value);
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            var workingHours = await _bll.WorkingHourses.FirstOrDefaultAsync(id.Value, userIdTKey);
             if (workingHours == null)
             {
                 return NotFound();
@@ -153,7 +156,8 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _bll.WorkingHourses.RemoveAsync(id, User.UserGuidId());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            await _bll.WorkingHourses.RemoveAsync(id, userIdTKey);
             await _bll.SaveChangesAsync();
             
             return RedirectToAction(nameof(Index));

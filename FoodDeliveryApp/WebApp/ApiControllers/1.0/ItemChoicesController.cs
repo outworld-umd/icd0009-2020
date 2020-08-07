@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts.BLL.App;
-using Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -44,6 +43,7 @@ namespace WebApp.ApiControllers._1._0
         [Consumes("application/json")]
         [Authorize(Roles = "Restaurant, Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.ItemChoice>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         public async Task<ActionResult<IEnumerable<V1DTO.ItemChoice>>> GetItemChoice()
         {
             return Ok((await _bll.ItemChoices.GetAllAsync()).Select(e => _mapper.MapItemChoice(e)));
@@ -86,6 +86,9 @@ namespace WebApp.ApiControllers._1._0
         [Produces("application/json")]
         [Consumes("application/json")]
         [Authorize(Roles = "Restaurant, Admin")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(V1DTO.MessageDTO))]
         public async Task<IActionResult> PutItemChoice(Guid id, V1DTO.ItemChoice itemChoice)
         {
             if (id != itemChoice.Id)

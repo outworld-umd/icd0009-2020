@@ -17,7 +17,7 @@ using IAppBLL = Contracts.BLL.App.IAppBLL;
 
 namespace WebApp.Controllers
 {
-    // [Authorize(Roles = "AppUser")]
+    [Authorize(Roles = "Customer, Admin")]
     public class OrdersController : Controller
     {
         private readonly IAppBLL _bll;
@@ -30,7 +30,8 @@ namespace WebApp.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            return View(await _bll.Orders.GetAllAsync());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            return View(await _bll.Orders.GetAllAsync(userIdTKey));
         }
 
         // GET: Orders/Details/5
@@ -40,8 +41,8 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
-            var order = await _bll.Orders.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            var order = await _bll.Orders.FirstOrDefaultAsync(id.Value, userIdTKey);
             if (order == null)
             {
                 return NotFound();
@@ -85,8 +86,9 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
             var vm = new OrderCreateEditViewModel {
-                Order = await _bll.Orders.FirstOrDefaultAsync(id.Value, User.UserGuidId())
+                Order = await _bll.Orders.FirstOrDefaultAsync(id.Value, userIdTKey)
             };
             if (vm.Order == null)
             {
@@ -139,8 +141,8 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
-            var order = await _bll.Orders.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            var order = await _bll.Orders.FirstOrDefaultAsync(id.Value, userIdTKey);
             if (order == null)
             {
                 return NotFound();
@@ -154,7 +156,8 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _bll.Orders.RemoveAsync(id, User.UserGuidId());
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            await _bll.Orders.RemoveAsync(id, userIdTKey);
             await _bll.SaveChangesAsync();
             
             return RedirectToAction(nameof(Index));

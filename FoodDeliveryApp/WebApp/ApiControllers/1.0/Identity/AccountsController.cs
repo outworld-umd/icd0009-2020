@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Extensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -14,7 +15,10 @@ using AppUser = Domain.App.Identity.AppUser;
 
 namespace WebApp.ApiControllers._1._0.Identity
 {
-[ApiController]
+    /// <summary>
+    /// Api endpoint for registering new user and user log-in (jwt token generation)
+    /// </summary>
+    [ApiController]
     [ApiVersion( "1.0" )]
     [Route("api/v{version:apiVersion}/[controller]/[action]")]
     public class AccountsController : ControllerBase
@@ -24,6 +28,13 @@ namespace WebApp.ApiControllers._1._0.Identity
         private readonly ILogger<AccountsController> _logger;
         private readonly SignInManager<AppUser> _signInManager;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <param name="userManager"></param>
+        /// <param name="signInManager"></param>
+        /// <param name="logger"></param>
         public AccountsController(IConfiguration configuration, UserManager<AppUser> userManager,
             ILogger<AccountsController> logger, SignInManager<AppUser> signInManager)
         {
@@ -33,7 +44,16 @@ namespace WebApp.ApiControllers._1._0.Identity
             _signInManager = signInManager;
         }
 
+        /// <summary>
+        /// Endpoint for user log-in (jwt generation)
+        /// </summary>
+        /// <param name="model">login data</param>
+        /// <returns></returns>
         [HttpPost]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(JwtResponseDTO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(MessageDTO))]
         public async Task<ActionResult<string>> Login([FromBody] LoginDTO model)
         {
             var appUser = await _userManager.FindByEmailAsync(model.Email);
@@ -66,7 +86,17 @@ namespace WebApp.ApiControllers._1._0.Identity
         }
 
 
+        /// <summary>
+        /// Endpoint for user registration and immediate log-in (jwt generation) 
+        /// </summary>
+        /// <param name="dto">user data</param>
+        /// <returns></returns>
         [HttpPost]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(JwtResponseDTO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(MessageDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(MessageDTO))]
         public async Task<IActionResult> Register([FromBody] RegisterDTO dto)
         {
             var appUser = await _userManager.FindByEmailAsync(dto.Email);

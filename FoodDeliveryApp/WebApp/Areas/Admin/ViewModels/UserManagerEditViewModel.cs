@@ -11,11 +11,10 @@ namespace WebApp.ViewModels
         
 
         [Display(Name = "Role")]
-        public SelectList? Roles { get; set; }
+        public SelectList? Roles { get; set; } = default!;
 
-        public AppRole? Role { get; set; }
-        
-        [Display(Name = "Current Roles")]
-        public string CurrentRoles { get; set; }
+        public AppRole? Role { get; set; } = default!;
+
+        [Display(Name = "Current Roles")] public string CurrentRoles { get; set; } = default!;
     }
 }
