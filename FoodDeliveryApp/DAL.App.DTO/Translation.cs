@@ -17,7 +17,7 @@ namespace DAL.App.DTO
         [MaxLength(10240)] public string Value { get; set; } = default!;
 
         public TKey LangStrId { get; set; } = default!;
-        public LangStr? LangStr { get; set; }
+        public LangString? LangStr { get; set; }
         
         public string? CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using Contracts.Domain.Combined;
 using Domain.Base;
 
@@ -14,7 +15,7 @@ namespace Domain.App
         where TKey : IEquatable<TKey>
     {
         public TKey NameId { get; set; } = default!;
-        [MaxLength(64)] [MinLength(2)] [Required] public LangStr Name { get; set; } = default!;
+        [MaxLength(64)] [MinLength(2)] [Required] public LangString Name { get; set; } = default!;
         
         public ICollection<RestaurantCategory>? RestaurantCategories { get; set; }
     }

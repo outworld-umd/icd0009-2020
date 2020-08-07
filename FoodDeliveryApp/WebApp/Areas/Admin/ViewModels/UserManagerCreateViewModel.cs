@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using Domain.App.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace WebApp.ViewModels
+namespace WebApp.Areas.Admin.ViewModels
 {
     public class UserManagerCreateViewModel
     {

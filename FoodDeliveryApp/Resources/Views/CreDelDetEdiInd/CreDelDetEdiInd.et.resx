@@ -138,4 +138,10 @@
     <data name="PleaseSelect">
         <value>Valige</value>
     </data>
+    <data name="Translation">
+        <value>Tõlge</value>
+    </data>
+    <data name="Translations">
+        <value>Tõlged</value>
+    </data>
 </root>

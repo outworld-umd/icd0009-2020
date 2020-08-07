@@ -8,10 +8,10 @@ using Contracts.DAL.App.Repositories;
 namespace BLL.App.Services
 {
     public class LangStrService :
-        BaseEntityService<IAppUnitOfWork, ILangStrRepository, ILangStrServiceMapper,
-            DAL.App.DTO.LangStr, BLL.App.DTO.LangStr>, ILangStrService
+        BaseEntityService<IAppUnitOfWork, ILangStrRepository, ILangStringServiceMapper,
+            DAL.App.DTO.LangString, BLL.App.DTO.LangString>, ILangStrService
     {
-        public LangStrService(IAppUnitOfWork unitOfWork) : base(unitOfWork, unitOfWork.LangStrings, new LangStrServiceMapper())
+        public LangStrService(IAppUnitOfWork unitOfWork) : base(unitOfWork, unitOfWork.LangStrings, new LangStringServiceMapper())
         {
         }
     }

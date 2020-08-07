@@ -3,7 +3,7 @@ using Contracts.BLL.Base.Services;
 
 namespace Contracts.BLL.App.Services
 {
-    public interface ILangStrService : IBaseEntityService<LangStr>
+    public interface ILangStrService : IBaseEntityService<LangString>
     {
         
     }

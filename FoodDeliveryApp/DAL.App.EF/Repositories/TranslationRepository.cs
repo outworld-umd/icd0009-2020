@@ -24,7 +24,8 @@ namespace DAL.App.EF.Repositories
         {
             var query = PrepareQuery(userId, noTracking);
             var domainEntities = await query
-                .Include(r => r.LangStr)
+                .Include(t => t.LangStr)
+                .ThenInclude(l => l!.CategoryNames)
                 .ToListAsync();
             var result = domainEntities.Select(e => DALMapper.Map(e));
             return result;
@@ -34,7 +35,8 @@ namespace DAL.App.EF.Repositories
         {
             var query = PrepareQuery(userId, noTracking);
             var entity = await query
-                .Include(r => r.LangStr)
+                .Include(t => t.LangStr)
+                .ThenInclude(l => l!.CategoryNames)
                 .FirstOrDefaultAsync(e => e.Id.Equals(id));
             return DALMapper.Map(entity);
         }

@@ -1,0 +1,15 @@
+@model BLL.App.DTO.OrderRow
+
+@{
+    ViewData["Title"] = @Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Details;
+}
+
+<h1>@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Details</h1>
+
+<div>
+    <partial name="Shared/_DetailsDelete"/>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Edit</a> |
+    <a asp-action="Index">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Back</a>
+</div>

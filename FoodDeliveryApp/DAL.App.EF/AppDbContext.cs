@@ -32,7 +32,7 @@ namespace DAL.App.EF {
         public DbSet<RestaurantUser> RestaurantUsers { get; set; } = default!;
         public DbSet<RestaurantCategory> RestaurantCategories { get; set; } = default!;
         public DbSet<WorkingHours> WorkingHourses { get; set; } = default!;
-        public DbSet<LangStr> LangStrings { get; set; } = default!;
+        public DbSet<LangString> LangStrings { get; set; } = default!;
         public DbSet<Translation> Translations { get; set; } = default!;
         
         private readonly Dictionary<IDomainEntityId<Guid>, IDomainEntityId<Guid>> _entityTracker =
@@ -71,6 +71,10 @@ namespace DAL.App.EF {
                 .HasOne(p => p.ItemChoice)
                 .WithMany(b => b!.OrderItemChoices)
                 .OnDelete(DeleteBehavior.SetNull);
+            modelBuilder.Entity<LangString>()
+                .HasMany(s => s.Translations)
+                .WithOne(l => l.LangStr!)
+                .OnDelete(DeleteBehavior.Cascade);
         }
         
         private void SaveChangesMetadataUpdate()

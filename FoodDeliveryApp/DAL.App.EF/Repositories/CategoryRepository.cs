@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
 using DAL.App.DTO;
@@ -45,6 +46,8 @@ namespace DAL.App.EF.Repositories {
             var entity = await query
                 .Include(с => с.RestaurantCategories)
                 .ThenInclude(rc => rc.Restaurant)
+                .Include(l => l.Name)
+                .ThenInclude(t => t!.Translations)
                 .FirstOrDefaultAsync(e => e.Id.Equals(id));
             return DALMapper.Map(entity);
         }
@@ -55,8 +58,8 @@ namespace DAL.App.EF.Repositories {
 
             // fix the language string - from mapper we get new ones - so duplicate values will be created in db
             // load back from db the originals 
-            domainEntity.Name = await RepoDbContext.LangStrings.Include(t => t.Translations).FirstAsync(s => s.Id == domainEntity.NameId);
-            domainEntity.Name.SetTranslation(entity.Name);
+            domainEntity.Name = await RepoDbContext.LangStrings.Include(t => t.Translations).FirstOrDefaultAsync(s => s.Id == domainEntity.NameId);
+            domainEntity.Name.SetTranslation(entity.Name, "et-EE");
 
             await CheckDomainEntityOwnership(domainEntity, userId);
             

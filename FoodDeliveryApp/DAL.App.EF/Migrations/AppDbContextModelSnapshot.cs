@@ -409,7 +409,7 @@ namespace DAL.App.EF.Migrations
                     b.ToTable("ItemTypes");
                 });
 
-            modelBuilder.Entity("Domain.App.LangStr", b =>
+            modelBuilder.Entity("Domain.App.LangString", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -789,8 +789,8 @@ namespace DAL.App.EF.Migrations
                     b.Property<string>("ChangedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<TimeSpan>("ClosingTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("ClosingTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -798,8 +798,8 @@ namespace DAL.App.EF.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<TimeSpan>("OpeningTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("OpeningTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("RestaurantId")
                         .HasColumnType("uniqueidentifier");
@@ -926,7 +926,7 @@ namespace DAL.App.EF.Migrations
 
             modelBuilder.Entity("Domain.App.Category", b =>
                 {
-                    b.HasOne("Domain.App.LangStr", "Name")
+                    b.HasOne("Domain.App.LangString", "Name")
                         .WithMany("CategoryNames")
                         .HasForeignKey("NameId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1066,7 +1066,7 @@ namespace DAL.App.EF.Migrations
 
             modelBuilder.Entity("Domain.App.Translation", b =>
                 {
-                    b.HasOne("Domain.App.LangStr", "LangStr")
+                    b.HasOne("Domain.App.LangString", "LangStr")
                         .WithMany("Translations")
                         .HasForeignKey("LangStrId")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -1,0 +1,83 @@
+@model IEnumerable<BLL.App.DTO.OrderItemChoice>
+
+@{
+    ViewData["Title"] = @Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.OrderItemChoices;
+}
+
+<h1>@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.OrderItemChoices</h1>
+
+<p>
+    <a asp-action="Create">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Create</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cost)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderRow)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ItemChoice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ChangedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ChangedAt)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderRow!.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemChoice!.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChangedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChangedAt)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

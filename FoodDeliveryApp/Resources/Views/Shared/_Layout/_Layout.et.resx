@@ -72,4 +72,17 @@
     <data name="UserManager">
         <value>Kasutajahaldur</value>
     </data>
+    <data name="Translations">
+        <value>Tõlged</value>
+    </data>
+    <data name="Admin">
+        <value>Administraator</value>
+    </data>
+    <data name="Customer">
+        <value>Klient</value>
+    </data>
+    <data name="Restaurant">
+        <value>Restoran</value>
+    </data>
+
 </root>

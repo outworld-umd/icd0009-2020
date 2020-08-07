@@ -72,4 +72,16 @@
     <data name="UserManager">
         <value>User Manager</value>
     </data>
+    <data name="Translations">
+        <value>Translations</value>
+    </data>
+    <data name="Admin">
+        <value>Admin</value>
+    </data>
+    <data name="Customer">
+        <value>Customer</value>
+    </data>
+    <data name="Restaurant">
+        <value>Restaurant</value>
+    </data>
 </root>
