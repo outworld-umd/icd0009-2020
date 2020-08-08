@@ -16,9 +16,9 @@ namespace Domain.App
 
     public class Order<TKey, TUser>: DomainEntityIdMetadataUser<TKey, TUser>
         where TKey : IEquatable<TKey>
-        where TUser : IdentityUser<TKey> 
+        where TUser : IdentityUser<TKey>
     {
-        [Required] public OrderStatus OrderStatus { get; set; }
+        [Required] public OrderStatus OrderStatus { get; set; } = OrderStatus.Unfinished;
         [Required] public PaymentMethod PaymentMethod { get; set; }
 
         [Column(TypeName = "decimal(6,2)")] [Required] public decimal FoodCost { get; set; }

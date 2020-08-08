@@ -7,6 +7,6 @@ namespace Contracts.BLL.App.Services
 {
     public interface IWorkingHoursService : IBaseEntityService<WorkingHours>
     {
-        public Task<IEnumerable<WorkingHours>> GetAllByUser(object? userId, bool noTracking = true);
+        public Task<IEnumerable<WorkingHours>> GetAllByUserAsync(object? userId, bool noTracking = true);
     }
 }

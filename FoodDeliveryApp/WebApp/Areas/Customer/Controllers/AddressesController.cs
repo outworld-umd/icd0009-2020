@@ -102,6 +102,7 @@ namespace WebApp.Areas.Customer.Controllers
             {
                 try
                 {
+                    address.AppUserId = User.UserGuidId();
                     await _bll.Addresses.UpdateAsync(address);
                     await _bll.SaveChangesAsync();
                 }

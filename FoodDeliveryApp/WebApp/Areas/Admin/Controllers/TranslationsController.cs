@@ -74,60 +74,56 @@ namespace WebApp.Areas.Admin.Controllers
             return View(vm);
         }
 
-        // GET: Translation/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+         // GET: Translation/Edit/5
+         public async Task<IActionResult> Edit(Guid? id)
+         {
+             if (id == null)
+             {
+                 return NotFound();
+             }
 
-            var vm = new TranslationCreateEditViewModel() {
-                LangStringIds = new SelectList(await _bll.Translations.GetAllAsyncDefault(), nameof(Translation.LangStringId), nameof(Translation.Value))
-            };
-            if (vm.Translation == null)
-            {
-                return NotFound();
-            }
-            return View(vm);
-        }
+             var translation = await _bll.Translations.FirstOrDefaultAsync(id.Value);
+             if (translation == null)
+             {
+                 return NotFound();
+             }
+             return View(translation);
+         }
 
-        // POST: Translation/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, TranslationCreateEditViewModel vm)
-        {
-            if (id != vm.Translation.Id)
-            {
-                return NotFound();
-            }
+         // POST: Translation/Edit/5
+         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+         [HttpPost]
+         [ValidateAntiForgeryToken]
+         public async Task<IActionResult> Edit(Guid id, [Bind("Culture,Value,LangStringId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Translation translation)
+         {
+             if (id != translation.Id)
+             {
+                 return NotFound();
+             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    await _bll.Translations.UpdateAsync(vm.Translation);
-                    await _bll.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TranslationExists(vm.Translation.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            vm.LangStringIds = new SelectList(await _bll.Translations.GetAllAsyncDefault(), nameof(Translation.LangStringId),
-                nameof(Translation.Value));
-            return View(vm);
-        }
+             if (ModelState.IsValid)
+             {
+                 try
+                 {
+                     await _bll.Translations.UpdateAsync(translation);
+                     await _bll.SaveChangesAsync();
+                 }
+                 catch (DbUpdateConcurrencyException)
+                 {
+                     if (!TranslationExists(translation.Id))
+                     {
+                         return NotFound();
+                     }
+                     else
+                     {
+                         throw;
+                     }
+                 }
+                 return RedirectToAction(nameof(Index));
+             }
+             return View(translation);
+         }
 
         // GET: Translation/Delete/5
         public async Task<IActionResult> Delete(Guid? id)

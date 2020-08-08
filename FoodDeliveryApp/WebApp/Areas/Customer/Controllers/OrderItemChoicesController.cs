@@ -13,7 +13,7 @@ using WebApp.ViewModels;
 namespace WebApp.Areas.Customer.Controllers
 {
     [Area("Customer")]
-    [Authorize(Roles = "Customer, Admin")]
+    [AllowAnonymous]
     public class OrderItemChoicesController : Controller
     {
         private readonly IAppBLL _bll;

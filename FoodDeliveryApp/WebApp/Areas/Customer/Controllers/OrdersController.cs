@@ -13,7 +13,7 @@ using Restaurant = BLL.App.DTO.Restaurant;
 namespace WebApp.Areas.Customer.Controllers
 {
     [Area("Customer")]
-    [Authorize(Roles = "Customer, Admin")]
+    [Authorize(Roles = "Customer, Admin, Restaurant")]
     public class OrdersController : Controller
     {
         private readonly IAppBLL _bll;
@@ -23,13 +23,20 @@ namespace WebApp.Areas.Customer.Controllers
             _bll = bll;
         }
 
+        [Authorize(Roles = "Customer, Admin, Restaurant")]
         // GET: Orders
         public async Task<IActionResult> Index()
         {
+
             var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            if (User.IsInRole("Restaurant"))
+            {
+                return View(await _bll.Orders.GetAllByUserAsync(userIdTKey));
+            }
             return View(await _bll.Orders.GetAllAsync(userIdTKey));
         }
 
+        [Authorize(Roles = "Customer, Admin, Restaurant")]
         // GET: Orders/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
@@ -38,7 +45,16 @@ namespace WebApp.Areas.Customer.Controllers
                 return NotFound();
             }
             var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
-            var order = await _bll.Orders.FirstOrDefaultAsync(id.Value, userIdTKey);
+            Order order = null!;
+            if (User.IsInRole("Restaurant"))
+            {
+                order = await _bll.Orders.FirstOrDefaultAsync(id.Value);
+
+            }
+            else
+            {
+                order = await _bll.Orders.FirstOrDefaultAsync(id.Value, userIdTKey);
+            }
             if (order == null)
             {
                 return NotFound();
@@ -47,6 +63,7 @@ namespace WebApp.Areas.Customer.Controllers
             return View(order);
         }
 
+        [Authorize(Roles = "Customer, Admin")]
         // GET: Orders/Create
         public IActionResult Create()
         {
@@ -55,7 +72,8 @@ namespace WebApp.Areas.Customer.Controllers
             };
             return View(vm);
         }
-
+        
+        [Authorize(Roles = "Customer, Admin")]
         // POST: Orders/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -75,6 +93,7 @@ namespace WebApp.Areas.Customer.Controllers
             return View(vm);
         }
 
+        [Authorize(Roles = "Customer, Admin, Restaurant")]
         // GET: Orders/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
@@ -83,9 +102,19 @@ namespace WebApp.Areas.Customer.Controllers
                 return NotFound();
             }
             var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
-            var vm = new OrderCreateEditViewModel {
-                Order = await _bll.Orders.FirstOrDefaultAsync(id.Value, userIdTKey)
-            };
+            OrderCreateEditViewModel vm = null!;
+            if (User.IsInRole("Restaurant"))
+            {
+                vm = new OrderCreateEditViewModel {
+                    Order = await _bll.Orders.FirstOrDefaultAsync(id.Value)
+                };
+            }
+            else
+            {
+                vm = new OrderCreateEditViewModel {
+                    Order = await _bll.Orders.FirstOrDefaultAsync(id.Value, userIdTKey)
+                };
+            }
             if (vm.Order == null)
             {
                 return NotFound();
@@ -94,6 +123,7 @@ namespace WebApp.Areas.Customer.Controllers
             return View(vm);
         }
 
+        [Authorize(Roles = "Customer, Admin, Restaurant")]
         // POST: Orders/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -110,6 +140,7 @@ namespace WebApp.Areas.Customer.Controllers
             {
                 try
                 {
+                    vm.Order.AppUserId = User.UserGuidId();
                     await _bll.Orders.UpdateAsync(vm.Order);
                     await _bll.SaveChangesAsync();
                 }
@@ -130,6 +161,7 @@ namespace WebApp.Areas.Customer.Controllers
             return View(vm);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Orders/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
@@ -146,7 +178,7 @@ namespace WebApp.Areas.Customer.Controllers
 
             return View(order);
         }
-
+        [Authorize(Roles = "Admin")]
         // POST: Orders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

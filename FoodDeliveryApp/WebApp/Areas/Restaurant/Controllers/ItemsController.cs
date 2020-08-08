@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using WebApp.Areas.Restaurant.ViewModels;
 using WebApp.ViewModels;
 
 namespace WebApp.Areas.Restaurant.Controllers
@@ -25,7 +26,7 @@ namespace WebApp.Areas.Restaurant.Controllers
         public async Task<IActionResult> Index()
         {
             var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
-            return View(await _bll.Items.GetAllAsync(userIdTKey));
+            return View(await _bll.Items.GetAllByUserAsync(userIdTKey));
         }
 
         // GET: Items/Details/5
@@ -48,8 +49,9 @@ namespace WebApp.Areas.Restaurant.Controllers
         // GET: Items/Create
         public IActionResult Create()
         {
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
             var vm = new ItemCreateEditViewModel {
-                Restaurants = new SelectList(_bll.Restaurants.GetAll(), nameof(BLL.App.DTO.Restaurant.Id), nameof(BLL.App.DTO.Restaurant.Name)) // TODO Get all relative rest
+                Restaurants = new SelectList(_bll.Restaurants.GetAllByUser(userIdTKey), nameof(BLL.App.DTO.Restaurant.Id), nameof(BLL.App.DTO.Restaurant.Name))
             };
             return View(vm);
         }
@@ -80,7 +82,8 @@ namespace WebApp.Areas.Restaurant.Controllers
             }
             var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
             var vm = new ItemCreateEditViewModel {
-                Item = await _bll.Items.FirstOrDefaultAsync(id.Value, userIdTKey)
+                Item = await _bll.Items.FirstOrDefaultAsync(id.Value, userIdTKey),
+                Restaurants = new SelectList(await _bll.Restaurants.GetAllByUserAsync(userIdTKey), nameof(BLL.App.DTO.Restaurant.Id), nameof(BLL.App.DTO.Restaurant.Name))
             };
             if (vm.Item == null)
             {

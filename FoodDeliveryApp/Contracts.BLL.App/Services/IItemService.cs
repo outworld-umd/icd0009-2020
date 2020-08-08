@@ -10,5 +10,8 @@ namespace Contracts.BLL.App.Services
     {
         public Task<IEnumerable<Item>> GetAllByRestaurantAsync(Guid restaurantId, object? userId = null,
             bool noTracking = true);
+        public IEnumerable<Item> GetAllByUser(object? userId, bool noTracking = true);
+
+        public Task<IEnumerable<Item>> GetAllByUserAsync(object? userId, bool noTracking = true);
     }
 }

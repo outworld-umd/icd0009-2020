@@ -1,3 +1,4 @@
+@using Domain.App.Enums
 @model WebApp.Areas.Customer.ViewModels.OrderCreateEditViewModel
 
 @{
@@ -11,7 +12,65 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
-            <partial name="Shared/_CreateEdit"/>
+            <div asp-validation-summary="All" class="text-danger"></div>
+            @if (User.IsInRole("Admin"))
+            {
+                <partial name="Shared/_AdminCreateEdit"/>
+            }
+            @if (User.IsInRole("Restaurant"))
+            {
+                <div class="form-group">
+                    <label asp-for="Order.OrderStatus" class="control-label"></label>
+                    <select asp-for="Order.OrderStatus" asp-items="Html.GetEnumSelectList<OrderStatus>()">
+                        <option selected="selected" value="">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.PleaseSelect</option>
+                    </select>
+                    <span asp-validation-for="Order.OrderStatus" class="text-danger"></span>
+                </div>
+            }
+            @if (User.IsInRole("Customer"))
+            {
+                <div class="form-group">
+                    <label asp-for="Order.PaymentMethod" class="control-label"></label>
+                    <select asp-for="Order.PaymentMethod" asp-items="Html.GetEnumSelectList<PaymentMethod>()">
+                        <option selected="selected" value="">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.PleaseSelect</option>
+                    </select>
+                    <span asp-validation-for="Order.PaymentMethod" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Order.FoodCost" class="control-label"></label>
+                    <input asp-for="Order.FoodCost" class="form-control"/>
+                    <span asp-validation-for="Order.FoodCost" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Order.DeliveryCost" class="control-label"></label>
+                    <input asp-for="Order.DeliveryCost" class="form-control"/>
+                    <span asp-validation-for="Order.DeliveryCost" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Order.Address" class="control-label"></label>
+                    <input asp-for="Order.Address" class="form-control"/>
+                    <span asp-validation-for="Order.Address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Order.Apartment" class="control-label"></label>
+                    <input asp-for="Order.Apartment" class="form-control"/>
+                    <span asp-validation-for="Order.Apartment" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Order.Name" class="control-label"></label>
+                    <input asp-for="Order.Name" class="form-control"/>
+                    <span asp-validation-for="Order.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Order.Comment" class="control-label"></label>
+                    <input asp-for="Order.Comment" class="form-control"/>
+                    <span asp-validation-for="Order.Comment" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Order.RestaurantId" class="control-label">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Restaurant</label>
+                    <select asp-for="Order.RestaurantId" class="form-control" asp-items="Model.Restaurants"></select>
+                </div>
+            }            
             <div class="form-group">
                 <input type="submit" value="@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Create" class="btn btn-primary"/>
             </div>

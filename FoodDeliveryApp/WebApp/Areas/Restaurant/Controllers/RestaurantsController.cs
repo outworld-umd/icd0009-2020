@@ -23,7 +23,7 @@ namespace WebApp.Areas.Restaurant.Controllers
         public async Task<IActionResult> Index()
         {
             var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
-            return View(await _bll.Restaurants.GetAllByUser(userIdTKey));
+            return View(await _bll.Restaurants.GetAllByUserAsync(userIdTKey));
         }
 
         // GET: Restaurants/Details/5

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Contracts.Domain;
 using Contracts.Domain.Basic;
 
-namespace Contracts.Domain.Repositories
+namespace Contracts.DAL.Base.Repositories
 {
     public interface IBaseRepository<TDALEntity> : IBaseRepository<Guid, TDALEntity>
         where TDALEntity : class, IDomainEntityId<Guid>, new() 

@@ -25,7 +25,7 @@ namespace WebApp.Areas.Admin.Controllers
             _roleManager = roleManager;
         }
 
-        // GET: RestaurantUser
+        // GET: UserManager
         public async Task<IActionResult> Index()
         {
             var users = await _userManager.Users.ToListAsync();
@@ -50,7 +50,7 @@ namespace WebApp.Areas.Admin.Controllers
             return userRoles;
         }
 
-        // GET: RestaurantUser/Details/5
+        // GET: UserManager/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -74,7 +74,7 @@ namespace WebApp.Areas.Admin.Controllers
             return View(vm);
         }
 
-        // GET: RestaurantUser/Create
+        // GET: UserManager/Create
         public IActionResult Create()
         {
             var vm = new UserManagerCreateViewModel
@@ -107,7 +107,7 @@ namespace WebApp.Areas.Admin.Controllers
             ;
         }
 
-        // GET: RestaurantUser/Edit/5
+        // GET: UserManager/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -124,13 +124,12 @@ namespace WebApp.Areas.Admin.Controllers
                 User = user,
                 Role = role,
                 Roles = new SelectList(_roleManager.Roles.Where(r => !roles.Contains(r.Name)), nameof(AppRole.Name), nameof(AppRole.Name)),
-                CurrentRoles =  string.Join(", ", roles.ToArray())
             };
 
             return View(vm);
         }
 
-        // POST: RestaurantUser/Edit/5
+        // POST: UserManager/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -183,7 +182,7 @@ namespace WebApp.Areas.Admin.Controllers
             return View(vm);
         }
 
-        // GET: RestaurantUser/Delete/5
+        // GET: UserManager/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -208,7 +207,7 @@ namespace WebApp.Areas.Admin.Controllers
             return View(vm);
         }
 
-        // POST: RestaurantUser/Delete/5
+        // POST: UserManager/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)

@@ -15,6 +15,7 @@ namespace BLL.App.DTO
         where TKey : IEquatable<TKey>
     {
         public TKey Id { get; set; } = default!;
+        public TKey NameId { get; set; } = default!;
 
         [Display(Name = nameof(Name), ResourceType = typeof(Resources.BLL.App.DTO.Category.Category))]
         public string Name { get; set; } = default!;

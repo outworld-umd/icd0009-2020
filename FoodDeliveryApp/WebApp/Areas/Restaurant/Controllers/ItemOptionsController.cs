@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using WebApp.Areas.Restaurant.ViewModels;
 using WebApp.ViewModels;
 
 namespace WebApp.Areas.Restaurant.Controllers
@@ -26,7 +27,7 @@ namespace WebApp.Areas.Restaurant.Controllers
         public async Task<IActionResult> Index()
         {
             var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
-            return View(await _bll.ItemOptions.GetAllAsync(userIdTKey));
+            return View(await _bll.ItemOptions.GetAllByUserAsync(userIdTKey));
         }
 
         // GET: ItemOptions/Details/5
@@ -68,7 +69,8 @@ namespace WebApp.Areas.Restaurant.Controllers
                 await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            vm.Items = new SelectList(await _bll.Items.GetAllAsync(), nameof(Item.Id), nameof(Item.Name), vm.ItemOption.ItemId);
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            vm.Items = new SelectList(await _bll.Items.GetAllByUserAsync(userIdTKey), nameof(Item.Id), nameof(Item.Name), vm.ItemOption.ItemId);
             return View(vm);
         }
 
@@ -87,7 +89,7 @@ namespace WebApp.Areas.Restaurant.Controllers
             {
                 return NotFound();
             }
-            vm.Items = new SelectList(await _bll.Items.GetAllAsync(), nameof(Item.Id), nameof(Item.Name), vm.ItemOption.ItemId);
+            vm.Items = new SelectList(await _bll.Items.GetAllByUserAsync(userIdTKey), nameof(Item.Id), nameof(Item.Name), vm.ItemOption.ItemId);
             return View(vm);
         }
 
@@ -123,7 +125,8 @@ namespace WebApp.Areas.Restaurant.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            vm.Items = new SelectList(await _bll.Items.GetAllAsync(), nameof(Item.Id), nameof(Item.Name), vm.ItemOption.ItemId);
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            vm.Items = new SelectList(await _bll.Items.GetAllByUserAsync(userIdTKey), nameof(Item.Id), nameof(Item.Name), vm.ItemOption.ItemId);
             return View(vm);
         }
 

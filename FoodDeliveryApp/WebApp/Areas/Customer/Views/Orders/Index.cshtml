@@ -7,7 +7,10 @@
 <h1>@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Orders</h1>
 
 <p>
-    <a asp-action="Create">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Create</a>
+    @if (User.IsInRole("Customer") || User.IsInRole("Admin"))
+    {
+        <a asp-action="Create">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Create</a>
+    }
 </p>
 <table class="table">
     <thead>
@@ -92,8 +95,11 @@
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Delete</a>
+                <a asp-action="Details" asp-route-id="@item.Id">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Details</a>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Delete" asp-route-id="@item.Id">@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Delete</a>
+                    }
             </td>
         </tr>
     }

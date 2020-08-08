@@ -9,6 +9,6 @@ namespace WebApp.Areas.Admin.ViewModels
         public AppRole Role { get; set; } = default!;
         
         [Display(Name = "Current Roles")]
-        public string CurrentRoles { get; set; } = default!;
+        public string? CurrentRoles { get; set; } = default!;
     }
 }

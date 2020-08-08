@@ -37,6 +37,8 @@ namespace DAL.App.EF.Repositories
                 .Include(i => i.ItemOptions)
                 .ThenInclude(io => io.ItemChoices)
                 .Include(i => i.NutritionInfos)
+                .Include(i => i.ItemInTypes)
+                .ThenInclude(iit => iit.ItemType)
                 .FirstOrDefaultAsync(e => e.Id.Equals(id));
             return DALMapper.Map(entity);
         }

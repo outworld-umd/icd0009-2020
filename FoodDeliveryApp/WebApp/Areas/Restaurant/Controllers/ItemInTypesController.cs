@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using WebApp.Areas.Restaurant.ViewModels;
 using WebApp.ViewModels;
 
 namespace WebApp.Areas.Restaurant.Controllers
@@ -26,7 +27,7 @@ namespace WebApp.Areas.Restaurant.Controllers
         public async Task<IActionResult> Index()
         {
             var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
-            return View(await _bll.ItemInTypes.GetAllAsync(userIdTKey));
+            return View(await _bll.ItemInTypes.GetAllByUserAsync(userIdTKey));
         }
 
         // GET: ItemInType/Details/5
@@ -48,9 +49,10 @@ namespace WebApp.Areas.Restaurant.Controllers
 
         // GET: ItemInType/Create
         public  IActionResult Create() {
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
             var vm = new ItemInTypeCreateEditViewModel {
-                Items = new SelectList(_bll.Items.GetAll(), nameof(Item.Id), nameof(Item.Name)),
-                ItemTypes = new SelectList(_bll.ItemTypes.GetAll(), nameof(ItemType.Id), nameof(ItemType.Name))
+                Items = new SelectList(_bll.Items.GetAllByUser(userIdTKey), nameof(Item.Id), nameof(Item.Name)),
+                ItemTypes = new SelectList(_bll.ItemTypes.GetAllByUser(userIdTKey), nameof(ItemType.Id), nameof(ItemType.Name))
             };
             return View(vm);
         }
@@ -69,8 +71,9 @@ namespace WebApp.Areas.Restaurant.Controllers
                 await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            vm.Items = new SelectList(await _bll.Items.GetAllAsync(), nameof(Item.Id), nameof(Item.Name), vm.ItemInType.ItemId);
-            vm.ItemTypes = new SelectList(await _bll.ItemTypes.GetAllAsync(), nameof(ItemType.Id), nameof(ItemType.Name), vm.ItemInType.ItemTypeId);
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            vm.Items = new SelectList(await _bll.Items.GetAllByUserAsync(userIdTKey), nameof(Item.Id), nameof(Item.Name), vm.ItemInType.ItemId);
+            vm.ItemTypes = new SelectList(await _bll.ItemTypes.GetAllByUserAsync(userIdTKey), nameof(ItemType.Id), nameof(ItemType.Name), vm.ItemInType.ItemTypeId);
             return View(vm);
         }
 
@@ -89,8 +92,8 @@ namespace WebApp.Areas.Restaurant.Controllers
             {
                 return NotFound();
             }
-            vm.Items = new SelectList(await _bll.Items.GetAllAsync(), nameof(Item.Id), nameof(Item.Name), vm.ItemInType.ItemId);
-            vm.ItemTypes = new SelectList(await _bll.ItemTypes.GetAllAsync(), nameof(ItemType.Id), nameof(ItemType.Name), vm.ItemInType.ItemTypeId);
+            vm.Items = new SelectList(await _bll.Items.GetAllByUserAsync(userIdTKey), nameof(Item.Id), nameof(Item.Name), vm.ItemInType.ItemId);
+            vm.ItemTypes = new SelectList(await _bll.ItemTypes.GetAllByUserAsync(userIdTKey), nameof(ItemType.Id), nameof(ItemType.Name), vm.ItemInType.ItemTypeId);
             return View(vm);
         }
 
@@ -126,8 +129,9 @@ namespace WebApp.Areas.Restaurant.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            vm.Items = new SelectList(await _bll.Items.GetAllAsync(), nameof(Item.Id), nameof(Item.Name), vm.ItemInType.ItemId);
-            vm.ItemTypes = new SelectList(await _bll.ItemTypes.GetAllAsync(), nameof(ItemType.Id), nameof(ItemType.Name), vm.ItemInType.ItemTypeId);
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            vm.Items = new SelectList(await _bll.Items.GetAllByUserAsync(userIdTKey), nameof(Item.Id), nameof(Item.Name), vm.ItemInType.ItemId);
+            vm.ItemTypes = new SelectList(await _bll.ItemTypes.GetAllByUserAsync(userIdTKey), nameof(ItemType.Id), nameof(ItemType.Name), vm.ItemInType.ItemTypeId);
             return View(vm);
         }
 

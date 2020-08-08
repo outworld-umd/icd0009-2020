@@ -1,6 +1,6 @@
 using System;
 using System.Linq.Expressions;
-using Contracts.Domain.Repositories;
+using Contracts.DAL.Base.Repositories;
 using Contracts.Domain.Basic;
 
 namespace Contracts.BLL.Base.Services

@@ -22,7 +22,7 @@ namespace Domain.App
         public Guid? ItemChoiceId { get; set; } = default!;
         public ItemChoice? ItemChoice { get; set; }
         
-        public string Name { get; set; } = default!;
+        public string? Name { get; set; } = default!;
         
         [Range(1, 20)] [Required] public int Amount { get; set; }
         [Column(TypeName = "decimal(6,2)")] [Required] public decimal Cost { get; set; }

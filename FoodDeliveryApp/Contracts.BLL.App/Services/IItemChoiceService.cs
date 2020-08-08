@@ -8,7 +8,8 @@ namespace Contracts.BLL.App.Services
 {
     public interface IItemChoiceService : IBaseEntityService<ItemChoice>
     {
-        public Task<IEnumerable<ItemChoice>> GetAllByRestaurantAsync(object? restaurantId, object? userId = null,
-            bool noTracking = true);
+        public IEnumerable<ItemChoice> GetAllByUser(object? userId, bool noTracking = true);
+
+        public Task<IEnumerable<ItemChoice>> GetAllByUserAsync(object? userId, bool noTracking = true);
     }
 }

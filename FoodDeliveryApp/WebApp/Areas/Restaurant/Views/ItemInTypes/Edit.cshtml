@@ -1,4 +1,4 @@
-@model WebApp.ViewModels.ItemInTypeCreateEditViewModel
+@model WebApp.Areas.Restaurant.ViewModels.ItemInTypeCreateEditViewModel
 
 @{
     ViewData["Title"] = @Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Edit;
@@ -12,8 +12,9 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <partial name="Shared/_CreateEdit"/>
+            <input type="hidden" asp-for="ItemInType.Id"/>
             <div class="form-group">
-                <input type="submit" value=@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Save class="btn btn-primary"/>
+                <input type="submit" value="@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.Save" class="btn btn-primary"/>
             </div>
         </form>
     </div>

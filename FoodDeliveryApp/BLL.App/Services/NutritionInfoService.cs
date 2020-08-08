@@ -22,5 +22,23 @@ namespace BLL.App.Services
             return (await ServiceRepository.GetAllAsync(userId, noTracking)).Where(n => n.ItemId.Equals(itemId))
                 .Select(e => BLLMapper.Map(e));
         }
+
+        public IEnumerable<NutritionInfo> GetAllByUser(object? userId, bool noTracking = true)
+        {
+            if (userId == null)
+            {
+                return (base.GetAll(userId, noTracking));
+            }
+            var restaurantIds = (ServiceUnitOfWork.RestaurantUsers.GetAll(userId, noTracking)).Select(e => e.RestaurantId);
+            return (base.GetAll(userId, noTracking)).Where(e => restaurantIds.Contains(e.Item!.RestaurantId!.Value));            }
+
+        public async Task<IEnumerable<NutritionInfo>> GetAllByUserAsync(object? userId, bool noTracking = true)
+        {
+            if (userId == null)
+            {
+                return (await base.GetAllAsync(userId, noTracking));
+            }
+            var restaurantIds = (await ServiceUnitOfWork.RestaurantUsers.GetAllAsync(userId, noTracking)).Select(e => e.RestaurantId);
+            return (await base.GetAllAsync(userId, noTracking)).Where(e => restaurantIds.Contains(e.Item!.RestaurantId!.Value));          }
     }
 }

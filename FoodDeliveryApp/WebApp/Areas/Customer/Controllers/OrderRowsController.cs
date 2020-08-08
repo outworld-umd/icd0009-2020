@@ -13,7 +13,7 @@ using WebApp.ViewModels;
 namespace WebApp.Areas.Customer.Controllers
 {
     [Area("Customer")]
-    [Authorize(Roles = "Customer, Admin")]
+    [AllowAnonymous]
     public class OrderRowsController : Controller
     {
         private readonly IAppBLL _bll;
@@ -135,7 +135,7 @@ namespace WebApp.Areas.Customer.Controllers
             vm.Orders = new SelectList(await _bll.Orders.GetAllAsync(), nameof(Order.Id), nameof(Order.Id), vm.OrderRow.OrderId);
             return View(vm);
         }
-
+        
         // GET: OrderRows/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {

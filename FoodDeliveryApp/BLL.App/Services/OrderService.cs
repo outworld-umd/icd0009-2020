@@ -22,5 +22,14 @@ namespace BLL.App.Services
             var dalEntities = await ServiceRepository.GetAllByRestaurantAsync(restaurantId, userId, noTracking);
             return dalEntities.Select(e => BLLMapper.Map(e));
         }
+
+        public async Task<IEnumerable<Order>> GetAllByUserAsync(object? userId, bool noTracking = true)
+        {
+            if (userId == null)
+            {
+                return (await base.GetAllAsync(userId, noTracking));
+            }
+            var restaurantIds = (await ServiceUnitOfWork.RestaurantUsers.GetAllAsync(userId, noTracking)).Select(e => e.RestaurantId);
+            return (await base.GetAllAsync(null, noTracking)).Where(e => restaurantIds.Contains(e.RestaurantId!.Value));        }
     }
 }

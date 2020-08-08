@@ -23,7 +23,7 @@ namespace DAL.App.DTO
         public Guid? ItemChoiceId { get; set; } = default!;
         public ItemChoice? ItemChoice { get; set; }
         
-        public string Name { get; set; } = default!;
+        public string? Name { get; set; } = default!;
         
 
         public TKey Id { get; set; } = default!;

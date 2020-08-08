@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using WebApp.Areas.Restaurant.ViewModels;
 using WebApp.ViewModels;
 
 namespace WebApp.Areas.Restaurant.Controllers
@@ -25,7 +26,7 @@ namespace WebApp.Areas.Restaurant.Controllers
         public async Task<IActionResult> Index()
         {
             var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
-            return View(await _bll.WorkingHourses.GetAllAsync(userIdTKey));
+            return View(await _bll.WorkingHourses.GetAllByUserAsync(userIdTKey));
         }
 
         // GET: WorkingHourses/Details/5
@@ -48,8 +49,9 @@ namespace WebApp.Areas.Restaurant.Controllers
         // GET: WorkingHourses/Create
         public IActionResult Create()
         {
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
             var vm = new WorkingHoursCreateEditViewModel {
-                Restaurants = new SelectList(_bll.Restaurants.GetAll(), nameof(BLL.App.DTO.Restaurant.Id), nameof(BLL.App.DTO.Restaurant.Name))
+                Restaurants = new SelectList(_bll.Restaurants.GetAllByUser(userIdTKey), nameof(BLL.App.DTO.Restaurant.Id), nameof(BLL.App.DTO.Restaurant.Name))
             };
             return View(vm);
         }
@@ -68,7 +70,8 @@ namespace WebApp.Areas.Restaurant.Controllers
                 await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            vm.Restaurants = new SelectList(await _bll.Restaurants.GetAllAsync(), nameof(BLL.App.DTO.Restaurant.Id), nameof(BLL.App.DTO.Restaurant.Name), vm.WorkingHours.RestaurantId);
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            vm.Restaurants = new SelectList(await _bll.Restaurants.GetAllByUserAsync(userIdTKey), nameof(BLL.App.DTO.Restaurant.Id), nameof(BLL.App.DTO.Restaurant.Name), vm.WorkingHours.RestaurantId);
             return View(vm);
         }
 
@@ -87,7 +90,7 @@ namespace WebApp.Areas.Restaurant.Controllers
             {
                 return NotFound();
             }
-            vm.Restaurants = new SelectList(await _bll.Restaurants.GetAllAsync(), nameof(BLL.App.DTO.Restaurant.Id), nameof(BLL.App.DTO.Restaurant.Name), vm.WorkingHours.RestaurantId);
+            vm.Restaurants = new SelectList(await _bll.Restaurants.GetAllByUserAsync(userIdTKey), nameof(BLL.App.DTO.Restaurant.Id), nameof(BLL.App.DTO.Restaurant.Name), vm.WorkingHours.RestaurantId);
             return View(vm);
         }
 
@@ -123,7 +126,8 @@ namespace WebApp.Areas.Restaurant.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            vm.Restaurants = new SelectList(await _bll.Restaurants.GetAllAsync(), nameof(BLL.App.DTO.Restaurant.Id), nameof(BLL.App.DTO.Restaurant.Name), vm.WorkingHours.RestaurantId);
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            vm.Restaurants = new SelectList(await _bll.Restaurants.GetAllByUserAsync(userIdTKey), nameof(BLL.App.DTO.Restaurant.Id), nameof(BLL.App.DTO.Restaurant.Name), vm.WorkingHours.RestaurantId);
             return View(vm);
         }
 

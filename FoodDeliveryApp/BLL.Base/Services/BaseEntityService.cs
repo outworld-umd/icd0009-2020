@@ -7,7 +7,7 @@ using BLL.Base.Mappers;
 using Contracts.BLL.Base.Mappers;
 using Contracts.BLL.Base.Services;
 using Contracts.DAL.Base;
-using Contracts.Domain.Repositories;
+using Contracts.DAL.Base.Repositories;
 using Contracts.Domain.Basic;
 using Microsoft.EntityFrameworkCore.Internal;
 

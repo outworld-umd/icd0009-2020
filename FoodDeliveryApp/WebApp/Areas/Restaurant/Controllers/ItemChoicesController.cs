@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using WebApp.Areas.Restaurant.ViewModels;
 using WebApp.ViewModels;
 
 namespace WebApp.Areas.Restaurant.Controllers
@@ -26,7 +27,7 @@ namespace WebApp.Areas.Restaurant.Controllers
         public async Task<IActionResult> Index()
         {
             var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
-            return View(await _bll.ItemChoices.GetAllAsync(userIdTKey));
+            return View(await _bll.ItemChoices.GetAllByUserAsync(userIdTKey));
         }
 
         // GET: ItemChoices/Details/5
@@ -49,8 +50,9 @@ namespace WebApp.Areas.Restaurant.Controllers
         // GET: ItemChoices/Create
         public IActionResult Create()
         {
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
             var vm = new ItemChoiceCreateEditViewModel {
-                ItemOptions = new SelectList(_bll.ItemOptions.GetAll(), nameof(ItemOption.Id), nameof(ItemOption.Name))
+                ItemOptions = new SelectList(_bll.ItemOptions.GetAll(userIdTKey), nameof(ItemOption.Id), nameof(ItemOption.Name))
             };
             return View(vm);
         }
@@ -69,7 +71,8 @@ namespace WebApp.Areas.Restaurant.Controllers
                 await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            vm.ItemOptions = new SelectList(await _bll.ItemOptions.GetAllAsync(), nameof(ItemOption.Id), nameof(ItemOption.Name), vm.ItemChoice.ItemOptionId);
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            vm.ItemOptions = new SelectList(await _bll.ItemOptions.GetAllAsync(userIdTKey), nameof(ItemOption.Id), nameof(ItemOption.Name), vm.ItemChoice.ItemOptionId);
             return View(vm);
         }
 
@@ -88,7 +91,7 @@ namespace WebApp.Areas.Restaurant.Controllers
             {
                 return NotFound();
             }
-            vm.ItemOptions = new SelectList(await _bll.ItemOptions.GetAllAsync(), nameof(ItemOption.Id), nameof(ItemOption.Name), vm.ItemChoice.ItemOptionId);
+            vm.ItemOptions = new SelectList(await _bll.ItemOptions.GetAllByUserAsync(userIdTKey), nameof(ItemOption.Id), nameof(ItemOption.Name), vm.ItemChoice.ItemOptionId);
             return View(vm);
         }
 
