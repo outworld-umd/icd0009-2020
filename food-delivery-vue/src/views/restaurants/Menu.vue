@@ -10,7 +10,20 @@
             <div>
                 <h2 class="m-4 font-weight-bold">{{ restaurant.name }}</h2>
             </div>
-            <table class="table table-borderless table-sm w-25 text-center mx-auto small">
+            <div class="h5 font-weight-light shadow-none text-center">{{ restaurant.deliveryCost.toFixed(2) + (restaurant ? '€' : '') }}</div>
+            <div class="h6 font-weight-light font-italic shadow-none w-50 mx-auto my-3 text-center">{{ restaurant.description }}</div>
+            <table class="container table table-borderless font-weight-light h6 w-50 text-center">
+                <tr>
+                    <td>{{ $t('address.address') }}</td>
+                    <td class="font-weight-light font-italic">{{ restaurant.address }}</td>
+                </tr>
+                <tr>
+                    <td>{{ $t('account.phone') }}</td>
+                    <td class="font-weight-light font-italic">{{ restaurant.phone }}</td>
+                </tr>
+            </table>
+            <h6 class="font-weight-bold">{{ $t('restaurant.hours') }}</h6>
+            <table class="table table-borderless table-sm w-25 text-center mx-auto font-weight-light">
                 <tbody>
                 <tr v-for="wh in workingHours" :key="wh.id">
                     <td>{{ $t(getWeekdayName(wh.weekDay)) }}</td>

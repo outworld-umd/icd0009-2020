@@ -27,7 +27,8 @@
     "showMenu": "Menüü",
     "offer": "Eripakkumine!",
     "restaurants": "Kõik restoranid",
-    "search": "Otsing nime järgi"
+    "search": "Otsing nime järgi",
+    "hours": "Lahtioleku ajad"
   },
   "order": {
     "deleteOld": "Teie vana tellimus kustutakse ära. Soovite jätkata?",

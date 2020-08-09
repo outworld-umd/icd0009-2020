@@ -1,0 +1,122 @@
+<template>
+    <div class="container">
+        <require from="../../components/alert"></require>
+        <alert alert-data.bind="_alert"></alert>
+        <div>
+            <a class="d-flex btn px-4 btn-secondary position-absolute" route-href="route: restaurants-index;">Back to List</a>
+        </div>
+        <div if.bind="_restaurant">
+            <div class="text-center">
+                <h2 class="m-4 font-weight-bold">${_restaurant.name}
+                        <button class="btn btn-info mx-2 btn-circle btn-circle-sm rounded-circle text-white shadow-none" disabled.bind="isEdited" click.delegate="restaurantInputMode(true, _restaurant)">
+                            <span class="fa fa-pencil"></span>
+                        </button>
+                </h2>
+            </div>
+            <div class="text-center">
+                <div class="h5 font-weight-light shadow-none text-center">${_restaurant.deliveryCost.toFixed(2) + (_restaurant ? '€' : '')}</div>
+                <div class="h6 font-weight-light font-italic shadow-none w-50 mx-auto my-3 text-center">${_restaurant.description}</div>
+                <table class="container table table-borderless font-weight-light h6 w-50 text-center">
+                    <tr>
+                        <td>Address</td>
+                        <td class="font-weight-light font-italic">${_restaurant.address}</td>
+                    </tr>
+                    <tr>
+                        <td>Phone</td>
+                        <td class="font-weight-light font-italic">${_restaurant.phone}</td>
+                    </tr>
+                </table>
+                <h6 class="font-weight-bold">Working hours</h6>
+                <table class="table table-borderless table-sm w-50 text-center mx-auto font-weight-light">
+                    <tbody>
+                    <tr repeat.for="wh of workingHours">
+                        <td>${getWeekdayName(wh.weekDay)}</td>
+                        <td>${getTime(wh.openingTime)} - ${getTime(wh.closingTime)}</td>
+                        <td>
+                            <div class.bind="isEdited ? 'invisible' : ''">
+                                <button class="btn btn-info mx-2 btn-circle btn-circle-sm rounded-circle text-white shadow-none" click.delegate="workingHourInputMode(true, wh)"><span class="fa fa-pencil"></span></button>
+                                <button class.bind="loading ? 'disabled' : ''" class="btn btn-danger btn-circle btn-circle-sm rounded-circle text-white shadow-none"  click.delegate="deleteWorkingHour(wh.id)"><span class="fa fa-trash"></span></button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div if.bind="_isRestaurantEdited" class="container p-3 fixed-bottom bg-white border border-dark rounded-top">
+            <div class="d-flex">
+                <label class="container w-25 text-left">
+                    <span class="my-3 font-italic font-weight-light required">Name</span>
+                    <input type="text" class="form-control font-weight-light shadow-none" value.bind="_name" maxlength="100">
+                </label>
+                <label class="container w-50 text-left">
+                    <span class="my-3 font-italic font-weight-light">Description</span>
+                    <input type="text" class="form-control font-weight-light shadow-none" value.bind="_description" maxlength="200">
+                </label>
+                <label class="container w-25 text-left">
+                    <span class="my-3 font-italic font-weight-light required">Delivery Cost</span>
+                    <input type="number" class="form-control font-weight-light shadow-none" value.bind="_deliveryCost" maxlength="200">
+                </label>
+            </div>
+            <div class="d-flex">
+                <label class="container w-50 text-left">
+                    <span class="my-3 font-italic font-weight-light required">Address</span>
+                    <input type="text" class="form-control font-weight-light shadow-none" value.bind="_address" maxlength="100">
+                </label>
+                <label class="container w-50 text-left">
+                    <span class="my-3 font-italic font-weight-light required">Phone</span>
+                    <input type="text" class="form-control font-weight-light shadow-none" value.bind="_phone" maxlength="200">
+                </label>
+            </div>
+            <div class="d-flex mt-3 btn-group">
+                <button type="button" class="btn btn-danger shadow-none font-weight-bold w-50 btn-sm" click.delegate="restaurantInputMode(false, null)">Cancel</button>
+                <button type="button" class.bind="loading ? 'disabled' : ''" class="btn btn-success shadow-none font-weight-bold w-50 btn-sm" disabled.bind="!validateRestaurant" click.delegate="submitRestaurant()">Save</button>
+                <span class.bind="loading ? '' : 'invisible'" class="spinner-border ml-3 spinner-border-sm text-success" role="status"></span>
+            </div>
+        </div>
+        <div class="text-center">
+            <button class.bind="isEdited ? 'invisible' : ''" class="btn btn-success btn-circle btn-circle-sm text-white shadow-none px-3" click.delegate="workingHourInputMode(true, null)"><span class="fa fa-plus mr-2"></span>Add</button>
+        </div>
+        <div if.bind="_isWorkingHourEdited" class="container p-3 fixed-bottom bg-white border border-dark rounded-top w-50">
+            <div class="d-flex" if.bind="_id">
+                ${getWeekdayName(_weekDay)}
+            </div>
+            <div class="d-flex" if.bind="!_id">
+                <label class="container text-left">
+                    <span class="my-3 font-italic font-weight-light required">Weekday</span>
+                    <select class="custom-select font-weight-light shadow-none" value.bind="_weekDay">
+                        <option class="font-weight-light" model.bind="null" selected disabled>Choose</option>
+                        <option class="font-weight-light" if.bind="availableWorkingHours.includes(1)" model.bind="1">Monday</option>
+                        <option class="font-weight-light" if.bind="availableWorkingHours.includes(2)" model.bind="2">Tuesday</option>
+                        <option class="font-weight-light" if.bind="availableWorkingHours.includes(3)" model.bind="3">Wednesday</option>
+                        <option class="font-weight-light" if.bind="availableWorkingHours.includes(4)" model.bind="4">Thursday</option>
+                        <option class="font-weight-light" if.bind="availableWorkingHours.includes(5)" model.bind="5">Friday</option>
+                        <option class="font-weight-light" if.bind="availableWorkingHours.includes(6)" model.bind="6">Saturday</option>
+                        <option class="font-weight-light" if.bind="availableWorkingHours.includes(0)" model.bind="0">Sunday</option>
+                    </select>
+                </label>
+            </div>
+            <div class="d-flex">
+                <label class="container w-50 text-left">
+                    <span class="my-3 font-italic font-weight-light required">Opening Time</span>
+                    <input type="time" class="form-control font-weight-light shadow-none" value.bind="_openingTime" maxlength="10">
+                </label>
+                <label class="container w-50 text-left">
+                    <span class="my-3 font-italic font-weight-light required">Closing Time</span>
+                    <input type="time" class="form-control font-weight-light shadow-none" value.bind="_closingTime" maxlength="10">
+                </label>
+            </div>
+            <div class="d-flex mt-3 btn-group">
+                <button type="button" class="btn btn-danger shadow-none font-weight-bold w-50 btn-sm" click.delegate="workingHourInputMode(false, null)">Cancel</button>
+                <button type="button" class.bind="loading ? 'disabled' : ''" class="btn btn-success shadow-none font-weight-bold w-50 btn-sm" disabled.bind="validateWorkingHour" click.delegate="submitWorkingHour()">Save</button>
+                <span class.bind="loading ? '' : 'invisible'" class="spinner-border ml-3 spinner-border-sm text-success" role="status"></span>
+            </div>
+        </div>
+    </div>
+    <style>
+        .required:after {
+            content:" *";
+            color: red;
+        }
+    </style>
+</template>

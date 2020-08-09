@@ -5,18 +5,26 @@
         <div class="row">
             <div class="col-sm-4 pb-4" repeat.for="restaurant of _restaurants">
                 <div class="card text-center">
+                    <div class="position-absolute" style="right: 0; top: 0">
+                       <a route-href="route: details; params.bind: { id: restaurant.id }" class="btn text-secondary">
+                           <span class="fa fa-pencil"></span>
+                           Edit
+                       </a>
+                    </div>
                     <div class="card-body">
                         <h5 class="card-title">${restaurant.name}</h5>
-                        <a if.bind="restaurant.isOpen" route-href="route: restaurant; params.bind: { id: restaurant.id }">
-                            <button class="btn btn-success">Menu</button>
-                        </a>
-                        <div if.bind="!restaurant.isOpen" class="btn text-muted">
-                            <div>Restaurant is closed</div>
+                        <div class="btn-group">
+                            <a route-href="route: restaurant; params.bind: { id: restaurant.id }" class="btn btn-success">
+                                Menu
+                            </a>
+                            <a route-href="route: orders; params.bind: { id: restaurant.id }" class="btn btn-primary">
+                                Orders
+                            </a>
                         </div>
                     </div>
                     <div class="row m-auto">
                         <div class="fa fa-shopping-basket m-1"></div>
-                        <div class="m-1">${restaurant.deliveryCost}€</div>
+                        <div class="m-1">${restaurant.deliveryCost.toFixed(2)}€</div>
                     </div>
                     <div class="card-footer text-muted mt-2">
                         <div class="d-flex">
@@ -33,8 +41,8 @@
             </div>
         </div>
         <div if.bind="_isEdited" class="container p-3 fixed-bottom bg-white border border-dark">
-            <div class="form-check mx-3">
-                <label repeat.for="category of _categories" class="form-check-label row">
+            <div class="form-check mx-3 row">
+                <label repeat.for="category of _categories" class="form-check-label col-md-3">
                     <input type="checkbox" class="form-check-input"  model.bind="category.id" checked.bind="_selected">
                     ${category.name}
                 </label>

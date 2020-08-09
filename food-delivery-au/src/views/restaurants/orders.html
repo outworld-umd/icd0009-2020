@@ -1,0 +1,33 @@
+<template>
+    <div>
+        <require from="../../components/alert"></require>
+        <alert alert-data.bind="_alert"></alert>
+        <div>
+            <a class="d-flex btn px-4 btn-secondary position-absolute text-white" click.delegate="router.navigateBack()">Back to List</a>
+        </div>
+        <h2 class="font-weight-bold">Orders</h2>
+        <div if.bind="loading" class="text-center">
+            <div class="spinner-border m-5 text-success" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <ul class="list-group list-group-flush" repeat.for="order of _orders">
+            <div class="list-group-item d-flex align-items-center">
+                <div class="p-2 mx-3 text-left w-75">
+                    <div>${order.restaurantName}</div>
+                    <div class="font-weight-bold">${totalCost(order)}€</div>
+                    <div>${localDate(order)}</div>
+                </div>
+                <div class="w-25 d-flex">
+                    <h4 class="mr-4">
+                        <span if.bind="order.orderStatus === 0" class="badge badge-secondary w-100">Sent</span>
+                        <span if.bind="order.orderStatus === 1" class="badge badge-info w-100">Cooking</span>
+                        <span if.bind="order.orderStatus === 2" class="badge badge-primary w-100">Delivering</span>
+                        <span if.bind="order.orderStatus === 3" class="badge badge-success w-100">Delivered</span>
+                    </h4>
+                    <a class="ml-auto p-2 btn btn-secondary px-4" route-href="route: order; params.bind: { id: order.id }">Show Order</a>
+                </div>
+            </div>
+        </ul>
+    </div>
+</template>

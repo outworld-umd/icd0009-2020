@@ -5,9 +5,9 @@ import { ICategory } from "../domain/ICategory";
 
 @autoinject
 export class CategoryService extends BaseService {
-    url = "Categories/";
+    url = "Categories";
 
     async getAll(): Promise<IFetchResponse<ICategory[]>> {
-        return super.baseGetAll<ICategory>(this.url);
+        return super.baseGetAll<ICategory>(this.url + `?culture=en-GB`);
     }
 }
