@@ -7,7 +7,7 @@ import { IMessage } from "@/types/IMessage";
 
 export abstract class BaseAPI {
     protected static axios = Axios.create({
-        baseURL: "https://localhost:5001/api/v1.0/",
+        baseURL: "coltfood.azurewebsites.net",
         headers: {
             common: {
                 'Content-Type': 'application/json'
