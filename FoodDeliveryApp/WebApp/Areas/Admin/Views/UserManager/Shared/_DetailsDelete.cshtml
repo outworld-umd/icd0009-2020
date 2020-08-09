@@ -1,52 +1,53 @@
-﻿@model WebApp.Areas.Admin.ViewModels.UserManagerDetailsDeleteViewModel
+﻿@using Resources.Views.UserManager
+@model WebApp.Areas.Admin.ViewModels.UserManagerDetailsDeleteViewModel
 
 <h4>@Resources.Views.CreDelDetEdiInd.CreDelDetEdiInd.User</h4>
 <hr/>
 <dl class="row">
     <dt class="col-sm-2">
-        @Resources.Views.CreDelDetEdiInd.UserManager.CurrentRoles
+        @UserManager.CurrentRoles
     </dt>
     <dd class="col-sm-10">
         @Html.DisplayFor(model => model.CurrentRoles)
     </dd>
     <dt class="col-sm-2">
-        @Resources.Views.CreDelDetEdiInd.UserManager.Id
+        @UserManager.Id
     </dt>
     <dd class="col-sm-10">
         @Html.DisplayFor(model => model.User.Id)
     </dd>
     <dt class="col-sm-2">
-        @Resources.Views.CreDelDetEdiInd.UserManager.SecurityStamp
+        @UserManager.SecurityStamp
     </dt>
     <dd class="col-sm-10">
         @Html.DisplayFor(model => model.User.SecurityStamp)
     </dd>
     <dt class="col-sm-2">
-        @Resources.Views.CreDelDetEdiInd.UserManager.Username
+        @UserManager.Username
     </dt>
     <dd class="col-sm-10">
         @Html.DisplayFor(model => model.User.UserName)
     </dd>
     <dt class="col-sm-2">
-        @Resources.Views.CreDelDetEdiInd.UserManager.NormalizedUserName
+        @UserManager.NormalizedUserName
     </dt>
     <dd class="col-sm-10">
         @Html.DisplayFor(model => model.User.NormalizedUserName)
     </dd>
     <dt class="col-sm-2">
-        @Resources.Views.CreDelDetEdiInd.UserManager.FirstName
+        @UserManager.FirstName
     </dt>
     <dd class="col-sm-10">
         @Html.DisplayFor(model => model.User.FirstName)
     </dd>
     <dt class="col-sm-2">
-        @Resources.Views.CreDelDetEdiInd.UserManager.LastName
+        @UserManager.LastName
     </dt>
     <dd class="col-sm-10">
         @Html.DisplayFor(model => model.User.LastName)
     </dd>
     <dt class="col-sm-2">
-        @Resources.Views.CreDelDetEdiInd.UserManager.Phone
+        @UserManager.Phone
     </dt>
     <dd class="col-sm-10">
         @Html.DisplayFor(model => model.User.Phone)

@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using BLL.App.DTO.Identity;
-using Contracts.Domain.Combined;
+using Contracts.Domain.Base.Combined;
 
 namespace BLL.App.DTO {
 

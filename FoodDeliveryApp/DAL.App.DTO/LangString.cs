@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading;
-using Contracts.Domain.Basic;
-using Contracts.Domain.Combined;
+using Contracts.Domain.Base.Basic;
+using Contracts.Domain.Base.Combined;
 using Domain.App;
 using Domain.Base;
 

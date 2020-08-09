@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <AssemblyName>ee.itcollege.anguzo.Contracts.BLL.Base</AssemblyName>
+        <RootNamespace>ee.itcollege.anguzo.Contracts.BLL.Base</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Contracts.DAL.Base\Contracts.DAL.Base.csproj" />
+        <ProjectReference Include="..\Contracts.Domain.Base\Contracts.Domain.Base.csproj" />
+    </ItemGroup>
+
+</Project>

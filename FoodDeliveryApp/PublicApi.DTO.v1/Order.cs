@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Contracts.Domain.Basic;
-using Contracts.Domain.Combined;
+using Contracts.Domain.Base.Basic;
+using Contracts.Domain.Base.Combined;
 using Domain.App.Enums;
 
 namespace PublicApi.DTO.v1

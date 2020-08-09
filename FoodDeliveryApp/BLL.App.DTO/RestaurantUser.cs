@@ -1,8 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using BLL.App.DTO.Identity;
-using Contracts.Domain;
-using Contracts.Domain.Combined;
+using Contracts.Domain.Base;
+using Contracts.Domain.Base.Combined;
 using Domain.Base;
 
 namespace BLL.App.DTO

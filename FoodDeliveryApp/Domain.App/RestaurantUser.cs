@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using Contracts.Domain;
-using Contracts.Domain.Combined;
-using DAL.Base;
+using Contracts.Domain.Base.Combined;
 using Domain.Base;
 using Domain.App.Identity;
 using Microsoft.AspNetCore.Identity;

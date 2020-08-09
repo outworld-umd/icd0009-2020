@@ -1,3 +1,4 @@
+@using Resources.Views.UserManager
 @model WebApp.Areas.Admin.ViewModels.UserManagerCreateViewModel
 
 @{
@@ -13,36 +14,36 @@
         <form asp-action="Create">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Role!.Name" class="control-label">@Resources.Views.CreDelDetEdiInd.UserManager.Role</label>
+                <label asp-for="Role!.Name" class="control-label">@UserManager.Role</label>
                 <select asp-for="Role!.Name" class="form-control" asp-items="Model.Roles"></select>
             </div>
             <div class="form-group">
-                <label asp-for="Email" class="control-label">@Resources.Views.CreDelDetEdiInd.UserManager.Email</label>
+                <label asp-for="Email" class="control-label">@UserManager.Email</label>
                 <input asp-for="Email" class="form-control"/>
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="User.FirstName" class="control-label">@Resources.Views.CreDelDetEdiInd.UserManager.FirstName</label>
+                <label asp-for="User.FirstName" class="control-label">@UserManager.FirstName</label>
                 <input asp-for="User.FirstName" class="form-control"/>
                 <span asp-validation-for="User.FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="User.LastName" class="control-label">@Resources.Views.CreDelDetEdiInd.UserManager.LastName</label>
+                <label asp-for="User.LastName" class="control-label">@UserManager.LastName</label>
                 <input asp-for="User.LastName" class="form-control"/>
                 <span asp-validation-for="User.LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="User.Phone" class="control-label">@Resources.Views.CreDelDetEdiInd.UserManager.Phone</label>
+                <label asp-for="User.Phone" class="control-label">@UserManager.Phone</label>
                 <input asp-for="User.Phone" class="form-control"/>
                 <span asp-validation-for="User.Phone" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Password" class="control-label">@Resources.Views.CreDelDetEdiInd.UserManager.Password</label>
+                <label asp-for="Password" class="control-label">@UserManager.Password</label>
                 <input asp-for="Password" class="form-control"/>
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ConfirmPassword" class="control-label">@Resources.Views.CreDelDetEdiInd.UserManager.ConfirmPassword</label>
+                <label asp-for="ConfirmPassword" class="control-label">@UserManager.ConfirmPassword</label>
                 <input asp-for="ConfirmPassword" class="form-control"/>
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>

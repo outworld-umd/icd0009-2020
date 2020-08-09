@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Contracts.Domain.Basic;
+using Contracts.Domain.Base.Basic;
 
 namespace Contracts.DAL.Base.Repositories
 {

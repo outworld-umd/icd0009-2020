@@ -2,8 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Contracts.Domain;
-using Contracts.Domain.Combined;
-using DAL.Base;
+using Contracts.Domain.Base.Combined;
 using Domain.Base;
 using Domain.App.Identity;
 

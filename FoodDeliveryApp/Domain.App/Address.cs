@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Contracts.Domain.Combined;
+using Contracts.Domain.Base.Combined;
 using Domain.App.Identity;
 using Domain.Base;
 using Microsoft.AspNetCore.Identity;

@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Contracts.DAL.Base;
-using Contracts.Domain.Basic;
-
+using Contracts.Domain.Base.Basic;
 namespace DAL.Base
 {
     public abstract class BaseUnitOfWork<TKey> : IBaseUnitOfWork, IBaseEntityTracker<TKey>

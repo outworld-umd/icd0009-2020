@@ -1,5 +1,5 @@
 using System;
-using Contracts.Domain.Basic;
+using Contracts.Domain.Base.Basic;
 using Domain.App.Identity;
 
 namespace PublicApi.DTO.v1 {

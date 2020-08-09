@@ -1,7 +1,6 @@
 using System;
-using Contracts.Domain.Basic;
-using Contracts.Domain.Combined;
-
+using Contracts.Domain.Base.Basic;
+using Contracts.Domain.Base.Combined;
 namespace PublicApi.DTO.v1
 {
     public class OrderItemChoice

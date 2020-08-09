@@ -1,6 +1,6 @@
 using System;
-using Contracts.Domain;
-using Contracts.Domain.Basic;
+using Contracts.Domain.Base;
+using Contracts.Domain.Base.Basic;
 
 namespace Contracts.DAL.Base
 {

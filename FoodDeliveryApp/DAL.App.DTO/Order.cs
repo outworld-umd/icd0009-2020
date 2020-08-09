@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Contracts.Domain;
-using Contracts.Domain.Combined;
+using Contracts.Domain.Base;
+using Contracts.Domain.Base.Combined;
 using DAL.App.DTO.Identity;
 using Domain;
 using Domain.App.Enums;

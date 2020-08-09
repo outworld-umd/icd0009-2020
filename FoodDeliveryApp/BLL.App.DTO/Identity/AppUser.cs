@@ -1,5 +1,6 @@
 using System;
-using Contracts.Domain.Basic;
+using System.ComponentModel.DataAnnotations;
+using Contracts.Domain.Base.Basic;
 
 namespace BLL.App.DTO.Identity
 {
@@ -12,9 +13,9 @@ namespace BLL.App.DTO.Identity
 
     {
         public TKey Id { get; set; } = default!;
-        public string FirstName { get; set; } = default!;
-        public string LastName { get; set; } = default!;
-        public string Phone { get; set; } = default!;
+        [MinLength(2)] [MaxLength(64)] [Display(Name = "First Name")] public string FirstName { get; set; } = default!;
+        [MinLength(2)] [MaxLength(64)] [Display(Name = "Last Name")] public string LastName { get; set; } = default!;
+        [MinLength(2)] [MaxLength(64)] [Display(Name = "Phone")] public string Phone { get; set; } = default!;
 
         public string FullName => FirstName + " " + LastName;
     }

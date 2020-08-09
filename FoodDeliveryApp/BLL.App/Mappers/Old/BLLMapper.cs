@@ -3,7 +3,7 @@ using BLL.App.DTO;
 using BLL.App.DTO.Identity;
 using BLL.Base.Mappers;
 
-namespace BLL.App.Mappers
+namespace BLL.App.Mappers.Old
 {
     public class BLLMapper<TRightObject, TLeftObject> : BaseBLLMapper<TRightObject, TLeftObject>
         where TRightObject : class?, new()

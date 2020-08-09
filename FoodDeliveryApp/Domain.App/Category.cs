@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Contracts.Domain.Combined;
+using Contracts.Domain.Base.Combined;
 using Domain.Base;
 
 namespace Domain.App

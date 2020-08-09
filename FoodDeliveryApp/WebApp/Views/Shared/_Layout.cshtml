@@ -1,5 +1,6 @@
 ﻿@using System.Threading
 @using System.Runtime.Versioning
+@using Resources.Views.Shared._Layout
 
 <!DOCTYPE html>
 <html lang="en">
@@ -23,10 +24,10 @@
                 <partial name="_LoginPartial"/>
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">@Resources.Views.Shared._Layout.Home</a>
+                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">@_Layout.Home</a>
                          </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">@Resources.Views.Shared._Layout.Privacy</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">@_Layout.Privacy</a>
                     </li>
                     @if (User.IsInRole("Customer"))
                     {
@@ -56,7 +57,7 @@
 
 <footer class="border-top footer text-muted">
     <div class="container">
-        &copy; 2020 - Colt - <a asp-area="" asp-controller="Home" asp-action="Privacy">@Resources.Views.Shared._Layout.Privacy</a>
+        &copy; 2020 - Colt - <a asp-area="" asp-controller="Home" asp-action="Privacy">@_Layout.Privacy</a>
         Culture: @Thread.CurrentThread.CurrentCulture.Name
     </div>
 </footer>

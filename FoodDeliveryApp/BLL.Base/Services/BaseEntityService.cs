@@ -8,7 +8,7 @@ using Contracts.BLL.Base.Mappers;
 using Contracts.BLL.Base.Services;
 using Contracts.DAL.Base;
 using Contracts.DAL.Base.Repositories;
-using Contracts.Domain.Basic;
+using Contracts.Domain.Base.Basic;
 using Microsoft.EntityFrameworkCore.Internal;
 
 namespace BLL.Base.Services

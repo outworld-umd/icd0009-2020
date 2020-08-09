@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Contracts.Domain.Basic;
+using Contracts.Domain.Base.Basic;
 using PublicApi.DTO.v1;
 
 namespace PublicApi.DTO.v1

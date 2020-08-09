@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using Contracts.Domain.Basic;
-using Contracts.Domain.Combined;
+using Contracts.Domain.Base.Basic;
+using Contracts.Domain.Base.Combined;
 using Domain.Base;
 
 namespace DAL.App.DTO

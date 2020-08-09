@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using Contracts.Domain.Basic;
-using Contracts.Domain.Combined;
+using Contracts.Domain.Base.Basic;
+using Contracts.Domain.Base.Combined;
 using Translation = BLL.App.DTO.Translation;
 
 namespace BLL.App.DTO

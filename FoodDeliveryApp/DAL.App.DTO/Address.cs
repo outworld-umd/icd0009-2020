@@ -1,7 +1,7 @@
 using System;
-using Contracts.Domain;
-using Contracts.Domain.Basic;
-using Contracts.Domain.Combined;
+using Contracts.Domain.Base;
+using Contracts.Domain.Base.Basic;
+using Contracts.Domain.Base.Combined;
 using DAL.App.DTO.Identity;
 using Domain.App;
 using Domain.Base;

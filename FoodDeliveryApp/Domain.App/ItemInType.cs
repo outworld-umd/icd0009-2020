@@ -1,5 +1,5 @@
 ﻿using System;
-using Contracts.Domain.Combined;
+using Contracts.Domain.Base.Combined;
 using Domain.Base;
 
 namespace Domain.App

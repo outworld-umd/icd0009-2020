@@ -1,8 +1,9 @@
-﻿@{
-    ViewData["Title"] = @Resources.Views.Home.Index.HomePage;
+﻿@using Index = Resources.Views.Home.Index.Index
+@{
+    ViewData["Title"] = Index.HomePage;
 }
 
 <div class="text-center">
-    <h1 class="display-4">@Resources.Views.Home.Index.Welcome</h1>
-    <p>@Resources.Views.Home.Index.Learn<a href="https://docs.microsoft.com/aspnet/core">@Resources.Views.Home.Index.Building</a>.</p>
+    <h1 class="display-4">@Index.Welcome</h1>
+    <p>@Index.Learn<a href="https://docs.microsoft.com/aspnet/core">@Index.Building</a>.</p>
 </div>

@@ -1,6 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using Contracts.Domain.Basic;
+using Contracts.Domain.Base.Basic;
 
 namespace BLL.App.DTO.Identity
 {

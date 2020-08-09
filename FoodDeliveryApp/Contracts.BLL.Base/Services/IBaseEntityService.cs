@@ -1,7 +1,7 @@
 using System;
 using System.Linq.Expressions;
 using Contracts.DAL.Base.Repositories;
-using Contracts.Domain.Basic;
+using Contracts.Domain.Base.Basic;
 
 namespace Contracts.BLL.Base.Services
 {

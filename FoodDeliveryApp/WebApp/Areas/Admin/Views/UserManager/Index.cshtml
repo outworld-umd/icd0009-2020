@@ -1,3 +1,4 @@
+@using Resources.Views.UserManager
 @model WebApp.Areas.Admin.ViewModels.UserManagerIndexViewModel
 
 @{
@@ -13,16 +14,16 @@
     <thead>
     <tr>
         <th>
-            @Resources.Views.CreDelDetEdiInd.UserManager.Username
+            @UserManager.Username
         </th>
         <th>
-            @Resources.Views.CreDelDetEdiInd.UserManager.FullName
+            @UserManager.FullName
         </th>
         <th>
-            @Resources.Views.CreDelDetEdiInd.UserManager.Phone
+            @UserManager.Phone
         </th>
         <th>
-            @Resources.Views.CreDelDetEdiInd.UserManager.Role
+            @UserManager.Role
         </th>
         <th></th>
     </tr>

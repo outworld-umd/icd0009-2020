@@ -8,10 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Resources.BLL.App.DTO.Category {
-    using System;
-    
-    
+namespace Resources.BLL.App.DTO.Identity {
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>

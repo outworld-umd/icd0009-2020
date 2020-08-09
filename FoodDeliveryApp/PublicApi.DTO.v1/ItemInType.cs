@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Contracts.Domain.Basic;
-
+using Contracts.Domain.Base.Basic;
 namespace PublicApi.DTO.v1
 {
     public class ItemInType

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using Contracts.DAL.Base;
 using Contracts.DAL.Base.Mappers;
 using Contracts.DAL.Base.Repositories;
-using Contracts.Domain.Basic;
-using Contracts.Domain.Combined;
+using Contracts.Domain.Base.Basic;
+using Contracts.Domain.Base.Combined;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
