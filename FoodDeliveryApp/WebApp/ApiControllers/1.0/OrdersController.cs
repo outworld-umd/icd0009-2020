@@ -98,7 +98,7 @@ namespace WebApp.ApiControllers._1._0
                 return NotFound(new V1DTO.MessageDTO($"Order with id {id} not found"));
             }
 
-            if (User.IsInRole("Restaurant") && await _bll.RestaurantUsers.AnyAsync(ru =>
+            if (User.IsInRole("Restaurant") && !await _bll.RestaurantUsers.AnyAsync(ru =>
                 ru.AppUserId.Equals(User.UserGuidId()) && ru.RestaurantId.Equals(order.RestaurantId))) 
             {
                 return Unauthorized(new V1DTO.MessageDTO("User not authorized for this restaurant"));
@@ -119,13 +119,13 @@ namespace WebApp.ApiControllers._1._0
         [HttpPut("{id}")]
         [Produces("application/json")]
         [Consumes("application/json")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Restaurant, Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(V1DTO.MessageDTO))]
         public async Task<IActionResult> PutOrder(Guid id, V1DTO.Order order)
         {
-            if (User.IsInRole("Restaurant") && await _bll.RestaurantUsers.AnyAsync(ru =>
+            if (User.IsInRole("Restaurant") && !await _bll.RestaurantUsers.AnyAsync(ru =>
                 ru.AppUserId.Equals(User.UserGuidId()) && ru.RestaurantId.Equals(order.RestaurantId))) 
             {
                 return Unauthorized(new V1DTO.MessageDTO("User not authorized for this restaurant"));
@@ -135,8 +135,9 @@ namespace WebApp.ApiControllers._1._0
             {
                 return BadRequest(new V1DTO.MessageDTO("Id and Order.Id do not match"));
             }
-
-            await _bll.Orders.UpdateAsync(_mapper.Map(order));
+            var bllEntity = _mapper.Map(order);
+            bllEntity.AppUserId = (await _bll.Orders.FirstOrDefaultAsync(id)).AppUserId;
+            await _bll.Orders.UpdateAsync(bllEntity);
             await _bll.SaveChangesAsync();
 
             return NoContent();
@@ -157,7 +158,7 @@ namespace WebApp.ApiControllers._1._0
         [HttpPost]
         public async Task<ActionResult<V1DTO.Order>> PostOrder(V1DTO.Order order)
         {
-            if (User.IsInRole("Restaurant") && await _bll.RestaurantUsers.AnyAsync(ru =>
+            if (User.IsInRole("Restaurant") && !await _bll.RestaurantUsers.AnyAsync(ru =>
                 ru.AppUserId.Equals(User.UserGuidId()) && ru.RestaurantId.Equals(order.RestaurantId))) 
             {
                 return Unauthorized(new V1DTO.MessageDTO("User not authorized for this restaurant"));
@@ -198,7 +199,7 @@ namespace WebApp.ApiControllers._1._0
                 return NotFound(new V1DTO.MessageDTO($"Order with id {id} not found"));
             }
             
-            if (User.IsInRole("Restaurant") && await _bll.RestaurantUsers.AnyAsync(ru =>
+            if (User.IsInRole("Restaurant") && !await _bll.RestaurantUsers.AnyAsync(ru =>
                 ru.AppUserId.Equals(User.UserGuidId()) && ru.RestaurantId.Equals(order.RestaurantId))) 
             {
                 return Unauthorized(new V1DTO.MessageDTO("User not authorized for this restaurant"));
@@ -230,7 +231,7 @@ namespace WebApp.ApiControllers._1._0
                 return NotFound(new V1DTO.MessageDTO("Order not found"));
             }
             
-            if (User.IsInRole("Restaurant") && await _bll.RestaurantUsers.AnyAsync(ru =>
+            if (User.IsInRole("Restaurant") && !await _bll.RestaurantUsers.AnyAsync(ru =>
                 ru.AppUserId.Equals(User.UserGuidId()) && ru.RestaurantId.Equals(order.RestaurantId))) 
             {
                 return Unauthorized(new V1DTO.MessageDTO("User not authorized for this restaurant"));

@@ -15,7 +15,8 @@ namespace DAL.App.DTO
     {
         public DayOfWeek WeekDay { get; set; }
         public DateTime OpeningTime { get; set; }
-        public DateTime ClosingTime { get; set; }public TKey RestaurantId { get; set; } = default!;
+        public DateTime ClosingTime { get; set; }
+        public TKey RestaurantId { get; set; } = default!;
         public Restaurant? Restaurant { get; set; }
         
         public TKey Id { get; set; } = default!;

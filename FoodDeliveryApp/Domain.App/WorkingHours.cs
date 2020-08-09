@@ -14,7 +14,8 @@ using ee.itcollege.anguzo.Domain.Identity;namespace Domain.App
     {
         [Required] public DayOfWeek WeekDay { get; set; }
         [Required] public DateTime OpeningTime { get; set; }
-        [Required] public DateTime ClosingTime { get; set; }public TKey RestaurantId { get; set; } = default!;
+        [Required] public DateTime ClosingTime { get; set; }
+        public TKey RestaurantId { get; set; } = default!;
         public Restaurant? Restaurant { get; set; }
     }
 }

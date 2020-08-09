@@ -26,7 +26,8 @@ namespace BLL.App.DTO
         
         [Required(ErrorMessageResourceName = "ErrorMessage_Required", ErrorMessageResourceType = typeof(Resources.Common.Common))] 
         [Display(Name = nameof(ClosingTime), ResourceType = typeof(Resources.BLL.App.DTO.WorkingHours.WorkingHours))]
-        public DateTime ClosingTime { get; set; }public TKey RestaurantId { get; set; } = default!;
+        public DateTime ClosingTime { get; set; }
+        public TKey RestaurantId { get; set; } = default!;
         [Display(Name = nameof(Restaurant), ResourceType = typeof(Resources.BLL.App.DTO.WorkingHours.WorkingHours))]
         public Restaurant? Restaurant { get; set; }
         
