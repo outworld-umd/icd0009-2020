@@ -1,6 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using BLL.App.DTO.Identity;
+using ee.itcollege.anguzo.DTO.Identity;
 using ee.itcollege.anguzo.Contracts.Domain.Base;
 
 using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;

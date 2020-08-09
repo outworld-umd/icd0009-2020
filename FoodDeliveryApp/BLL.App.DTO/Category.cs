@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ee.itcollege.anguzo.Contracts.Domain.Base;
-
 using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
 using ee.itcollege.anguzo.Domain.Base;
+
 namespace BLL.App.DTO
 {
     public class Category : Category<Guid>, IDomainEntityIdMetadata

@@ -1,4 +1,4 @@
-@using ee.itcollege.anguzo.Domain.Identity;
+@using ee.itcollege.anguzo.DTO.Identity;
 @inject SignInManager<AppUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();

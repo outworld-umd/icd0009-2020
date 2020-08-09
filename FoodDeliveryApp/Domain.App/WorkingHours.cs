@@ -3,8 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using ee.itcollege.anguzo.Contracts.Domain;
 using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
 using ee.itcollege.anguzo.Domain.Base;
-using ee.itcollege.anguzo.Domain.Identity;
-namespace Domain.App
+using ee.itcollege.anguzo.Domain.Identity;namespace Domain.App
 {
     public class WorkingHours : WorkingHours<Guid>, IDomainEntityIdMetadata
     {

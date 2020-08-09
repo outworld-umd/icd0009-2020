@@ -4,8 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ee.itcollege.anguzo.Contracts.Domain;
 using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
-using ee.itcollege.anguzo.Domain.Identity;
-using ee.itcollege.anguzo.Domain.Base;
+using ee.itcollege.anguzo.Domain.Identity;using ee.itcollege.anguzo.Domain.Base;
 
 namespace Domain.App
 {

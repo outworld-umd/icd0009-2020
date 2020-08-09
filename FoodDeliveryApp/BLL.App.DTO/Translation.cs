@@ -1,8 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using ee.itcollege.anguzo.Contracts.Domain.Base.Basic;
-
 using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
+
 namespace BLL.App.DTO
 {
     public class Translation : Translation<Guid>, IDomainEntityIdMetadata

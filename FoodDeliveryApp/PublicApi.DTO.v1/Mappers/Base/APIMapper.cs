@@ -1,5 +1,7 @@
 ﻿﻿using AutoMapper;
 using AutoMapper.Configuration;
+ using ee.itcollege.anguzo.DTO.Identity;
+
 
 namespace PublicApi.DTO.v1.Mappers.Base
 {
@@ -11,7 +13,7 @@ namespace PublicApi.DTO.v1.Mappers.Base
         {
             // add more mappings
 
-            MapperConfigurationExpression.CreateMap<Identity.AppUser, BLL.App.DTO.Identity.AppUser>();
+            MapperConfigurationExpression.CreateMap<Identity.AppUser, AppUser>();
             MapperConfigurationExpression.CreateMap<Address, BLL.App.DTO.Address>();
             MapperConfigurationExpression.CreateMap<Category, BLL.App.DTO.Category>();
             MapperConfigurationExpression.CreateMap<Item, BLL.App.DTO.Item>()
@@ -32,7 +34,7 @@ namespace PublicApi.DTO.v1.Mappers.Base
             MapperConfigurationExpression.CreateMap<WorkingHours, BLL.App.DTO.WorkingHours>();
 
 
-            MapperConfigurationExpression.CreateMap<BLL.App.DTO.Identity.AppUser, Identity.AppUser>();
+            MapperConfigurationExpression.CreateMap<AppUser, Identity.AppUser>();
             MapperConfigurationExpression.CreateMap<BLL.App.DTO.Address, Address>();
             MapperConfigurationExpression.CreateMap<BLL.App.DTO.Category, Category>();
             MapperConfigurationExpression.CreateMap<BLL.App.DTO.Category, CategoryView>();

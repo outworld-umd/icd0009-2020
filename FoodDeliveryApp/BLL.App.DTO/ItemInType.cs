@@ -1,10 +1,10 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using BLL.App.DTO.Identity;
+using ee.itcollege.anguzo.DTO.Identity;
 using ee.itcollege.anguzo.Contracts.Domain.Base;
-
 using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
 using ee.itcollege.anguzo.Domain.Base;
+
 namespace BLL.App.DTO
 {
     public class ItemInType : ItemInType<Guid>, IDomainEntityIdMetadata 

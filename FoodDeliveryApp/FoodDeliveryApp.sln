@@ -2,9 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_SolutionFiles", "_SolutionFiles", "{217FF93B-222C-40A5-AFD9-9BF2003B88DD}"
 ProjectSection(SolutionItems) = preProject
+				.dockerignore = .dockerignore
+				Dockerfile = Dockerfile
 	..\.gitignore = ..\.gitignore
 	Directory.Build.props = Directory.Build.props
-	KoltFood ERD.pdf = KoltFood ERD.pdf
 	README.md = README.md
 EndProjectSection
 EndProject
@@ -104,7 +105,6 @@ Global
 		{7305C2DC-A5E4-4D25-A84E-B88ED9E4F431} = {9421E298-36B3-4517-93C7-66E6C42530CC}
 		{D8DE4EE6-15F9-412B-AF77-3290FFC886AB} = {7305C2DC-A5E4-4D25-A84E-B88ED9E4F431}
 		{D29C8515-3818-4564-8EA1-8D9B334805BE} = {F2A4A4DE-49B5-4857-888D-35360851F869}
-		{E584686D-899D-4DBE-B44F-84438E37C0BF} = {F2A4A4DE-49B5-4857-888D-35360851F869}
 		{41500046-DC76-4183-8162-3CD8985240A6} = {E01E512E-0903-4E2B-A214-8B55AC40C3C8}
 	EndGlobalSection
 EndGlobal

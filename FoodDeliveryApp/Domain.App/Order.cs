@@ -5,8 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
 using Domain.App.Enums;
 using ee.itcollege.anguzo.Domain.Base;
-using ee.itcollege.anguzo.Domain.Identity;
-using Microsoft.AspNetCore.Identity;
+using ee.itcollege.anguzo.Domain.Identity;using Microsoft.AspNetCore.Identity;
 
 namespace Domain.App
 {

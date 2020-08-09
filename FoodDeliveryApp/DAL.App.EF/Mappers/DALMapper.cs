@@ -1,9 +1,6 @@
 using AutoMapper;
 using ee.itcollege.anguzo.DAL.Base.EF.Mappers;
 using ee.itcollege.anguzo.DTO.Identity;
-using ee.itcollege.anguzo.Domain.Identity;
-
-
 namespace DAL.App.EF.Mappers
 {
     public class DALMapper<TLeftObject, TRightObject> : BaseDALMapper<TLeftObject, TRightObject>

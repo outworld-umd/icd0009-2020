@@ -3,9 +3,7 @@ using System.Reflection;
 using ee.itcollege.anguzo.Contracts.Domain;
 using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
 using ee.itcollege.anguzo.Domain.Base;
-using ee.itcollege.anguzo.Domain.Identity;
-
-using Microsoft.AspNetCore.Identity;
+using ee.itcollege.anguzo.Domain.Identity;using Microsoft.AspNetCore.Identity;
 
 namespace Domain.App {
     public class RestaurantUser: RestaurantUser<Guid, AppUser>, IDomainEntityIdMetadataUser<AppUser>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
+
 namespace BLL.App.DTO
 {
     public class OrderRow : OrderRow<Guid>, IDomainEntityIdMetadata

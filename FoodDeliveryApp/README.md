@@ -6,6 +6,9 @@ dotnet ef database drop -f --project DAL.App.EF --startup-project WebApp --conte
 rd /q /s DAL.App.EF\Migrations
 dotnet ef migrations add InitialDbCreation --project DAL.App.EF --startup-project WebApp --context DAL.App.EF.AppDbContext
 dotnet ef database update --project DAL.App.EF --startup-project WebApp --context DAL.App.EF.AppDbContext
+docker tag webapp_docker akaver/webapp:test
+docker login -u anguzo -p dockerER2112
+docker push akaver/webapp:test
 ```
 ##### To create ASP.NET controller and view:
 ```

@@ -6,8 +6,7 @@ using Contracts.DAL.App.Repositories;
 using DAL.App.DTO;
 using DAL.App.EF.Mappers;
 using ee.itcollege.anguzo.DAL.Base.EF.Mappers;
-using ee.itcollege.anguzo.Domain.Identity;
-using ee.itcollege.anguzo.DAL.Base.EF.Repositories;
+using ee.itcollege.anguzo.Domain.Identity;using ee.itcollege.anguzo.DAL.Base.EF.Repositories;
 
 using Domain;
 using Microsoft.EntityFrameworkCore;
