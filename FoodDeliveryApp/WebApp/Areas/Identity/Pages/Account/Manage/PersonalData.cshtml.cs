@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
-using Domain.App.Identity;
-using Microsoft.AspNetCore.Identity;
+using ee.itcollege.anguzo.Domain.Identity;using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;

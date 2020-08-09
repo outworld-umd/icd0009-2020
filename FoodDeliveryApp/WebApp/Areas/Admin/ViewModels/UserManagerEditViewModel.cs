@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using Domain.App.Identity;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using ee.itcollege.anguzo.Domain.Identity;using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace WebApp.Areas.Admin.ViewModels
 {

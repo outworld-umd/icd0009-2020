@@ -1,4 +1,4 @@
-using Contracts.DAL.Base.Mappers;
+using ee.itcollege.anguzo.Contracts.DAL.Base.Mappers;
 
 namespace BLL.App.Mappers.Old
 {

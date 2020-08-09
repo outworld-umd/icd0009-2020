@@ -1,8 +1,8 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 using ee.itcollege.anguzo.Contracts.Domain.Base.Basic;
+using System.ComponentModel.DataAnnotations;
 
-namespace ee.itcollege.anguzo.Identity
+namespace ee.itcollege.anguzo.DTO.Identity
 {
     public class AppUser : AppUser<Guid>
     {

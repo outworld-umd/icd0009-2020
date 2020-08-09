@@ -1,6 +1,6 @@
 using AutoMapper;
 using AutoMapper.Configuration;
-using Contracts.DAL.Base.Mappers;
+using ee.itcollege.anguzo.Contracts.DAL.Base.Mappers;
 
 namespace DAL.Base.EF.Mappers
 {

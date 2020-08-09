@@ -1,8 +1,7 @@
 using AutoMapper;
 using BLL.App.DTO;
-using BLL.App.DTO.Identity;
-using BLL.Base.Mappers;
-
+using ee.itcollege.anguzo.DTO.Identity;
+using ee.itcollege.anguzo.BLL.Base.Mappers;
 namespace BLL.App.Mappers.Old
 {
     public class BLLMapper<TRightObject, TLeftObject> : BaseBLLMapper<TRightObject, TLeftObject>
@@ -12,7 +11,7 @@ namespace BLL.App.Mappers.Old
         public BLLMapper() : base()
         {
             // add more mappings
-            MapperConfigurationExpression.CreateMap<AppUser, DAL.App.DTO.Identity.AppUser>();
+            MapperConfigurationExpression.CreateMap<AppUser, AppUser>();
             MapperConfigurationExpression.CreateMap<Address, DAL.App.DTO.Address>();
             MapperConfigurationExpression.CreateMap<Category, DAL.App.DTO.Category>();
             MapperConfigurationExpression.CreateMap<Item, DAL.App.DTO.Item>();
@@ -32,7 +31,7 @@ namespace BLL.App.Mappers.Old
             MapperConfigurationExpression.CreateMap<Translation, DAL.App.DTO.Translation>();
 
             
-            MapperConfigurationExpression.CreateMap<DAL.App.DTO.Identity.AppUser, AppUser>();
+            MapperConfigurationExpression.CreateMap<AppUser, AppUser>();
             MapperConfigurationExpression.CreateMap<DAL.App.DTO.Address, Address>();
             MapperConfigurationExpression.CreateMap<DAL.App.DTO.Category, Category>();
             MapperConfigurationExpression.CreateMap<DAL.App.DTO.Item, Item>();

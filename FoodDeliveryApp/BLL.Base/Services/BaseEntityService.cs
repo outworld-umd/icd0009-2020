@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using BLL.Base.Mappers;
 using Contracts.BLL.Base.Mappers;
 using Contracts.BLL.Base.Services;
-using Contracts.DAL.Base;
-using Contracts.DAL.Base.Repositories;
-using Contracts.Domain.Base.Basic;
+using ee.itcollege.anguzo.Contracts.DAL.Base;
+
+using ee.itcollege.anguzo.Contracts.DAL.Base.Repositories;
+using ee.itcollege.anguzo.Contracts.Domain.Base.Basic;
+
 using Microsoft.EntityFrameworkCore.Internal;
 
 namespace BLL.Base.Services

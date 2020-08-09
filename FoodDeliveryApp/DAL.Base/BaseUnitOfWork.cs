@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Contracts.DAL.Base;
-using Contracts.Domain.Base.Basic;
+using ee.itcollege.anguzo.Contracts.DAL.Base;
+
+using ee.itcollege.anguzo.Contracts.Domain.Base.Basic;
+
 namespace DAL.Base
 {
     public abstract class BaseUnitOfWork<TKey> : IBaseUnitOfWork, IBaseEntityTracker<TKey>

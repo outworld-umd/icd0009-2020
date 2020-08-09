@@ -1,7 +1,7 @@
 using System;
 using ee.itcollege.anguzo.Contracts.Domain.Base.Basic;
 
-namespace ee.itcollege.anguzo.Identity
+namespace ee.itcollege.anguzo.DTO.Identity
 {
     public class AppRole : AppRole<Guid>
     {

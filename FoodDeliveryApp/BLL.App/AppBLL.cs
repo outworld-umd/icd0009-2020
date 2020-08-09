@@ -1,10 +1,12 @@
 using System;
 using System.Threading.Tasks;
 using BLL.App.Services;
-using BLL.Base;
+using ee.itcollege.anguzo.BLL.Base;
 using Contracts.BLL.App;
 using Contracts.BLL.App.Services;
-using Contracts.BLL.Base;
+using ee.itcollege.anguzo.Contracts.BLL.Base;
+
+
 using Contracts.DAL.App;
 using DAL.App.EF;
 

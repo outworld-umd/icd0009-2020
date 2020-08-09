@@ -1,9 +1,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using Contracts.Domain.Base;
-using Contracts.Domain.Base.Combined;
-using Domain.Base;
+using ee.itcollege.anguzo.Contracts.Domain.Base;
 
+using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
+using ee.itcollege.anguzo.Domain.Base;
 namespace BLL.App.DTO
 {
     public class RestaurantCategory : RestaurantCategory<Guid>, IDomainEntityIdMetadata

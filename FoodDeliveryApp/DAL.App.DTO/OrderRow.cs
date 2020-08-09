@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Contracts.Domain.Base.Combined;
-
+using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
 namespace DAL.App.DTO
 {
     public class OrderRow : OrderRow<Guid>, IDomainEntityIdMetadata

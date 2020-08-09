@@ -5,14 +5,16 @@ using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
 using DAL.App.DTO;
 using DAL.App.EF.Mappers;
-using DAL.Base.EF.Mappers;
-using DAL.Base.EF.Repositories;
+using ee.itcollege.anguzo.DAL.Base.EF.Mappers;
+using ee.itcollege.anguzo.DAL.Base.EF.Repositories;
+using ee.itcollege.anguzo.Domain.Identity;
+
 using Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories {
 
-    public class OrderRowRepository : EFBaseRepository<AppDbContext, Domain.App.Identity.AppUser, Domain.App.OrderRow, OrderRow>, IOrderRowRepository {
+    public class OrderRowRepository : EFBaseRepository<AppDbContext, AppUser, Domain.App.OrderRow, OrderRow>, IOrderRowRepository {
         public OrderRowRepository(AppDbContext dbContext) : base(dbContext, new DALMapper<Domain.App.OrderRow, OrderRow>()) { }
         
         public override async Task<IEnumerable<OrderRow>> GetAllAsync(object? userId = null, bool noTracking = true)

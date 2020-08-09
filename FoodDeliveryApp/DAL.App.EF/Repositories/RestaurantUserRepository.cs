@@ -5,13 +5,15 @@ using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
 using DAL.App.DTO;
 using DAL.App.EF.Mappers;
-using DAL.Base.EF.Mappers;
-using DAL.Base.EF.Repositories;
+using ee.itcollege.anguzo.DAL.Base.EF.Mappers;
+using ee.itcollege.anguzo.DAL.Base.EF.Repositories;
+using ee.itcollege.anguzo.Domain.Identity;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories {
 
-    public class RestaurantUserRepository : EFBaseRepository<AppDbContext, Domain.App.Identity.AppUser, Domain.App.RestaurantUser, RestaurantUser>, IRestaurantUserRepository {
+    public class RestaurantUserRepository : EFBaseRepository<AppDbContext, AppUser, Domain.App.RestaurantUser, RestaurantUser>, IRestaurantUserRepository {
 
         public RestaurantUserRepository(AppDbContext dbContext) : base(dbContext, new DALMapper<Domain.App.RestaurantUser, RestaurantUser>()) { }
         

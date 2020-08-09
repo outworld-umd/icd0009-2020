@@ -1,7 +1,7 @@
 ﻿using System;
-using Contracts.Domain.Base;
-using Contracts.Domain.Base.Combined;
+using ee.itcollege.anguzo.Contracts.Domain.Base;
 
+using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
 namespace Domain.Base
 {
     public abstract class DomainEntityIdMetadata :  DomainEntityIdMetadata<Guid>

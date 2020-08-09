@@ -5,14 +5,16 @@ using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
 using DAL.App.DTO;
 using DAL.App.EF.Mappers;
-using DAL.Base.EF.Mappers;
-using DAL.Base.EF.Repositories;
+using ee.itcollege.anguzo.DAL.Base.EF.Mappers;
+using ee.itcollege.anguzo.Domain.Identity;
+using ee.itcollege.anguzo.DAL.Base.EF.Repositories;
+
 using Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories
 {
-    public class ItemRepository : EFBaseRepository<AppDbContext, Domain.App.Identity.AppUser, Domain.App.Item, Item>, IItemRepository
+    public class ItemRepository : EFBaseRepository<AppDbContext, AppUser, Domain.App.Item, Item>, IItemRepository
     {
         public ItemRepository(AppDbContext dbContext) : base(dbContext, new DALMapper<Domain.App.Item, Item>()) { }
 

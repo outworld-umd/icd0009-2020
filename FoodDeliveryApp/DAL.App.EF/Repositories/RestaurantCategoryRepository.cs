@@ -5,14 +5,16 @@ using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
 using DAL.App.DTO;
 using DAL.App.EF.Mappers;
-using DAL.Base.EF.Mappers;
-using DAL.Base.EF.Repositories;
+using ee.itcollege.anguzo.DAL.Base.EF.Mappers;
+using ee.itcollege.anguzo.DAL.Base.EF.Repositories;
+using ee.itcollege.anguzo.Domain.Identity;
+
 using Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories {
     
-    public class RestaurantCategoryRepository : EFBaseRepository<AppDbContext, Domain.App.Identity.AppUser, Domain.App.RestaurantCategory, RestaurantCategory>, IRestaurantCategoryRepository {
+    public class RestaurantCategoryRepository : EFBaseRepository<AppDbContext, AppUser, Domain.App.RestaurantCategory, RestaurantCategory>, IRestaurantCategoryRepository {
         public RestaurantCategoryRepository(AppDbContext dbContext) : base(dbContext, new DALMapper<Domain.App.RestaurantCategory, RestaurantCategory>()) { }
         
         public override async Task<IEnumerable<RestaurantCategory>> GetAllAsync(object? userId = null, bool noTracking = true)

@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
 using DAL.App.DTO;
 using DAL.App.EF.Mappers;
-using DAL.Base.EF.Repositories;
+using ee.itcollege.anguzo.DAL.Base.EF.Repositories;
+using ee.itcollege.anguzo.Domain.Identity;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories {
 
-    public class WorkingHoursRepository : EFBaseRepository<AppDbContext, Domain.App.Identity.AppUser, Domain.App.WorkingHours, WorkingHours>, IWorkingHoursRepository {
+    public class WorkingHoursRepository : EFBaseRepository<AppDbContext, AppUser, Domain.App.WorkingHours, WorkingHours>, IWorkingHoursRepository {
         public WorkingHoursRepository(AppDbContext dbContext) : base(dbContext, new DALMapper<Domain.App.WorkingHours, WorkingHours>()) { }
         
         public override async Task<IEnumerable<WorkingHours>> GetAllAsync(object? userId = null, bool noTracking = true)

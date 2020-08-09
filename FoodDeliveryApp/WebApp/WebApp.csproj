@@ -12,6 +12,7 @@
 
 
   <ItemGroup>
+        <PackageReference Include="ee.itcollege.anguzo.Domain.Identity" Version="1.2.0" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.6" />
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.6" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.6" />
@@ -26,7 +27,7 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.6" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.6" />
         <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.7.1" />
-        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
         <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.1.2" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.7.1" />

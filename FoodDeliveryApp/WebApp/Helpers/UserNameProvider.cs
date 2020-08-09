@@ -1,5 +1,4 @@
-using Contracts.DAL.Base;
-using Contracts.Domain;
+using ee.itcollege.anguzo.Contracts.DAL.Base;
 using Microsoft.AspNetCore.Http;
 
 namespace WebApp.Helpers

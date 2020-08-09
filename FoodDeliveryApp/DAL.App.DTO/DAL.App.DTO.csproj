@@ -6,7 +6,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Domain.App\Domain.App.csproj" />
-      <ProjectReference Include="..\Contracts.Domain.Base\Contracts.Domain.Base.csproj" />
+        <PackageReference Include="ee.itcollege.anguzo.Contracts.Domain.Base" Version="1.2.0" />
+        <PackageReference Include="ee.itcollege.anguzo.DTO.Identity" Version="1.0.0" />
     </ItemGroup>
 
 </Project>

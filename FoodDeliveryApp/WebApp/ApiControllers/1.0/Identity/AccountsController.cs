@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using PublicApi.DTO.v1;
 using PublicApi.DTO.v1.Identity;
-using AppUser = Domain.App.Identity.AppUser;
+using AppUser = ee.itcollege.anguzo.Domain.Identity.AppUser;
 
 namespace WebApp.ApiControllers._1._0.Identity
 {
@@ -106,7 +106,7 @@ namespace WebApp.ApiControllers._1._0.Identity
                 return NotFound(new MessageDTO("User already registered!"));
             }
 
-            appUser = new Domain.App.Identity.AppUser()
+            appUser = new AppUser()
             {
                 Email = dto.Email,
                 UserName = dto.Email,

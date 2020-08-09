@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
 using DAL.App.DTO;
 using DAL.App.EF.Mappers;
-using DAL.Base.EF.Repositories;
+using ee.itcollege.anguzo.DAL.Base.EF.Repositories;
+using ee.itcollege.anguzo.Domain.Identity;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories {
 
-    public class AddressRepository : EFBaseRepository<AppDbContext, Domain.App.Identity.AppUser, Domain.App.Address, DTO.Address>, IAddressRepository {
+    public class AddressRepository : EFBaseRepository<AppDbContext, AppUser, Domain.App.Address, DTO.Address>, IAddressRepository {
         public AddressRepository(AppDbContext dbContext) : base(dbContext,
             new DALMapper<Domain.App.Address, DTO.Address>())
         {

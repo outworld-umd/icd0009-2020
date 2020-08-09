@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Contracts.DAL.Base;
-using Contracts.Domain;
+using ee.itcollege.anguzo.Contracts.DAL.Base;
+
+using ee.itcollege.anguzo.Contracts.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Base.EF {

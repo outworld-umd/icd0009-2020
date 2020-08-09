@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Contracts.BLL.Base;
-using Contracts.DAL.Base;
-using Contracts.Domain;
+using ee.itcollege.anguzo.Contracts.BLL.Base;
+using ee.itcollege.anguzo.Contracts.DAL.Base;
 
 namespace BLL.Base
 {

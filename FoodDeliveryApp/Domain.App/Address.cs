@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Contracts.Domain.Base.Combined;
-using Domain.App.Identity;
-using Domain.Base;
+using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
+using ee.itcollege.anguzo.Domain.Base;
+using ee.itcollege.anguzo.Domain.Identity;
 using Microsoft.AspNetCore.Identity;
 
 namespace Domain.App

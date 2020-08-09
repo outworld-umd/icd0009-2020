@@ -1,9 +1,10 @@
 ﻿using System;
 using Contracts.DAL.App;
 using Contracts.DAL.App.Repositories;
-using Contracts.Domain.Base.Basic;
+using ee.itcollege.anguzo.Contracts.Domain.Base.Basic;
+
 using DAL.App.EF.Repositories;
-using DAL.Base.EF;
+using ee.itcollege.anguzo.DAL.Base.EF;
 
 namespace DAL.App.EF {
 

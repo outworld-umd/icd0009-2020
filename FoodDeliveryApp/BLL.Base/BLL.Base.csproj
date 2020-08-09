@@ -5,7 +5,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Contracts.BLL.Base\Contracts.BLL.Base.csproj" />
+        <PackageReference Include="ee.itcollege.anguzo.Contracts.BLL.Base" Version="1.0.0" />
+        <PackageReference Include="ee.itcollege.anguzo.Contracts.DAL.Base" Version="1.0.0" />
     </ItemGroup>
 
     <ItemGroup>

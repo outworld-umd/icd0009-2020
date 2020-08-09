@@ -5,14 +5,16 @@ using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
 using DAL.App.DTO;
 using DAL.App.EF.Mappers;
-using DAL.Base.EF.Mappers;
-using DAL.Base.EF.Repositories;
+using ee.itcollege.anguzo.DAL.Base.EF.Mappers;
+using ee.itcollege.anguzo.Domain.Identity;
+using ee.itcollege.anguzo.DAL.Base.EF.Repositories;
+
 using Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories {
 
-    public class ItemTypeRepository : EFBaseRepository<AppDbContext, Domain.App.Identity.AppUser, Domain.App.ItemType, ItemType>, IItemTypeRepository {
+    public class ItemTypeRepository : EFBaseRepository<AppDbContext, AppUser, Domain.App.ItemType, ItemType>, IItemTypeRepository {
         public ItemTypeRepository(AppDbContext dbContext) : base(dbContext, new DALMapper<Domain.App.ItemType, ItemType>()) { }
        
         public override async Task<IEnumerable<ItemType>> GetAllAsync(object? userId = null, bool noTracking = true)

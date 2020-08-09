@@ -1,13 +1,4 @@
 # Food Delivery App
-## TODOs
-### Partial Views
-* Hidden input from _CreateEdit -> Edit.cshtml
-### User-Specific Views!
-### Securing
-* API Controllers
-* ASP.NET Controllers
-### Other stuff
-* Internationalization
 ## Useful Commands
 ##### To generate database:
 ```

@@ -1,8 +1,7 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
-namespace Domain.App.Identity
+namespace ee.itcollege.anguzo.Domain.Identity
 {
     public class AppRole : AppRole<Guid>
     {

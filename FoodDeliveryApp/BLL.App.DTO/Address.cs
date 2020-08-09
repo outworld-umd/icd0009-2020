@@ -1,8 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using BLL.App.DTO.Identity;
-using Contracts.Domain.Base.Combined;
-
+using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
 namespace BLL.App.DTO {
 
     public class Address : Address<Guid, AppUser>, IDomainEntityIdMetadata

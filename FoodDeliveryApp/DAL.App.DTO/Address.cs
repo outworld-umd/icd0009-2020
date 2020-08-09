@@ -1,10 +1,12 @@
 using System;
-using Contracts.Domain.Base;
-using Contracts.Domain.Base.Basic;
-using Contracts.Domain.Base.Combined;
-using DAL.App.DTO.Identity;
+using ee.itcollege.anguzo.Contracts.Domain.Base;
+
+using ee.itcollege.anguzo.Contracts.Domain.Base.Basic;
+
+using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
+using ee.itcollege.anguzo.DTO.Identity;
 using Domain.App;
-using Domain.Base;
+using ee.itcollege.anguzo.Domain.Base;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 

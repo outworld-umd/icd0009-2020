@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Contracts.Domain.Base.Basic;
-using Contracts.Domain.Base.Combined;
+using ee.itcollege.anguzo.Contracts.Domain.Base.Basic;
+
+using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
 namespace PublicApi.DTO.v1
 {
     public class OrderRow

@@ -1,9 +1,9 @@
 using System;
-using Contracts.Domain.Base;
-using Contracts.Domain.Base.Combined;
-using DAL.App.DTO.Identity;
-using Domain.Base;
+using ee.itcollege.anguzo.Contracts.Domain.Base;
 
+using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
+using ee.itcollege.anguzo.DTO.Identity;
+using ee.itcollege.anguzo.Domain.Base;
 namespace DAL.App.DTO
 {
     public class RestaurantUser : RestaurantUser<Guid, AppUser>, IDomainEntityIdMetadata

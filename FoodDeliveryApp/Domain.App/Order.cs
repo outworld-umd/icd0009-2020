@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Contracts.Domain.Base.Combined;
+using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
 using Domain.App.Enums;
-using Domain.Base;
-using Domain.App.Identity;
+using ee.itcollege.anguzo.Domain.Base;
+using ee.itcollege.anguzo.Domain.Identity;
 using Microsoft.AspNetCore.Identity;
 
 namespace Domain.App

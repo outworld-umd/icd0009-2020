@@ -1,8 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using Contracts.Domain.Base.Basic;
-using Contracts.Domain.Base.Combined;
-using Domain.Base;
+using ee.itcollege.anguzo.Contracts.Domain.Base.Basic;
+using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
+using ee.itcollege.anguzo.Domain.Base;
 
 namespace Domain.App
 {

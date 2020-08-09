@@ -1,5 +1,6 @@
 using System;
-using Contracts.Domain.Base;
+using ee.itcollege.anguzo.Contracts.Domain.Base;
+
 using Contracts.Domain.Base.Basic;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;

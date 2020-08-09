@@ -4,11 +4,14 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Contracts.DAL.Base;
-using Contracts.DAL.Base.Mappers;
-using Contracts.DAL.Base.Repositories;
-using Contracts.Domain.Base.Basic;
-using Contracts.Domain.Base.Combined;
+using ee.itcollege.anguzo.Contracts.DAL.Base;
+
+using ee.itcollege.anguzo.Contracts.DAL.Base.Mappers;
+
+using ee.itcollege.anguzo.Contracts.DAL.Base.Repositories;
+using ee.itcollege.anguzo.Contracts.Domain.Base.Basic;
+
+using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

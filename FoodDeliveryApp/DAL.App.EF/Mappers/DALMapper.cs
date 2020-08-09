@@ -1,5 +1,8 @@
 using AutoMapper;
-using DAL.Base.EF.Mappers;
+using ee.itcollege.anguzo.DAL.Base.EF.Mappers;
+using ee.itcollege.anguzo.DTO.Identity;
+using ee.itcollege.anguzo.Domain.Identity;
+
 
 namespace DAL.App.EF.Mappers
 {
@@ -11,7 +14,7 @@ namespace DAL.App.EF.Mappers
         { 
             // add more mappings
             
-            MapperConfigurationExpression.CreateMap<Domain.App.Identity.AppUser, DAL.App.DTO.Identity.AppUser>();
+            MapperConfigurationExpression.CreateMap<ee.itcollege.anguzo.Domain.Identity.AppUser, ee.itcollege.anguzo.DTO.Identity.AppUser>();
             MapperConfigurationExpression.CreateMap<Domain.App.Address, DAL.App.DTO.Address>();
             MapperConfigurationExpression.CreateMap<Domain.App.Category, DAL.App.DTO.Category>();
             MapperConfigurationExpression.CreateMap<Domain.App.Item, DAL.App.DTO.Item>();
@@ -31,7 +34,7 @@ namespace DAL.App.EF.Mappers
             MapperConfigurationExpression.CreateMap<Domain.App.Translation, DAL.App.DTO.Translation>();
 
             
-            MapperConfigurationExpression.CreateMap<DAL.App.DTO.Identity.AppUser, Domain.App.Identity.AppUser>();
+            MapperConfigurationExpression.CreateMap<ee.itcollege.anguzo.DTO.Identity.AppUser, ee.itcollege.anguzo.Domain.Identity.AppUser>();
             MapperConfigurationExpression.CreateMap<DAL.App.DTO.Address, Domain.App.Address>();
             MapperConfigurationExpression.CreateMap<DAL.App.DTO.Category, Domain.App.Category>();
             MapperConfigurationExpression.CreateMap<DAL.App.DTO.Item, Domain.App.Item>();

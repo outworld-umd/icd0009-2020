@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading;
-using Domain.Base;
+using ee.itcollege.anguzo.Domain.Base;
 
 namespace Domain.App
 {

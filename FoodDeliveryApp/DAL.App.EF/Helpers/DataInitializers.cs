@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Domain.App;
-using Domain.App.Identity;
+using ee.itcollege.anguzo.Domain.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

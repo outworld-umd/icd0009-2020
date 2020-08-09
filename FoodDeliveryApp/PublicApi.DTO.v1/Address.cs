@@ -1,6 +1,5 @@
 using System;
-using Contracts.Domain.Base.Basic;
-using Domain.App.Identity;
+using ee.itcollege.anguzo.Contracts.Domain.Base.Basic;
 
 namespace PublicApi.DTO.v1 {
 
@@ -13,7 +12,6 @@ namespace PublicApi.DTO.v1 {
         public string? Comment { get; set; }
         public string? Apartment { get; set; }
         public string Name { get; set; } = default!;
-
         public Guid Id { get; set; } = default!;
 
     }

@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using Contracts.Domain.Base;
-using Contracts.Domain.Base.Combined;
-using DAL.App.DTO.Identity;
+using ee.itcollege.anguzo.Contracts.Domain.Base;
+
+using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
+using ee.itcollege.anguzo.DTO.Identity;
 using Domain;
 using Domain.App.Enums;
-using Domain.Base;
-
+using ee.itcollege.anguzo.Domain.Base;
 namespace DAL.App.DTO
 {
     public class Order : Order<Guid, AppUser>, IDomainEntityIdMetadata

@@ -1,7 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Contracts.Domain.Base.Basic;
+using ee.itcollege.anguzo.Contracts.Domain.Base.Basic;
+
 namespace PublicApi.DTO.v1
 {
     public class Restaurant : RestaurantView

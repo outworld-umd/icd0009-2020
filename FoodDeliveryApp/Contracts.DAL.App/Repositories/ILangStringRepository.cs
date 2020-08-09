@@ -1,4 +1,4 @@
-﻿using Contracts.DAL.Base.Repositories;
+﻿using ee.itcollege.anguzo.Contracts.DAL.Base.Repositories;
 using DAL.App.DTO;
 
 namespace Contracts.DAL.App.Repositories

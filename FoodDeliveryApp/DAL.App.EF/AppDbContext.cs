@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Contracts.DAL.Base;
-using Contracts.Domain;
-using Contracts.Domain.Base.Basic;
+using ee.itcollege.anguzo.Contracts.DAL.Base;
+
+using ee.itcollege.anguzo.Contracts.Domain.Base.Basic;
+
 using Domain.App;
-using Domain.App.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using ee.itcollege.anguzo.Domain.Identity;using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF {

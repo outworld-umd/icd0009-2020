@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using Domain.App.Identity;
-
-namespace WebApp.Areas.Admin.ViewModels
+using ee.itcollege.anguzo.Domain.Identity;namespace WebApp.Areas.Admin.ViewModels
 {
     public class UserManagerIndexViewModel
     {
