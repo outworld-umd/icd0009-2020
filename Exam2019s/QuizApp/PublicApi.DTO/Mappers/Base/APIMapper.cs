@@ -24,6 +24,11 @@ namespace PublicApi.DTO.Mappers.Base
             
             MapperConfigurationExpression.CreateMap<Answer, DALAppDTO.Answer>();
             MapperConfigurationExpression.CreateMap<DALAppDTO.Answer, Answer>();
+            
+            MapperConfigurationExpression.CreateMap<QuizSession, DALAppDTO.QuizSession>();
+            MapperConfigurationExpression.CreateMap<DALAppDTO.QuizSession, QuizSession>();
+            MapperConfigurationExpression.CreateMap<DALAppDTO.QuizSession, QuizSessionView>();
+
 
 
             Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));

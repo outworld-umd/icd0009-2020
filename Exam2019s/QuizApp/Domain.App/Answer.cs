@@ -9,16 +9,19 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Domain.App
 {
-    public class Answer : Answer<Guid, AppUser>, IDomainEntityIdMetadataUser<AppUser>
+    public class Answer : Answer<Guid, AppUser>, IDomainEntityIdMetadata
     {
     }
 
-    public class Answer<TKey, TUser> : DomainEntityIdMetadataUser<TKey, TUser>
+    public class Answer<TKey, TUser> : DomainEntityIdMetadata<TKey>
         where TKey : IEquatable<TKey>
-        where TUser : IdentityUser<TKey>
     {
         public TKey ChoiceId { get; set; } = default!;
         public Choice? Choice { get; set; }
+        
+        public TKey QuizSessionId { get; set; } = default!;
+        public QuizSession QuizSession { get; set; } = default!;
 
+        public bool? IsCorrect { get; set; }
     }
 }

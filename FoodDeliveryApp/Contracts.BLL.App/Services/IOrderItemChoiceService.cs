@@ -3,6 +3,5 @@ using ee.itcollege.anguzo.Contracts.BLL.Base.Services;namespace Contracts.BLL.Ap
 {
     public interface IOrderItemChoiceService : IBaseEntityService<OrderItemChoice>
     {
-        
     }
 }

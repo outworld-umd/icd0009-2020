@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using DAL.App.DTO.Identity;
+using Domain.App.Enums;
+using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
 using ee.itcollege.anguzo.Domain.Base;
 using Microsoft.AspNetCore.Identity;
-using Type = Domain.App.Enums.Type;
 
 namespace DAL.App.DTO
 {
-    public class Quiz : Quiz<Guid, AppUser>
+    public class Quiz : Quiz<Guid, AppUser>, IDomainEntityIdMetadataUser<AppUser>
     {
         public new Guid? AppUserId { get; set; }
         public new AppUser? AppUser { get; set; }
@@ -21,8 +22,11 @@ namespace DAL.App.DTO
 
         public string? Description { get; set; }
 
-        public Type Type { get; set; } = default!;
+        public QuizType QuizType { get; set; } = default!;
 
+        public ICollection<QuizSession>? QuizSessions { get; set; }
         public ICollection<Question>? Questions { get; set; }
+
+        public int TimesTaken => QuizSessions?.Count ?? 0;
     }
 }

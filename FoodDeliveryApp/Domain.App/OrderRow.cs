@@ -5,12 +5,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 using ee.itcollege.anguzo.Contracts.Domain;
 using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
 using ee.itcollege.anguzo.Domain.Base;
-using ee.itcollege.anguzo.Domain.Identity;namespace Domain.App
+using ee.itcollege.anguzo.Domain.Identity;
+
+namespace Domain.App
 {
-    public class OrderRow : OrderRow<Guid>, IDomainEntityIdMetadata {
-        
+    public class OrderRow : OrderRow<Guid>, IDomainEntityIdMetadata
+    {
     }
-    
+
     public class OrderRow<TKey> : DomainEntityIdMetadata<TKey>
         where TKey : IEquatable<TKey>
     {
@@ -21,7 +23,11 @@ using ee.itcollege.anguzo.Domain.Identity;namespace Domain.App
         public TKey OrderId { get; set; } = default!;
         public Order? Order { get; set; }
         [Range(1, 20)] [Required] public int Amount { get; set; }
-        [Column(TypeName = "decimal(6,2)")] [Required] public decimal Cost { get; set; }
+
+        [Column(TypeName = "decimal(6,2)")]
+        [Required]
+        public decimal Cost { get; set; }
+
         [MaxLength(512)] public string? Comment { get; set; }
         public ICollection<OrderItemChoice>? OrderItemChoices { get; set; }
     }

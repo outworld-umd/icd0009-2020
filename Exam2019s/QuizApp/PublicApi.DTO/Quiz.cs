@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Type = Domain.App.Enums.Type;
+using Domain.App.Enums;
 
 namespace PublicApi.DTO
 {
@@ -9,7 +9,7 @@ namespace PublicApi.DTO
         public Guid Id { get; set; }
         public string Title { get; set; } = default!;
         public string? Description { get; set; }
-        public Type Type { get; set; }
+        public QuizType QuizType { get; set; }
         public ICollection<Question>? Questions { get; set; }
     }
 
@@ -18,8 +18,9 @@ namespace PublicApi.DTO
         public Guid Id { get; set; }
         public string Title { get; set; } = default!;
         public string? Description { get; set; }
-        public Type Type { get; set; }
+        public QuizType QuizType { get; set; }
         public ICollection<QuestionView>? Questions { get; set; }
+        public int TimesTaken { get; set; }
     }
 
     public class QuizDisplay
@@ -27,6 +28,8 @@ namespace PublicApi.DTO
         public Guid Id { get; set; }
         public string Title { get; set; } = default!;
         public string? Description { get; set; }
-        public Type Type { get; set; }
+        public QuizType QuizType { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public int TimesTaken { get; set; }
     }
 }

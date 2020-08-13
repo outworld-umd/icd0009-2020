@@ -15,13 +15,15 @@ namespace DAL.App.EF.Mappers
             MapperConfigurationExpression.CreateMap<Choice, DALAppDTO.Choice>();
             MapperConfigurationExpression.CreateMap<Question, DALAppDTO.Question>();
             MapperConfigurationExpression.CreateMap<Quiz, DALAppDTO.Quiz>();
+            MapperConfigurationExpression.CreateMap<QuizSession, DALAppDTO.QuizSession>();
 
-
+            
             MapperConfigurationExpression.CreateMap<DALAppDTO.Identity.AppUser, Domain.App.Identity.AppUser>();
             MapperConfigurationExpression.CreateMap<DALAppDTO.Answer, Answer>();
             MapperConfigurationExpression.CreateMap<DALAppDTO.Choice, Choice>();
             MapperConfigurationExpression.CreateMap<DALAppDTO.Question, Question>();
             MapperConfigurationExpression.CreateMap<DALAppDTO.Quiz, Quiz>();
+            MapperConfigurationExpression.CreateMap<DALAppDTO.QuizSession, QuizSession>();
 
 
             Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));

@@ -1,4 +1,4 @@
-﻿﻿using AutoMapper;
+﻿using AutoMapper;
 using AutoMapper.Configuration;
 
 namespace PublicApi.DTO.v1.Mappers.Base
@@ -21,7 +21,7 @@ namespace PublicApi.DTO.v1.Mappers.Base
             MapperConfigurationExpression = new MapperConfigurationExpression();
             MapperConfigurationExpression.CreateMap<TLeftObject, TRightObject>();
             MapperConfigurationExpression.CreateMap<TRightObject, TLeftObject>();
-            
+
             Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));
         }
 

@@ -5,8 +5,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="ee.itcollege.anguzo.Domain.Identity" Version="1.2.0" />
-      <ProjectReference Include="..\Resources\Resources.csproj" />
+        <PackageReference Include="ee.itcollege.anguzo.Domain.Identity" Version="1.2.0" />
+        <ProjectReference Include="..\Resources\Resources.csproj" />
         <PackageReference Include="ee.itcollege.anguzo.Contracts.Domain.Base" Version="1.2.0" />
         <PackageReference Include="ee.itcollege.anguzo.Domain.Base" Version="1.2.0" />
     </ItemGroup>

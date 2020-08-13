@@ -2,8 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_SolutionFiles", "_SolutionFiles", "{217FF93B-222C-40A5-AFD9-9BF2003B88DD}"
 ProjectSection(SolutionItems) = preProject
-				.dockerignore = .dockerignore
-				Dockerfile = Dockerfile
+    .dockerignore = .dockerignore
+    Dockerfile = Dockerfile
 	..\.gitignore = ..\.gitignore
 	Directory.Build.props = Directory.Build.props
 	README.md = README.md

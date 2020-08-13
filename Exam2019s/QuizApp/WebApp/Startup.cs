@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Contracts.DAL.App;
 using ee.itcollege.anguzo.Contracts.DAL.Base;
 using DAL.App.EF;
+using Domain.App.Identity;
 using ee.itcollege.anguzo.Domain.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -118,7 +119,7 @@ namespace WebApp
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                // app.UseDatabaseErrorPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {

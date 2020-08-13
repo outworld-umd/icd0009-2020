@@ -23,11 +23,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extensions", "Extensions\Extensions.csproj", "{310536F8-DDD6-439A-A792-6261632CFFDE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_SolutionFiles", "_SolutionFiles", "{2CAABE52-D833-40A9-88F9-9B57DEEF2735}"
-    ProjectSection(SolutionItems) = preProject
-        .gitignore = ..\..\.gitignore
-        Directory.Build.props = Directory.Build.props
-        README.md = README.md
-    EndProjectSection
+				ProjectSection(SolutionItems) = preProject
+								.gitignore = ..\..\.gitignore
+								Directory.Build.props = Directory.Build.props
+								README.md = README.md
+				EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

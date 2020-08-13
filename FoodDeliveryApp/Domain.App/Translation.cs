@@ -8,8 +8,8 @@ namespace Domain.App
 {
     public class Translation : Translation<Guid>, IDomainEntityIdMetadata
     {
-        
     }
+
     public class Translation<TKey> : DomainEntityIdMetadata<TKey>
         where TKey : IEquatable<TKey>
     {

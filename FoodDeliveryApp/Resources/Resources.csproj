@@ -229,5 +229,10 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>Translation.resx</DependentUpon>
         </Compile>
+        <Compile Update="BLL.App.DTO\Lol\Lol.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Lol.resx</DependentUpon>
+        </Compile>
     </ItemGroup>
 </Project>

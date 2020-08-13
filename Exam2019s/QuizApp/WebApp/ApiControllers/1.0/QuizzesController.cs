@@ -32,7 +32,7 @@ namespace WebApp.ApiControllers._1._0
 
         // GET: api/Quizzes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Quiz>> GetQuiz(Guid id)
+        public async Task<ActionResult<QuizView>> GetQuiz(Guid id)
         {
             var quiz = await _uow.Quizzes.FirstOrDefaultAsync(id);
 
