@@ -1,8 +1,6 @@
 using System;
 using ee.itcollege.anguzo.Contracts.Domain.Base;
-
 using ee.itcollege.anguzo.Contracts.Domain.Base.Basic;
-
 using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
 using ee.itcollege.anguzo.DTO.Identity;
 using Domain.App;

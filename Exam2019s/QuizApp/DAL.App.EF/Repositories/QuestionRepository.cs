@@ -21,6 +21,7 @@ namespace DAL.App.EF.Repositories
         {
             var query = PrepareQuery(userId, noTracking);
             var domainEntities = await query
+                .Include(a => a.CorrectChoice)
                 .Include(a => a.Choices)
                 .ThenInclude(a => a.Answers)
                 .Include(a => a.Quiz)
@@ -34,6 +35,7 @@ namespace DAL.App.EF.Repositories
         {
             var query = PrepareQuery(userId, noTracking);
             var entity = await query
+                .Include(a => a.CorrectChoice)
                 .Include(a => a.Choices)
                 .ThenInclude(a => a.Answers)
                 .Include(a => a.Quiz)

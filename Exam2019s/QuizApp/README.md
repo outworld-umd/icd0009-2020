@@ -12,4 +12,18 @@ dotnet aspnet-codegenerator controller -name QuizzesController -actions -m Domai
 dotnet aspnet-codegenerator controller -name QuestionsController -actions -m Domain.App.Question -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
 dotnet aspnet-codegenerator controller -name ChoicesController -actions -m Domain.App.Choice -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
 dotnet aspnet-codegenerator controller -name AnswersController -actions -m Domain.App.Answer -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
+dotnet aspnet-codegenerator controller -name QuizSessionsController -actions -m Domain.App.QuizSession -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
 ```
+### Generating MVC/Views controllers
+```
+dotnet aspnet-codegenerator controller -name QuizzesController -actions -m Domain.App.Quiz -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
+dotnet aspnet-codegenerator controller -name QuestionsController -actions -m Domain.App.Question -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
+dotnet aspnet-codegenerator controller -name ChoicesController -actions -m Domain.App.Choice -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
+dotnet aspnet-codegenerator controller -name AnswersController -actions -m Domain.App.Answer -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
+dotnet aspnet-codegenerator controller -name QuizSessionsController -actions -m Domain.App.QuizSession -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
+```
+After scaffolding do global search & replace:
+~~~
+</dd class> => </dd>
+asp-validation-summary="ModelOnly" => asp-validation-summary="All"
+~~~ 

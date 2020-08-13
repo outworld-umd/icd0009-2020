@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
 using ee.itcollege.anguzo.Domain.Base;
 
 namespace DAL.App.DTO
 {
-    public class Choice : Choice<Guid>
+    public class Choice : Choice<Guid>, IDomainEntityIdMetadata
     {
     }
 
@@ -19,7 +20,7 @@ namespace DAL.App.DTO
         public Question? Question { get; set; }
 
         public ICollection<Answer>? Answers { get; set; }
-        public int? TimesAnswered => Answers!.Count;
 
+        public int TimesAnswered => Answers?.Count ?? 0;
     }
 }

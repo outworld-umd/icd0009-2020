@@ -1,6 +1,6 @@
 namespace Domain.App.Enums
 {
-    public enum Type
+    public enum QuizType
     {
         Quiz, Poll
     }

@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using Domain.App.Enums;
 using Domain.App.Identity;
 using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
 using ee.itcollege.anguzo.Domain.Base;
 using Microsoft.AspNetCore.Identity;
-using Type = Domain.App.Enums.Type;
 
 namespace Domain.App
 {
@@ -24,8 +22,9 @@ namespace Domain.App
 
         public string? Description { get; set; }
 
-        public Type Type { get; set; } = default!;
+        public QuizType QuizType { get; set; } = default!;
 
+        public ICollection<QuizSession>? QuizSessions { get; set; }
         public ICollection<Question>? Questions { get; set; }
     }
 }

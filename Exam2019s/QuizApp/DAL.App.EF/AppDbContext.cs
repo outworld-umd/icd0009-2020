@@ -18,9 +18,11 @@ namespace DAL.App.EF
         private readonly IUserNameProvider _userNameProvider;
         
         public DbSet<Quiz> Quizzes { get; set; } = default!;
+        
         public DbSet<Question> Questions { get; set; } = default!;
         public DbSet<Choice> Choices { get; set; } = default!;
         public DbSet<Answer> Answers { get; set; } = default!;
+        public DbSet<QuizSession> QuizSessions { get; set; } = default!;
 
         private readonly Dictionary<IDomainEntityId<Guid>, IDomainEntityId<Guid>> _entityTracker =
             new Dictionary<IDomainEntityId<Guid>, IDomainEntityId<Guid>>();
@@ -41,6 +43,10 @@ namespace DAL.App.EF
             modelBuilder.Entity<Quiz>()
                 .HasOne(q => q.AppUser)
                 .WithMany(au => au!.Quizzes)
+                .OnDelete(DeleteBehavior.SetNull);
+            modelBuilder.Entity<QuizSession>()
+                .HasOne(q => q.Quiz)
+                .WithMany(au => au!.QuizSessions)
                 .OnDelete(DeleteBehavior.SetNull);
         }
 

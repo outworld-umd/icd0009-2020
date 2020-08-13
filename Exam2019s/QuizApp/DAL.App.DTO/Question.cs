@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
 using ee.itcollege.anguzo.Domain.Base;
 
 namespace DAL.App.DTO
 {
-    public class Question : Question<Guid>
+    public class Question : Question<Guid>, IDomainEntityIdMetadata
     {
         public Guid? CorrectChoiceId { get; set; }
         [ForeignKey(nameof(CorrectChoiceId))] 
@@ -24,6 +25,7 @@ namespace DAL.App.DTO
         public Quiz? Quiz { get; set; }
 
         public ICollection<Choice>? Choices { get; set; }
-        public int? TimesAnswered => Choices.Select(c => c.Answers!.Count).Sum();
+        
+        public int TimesAnswered => Choices?.Select(c => c.TimesAnswered).Sum() ?? 0;
     }
 }

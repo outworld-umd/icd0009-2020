@@ -11,7 +11,7 @@ namespace Domain.App
     {
         private static string _defaultCulture = "en";
         public ICollection<Translation>? Translations { get; set; }
-        
+
         [InverseProperty(nameof(Category.Name))]
         public ICollection<Category>? CategoryNames { get; set; }
 
@@ -107,6 +107,7 @@ namespace Domain.App
         // define automatic (implicit) conversions when needed
         // "foo" + new LangString("bar") => "foobar"
         public static implicit operator string(LangString? l) => l?.ToString() ?? "null";
+
         // langStrProperty = "foobar"
         public static implicit operator LangString(string s) => new LangString(s);
     }

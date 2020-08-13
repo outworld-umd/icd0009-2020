@@ -11,6 +11,7 @@
     <ItemGroup>
       <ProjectReference Include="..\BLL.App.DTO\BLL.App.DTO.csproj" />
         <PackageReference Include="ee.itcollege.anguzo.DAL.Base.EF" Version="1.0.0" />
+        <ProjectReference Include="..\DAL.App.DTO\DAL.App.DTO.csproj" />
         <ProjectReference Include="..\Domain.App\Domain.App.csproj" />
     </ItemGroup>
 

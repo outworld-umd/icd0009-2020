@@ -34,7 +34,8 @@ namespace DAL.App.EF.Repositories {
             var entity = await query
                 .Include(r => r.Category)
                 .ThenInclude(l => l!.Name)
-                .ThenInclude(t => t!.Translations)                .Include(r => r.Restaurant)
+                .ThenInclude(t => t!.Translations)                
+                .Include(r => r.Restaurant)
                 .FirstOrDefaultAsync(e => e.Id.Equals(id));
             return DALMapper.Map(entity);
         }

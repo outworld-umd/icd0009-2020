@@ -4,15 +4,14 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ee.itcollege.anguzo.Contracts.DAL.Base;
-
 using ee.itcollege.anguzo.Contracts.Domain.Base.Basic;
-
 using Domain.App;
-using ee.itcollege.anguzo.Domain.Identity;using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using ee.itcollege.anguzo.Domain.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAL.App.EF {
-
+namespace DAL.App.EF
+{
     public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>, IBaseEntityTracker
     {
         private readonly IUserNameProvider _userNameProvider;
@@ -34,7 +33,7 @@ namespace DAL.App.EF {
         public DbSet<WorkingHours> WorkingHourses { get; set; } = default!;
         public DbSet<LangString> LangStrings { get; set; } = default!;
         public DbSet<Translation> Translations { get; set; } = default!;
-        
+
         private readonly Dictionary<IDomainEntityId<Guid>, IDomainEntityId<Guid>> _entityTracker =
             new Dictionary<IDomainEntityId<Guid>, IDomainEntityId<Guid>>();
 
@@ -42,7 +41,7 @@ namespace DAL.App.EF {
         {
             _userNameProvider = userNameProvider;
         }
-        
+
         public void AddToEntityTracker(IDomainEntityId<Guid> internalEntity, IDomainEntityId<Guid> externalEntity)
         {
             _entityTracker.Add(internalEntity, externalEntity);
@@ -72,12 +71,12 @@ namespace DAL.App.EF {
                 .WithMany(b => b!.OrderItemChoices)
                 .OnDelete(DeleteBehavior.SetNull);
         }
-        
+
         private void SaveChangesMetadataUpdate()
         {
             // update the state of ef tracked objects
             ChangeTracker.DetectChanges();
-            
+
             var markedAsAdded = ChangeTracker.Entries().Where(x => x.State == EntityState.Added);
             foreach (var entityEntry in markedAsAdded)
             {
@@ -102,8 +101,8 @@ namespace DAL.App.EF {
                 entityEntry.Property(nameof(entityWithMetaData.CreatedAt)).IsModified = false;
                 entityEntry.Property(nameof(entityWithMetaData.CreatedBy)).IsModified = false;
             }
-            
         }
+
         private void UpdateTrackedEntities()
         {
             foreach (var (key, value) in _entityTracker)
@@ -128,5 +127,4 @@ namespace DAL.App.EF {
             return result;
         }
     }
-
 }
