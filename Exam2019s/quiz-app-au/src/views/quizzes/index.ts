@@ -32,16 +32,6 @@ export class QuizzesIndex {
                     this._alert = null;
                     this._quizzes = response.data;
                 } else {
-                    this._quizzes = [
-                        {
-                            "id": "f772f4ee-44c7-4504-b091-1f8b8954e500",
-                            "title": "123",
-                            "description": "nakjfaskfnaoingwoengowie weojmofiwej foiwef oweijf woeif oweif oweif ewoifm eoi",
-                            "quizType": 0,
-                            "createdAt": new Date(),
-                            "timesTaken": 1
-                        }
-                    ]
                     this._alert = {
                         message: response.statusCode.toString() + ' - ' + response.messages,
                         type: AlertType.Danger,

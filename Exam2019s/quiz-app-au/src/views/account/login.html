@@ -1,7 +1,9 @@
 <template>
+    <div class="alert alert-danger show" role="alert" if.bind="_loginWasOk === false">
+        <strong>Warning!</strong> Username/password is incorrect!
+    </div>
     <div class="container w-25">
         <div>
-            <h3 class="font-weight-light text-danger mt-5" if.bind="_loginWasOk === false">Bad Login</h3>
             <div class="text-left">
                 <label class="control-label w-100 form-group font-weight-light font-italic">
                     Email

@@ -13,7 +13,7 @@ export class BaseService {
 
 
     protected axios = Axios.create({
-        baseURL: "https://backcolt.azurewebsites.net/api/v1.0/",
+        baseURL: "https://localhost:5001/api/v1.0/",
         headers: {
             common: {
                 'Content-Type': 'application/json'
@@ -42,7 +42,7 @@ export class BaseService {
                 return {
                     isSuccessful: false,
                     statusCode: error.response?.status ?? 500,
-                    messages: (error.response?.data as IMessage)?.messages ?? ["Fuck, something went wrong!"]
+                    messages: (error.response?.data as IMessage)?.messages ?? ["Server side error!"]
                 }
             })
     }
@@ -59,7 +59,7 @@ export class BaseService {
                 return {
                     isSuccessful: false,
                     statusCode: error.response?.status ?? 500,
-                    messages: (error.response?.data as IMessage)?.messages ?? []
+                    messages: (error.response?.data as IMessage)?.messages ?? ["Server side error!"]
                 }
             })
     }
@@ -76,7 +76,7 @@ export class BaseService {
                 return {
                     isSuccessful: false,
                     statusCode: error.response?.status ?? 500,
-                    messages: (error.response?.data as IMessage)?.messages ?? []
+                    messages: (error.response?.data as IMessage)?.messages ?? ["Server side error!"]
                 }
             })
     }
@@ -92,7 +92,7 @@ export class BaseService {
                 return {
                     isSuccessful: false,
                     statusCode: error.response?.status ?? 500,
-                    messages: (error.response?.data as IMessage)?.messages ?? []
+                    messages: (error.response?.data as IMessage)?.messages ?? ["Server side error!"]
                 }
             })
     }
@@ -109,7 +109,7 @@ export class BaseService {
                 return {
                     isSuccessful: false,
                     statusCode: error.response?.status ?? 500,
-                    messages: (error.response?.data as IMessage)?.messages ?? []
+                    messages: (error.response?.data as IMessage)?.messages ?? ["Server side error!"]
                 }
             })
     }
@@ -125,7 +125,7 @@ export class BaseService {
                 return {
                     isSuccessful: false,
                     statusCode: error.response?.status ?? 500,
-                    messages: (error.response?.data as IMessage)?.messages ?? []
+                    messages: (error.response?.data as IMessage)?.messages ?? ["Server side error!"]
                 }
             })
     }
