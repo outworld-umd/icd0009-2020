@@ -5,9 +5,20 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Helpers" />
-      <Folder Include="Mappers" />
-      <Folder Include="Repositories" />
+      <PackageReference Include="AutoMapper" Version="10.0.0" />
+      <PackageReference Include="ee.itcollege.anguzo.Contracts.DAL.Base" Version="1.0.0" />
+      <PackageReference Include="ee.itcollege.anguzo.DAL.Base.EF" Version="1.0.0" />
+      <PackageReference Include="ee.itcollege.anguzo.Domain.Identity" Version="1.2.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.7" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.7" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.7" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.7" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Contracts.DAL.App\Contracts.DAL.App.csproj" />
+      <ProjectReference Include="..\DAL.App.DTO\DAL.App.DTO.csproj" />
+      <ProjectReference Include="..\Domain.App\Domain.App.csproj" />
     </ItemGroup>
 
 </Project>

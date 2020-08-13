@@ -5,7 +5,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Enums" />
+      <PackageReference Include="ee.itcollege.anguzo.Contracts.Domain.Base" Version="1.2.0" />
+      <PackageReference Include="ee.itcollege.anguzo.Domain.Base" Version="1.2.0" />
+      <PackageReference Include="ee.itcollege.anguzo.Domain.Identity" Version="1.2.0" />
+      <PackageReference Include="System.ComponentModel.Annotations" Version="4.3.0" />
     </ItemGroup>
 
 </Project>

@@ -4,4 +4,13 @@
         <TargetFramework>netstandard2.1</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="ee.itcollege.anguzo.Domain.Base" Version="1.2.0" />
+      <PackageReference Include="ee.itcollege.anguzo.Domain.Identity" Version="1.2.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Domain.App\Domain.App.csproj" />
+    </ItemGroup>
+
 </Project>
