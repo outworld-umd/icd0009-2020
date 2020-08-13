@@ -1,5 +1,5 @@
-import {IQuizDisplay, IQuizView} from "./IQuiz";
-import {IAnswer} from "./IAnswer";
+import { IQuizDisplay, IQuizView } from "./IQuiz";
+import { IAnswer, IAnswerCreate } from "./IAnswer";
 
 export interface IQuizSession {
     id: string;
@@ -13,4 +13,9 @@ export interface IQuizSessionView {
     id: string;
     createdAt: Date;
     quiz: IQuizDisplay;
+}
+
+export interface IQuizSessionCreate {
+    quizId: string;
+    answers: IAnswerCreate[];
 }

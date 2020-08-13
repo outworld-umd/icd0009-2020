@@ -22,7 +22,7 @@ export interface IQuizDisplay {
     title: string;
     description?: string;
     quizType: IQuizType;
-    createdAt: string;
+    createdAt: Date;
     timesTaken: number;
 }
 

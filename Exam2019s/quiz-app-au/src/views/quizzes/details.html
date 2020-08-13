@@ -1,0 +1,39 @@
+<template>
+    <div class="container">
+        <require from="../../components/alert"></require>
+        <alert alert-data.bind="_alert"></alert>
+        <div if.bind="_loading" class="text-center">
+            <div class="spinner-border m-5 text-success" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div if.bind="_quiz">
+            <div class="d-flex justify-content-between">
+                <a class="d-flex btn px-4 btn-secondary" route-href="route: quiz-index;">Back</a>
+                <button if.bind="_quiz.quizType === 0" class="d-flex btn ${_spoiler ? 'btn-success' : 'btn-danger'}" style="right: 0" click.delegate="toggleSpoiler()">${_spoiler ? 'Hide' : 'Show'} correct answers</button>
+            </div>
+            <div class="text-center">
+                <h2 class="font-weight-bold">${_quiz.title}</h2>
+                <h4 class="my-3">
+                    <span if.bind="_quiz.quizType === 0" class="badge badge-primary">Quiz</span>
+                    <span if.bind="_quiz.quizType === 1" class="badge badge-success">Poll</span>
+                </h4>
+                <div class="font-weight-light">This ${_quiz.quizType === 0 ? 'quiz' : 'poll'} was taken ${_quiz.timesTaken} times</div>
+            </div>
+            <div class="p-2 mx-auto w-75" repeat.for="question of _quiz.questions">
+                <div class="my-3">
+                    <div class="font-weight-bold">${question.title}</div>
+                    <div class="font-italic font-weight-light">${question.description}</div>
+                </div>
+                <div class="list-group list-group-flush font-weight-light">
+                    <div class="align-items-center card-header ${question.correctChoiceId === choice.id && _quiz.quizType === 0 && _spoiler ? 'alert-success' : ''}" repeat.for="choice of question.choices">
+                        <div class="d-flex align-items-center">
+                            ${choice.value}
+                            <div class="ml-auto">${choice.timesAnswered} (${(choice.timesAnswered * 100 / question.timesAnswered).toFixed(1)}%)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

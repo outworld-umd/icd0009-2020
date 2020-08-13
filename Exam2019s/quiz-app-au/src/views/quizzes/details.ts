@@ -1,49 +1,33 @@
 import { NavigationInstruction, RouteConfig, Router } from "aurelia-router";
 import { AppState } from '../../state/app-state';
 import { autoinject } from 'aurelia-framework';
-import { QuizSessionService } from "../../service/quiz-session-service";
 import { IAlertData } from "../../types/IAlertData";
 import { AlertType } from "../../types/AlertType";
-import { IQuizSession } from "../../domain/IQuizSession";
+import { QuizService } from "../../service/quiz-service";
+import { IQuizView } from "../../domain/IQuiz";
 
 @autoinject
-export class SessionsDetails {
+export class QuizDetails {
 
     private _loading = false;
+    private _spoiler = false;
 
     private _alert: IAlertData | null = null;
-    private _session: IQuizSession | null = null;
+    private _quiz: IQuizView | null = null;
 
-    constructor(private sessionService: QuizSessionService, private appState: AppState, private router: Router) {
+    constructor(private quizService: QuizService, private appState: AppState, private router: Router) {
     }
 
-    async getSession(id: string) {
+    async getQuiz(id: string) {
         this._loading = !this._loading;
-        await this.sessionService.get(id).then(
+        await this.quizService.get(id).then(
             response => {
                 console.log("updated", response.data)
                 if (response.isSuccessful) {
                     this._alert = null;
-                    this._session = response.data;
+                    this._quiz = response.data;
                 } else {
-                    this._session = {
-                        answers: [
-                            {
-                                id: '5',
-                                choiceId: '374',
-                                isCorrect: true,
-                                quizSessionId: '1'
-                            },
-                            {
-                                id: '54',
-                                choiceId: '344',
-                                isCorrect: false,
-                                quizSessionId: '1'
-                            }
-                        ],
-                        createdAt: new Date(),
-                        id: "1",
-                        quiz: {
+                    this._quiz = {
                             id: "2",
                             title: "Test your knowledge",
                             quizType: 0,
@@ -106,8 +90,7 @@ export class SessionsDetails {
                                }
                            ],
                            timesTaken: 23
-                        },
-                        quizId: "2"}
+                    }
                     this._alert = {
                         message: response.statusCode.toString() + ' - ' + response.messages,
                         type: AlertType.Danger,
@@ -120,15 +103,11 @@ export class SessionsDetails {
 
     async activate(params: any, routeConfig: RouteConfig, navigationInstruction: NavigationInstruction) {
         if (params.id && typeof (params.id) == 'string') {
-            await this.getSession(params.id);
+            await this.getQuiz(params.id);
         }
     }
 
-    isAnswered(id: string): boolean {
-        return this._session.answers.map(e => e.choiceId).includes(id);
-    }
-
-    isCheckOrTimes(correctId: string, id: string): string {
-        return (correctId === id || this._session.quiz.quizType === 1 ? 'fa-check' : 'fa-times') + (this.isAnswered(id) ? '' : 'invisible');
+    toggleSpoiler(): void {
+        this._spoiler = !this._spoiler;
     }
 }

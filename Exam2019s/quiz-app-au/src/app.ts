@@ -22,8 +22,12 @@ export class App {
             { route: ['account/login'], name: 'account-login', moduleId: PLATFORM.moduleName('views/account/login'), nav: false, title: 'Login' },
             { route: ['account/register'], name: 'account-register', moduleId: PLATFORM.moduleName('views/account/register'), nav: false, title: 'Register' },
 
-            { route: ['sessions', 'sessions/index'], name: 'session-index', moduleId: PLATFORM.moduleName('views/sessions/index'), nav: true, title: 'Sessions' },
-            { route: ['session/:id?'], name: 'session-details', moduleId: PLATFORM.moduleName('views/sessions/details'), nav: false, title: 'Session Details' }
+            { route: ['sessions', 'sessions/index'], name: 'session-index', moduleId: PLATFORM.moduleName('views/sessions/index'), nav: false, title: 'Sessions' },
+            { route: ['session/:id?/details'], name: 'session-details', moduleId: PLATFORM.moduleName('views/sessions/details'), nav: false, title: 'Session Details' },
+
+            { route: ['quizzes', 'quizzes/index'], name: 'quiz-index', moduleId: PLATFORM.moduleName('views/quizzes/index'), nav: true, title: 'Quizzes' },
+            { route: ['quizzes/:id?/details'], name: 'quiz-details', moduleId: PLATFORM.moduleName('views/quizzes/details'), nav: false, title: 'Quiz Details' },
+            { route: ['quizzes/:id?/take'], name: 'quiz-take', moduleId: PLATFORM.moduleName('views/quizzes/take'), nav: false, title: 'Take a Quiz' }
         ]);
 
         config.mapUnknownRoutes('views/home/index');

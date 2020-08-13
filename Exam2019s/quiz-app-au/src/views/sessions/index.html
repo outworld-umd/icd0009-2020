@@ -24,10 +24,10 @@
                         <div class="collapse" id="${'a' + session.id}">
                             <div class="card card-body">
                                 <h4 class="mr-4">
-                                    <span if.bind="session.quiz.quizType === 0" class="badge badge-secondary w-100">Quiz</span>
-                                    <span if.bind="session.quiz.quizType === 1" class="badge badge-info w-100">Poll</span>
+                                    <span if.bind="session.quiz.quizType === 0" class="badge badge-primary w-100">Quiz</span>
+                                    <span if.bind="session.quiz.quizType === 1" class="badge badge-success w-100">Poll</span>
                                 </h4>
-                                <div class="font-weight-light">Taken at: ${session.quiz.createdAt}</div>
+                                <div class="font-weight-light">Taken at: ${_session.createdAt.toLocaleString('ru-RU')}</div>
                                 <div class="font-weight-light">Others have taken it ${session.quiz.timesTaken} times</div>
                                 <div class="text-center">
                                     <a class="btn px-4 btn-secondary text-white" route-href="route: session-details; params.bind: { id: session.id }">More</a>

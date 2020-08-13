@@ -11,6 +11,7 @@ export interface IQuestionView {
     id: string;
     title: string;
     description?: string;
+    correctChoiceId?: string;
     choices: IChoiceView[];
     quizId: string;
     timesAnswered: number;

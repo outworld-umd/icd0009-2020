@@ -35,7 +35,7 @@ export class SessionsIndex {
                                 "title": "123",
                                 "description": null,
                                 "quizType": 0,
-                                "createdAt": "2020-08-13T11:11:55.1555373",
+                                "createdAt": new Date(),
                                 "timesTaken": 1
                             }
                         }
