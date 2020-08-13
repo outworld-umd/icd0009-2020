@@ -1,0 +1,19 @@
+<template>
+    <div class="container">
+        <require from="../../components/alert"></require>
+        <alert alert-data.bind="_alert"></alert>
+        <div if.bind="_loading" class="text-center">
+            <div class="spinner-border m-5 text-success" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div if.bind="_session">
+            <div>
+                <a class="d-flex btn px-4 btn-secondary position-absolute" route-href="route: session-index;">Back</a>
+            </div>
+            <div class="text-center">
+                <h2 class="m-4 font-weight-bold">Your quiz session</h2>
+            </div>
+        </div>
+    </div>
+</template>
