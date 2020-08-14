@@ -102,6 +102,23 @@ namespace DAL.App.EF.Helpers
 
         public static void SeedData(AppDbContext context)
         {
+        //     var quizzes = new Quiz[]
+        //     {
+        //         new Quiz()
+        //         {
+        //             Id = new Guid("00000000-0000-0000-0000-000000000001")
+        //         },
+        //     };
+        //     
+        //     foreach (var quiz in quizzes)
+        //     {
+        //         if (!context.Quizzes.Any(l => l.Id == quiz.Id))
+        //         {
+        //             context.Quizzes.Add(quiz);
+        //         }
+        //     }
+        //
+        //     context.SaveChanges();
         }
     }
 }

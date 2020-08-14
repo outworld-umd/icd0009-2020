@@ -1,3 +1,4 @@
+@using Domain.App.Enums
 @model IEnumerable<DAL.App.DTO.Quiz>
 
 @{
@@ -9,76 +10,47 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.QuizType)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AppUser!.UserName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TimesTaken)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreatedBy)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ChangedBy)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ChangedAt)
-        </th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.QuizType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AppUser!.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TimesTaken)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedBy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ChangedBy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ChangedAt)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+@foreach (var item in Model)
+{
+    <div class="card my-4">
+        <div class="card-header text-left">
+            <div class="d-flex justify-content-between m-2">
+                <h4>
+                    @if (item.QuizType == QuizType.Quiz)
+                    {
+                        <span class="badge badge-primary">Quiz</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-success">Poll</span>
+                    }
+                    @Html.DisplayFor(modelItem => item.Title)
+                </h4>
+                <div class="btn-group btn-group-sm">
+                    <a class="btn btn-info text-white shadow-none" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a class="btn btn-secondary text-white shadow-none" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    <a class="btn btn-danger text-white shadow-none" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </div>
+            </div>
+            <div class="card card-body my-3">
+                
+                <div class="d-flex justify-content-between">
+                    <div class="font-weight-light">
+                        <p>
+                            <span class="font-italic">Description: </span>@Html.DisplayFor(modelItem => item.Description)
+                        </p>
+                        This quiz/poll has been taken it @Html.DisplayFor(modelItem => item.TimesTaken) times.
+                    </div>
+                    <div class="font-weight-light small text-right">
+                        <div>
+                            Created by @Html.DisplayFor(modelItem => item.CreatedBy) at @Html.DisplayFor(modelItem => item.CreatedAt)
+                        </div>
+                        <div>
+                            Last changed by @Html.DisplayFor(modelItem => item.ChangedBy) at @Html.DisplayFor(modelItem => item.ChangedAt)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

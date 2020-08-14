@@ -1,4 +1,4 @@
-@model DAL.App.DTO.Quiz
+@model QuizzesDetDelViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -8,8 +8,11 @@
 
 <div>
     <partial name="_Shared/_DetailsDelete"/>
+    <div class="text-center">
+        <a class="btn btn-success" asp-controller="Questions" asp-action="Create" asp-route-quiz="@Model.Quiz.Id">Add questions</a>
+    </div>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Quiz.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

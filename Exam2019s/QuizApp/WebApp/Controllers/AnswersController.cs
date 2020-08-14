@@ -8,10 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using DAL.App.DTO;
 using Domain.App.Enums;
 using Extensions;
+using Microsoft.AspNetCore.Authorization;
 using WebApp.ViewModels;
 
 namespace WebApp.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AnswersController : Controller
     {
         private readonly IAppUnitOfWork _uow;

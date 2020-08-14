@@ -7,6 +7,7 @@ using Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using PublicApi.DTO;
 using PublicApi.DTO.Mappers;
 
@@ -15,6 +16,7 @@ namespace WebApp.ApiControllers._1._0
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class QuizSessionsController : ControllerBase
     {
         private readonly IAppUnitOfWork _uow;
@@ -74,10 +76,11 @@ namespace WebApp.ApiControllers._1._0
         public async Task<ActionResult<QuizSession>> PostQuizSession(QuizSession quizSession)
         {
             var entity = _mapper.Map(quizSession);
+            entity.AppUserId = User.UserGuidId();
             _uow.QuizSessions.Add(entity);
             await _uow.SaveChangesAsync();
-
-            return CreatedAtAction("GetQuizSession", new {id = quizSession.Id}, quizSession);
+            Console.WriteLine(entity.Id);
+            return CreatedAtAction("GetQuizSession", new {id = entity.Id}, _mapper.Map(entity));
         }
 
         // DELETE: api/QuizSessions/5

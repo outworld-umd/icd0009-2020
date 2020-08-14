@@ -8,11 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using DAL.App.DTO;
 using Domain.App.Identity;
 using Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using WebApp.ViewModels;
 
 namespace WebApp.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class QuizSessionsController : Controller
     {
         private readonly IAppUnitOfWork _uow;

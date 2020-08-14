@@ -1,4 +1,4 @@
-@model DAL.App.DTO.Quiz
+@model QuizzesDetDelViewModel
 
 @{
     ViewData["Title"] = "Delete";
@@ -10,7 +10,7 @@
 <div>
     <partial name="_Shared/_DetailsDelete"/>
     <form asp-action="Delete">
-        <input type="hidden" asp-for="Id"/>
+        <input type="hidden" asp-for="@Model.Quiz.Id"/>
         <input type="submit" value="Delete" class="btn btn-danger"/> |
         <a asp-action="Index">Back to List</a>
     </form>

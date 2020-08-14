@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.DTO;
 using Domain.App.Enums;
+using Microsoft.AspNetCore.Authorization;
 using WebApp.ViewModels;
 
 namespace WebApp.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ChoicesController : Controller
     {
         private readonly IAppUnitOfWork _uow;
@@ -43,12 +45,19 @@ namespace WebApp.Controllers
         }
 
         // GET: Choices/Create
-        public IActionResult Create()
+        public IActionResult Create(Guid? question)
         {
             var vm = new ChoicesCreateEditViewModel()
             {
                 Questions = new SelectList(_uow.Questions.GetAll(), nameof(Question.Id), nameof(Question.Title))
             };
+            if (question.HasValue)
+            {
+                vm.Choice = new Choice
+                {
+                    QuestionId = question.Value
+                };
+            }
             return View(vm);
         }
 
@@ -64,7 +73,7 @@ namespace WebApp.Controllers
                 vm.Choice.Id = Guid.NewGuid();
                 _uow.Choices.Add(vm.Choice);
                 await _uow.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Questions", new {id = vm.Choice.QuestionId});
             }
 
             vm.Questions = new SelectList(await _uow.Questions.GetAllAsync(), nameof(Question.Id),
@@ -125,7 +134,7 @@ namespace WebApp.Controllers
                     }
                 }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Questions", new {id = vm.Choice.QuestionId});
             }
 
             vm.Questions = new SelectList(await _uow.Questions.GetAllAsync(), nameof(Question.Id),
@@ -159,7 +168,7 @@ namespace WebApp.Controllers
             var choice = await _uow.Choices.FirstOrDefaultAsync(id);
             await _uow.Choices.RemoveAsync(choice);
             await _uow.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "Questions", new {id = choice.QuestionId});
         }
 
         private bool ChoiceExists(Guid id)

@@ -1,4 +1,5 @@
-﻿using DAL.App.DTO;
+﻿using System;
+using DAL.App.DTO;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace WebApp.ViewModels

@@ -26,7 +26,7 @@
                 <div class="list-group list-group-flush font-weight-light">
                     <div class="align-items-center card-header ${question.correctChoiceId === choice.id && _quiz.quizType === 0 && _spoiler ? 'alert-success' : ''}" repeat.for="choice of question.choices">
                         <label class="font-weight-light">
-                            <input model.bind="choice.id" checked.bind="_chosenRadios[question.id]" type="radio">
+                            <input value.bind="choice.id" checked.bind="_chosenRadios[question.id]" type="radio">
                             <span class="ml-3">${choice.value}</span>
                         </label>
                     </div>

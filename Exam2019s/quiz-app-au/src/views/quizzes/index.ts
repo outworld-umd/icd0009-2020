@@ -51,4 +51,8 @@ export class QuizzesIndex {
     async attached() {
         await this.getQuizzes();
     }
+
+    getDate(createdAt: Date): string {
+        return new Date(createdAt).toLocaleString('ru-RU')
+    }
 }

@@ -21,7 +21,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="Questions" asp-action="Details" asp-route-id="@Model.Choice.QuestionId">Back to Question</a>
 </div>
 
 @section Scripts {

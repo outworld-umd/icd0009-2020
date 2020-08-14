@@ -18,6 +18,7 @@ namespace WebApp.ApiControllers._1._0
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class QuizzesController : ControllerBase
     {
         private readonly IAppUnitOfWork _uow;

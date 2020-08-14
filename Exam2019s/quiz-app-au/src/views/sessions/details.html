@@ -17,7 +17,7 @@
                     <span if.bind="_session.quiz.quizType === 0" class="badge badge-primary">Quiz</span>
                     <span if.bind="_session.quiz.quizType === 1" class="badge badge-success">Poll</span>
                 </h4>
-                <div class="font-weight-light">Was tried at: ${_session.createdAt.toLocaleString('ru-RU')}</div>
+                <div class="font-weight-light">Was tried at: ${getDate(_session.createdAt)}</div>
             </div>
             <div class="p-2 my-3 mx-auto w-75" repeat.for="question of _session.quiz.questions">
                 <div class="my-3">

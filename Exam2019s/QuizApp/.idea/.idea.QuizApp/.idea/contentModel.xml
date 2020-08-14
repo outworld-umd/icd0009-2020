@@ -60,8 +60,8 @@
           <e p="IdentityMapper.cs" t="Include" />
         </e>
         <e p="Migrations" t="Include">
-          <e p="20200814115943_InitialDbCreation.cs" t="Include" />
-          <e p="20200814115943_InitialDbCreation.Designer.cs" t="Include" />
+          <e p="20200814143447_InitialDbCreation.cs" t="Include" />
+          <e p="20200814143447_InitialDbCreation.Designer.cs" t="Include" />
           <e p="AppDbContextModelSnapshot.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
@@ -288,6 +288,7 @@
           <e p="QuizSessionsCreateViewModel.cs" t="Include" />
           <e p="QuizViewModel.cs" t="Include" />
           <e p="QuizzesCreateEditViewModel.cs" t="Include" />
+          <e p="QuizzesDetDelViewModel.cs" t="Include" />
           <e p="TakeQuizViewModel.cs" t="Include" />
         </e>
         <e p="Views" t="Include">
@@ -329,6 +330,7 @@
             <e p="Delete.cshtml" t="Include" />
             <e p="Details.cshtml" t="Include" />
             <e p="Edit.cshtml" t="Include" />
+            <e p="EditCorrectChoice.cshtml" t="Include" />
             <e p="Index.cshtml" t="Include" />
           </e>
           <e p="QuizSessions" t="Include">

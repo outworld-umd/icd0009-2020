@@ -31,21 +31,21 @@ namespace WebApp.Controllers
         }
 
         // GET: Quizzes/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(Guid? id, QuizzesDetDelViewModel vm)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
-            var quiz = await _uow.Quizzes
+            
+            vm.Quiz = await _uow.Quizzes
                 .FirstOrDefaultAsync(id.Value);
-            if (quiz == null)
+            if (vm.Quiz == null)
             {
                 return NotFound();
             }
 
-            return View(quiz);
+            return View(vm);
         }
 
         // GET: Quizzes/Create
@@ -68,7 +68,7 @@ namespace WebApp.Controllers
                 vm.Quiz.AppUserId = User.UserGuidId();
                 _uow.Quizzes.Add(vm.Quiz);
                 await _uow.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new {id = vm.Quiz.Id});
             }
 
             return View(vm);
@@ -125,28 +125,28 @@ namespace WebApp.Controllers
                     }
                 }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new {id = vm.Quiz.Id});
             }
 
             return View(vm);
         }
 
         // GET: Quizzes/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(Guid? id, QuizzesDetDelViewModel vm)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var quiz = await _uow.Quizzes
+            vm.Quiz = await _uow.Quizzes
                 .FirstOrDefaultAsync(id.Value);
-            if (quiz == null)
+            if (vm.Quiz == null)
             {
                 return NotFound();
             }
 
-            return View(quiz);
+            return View(vm);
         }
 
         // POST: Quizzes/Delete/5
@@ -155,6 +155,11 @@ namespace WebApp.Controllers
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var quiz = await _uow.Quizzes.FirstOrDefaultAsync(id);
+            foreach (var question in quiz.Questions!)
+            {
+                if (question.CorrectChoiceId.HasValue) await _uow.Choices.RemoveAsync(question.CorrectChoiceId.Value);
+                await _uow.Questions.RemoveAsync(question);
+            }
             await _uow.Quizzes.RemoveAsync(quiz);
             await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

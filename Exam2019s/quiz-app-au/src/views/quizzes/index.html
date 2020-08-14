@@ -48,7 +48,7 @@
                         </div>
                         <div class="card card-body my-3">
                             <p>${quiz.description}</p>
-                            <div class="font-weight-light">Created at: ${quiz.createdAt.toLocaleDateString('ru-RU')}</div>
+                            <div class="font-weight-light">Created at: ${getDate(quiz.createdAt)}</div>
                             <div class="font-weight-light">Others have taken it ${quiz.timesTaken} times</div>
 
                         </div>

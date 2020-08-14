@@ -1,60 +1,86 @@
-﻿@model DAL.App.DTO.Quiz
+﻿@using Domain.App.Enums
+@model QuizzesDetDelViewModel
 
-<h4>Quiz</h4>
 <hr/>
-<dl class="row">
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.Title)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Title)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.Description)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Description)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.QuizType)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.QuizType)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.AppUser)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.AppUser!.FullName)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.TimesTaken)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.TimesTaken)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.CreatedBy)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.CreatedBy)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.CreatedAt)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.CreatedAt)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.ChangedBy)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.ChangedBy)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.ChangedAt)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.ChangedAt)
-    </dd>
-</dl>
+<div class="container">
+    <h3 class="font-weight-bold">
+        @if (Model.Quiz.QuizType == QuizType.Quiz)
+        {
+            <span class="badge badge-primary">Quiz</span>
+        }
+        else
+        {
+            <span class="badge badge-success">Poll</span>
+        }
+        @Html.DisplayFor(model => model.Quiz.Title)
+    </h3>
+    <h5 class="font-weight-light">@Html.DisplayFor(model => model.Quiz.Description)</h5>
+    <div class="mt-3">
+        <div class="float-right">
+            <div class="small font-weight-light text-right">
+                <div>
+                    Created by @Html.DisplayFor(model => model.Quiz.CreatedBy) at @Html.DisplayFor(model => model.Quiz.CreatedAt)
+                </div>
+                <div>
+                    Last changed by @Html.DisplayFor(model => model.Quiz.ChangedBy) at @Html.DisplayFor(model => model.Quiz.ChangedAt)
+                </div>
+            </div>
+        </div>
+    </div>
+    <br class="dropdown-divider"/>
+    <table class="table w-100 text-center mx-auto my-4">
+        <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Question.Title)
+            </th>
+            <th>
+                Choices Count
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question.TimesAnswered)
+            </th>
+            <th>
+                Actions
+            </th>
+            <th>
+                Information
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Quiz.Questions!)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Choices.Count)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TimesAnswered)
+                </td>
+                <td>
+                    <div class="btn-group btn-group-sm">
+                        <a class="btn btn-info text-white shadow-none" asp-controller="Questions" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a class="btn btn-secondary text-white shadow-none" asp-controller="Questions" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        <a class="btn btn-danger text-white shadow-none" asp-controller="Questions" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </div>
+                </td>
+                <td>
+                    <div class="small font-weight-light">
+                        <div>
+                            Created by @Html.DisplayFor(modelItem => item.CreatedBy) at @Html.DisplayFor(modelItem => item.CreatedAt)
+                        </div>
+                        <div>
+                            Last changed by @Html.DisplayFor(modelItem => item.ChangedBy) at @Html.DisplayFor(modelItem => item.ChangedAt)
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+</div>

@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.DTO;
 using Domain.App.Enums;
+using Microsoft.AspNetCore.Authorization;
 using WebApp.ViewModels;
 using QuizSession = PublicApi.DTO.QuizSession;
 
 namespace WebApp.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class QuestionsController : Controller
     {
         private readonly IAppUnitOfWork _uow;
@@ -46,13 +48,20 @@ namespace WebApp.Controllers
         }
 
         // GET: Questions/Create
-        public IActionResult Create()
+        public IActionResult Create(Guid? quiz)
         {
             var vm = new QuestionCreateEditViewModel
             {
                 CorrectChoices = new SelectList(_uow.Choices.GetAll(), nameof(Choice.Id), nameof(Choice.Value)),
                 Quizzes = new SelectList(_uow.Quizzes.GetAll(), nameof(Quiz.Id), nameof(Quiz.Title))
             };
+            if (quiz.HasValue)
+            {
+                vm.Question = new Question
+                {
+                    QuizId = quiz.Value
+                };
+            }
             return View(vm);
         }
 
@@ -68,7 +77,7 @@ namespace WebApp.Controllers
                 vm.Question.Id = Guid.NewGuid();
                 _uow.Questions.Add(vm.Question);
                 await _uow.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Quizzes", new {id = vm.Question.QuizId});
             }
 
             vm.CorrectChoices =
@@ -131,7 +140,70 @@ namespace WebApp.Controllers
                     }
                 }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Quizzes", new {id = vm.Question.QuizId});
+            }
+
+            vm.CorrectChoices =
+                new SelectList(await _uow.Choices.GetAllAsync(), nameof(Choice.Id), nameof(Choice.Value));
+            vm.Quizzes = new SelectList(await _uow.Quizzes.GetAllAsync(), nameof(Quiz.Id), nameof(Quiz.Title));
+            return View(vm);
+        }
+        
+        // GET: Questions/Edit/5
+        public async Task<IActionResult> EditCorrectChoice(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var vm = new QuestionCreateEditViewModel()
+            {
+                Question = await _uow.Questions.FirstOrDefaultAsync(id.Value)
+            };
+            if (vm.Question == null)
+            {
+                return NotFound();
+            }
+
+            vm.CorrectChoices =
+                new SelectList((await _uow.Choices.GetAllAsync()).Where(q => q.QuestionId.Equals(id)), nameof(Choice.Id), nameof(Choice.Value));
+            vm.Quizzes = new SelectList(await _uow.Quizzes.GetAllAsync(), nameof(Quiz.Id), nameof(Quiz.Title));
+            return View(vm);
+        }
+
+        // POST: Questions/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditCorrectChoice(Guid id, QuestionCreateEditViewModel vm)
+        {
+            if (id != vm.Question.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _uow.Questions.UpdateAsync(vm.Question);
+                    await _uow.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!QuestionExists(vm.Question.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return RedirectToAction("Details", "Questions", new {id = vm.Question.Id});
             }
 
             vm.CorrectChoices =
@@ -165,9 +237,10 @@ namespace WebApp.Controllers
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var question = await _uow.Questions.FirstOrDefaultAsync(id);
+            if (question.CorrectChoiceId.HasValue) await _uow.Choices.RemoveAsync(question.CorrectChoiceId.Value);
             await _uow.Questions.RemoveAsync(question);
             await _uow.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "Quizzes", new {id = question.QuizId});
         }
 
         private bool QuestionExists(Guid id)

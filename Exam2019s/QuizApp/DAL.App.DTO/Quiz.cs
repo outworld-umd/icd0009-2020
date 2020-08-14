@@ -25,7 +25,7 @@ namespace DAL.App.DTO
 
         [DisplayName("Quiz Type")] [Required] public QuizType QuizType { get; set; } = default!;
 
-        [DisplayName("QuizSessions")] public ICollection<QuizSession>? QuizSessions { get; set; }
+        [DisplayName("Quiz Sessions")] public ICollection<QuizSession>? QuizSessions { get; set; }
         [DisplayName("Questions")] public ICollection<Question>? Questions { get; set; }
         [DisplayName("Times Taken")] public int TimesTaken => QuizSessions?.Count ?? 0;
     }

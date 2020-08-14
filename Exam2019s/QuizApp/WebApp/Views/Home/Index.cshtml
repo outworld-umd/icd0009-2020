@@ -1,28 +1,40 @@
 ﻿@{
     ViewData["Title"] = "HomePage";
 }
+@using Domain.App.Enums
 @model QuizViewModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 <div class="row">
     @foreach (var item in Model.Quizzes!)
     {
-        <div class="col-xl-4 col-lg-4 pb-4">
-            <div class="card">
-                <div class="card-header font-weight-bold h3">
-                    <a class="text-danger" asp-area="" asp-controller="Quizzes" asp-action="Details" asp-route-id="@item.Id">@item.Title</a>
-                </div>
-                <div class="card-body">
-                    <div class="card-text mx-2 mb-3">@item.Description</div>
-                    <div class="card-text mx-2 mb-3">@Html.DisplayName(nameof(item.TimesTaken)) @item.TimesTaken</div>
-                    <div class="btn-group btn-group-justified mt-3" style="min-width: 100%">
-                        <a class="inner btn btn-info" asp-area="" asp-controller="Home" asp-action="TakeQuiz" asp-route-id="@item.Id">Take Quiz!</a>
+        <div class="col-sm-4">
+            <div class="card my-4 h-100">
+                <div class="card-header text-left h-100 d-flex flex-column">
+                    <div class="d-flex justify-content-between m-2">
+                        <h4>
+                            @if (item.QuizType == QuizType.Quiz)
+                            {
+                                <span class="badge badge-primary">Quiz</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-success">Poll</span>
+                            }
+                            <span class="font-weight-bold">@Html.DisplayFor(modelItem => item.Title)</span>
+                        </h4>
+                    </div>
+                    <div class="card card-body my-3 font-weight-light">
+                        <div class="mb-2">
+                            <div class="font-italic">Description: </div>
+                            <div>@Html.DisplayFor(modelItem => item.Description)</div>
+                        </div>
+                        <div>This @item.QuizType.ToString().ToLower() has been taken it @Html.DisplayFor(modelItem => item.TimesTaken) times.</div>
+                    </div>
+                    <div class="text-center">
+                        <a class="btn btn-outline-primary font-weight-bold shadow-none w-100" asp-controller="Home" asp-action="TakeQuiz" asp-route-id="@item.Id">Take Quiz!</a>
                     </div>
                 </div>
             </div>
         </div>
     }
-</div>
 </div>

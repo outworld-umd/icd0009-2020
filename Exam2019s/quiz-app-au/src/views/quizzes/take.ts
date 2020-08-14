@@ -8,6 +8,7 @@ import { IQuizSessionCreate } from "../../domain/IQuizSession";
 import { QuizService } from "../../service/quiz-service";
 import { IQuizView } from "../../domain/IQuiz";
 import { IAnswerCreate } from "../../domain/IAnswer";
+import {Choice} from "../../types/IMessage";
 
 @autoinject
 export class QuizTake {
@@ -17,7 +18,7 @@ export class QuizTake {
 
     private _alert: IAlertData | null = null;
     private _quiz: IQuizView | null = null;
-    private _chosenRadios = [];
+    private _chosenRadios: Choice = {};
 
     constructor(private quizService: QuizService, private quizSessionService: QuizSessionService, private appState: AppState, private router: Router) {
     }
@@ -50,7 +51,7 @@ export class QuizTake {
     get validate(): boolean {
         if (this._quiz) {
             for (const question of this._quiz.questions) {
-                if (!(Object.prototype.hasOwnProperty.call(this._chosenRadios, question.id))) return false;
+                if (!this._chosenRadios[question.id]) return false;
             }
         }
         return true;
@@ -78,7 +79,7 @@ export class QuizTake {
                 console.log("sent", response.data)
                 if (response.isSuccessful) {
                     this._alert = null;
-                    this.router.navigate('quizzes')
+                    this.router.navigate(`session/${response.data.id}/details`)
                 } else {
                     this._alert = {
                         message: response.statusCode.toString() + ' - ' + response.messages,

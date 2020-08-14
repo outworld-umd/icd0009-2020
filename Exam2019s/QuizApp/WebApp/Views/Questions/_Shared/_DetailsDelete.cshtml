@@ -2,125 +2,65 @@
 
 <h4>Question</h4>
 <hr/>
-<dl class="row">
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.Question.CorrectChoice)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Question.CorrectChoice!.Value)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.Question.Title)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Question.Title)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.Question.Description)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Question.Description)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.Question.Quiz)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Question.Quiz!.Title)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.Question.TimesAnswered)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Question.TimesAnswered)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.Question.CreatedBy)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Question.CreatedBy)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.Question.CreatedAt)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Question.CreatedAt)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.Question.ChangedBy)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Question.ChangedBy)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.Question.ChangedAt)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Question.ChangedAt)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.Question.Choices)
-    </dt>
-    <br>
-    @if (Model.Choice != null)
-    {
-        <table class="table">
-            <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Choice.Value)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Choice.Question)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Choice.TimesAnswered)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Choice.CreatedBy)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Choice.CreatedAt)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Choice.ChangedBy)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Choice.ChangedAt)
-                </th>
-                <th></th>
+<div class="container">
+    <h3 class="font-weight-bold">@Html.DisplayFor(model => model.Question.Title)</h3>
+    <h5 class="font-weight-light">@Html.DisplayFor(model => model.Question.Description)</h5>
+    <div class="float-right">
+        <div class="small font-weight-light text-right">
+            <div>
+                Created by @Html.DisplayFor(model => model.Question.CreatedBy) at @Html.DisplayFor(model => model.Question.CreatedAt)
+            </div>
+            <div>
+                Last changed by @Html.DisplayFor(model => model.Question.ChangedBy) at @Html.DisplayFor(model => model.Question.ChangedAt)
+            </div>
+        </div>
+    </div>
+    <br class="dropdown-divider"/>
+    <table class="table w-75 text-center mx-auto my-5">
+        <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Choice.Value)
+            </th>
+            <th>
+                Answer count
+            </th>
+            <th>
+                Actions
+            </th>
+            <th>
+                Information
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Question!.Choices!)
+        {
+            <tr class="@(item.Id.Equals(Model.Question.CorrectChoiceId) ? "alert-success" : "")">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Value)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TimesAnswered) (@(Model.Question.TimesAnswered != 0 ? $"{item.TimesAnswered * 100 / Model.Question.TimesAnswered:0}%" : "0%"))
+                </td>
+                <td>
+                    <div class="btn-group btn-group-sm">
+                        <a class="btn btn-info text-white shadow-none" asp-controller="Choices" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a class="btn btn-danger text-white shadow-none" asp-controller="Choices" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </div>
+                </td>
+                <td>
+                    <div class="small font-weight-light">
+                        <div>
+                            Created by @Html.DisplayFor(modelItem => item.CreatedBy) at @Html.DisplayFor(modelItem => item.CreatedAt)
+                        </div>
+                        <div>
+                            Last changed by @Html.DisplayFor(modelItem => item.ChangedBy) at @Html.DisplayFor(modelItem => item.ChangedAt)
+                        </div>
+                    </div>
+                </td>
             </tr>
-            </thead>
-            <tbody>
-            @foreach (var item in Model.Question!.Choices!)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Value)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Question!.Title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TimesAnswered)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CreatedBy)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CreatedAt)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ChangedBy)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ChangedAt)
-                    </td>
-                    <td>
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                    </td>
-                </tr>
-            }
-            </tbody>
-        </table>
-    }
-</dl>
+        }
+        </tbody>
+    </table>
+</div>

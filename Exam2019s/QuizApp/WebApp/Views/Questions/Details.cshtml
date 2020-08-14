@@ -1,3 +1,4 @@
+@using Domain.App.Enums
 @model QuestionDetDelViewModel
 
 @{
@@ -8,8 +9,15 @@
 
 <div>
     <partial name="_Shared/_DetailsDelete"/>
+    <div class="text-center">
+        <a class="btn btn-success" asp-controller="Choices" asp-action="Create" asp-route-question="@Model.Question.Id">Add choices</a>
+        @if (Model.Question.Quiz!.QuizType.Equals(QuizType.Quiz))
+        {
+            <a class="btn btn-outline-success" asp-controller="Questions" asp-action="EditCorrectChoice" asp-route-id="@Model.Question.Id">Set correct choice</a>
+        }
+    </div>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Question.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="Quizzes" asp-action="Details" asp-route-id="@Model.Question.QuizId">Back to Quiz</a>
 </div>

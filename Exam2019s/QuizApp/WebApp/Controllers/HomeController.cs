@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Contracts.DAL.App;
 using DAL.App.DTO;
 using Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
@@ -41,6 +42,7 @@ namespace WebApp.Controllers
         }
         
         // Get: TakeQuiz
+        [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> TakeQuiz(Guid? id)
         {
             if (id == null)
@@ -57,6 +59,7 @@ namespace WebApp.Controllers
         
         // Post: TakeQuiz
         [HttpPost]
+        [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> TakeQuiz(Guid id, TakeQuizViewModel vm)
         {
             Console.WriteLine(id);
@@ -81,7 +84,7 @@ namespace WebApp.Controllers
             Response.Cookies.Append(
                 CookieRequestCultureProvider.DefaultCookieName,
                 CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-                new CookieOptions()
+                new CookieOptions
                 {
                     Expires = DateTimeOffset.UtcNow.AddYears(1)
                 }

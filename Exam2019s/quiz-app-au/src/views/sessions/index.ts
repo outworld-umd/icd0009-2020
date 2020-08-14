@@ -26,20 +26,6 @@ export class SessionsIndex {
                     this._alert = null;
                     this._sessions = response.data;
                 } else {
-                    this._sessions = [
-                        {
-                            "id": "c625c542-dbcc-4dd7-a8c5-2b3e19de4b71",
-                            "createdAt": new Date("2020-08-13T11:12:02.6678768"),
-                            "quiz": {
-                                "id": "f772f4ee-44c7-4504-b091-1f8b8954e500",
-                                "title": "123",
-                                "description": null,
-                                "quizType": 0,
-                                "createdAt": new Date(),
-                                "timesTaken": 1
-                            }
-                        }
-                    ]
                     this._alert = {
                         message: response.statusCode.toString() + ' - ' + response.messages,
                         type: AlertType.Danger,
@@ -52,5 +38,9 @@ export class SessionsIndex {
 
     async attached() {
         await this.getSessions();
+    }
+
+    getDate(createdAt: Date): string {
+        return new Date(createdAt).toLocaleString('ru-RU')
     }
 }
