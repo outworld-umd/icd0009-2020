@@ -1,0 +1,22 @@
+<template>
+    <div class="alert alert-danger show" role="alert" if.bind="_loginWasOk === false">
+        <strong>Warning!</strong> Username/password is incorrect!
+    </div>
+    <div class="container w-25">
+        <div>
+            <div class="text-left">
+                <label class="control-label w-100 form-group font-weight-light font-italic">
+                    Email
+                    <input value.bind="_email" class="form-control font-weight-light" type="email" placeholder="Email"/>
+                </label>
+                <label class="control-label w-100 form-group font-weight-light font-italic">
+                    Password
+                    <input value.bind="_password" class="form-control font-weight-light" type="password" placeholder="Password"/>
+                </label>
+            </div>
+            <div class="form-group mt-5">
+                <button click.delegate="loginOnClick()" class="btn px-4 btn-success font-weight-bold shadow-none" disabled.bind="!_email.length || !_password.length">Login</button>
+            </div>
+        </div>
+    </div>
+</template>

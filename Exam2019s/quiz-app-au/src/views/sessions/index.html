@@ -1,0 +1,42 @@
+<template>
+    <div class="container">
+        <require from="../../components/alert"></require>
+        <alert alert-data.bind="_alert"></alert>
+        <div if.bind="_loading" class="text-center">
+            <div class="spinner-border m-5 text-success" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div if.bind="_sessions">
+            <div>
+                <a class="d-flex btn px-4 btn-secondary position-absolute" route-href="route: home;">Back</a>
+            </div>
+            <div class="text-center">
+                <h2 class="m-4 font-weight-bold">Quizzes you have done</h2>
+            </div>
+            <div class="container my-5">
+                <div class="card my-4" repeat.for="session of _sessions">
+                    <div class="card-header text-left">
+                        <a href="#" data-target="${'#a' + session.id}" data-toggle="collapse" style="text-decoration: none;">
+                            <h3>${session.quiz.title}</h3>
+                        </a>
+                        <p>${session.quiz.description}</p>
+                        <div class="collapse" id="${'a' + session.id}">
+                            <div class="card card-body">
+                                <h4 class="mr-4">
+                                    <span if.bind="session.quiz.quizType === 0" class="badge badge-primary w-100">Quiz</span>
+                                    <span if.bind="session.quiz.quizType === 1" class="badge badge-success w-100">Poll</span>
+                                </h4>
+                                <div class="font-weight-light">Taken at: ${_session.createdAt.toLocaleString('ru-RU')}</div>
+                                <div class="font-weight-light">Others have taken it ${session.quiz.timesTaken} times</div>
+                                <div class="text-center">
+                                    <a class="btn px-4 btn-secondary text-white" route-href="route: session-details; params.bind: { id: session.id }">More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

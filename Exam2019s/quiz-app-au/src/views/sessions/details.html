@@ -1,0 +1,41 @@
+<template>
+    <div class="container">
+        <require from="../../components/alert"></require>
+        <alert alert-data.bind="_alert"></alert>
+        <div if.bind="_loading" class="text-center">
+            <div class="spinner-border m-5 text-success" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div if.bind="_session">
+            <div>
+                <a class="d-flex btn px-4 btn-secondary position-absolute" route-href="route: session-index;">Back</a>
+            </div>
+            <div class="text-center">
+                <h2 class="font-weight-bold">${_session.quiz.title}</h2>
+                <h4 class="my-3">
+                    <span if.bind="_session.quiz.quizType === 0" class="badge badge-primary">Quiz</span>
+                    <span if.bind="_session.quiz.quizType === 1" class="badge badge-success">Poll</span>
+                </h4>
+                <div class="font-weight-light">Was tried at: ${_session.createdAt.toLocaleString('ru-RU')}</div>
+            </div>
+            <div class="p-2 my-3 mx-auto w-75" repeat.for="question of _session.quiz.questions">
+                <div class="my-3">
+                    <div class="font-weight-bold">${question.title}</div>
+                    <div class="font-italic font-weight-light">${question.description}</div>
+                </div>
+                <div class="list-group list-group-flush font-weight-light">
+                    <div class="align-items-center card-header ${question.correctChoiceId === choice.id && _session.quiz.quizType === 0 ? 'alert-success' : ''}" repeat.for="choice of question.choices">
+                        <div class="d-flex align-items-center">
+                            <span class="fa ${isCheckOrTimes(question.correctChoiceId, choice.id)}" style="width: 5%"></span>${choice.value}
+                            <div class="ml-auto">${choice.timesAnswered} (${(choice.timesAnswered * 100 / question.timesAnswered).toFixed(1)}%)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-5">
+                <a class="btn btn-lg text-white w-25 btn-success" route-href="route: quiz-take; params.bind: { id: _session.quizId }">Try again!</a>
+            </div>
+        </div>
+    </div>
+</template>
