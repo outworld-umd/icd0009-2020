@@ -9,26 +9,25 @@ namespace PublicApi.DTO.Identity
         [EmailAddress]
         [Required]
         public string Email { get; set; } = default!;
-        
+
         [MinLength(6)]
         [MaxLength(100)]
         [Required]
         public string Password { get; set; } = default!;
-        
-        
+
+
         [MinLength(1)]
         [MaxLength(128)]
         [Required]
         public string FirstName { get; set; } = default!;
-        
+
         [MinLength(1)]
         [MaxLength(128)]
         [Required]
         public string LastName { get; set; } = default!;
-        
+
         public string Phone { get; set; } = default!;
 
         public ICollection<string> Roles { get; set; } = default!;
-
     }
 }

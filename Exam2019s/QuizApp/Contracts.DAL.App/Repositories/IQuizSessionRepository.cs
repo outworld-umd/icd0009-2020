@@ -2,6 +2,7 @@
 using ee.itcollege.anguzo.Contracts.DAL.Base.Repositories;
 using ee.itcollege.anguzo.Contracts.Domain.Base.Basic;
 using DAL.App.DTO;
+using Domain.App.Enums;
 
 namespace Contracts.DAL.App.Repositories
 {

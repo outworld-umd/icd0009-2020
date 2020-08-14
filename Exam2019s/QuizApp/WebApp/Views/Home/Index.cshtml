@@ -1,8 +1,28 @@
 ﻿@{
     ViewData["Title"] = "HomePage";
 }
+@model QuizViewModel
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn<a href="https://docs.microsoft.com/aspnet/core">Building</a>.</p>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row">
+    @foreach (var item in Model.Quizzes!)
+    {
+        <div class="col-xl-4 col-lg-4 pb-4">
+            <div class="card">
+                <div class="card-header font-weight-bold h3">
+                    <a class="text-danger" asp-area="" asp-controller="Quizzes" asp-action="Details" asp-route-id="@item.Id">@item.Title</a>
+                </div>
+                <div class="card-body">
+                    <div class="card-text mx-2 mb-3">@item.Description</div>
+                    <div class="card-text mx-2 mb-3">@Html.DisplayName(nameof(item.TimesTaken)) @item.TimesTaken</div>
+                    <div class="btn-group btn-group-justified mt-3" style="min-width: 100%">
+                        <a class="inner btn btn-info" asp-area="" asp-controller="Home" asp-action="TakeQuiz" asp-route-id="@item.Id">Take Quiz!</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
 </div>

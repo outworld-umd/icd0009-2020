@@ -29,7 +29,6 @@ using WebApp.Helpers;
 
 namespace WebApp
 {
-
     public class Startup
     {
         /// <summary>
@@ -54,14 +53,14 @@ namespace WebApp
             services.AddScoped<IUserNameProvider, UserNameProvider>();
             services.AddScoped<IAppUnitOfWork, AppUnitOfWork>();
 
-            
+
             services.AddIdentity<Domain.App.Identity.AppUser, AppRole>()
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<DAL.App.EF.AppDbContext>()
                 .AddDefaultTokenProviders();
 
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
 
             // makes httpcontext injectable - needed to resolve username in dal layer
@@ -105,10 +104,11 @@ namespace WebApp
 
             services.AddVersionedApiExplorer(options => options.GroupNameFormat = "'v'VVV");
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
-            services.AddSwaggerGen(c => {
-                c.OperationFilter<AppendAuthorizeToSummaryOperationFilter>(); // Adds "(Auth)" to the summary so that you can see which endpoints have Authorization
+            services.AddSwaggerGen(c =>
+            {
+                c.OperationFilter<AppendAuthorizeToSummaryOperationFilter
+                >(); // Adds "(Auth)" to the summary so that you can see which endpoints have Authorization
             });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -138,7 +138,7 @@ namespace WebApp
             app.UseCors("CorsAllowAll");
 
             app.UseRouting();
-            
+
             app.UseSwagger();
             app.UseSwaggerUI(
                 options =>
@@ -154,17 +154,17 @@ namespace WebApp
 
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "area",
                     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-                
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                
+
                 endpoints.MapRazorPages();
             });
         }
@@ -180,25 +180,25 @@ namespace WebApp
             using var ctx = serviceScope.ServiceProvider.GetService<DAL.App.EF.AppDbContext>();
             using var userManager = serviceScope.ServiceProvider.GetService<UserManager<Domain.App.Identity.AppUser>>();
             using var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<AppRole>>();
-            
+
             if (Configuration["AppDataInitialization:DropDatabase"] == "True")
             {
                 Console.WriteLine("DropDatabase");
                 DAL.App.EF.Helpers.DataInitializers.DeleteDatabase(ctx);
             }
-            
+
             if (Configuration["AppDataInitialization:MigrateDatabase"] == "True")
             {
                 Console.WriteLine("MigrateDatabase");
                 DAL.App.EF.Helpers.DataInitializers.MigrateDatabase(ctx);
             }
-            
+
             if (Configuration["AppDataInitialization:SeedIdentity"] == "True")
             {
                 Console.WriteLine("SeedIdentity");
                 DAL.App.EF.Helpers.DataInitializers.SeedIdentity(userManager, roleManager);
             }
-            
+
             if (Configuration.GetValue<bool>("AppDataInitialization:SeedData"))
             {
                 Console.WriteLine("SeedData");

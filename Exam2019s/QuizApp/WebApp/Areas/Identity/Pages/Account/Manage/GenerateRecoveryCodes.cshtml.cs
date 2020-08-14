@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Domain.App.Identity;using Microsoft.AspNetCore.Identity;
+using Domain.App.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -22,11 +23,9 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
             _logger = logger;
         }
 
-        [TempData]
-        public string[] RecoveryCodes { get; set; } = default!;
+        [TempData] public string[] RecoveryCodes { get; set; } = default!;
 
-        [TempData]
-        public string StatusMessage { get; set; } = default!;
+        [TempData] public string StatusMessage { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -40,7 +39,8 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
             if (!isTwoFactorEnabled)
             {
                 var userId = await _userManager.GetUserIdAsync(user);
-                throw new InvalidOperationException($"Cannot generate recovery codes for user with ID '{userId}' because they do not have 2FA enabled.");
+                throw new InvalidOperationException(
+                    $"Cannot generate recovery codes for user with ID '{userId}' because they do not have 2FA enabled.");
             }
 
             return Page();
@@ -58,7 +58,8 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
             var userId = await _userManager.GetUserIdAsync(user);
             if (!isTwoFactorEnabled)
             {
-                throw new InvalidOperationException($"Cannot generate recovery codes for user with ID '{userId}' as they do not have 2FA enabled.");
+                throw new InvalidOperationException(
+                    $"Cannot generate recovery codes for user with ID '{userId}' as they do not have 2FA enabled.");
             }
 
             var recoveryCodes = await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);

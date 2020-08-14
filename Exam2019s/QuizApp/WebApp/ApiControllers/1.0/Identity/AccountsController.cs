@@ -18,7 +18,7 @@ namespace WebApp.ApiControllers._1._0.Identity
     /// Api endpoint for registering new user and user log-in (jwt token generation)
     /// </summary>
     [ApiController]
-    [ApiVersion( "1.0" )]
+    [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]/[action]")]
     public class AccountsController : ControllerBase
     {
@@ -72,12 +72,14 @@ namespace WebApp.ApiControllers._1._0.Identity
                     _configuration.GetValue<int>("JWT:ExpirationInDays")
                 );
                 _logger.LogInformation($"Token generated for user {model.Email}");
-                return Ok(new JwtResponseDTO() {
-                    Token = jwt, 
-                    Status = "Logged in", 
-                    FirstName = appUser.FirstName, 
-                    LastName = appUser.LastName, 
-                    Roles = _userManager.GetRolesAsync(appUser)?.Result ?? new Collection<string>()});
+                return Ok(new JwtResponseDTO()
+                {
+                    Token = jwt,
+                    Status = "Logged in",
+                    FirstName = appUser.FirstName,
+                    LastName = appUser.LastName,
+                    Roles = _userManager.GetRolesAsync(appUser)?.Result ?? new Collection<string>()
+                });
             }
 
             _logger.LogInformation($"Web-Api login. User {model.Email} attempted to log-in with bad password!");
@@ -133,9 +135,9 @@ namespace WebApp.ApiControllers._1._0.Identity
                     _logger.LogInformation($"WebApi register. User {user.Email} logged in.");
                     return Ok(new JwtResponseDTO()
                     {
-                        Token = jwt, 
+                        Token = jwt,
                         Status = $"User {user.Email} created and logged in.",
-                        FirstName = appUser.FirstName, 
+                        FirstName = appUser.FirstName,
                         LastName = appUser.LastName,
                         Roles = _userManager.GetRolesAsync(appUser)?.Result ?? new Collection<string>()
                     });

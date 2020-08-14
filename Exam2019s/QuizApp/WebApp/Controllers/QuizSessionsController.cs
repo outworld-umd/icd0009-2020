@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.DTO;
 using Domain.App.Identity;
+using Extensions;
 using Microsoft.AspNetCore.Identity;
+using WebApp.ViewModels;
 
 namespace WebApp.Controllers
 {
@@ -49,9 +51,12 @@ namespace WebApp.Controllers
         // GET: QuizSessions/Create
         public IActionResult Create()
         {
-            ViewData["AppUserId"] = new SelectList(_userManager.Users.ToList(), "Id", "FirstName");
-            ViewData["QuizId"] = new SelectList(_uow.Quizzes.GetAll(), "Id", "Title");
-            return View();
+            var vm = new QuizSessionsCreateViewModel()
+            {
+                Users = new SelectList(_userManager.Users.ToList(), nameof(AppUser.Id), nameof(AppUser.FullName)),
+                Quizzes = new SelectList(_uow.Quizzes.GetAll(), nameof(Quiz.Id), nameof(Quiz.Title))
+            };
+            return View(vm);
         }
 
         // POST: QuizSessions/Create
@@ -59,21 +64,20 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("QuizId,AppUserId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")]
-            QuizSession quizSession)
+        public async Task<IActionResult> Create(QuizSessionsCreateViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                quizSession.Id = Guid.NewGuid();
-                _uow.QuizSessions.Add(quizSession);
+                vm.QuizSession.Id = Guid.NewGuid();
+                _uow.QuizSessions.Add(vm.QuizSession);
                 await _uow.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["AppUserId"] = new SelectList((await _userManager.Users.ToListAsync()), "Id",
-                "FirstName");
-            ViewData["QuizId"] = new SelectList((await _uow.Quizzes.GetAllAsync()), "Id", "Title");
-            return View(quizSession);
+            vm.Users = new SelectList(await _userManager.Users.ToListAsync(), nameof(AppUser.Id),
+                nameof(AppUser.FullName));
+            vm.Quizzes = new SelectList(await _uow.Quizzes.GetAllAsync(), nameof(Quiz.Id), nameof(Quiz.Title));
+            return View(vm);
         }
 
         // GET: QuizSessions/Edit/5
@@ -84,16 +88,20 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var quizSession = await _uow.QuizSessions.FirstOrDefaultAsync(id.Value);
-            if (quizSession == null)
+            var vm = new QuizSessionsCreateViewModel()
+            {
+                QuizSession = await _uow.QuizSessions.FirstOrDefaultAsync(id.Value)
+            };
+
+            if (vm.QuizSession == null)
             {
                 return NotFound();
             }
 
-            ViewData["AppUserId"] = new SelectList((await _userManager.Users.ToListAsync()), "Id",
-                "FirstName");
-            ViewData["QuizId"] = new SelectList((await _uow.Quizzes.GetAllAsync()), "Id", "Title");
-            return View(quizSession);
+            vm.Users = new SelectList(await _userManager.Users.ToListAsync(), nameof(AppUser.Id),
+                nameof(AppUser.FullName));
+            vm.Quizzes = new SelectList(await _uow.Quizzes.GetAllAsync(), nameof(Quiz.Id), nameof(Quiz.Title));
+            return View(vm);
         }
 
         // POST: QuizSessions/Edit/5
@@ -101,11 +109,9 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id,
-            [Bind("QuizId,AppUserId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")]
-            QuizSession quizSession)
+        public async Task<IActionResult> Edit(Guid id, QuizSessionsCreateViewModel vm)
         {
-            if (id != quizSession.Id)
+            if (id != vm.QuizSession.Id)
             {
                 return NotFound();
             }
@@ -114,12 +120,12 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    await _uow.QuizSessions.UpdateAsync(quizSession);
+                    await _uow.QuizSessions.UpdateAsync(vm.QuizSession);
                     await _uow.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!QuizSessionExists(quizSession.Id))
+                    if (!QuizSessionExists(vm.QuizSession.Id))
                     {
                         return NotFound();
                     }
@@ -132,10 +138,10 @@ namespace WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["AppUserId"] = new SelectList((await _userManager.Users.ToListAsync()), "Id",
-                "FirstName");
-            ViewData["QuizId"] = new SelectList((await _uow.Quizzes.GetAllAsync()), "Id", "Title");
-            return View(quizSession);
+            vm.Users = new SelectList(await _userManager.Users.ToListAsync(), nameof(AppUser.Id),
+                nameof(AppUser.FullName));
+            vm.Quizzes = new SelectList(await _uow.Quizzes.GetAllAsync(), nameof(Quiz.Id), nameof(Quiz.Title));
+            return View(vm);
         }
 
         // GET: QuizSessions/Delete/5

@@ -11,9 +11,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories
 {
-    public class QuestionRepository : EFBaseRepository<AppDbContext, AppUser, Domain.App.Question, Question>, IQuestionRepository
+    public class QuestionRepository : EFBaseRepository<AppDbContext, AppUser, Domain.App.Question, Question>,
+        IQuestionRepository
     {
-        public QuestionRepository(AppDbContext dbContext) : base(dbContext, new DALMapper<Domain.App.Question, Question>())
+        public QuestionRepository(AppDbContext dbContext) : base(dbContext,
+            new DALMapper<Domain.App.Question, Question>())
         {
         }
 
@@ -28,7 +30,6 @@ namespace DAL.App.EF.Repositories
                 .ToListAsync();
             var result = domainEntities.Select(e => DALMapper.Map(e));
             return result;
-
         }
 
         public override async Task<Question> FirstOrDefaultAsync(Guid id, object? userId = null, bool noTracking = true)
@@ -41,7 +42,6 @@ namespace DAL.App.EF.Repositories
                 .Include(a => a.Quiz)
                 .FirstOrDefaultAsync(e => e.Id.Equals(id));
             return DALMapper.Map(entity);
-
         }
     }
 }

@@ -5,10 +5,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="ee.itcollege.anguzo.Contracts.Domain.Base" Version="1.2.0" />
-      <PackageReference Include="ee.itcollege.anguzo.Domain.Base" Version="1.2.0" />
-      <PackageReference Include="ee.itcollege.anguzo.Domain.Identity" Version="1.2.0" />
-      <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
+        <PackageReference Include="ee.itcollege.anguzo.Contracts.Domain.Base" Version="1.2.0" />
+        <PackageReference Include="ee.itcollege.anguzo.Domain.Base" Version="1.2.0" />
+        <PackageReference Include="ee.itcollege.anguzo.Domain.Identity" Version="1.2.0" />
+        <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
     </ItemGroup>
 
 </Project>

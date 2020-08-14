@@ -22,7 +22,10 @@
             @Html.DisplayNameFor(model => model.QuizType)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AppUser)
+            @Html.DisplayNameFor(model => model.AppUser!.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimesTaken)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.CreatedBy)
@@ -53,7 +56,10 @@
                 @Html.DisplayFor(modelItem => item.QuizType)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AppUser.FirstName)
+                @Html.DisplayFor(modelItem => item.AppUser!.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimesTaken)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreatedBy)

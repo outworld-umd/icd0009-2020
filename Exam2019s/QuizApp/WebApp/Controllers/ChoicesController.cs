@@ -1,11 +1,12 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.DTO;
+using Domain.App.Enums;
+using WebApp.ViewModels;
 
 namespace WebApp.Controllers
 {
@@ -32,8 +33,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var choice = await _uow.Choices
-                .FirstOrDefaultAsync(id.Value);
+            var choice = await _uow.Choices.FirstOrDefaultAsync(id.Value);
             if (choice == null)
             {
                 return NotFound();
@@ -45,8 +45,11 @@ namespace WebApp.Controllers
         // GET: Choices/Create
         public IActionResult Create()
         {
-            ViewData["QuestionId"] = new SelectList(_uow.Questions.GetAll(), "Id", "Title");
-            return View();
+            var vm = new ChoicesCreateEditViewModel()
+            {
+                Questions = new SelectList(_uow.Questions.GetAll(), nameof(Question.Id), nameof(Question.Title))
+            };
+            return View(vm);
         }
 
         // POST: Choices/Create
@@ -54,19 +57,19 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Value,QuestionId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")]
-            Choice choice)
+        public async Task<IActionResult> Create(ChoicesCreateEditViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                choice.Id = Guid.NewGuid();
-                _uow.Choices.Add(choice);
+                vm.Choice.Id = Guid.NewGuid();
+                _uow.Choices.Add(vm.Choice);
                 await _uow.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["QuestionId"] = new SelectList(await _uow.Questions.GetAllAsync(), "Id", "Title");
-            return View(choice);
+            vm.Questions = new SelectList(await _uow.Questions.GetAllAsync(), nameof(Question.Id),
+                nameof(Question.Title));
+            return View(vm);
         }
 
         // GET: Choices/Edit/5
@@ -77,15 +80,18 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var choice = await _uow.Choices.FirstOrDefaultAsync(id.Value);
-            if (choice == null)
+            var vm = new ChoicesCreateEditViewModel()
+            {
+                Choice = await _uow.Choices.FirstOrDefaultAsync(id.Value)
+            };
+            if (vm.Choice == null)
             {
                 return NotFound();
             }
 
-            ViewData["QuestionId"] =
-                new SelectList((await _uow.Questions.GetAllAsync()), "Id", "Title");
-            return View(choice);
+            vm.Questions = new SelectList(await _uow.Questions.GetAllAsync(), nameof(Question.Id),
+                nameof(Question.Title));
+            return View(vm);
         }
 
         // POST: Choices/Edit/5
@@ -93,11 +99,9 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id,
-            [Bind("Value,QuestionId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")]
-            Choice choice)
+        public async Task<IActionResult> Edit(Guid id, ChoicesCreateEditViewModel vm)
         {
-            if (id != choice.Id)
+            if (id != vm.Choice.Id)
             {
                 return NotFound();
             }
@@ -106,12 +110,12 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    await _uow.Choices.UpdateAsync(choice);
+                    await _uow.Choices.UpdateAsync(vm.Choice);
                     await _uow.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ChoiceExists(choice.Id))
+                    if (!ChoiceExists(vm.Choice.Id))
                     {
                         return NotFound();
                     }
@@ -124,9 +128,9 @@ namespace WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["QuestionId"] =
-                new SelectList((await _uow.Questions.GetAllAsync()), "Id", "Title");
-            return View(choice);
+            vm.Questions = new SelectList(await _uow.Questions.GetAllAsync(), nameof(Question.Id),
+                nameof(Question.Title));
+            return View(vm);
         }
 
         // GET: Choices/Delete/5

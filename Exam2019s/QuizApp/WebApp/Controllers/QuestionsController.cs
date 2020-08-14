@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.DTO;
+using Domain.App.Enums;
 using WebApp.ViewModels;
+using QuizSession = PublicApi.DTO.QuizSession;
 
 namespace WebApp.Controllers
 {
@@ -46,9 +48,12 @@ namespace WebApp.Controllers
         // GET: Questions/Create
         public IActionResult Create()
         {
-            ViewData["CorrectChoiceId"] = new SelectList(_uow.Choices.GetAll(), "Id", "Value");
-            ViewData["QuizId"] = new SelectList(_uow.Quizzes.GetAll(), "Id", "Title");
-            return View();
+            var vm = new QuestionCreateEditViewModel
+            {
+                CorrectChoices = new SelectList(_uow.Choices.GetAll(), nameof(Choice.Id), nameof(Choice.Value)),
+                Quizzes = new SelectList(_uow.Quizzes.GetAll(), nameof(Quiz.Id), nameof(Quiz.Title))
+            };
+            return View(vm);
         }
 
         // POST: Questions/Create
@@ -56,20 +61,20 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(
-            [Bind("CorrectChoiceId,Title,Description,QuizId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")]
-            Question question)
+        public async Task<IActionResult> Create(QuestionCreateEditViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                question.Id = Guid.NewGuid();
-                _uow.Questions.Add(question);
+                vm.Question.Id = Guid.NewGuid();
+                _uow.Questions.Add(vm.Question);
                 await _uow.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CorrectChoiceId"] = new SelectList(((await _uow.Choices.GetAllAsync()).Where(c => c.QuestionId.Equals(question.Id))), "Id", "Value");
-            ViewData["QuizId"] = new SelectList((await _uow.Quizzes.GetAllAsync()), "Id", "Title");
-            return View(question);
+
+            vm.CorrectChoices =
+                new SelectList(await _uow.Choices.GetAllAsync(), nameof(Choice.Id), nameof(Choice.Value));
+            vm.Quizzes = new SelectList(await _uow.Quizzes.GetAllAsync(), nameof(Quiz.Id), nameof(Quiz.Title));
+            return View(vm);
         }
 
         // GET: Questions/Edit/5
@@ -80,15 +85,19 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var question = await _uow.Questions.FirstOrDefaultAsync(id.Value);
-            if (question == null)
+            var vm = new QuestionCreateEditViewModel()
+            {
+                Question = await _uow.Questions.FirstOrDefaultAsync(id.Value)
+            };
+            if (vm.Question == null)
             {
                 return NotFound();
             }
 
-            ViewData["CorrectChoiceId"] = new SelectList(((await _uow.Choices.GetAllAsync()).Where(c => c.QuestionId.Equals(question.Id))), "Id", "Value");
-            ViewData["QuizId"] = new SelectList((await _uow.Quizzes.GetAllAsync()), "Id", "Title");
-            return View(question);
+            vm.CorrectChoices =
+                new SelectList(await _uow.Choices.GetAllAsync(), nameof(Choice.Id), nameof(Choice.Value));
+            vm.Quizzes = new SelectList(await _uow.Quizzes.GetAllAsync(), nameof(Quiz.Id), nameof(Quiz.Title));
+            return View(vm);
         }
 
         // POST: Questions/Edit/5
@@ -96,11 +105,9 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id,
-            [Bind("CorrectChoiceId,Title,Description,QuizId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")]
-            Question question)
+        public async Task<IActionResult> Edit(Guid id, QuestionCreateEditViewModel vm)
         {
-            if (id != question.Id)
+            if (id != vm.Question.Id)
             {
                 return NotFound();
             }
@@ -109,12 +116,12 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    await _uow.Questions.UpdateAsync(question);
+                    await _uow.Questions.UpdateAsync(vm.Question);
                     await _uow.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!QuestionExists(question.Id))
+                    if (!QuestionExists(vm.Question.Id))
                     {
                         return NotFound();
                     }
@@ -126,9 +133,11 @@ namespace WebApp.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CorrectChoiceId"] = new SelectList(((await _uow.Choices.GetAllAsync()).Where(c => c.QuestionId.Equals(question.Id))), "Id", "Value");
-            ViewData["QuizId"] = new SelectList((await _uow.Quizzes.GetAllAsync()), "Id", "Title");
-            return View(question);
+
+            vm.CorrectChoices =
+                new SelectList(await _uow.Choices.GetAllAsync(), nameof(Choice.Id), nameof(Choice.Value));
+            vm.Quizzes = new SelectList(await _uow.Quizzes.GetAllAsync(), nameof(Quiz.Id), nameof(Quiz.Title));
+            return View(vm);
         }
 
         // GET: Questions/Delete/5

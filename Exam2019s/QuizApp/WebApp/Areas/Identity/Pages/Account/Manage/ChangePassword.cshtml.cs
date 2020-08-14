@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using Domain.App.Identity;using Microsoft.AspNetCore.Identity;
+using Domain.App.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+
 namespace WebApp.Areas.Identity.Pages.Account.Manage
 {
     public class ChangePasswordModel : PageModel
@@ -25,11 +27,9 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
             _logger = logger;
         }
 
-        [BindProperty]
-        public InputModel Input { get; set; } = default!;
+        [BindProperty] public InputModel Input { get; set; } = default!;
 
-        [TempData]
-        public string StatusMessage { get; set; } = default!;
+        [TempData] public string StatusMessage { get; set; } = default!;
 
         public class InputModel
         {
@@ -39,7 +39,8 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
             public string OldPassword { get; set; } = default!;
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
+                MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "New password")]
             public string NewPassword { get; set; } = default!;
@@ -80,13 +81,15 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var changePasswordResult = await _userManager.ChangePasswordAsync(user, Input.OldPassword, Input.NewPassword);
+            var changePasswordResult =
+                await _userManager.ChangePasswordAsync(user, Input.OldPassword, Input.NewPassword);
             if (!changePasswordResult.Succeeded)
             {
                 foreach (var error in changePasswordResult.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
+
                 return Page();
             }
 

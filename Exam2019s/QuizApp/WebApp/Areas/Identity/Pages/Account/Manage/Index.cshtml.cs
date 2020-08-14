@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using Domain.App.Identity;using Microsoft.AspNetCore.Identity;
+using Domain.App.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -24,11 +25,9 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
 
         public string Username { get; set; } = default!;
 
-        [TempData]
-        public string StatusMessage { get; set; } = default!;
+        [TempData] public string StatusMessage { get; set; } = default!;
 
-        [BindProperty]
-        public InputModel Input { get; set; } = default!;
+        [BindProperty] public InputModel Input { get; set; } = default!;
 
         public class InputModel
         {
@@ -83,7 +82,8 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
                 if (!setPhoneResult.Succeeded)
                 {
                     var userId = await _userManager.GetUserIdAsync(user);
-                    throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
+                    throw new InvalidOperationException(
+                        $"Unexpected error occurred setting phone number for user with ID '{userId}'.");
                 }
             }
 

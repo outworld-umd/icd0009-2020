@@ -13,7 +13,13 @@
         @Html.DisplayNameFor(model => model.Question)
     </dt>
     <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Question.Title)
+        @Html.DisplayFor(model => model.Question!.Title)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.TimesAnswered)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.TimesAnswered)
     </dd>
     <dt class="col-sm-2">
         @Html.DisplayNameFor(model => model.CreatedBy)

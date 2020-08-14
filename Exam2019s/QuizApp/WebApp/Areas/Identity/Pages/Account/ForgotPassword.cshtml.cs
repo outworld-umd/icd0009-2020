@@ -5,7 +5,8 @@ using System.Text.Encodings.Web;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Domain.App.Identity;using Microsoft.AspNetCore.Identity;
+using Domain.App.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -25,14 +26,11 @@ namespace WebApp.Areas.Identity.Pages.Account
             _emailSender = emailSender;
         }
 
-        [BindProperty]
-        public InputModel Input { get; set; } = default!;
+        [BindProperty] public InputModel Input { get; set; } = default!;
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
-            public string Email { get; set; } = default!;
+            [Required] [EmailAddress] public string Email { get; set; } = default!;
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -53,7 +51,7 @@ namespace WebApp.Areas.Identity.Pages.Account
                 var callbackUrl = Url.Page(
                     "/Account/ResetPassword",
                     pageHandler: null,
-                    values: new { area = "Identity", code },
+                    values: new {area = "Identity", code},
                     protocol: Request.Scheme);
 
                 await _emailSender.SendEmailAsync(

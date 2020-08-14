@@ -220,7 +220,7 @@ namespace DAL.App.EF.Migrations
                     ChangedAt = table.Column<DateTime>(nullable: false),
                     ChoiceId = table.Column<Guid>(nullable: false),
                     QuizSessionId = table.Column<Guid>(nullable: false),
-                    IsCorrect = table.Column<bool>(nullable: true)
+                    IsCorrect = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

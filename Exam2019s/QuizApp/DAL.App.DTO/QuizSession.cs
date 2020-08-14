@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using DAL.App.DTO.Identity;
 using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
 using ee.itcollege.anguzo.Domain.Base;
@@ -15,10 +17,8 @@ namespace DAL.App.DTO
         where TKey : IEquatable<TKey>
         where TUser : IdentityUser<TKey>
     {
-        public TKey QuizId { get; set; } = default!;
+        [DisplayName("Quiz")] [Required] public TKey QuizId { get; set; } = default!;
         public Quiz? Quiz { get; set; }
-        
-        public ICollection<Answer>? Answers { get; set; }
-
+        [DisplayName("Answers")] public ICollection<Answer>? Answers { get; set; }
     }
 }

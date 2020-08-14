@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts.DAL.App;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PublicApi.DTO;
 using PublicApi.DTO.Mappers;
@@ -53,10 +55,12 @@ namespace WebApp.ApiControllers._1._0
             {
                 return BadRequest();
             }
+
             if (!await _uow.Questions.ExistsAsync(question.Id))
             {
                 return NotFound();
             }
+
             await _uow.Questions.UpdateAsync(_mapper.Map(question));
             await _uow.SaveChangesAsync();
             return NoContent();
@@ -71,7 +75,7 @@ namespace WebApp.ApiControllers._1._0
             _uow.Questions.Add(_mapper.Map(question));
             await _uow.SaveChangesAsync();
 
-            return CreatedAtAction("GetQuestion", new { id = question.Id }, question);
+            return CreatedAtAction("GetQuestion", new {id = question.Id}, question);
         }
 
         // DELETE: api/Questions/5

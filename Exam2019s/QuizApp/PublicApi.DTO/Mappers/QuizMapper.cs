@@ -10,7 +10,7 @@ namespace PublicApi.DTO.Mappers
         {
             return Mapper.Map<QuizView>(quiz);
         }
-        
+
         public QuizDisplay MapDisplay(DAL.App.DTO.Quiz quiz)
         {
             return Mapper.Map<QuizDisplay>(quiz);

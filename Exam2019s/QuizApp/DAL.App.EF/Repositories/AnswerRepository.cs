@@ -5,13 +5,15 @@ using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
 using DAL.App.DTO;
 using DAL.App.EF.Mappers;
+using Domain.App.Enums;
 using Domain.App.Identity;
 using ee.itcollege.anguzo.DAL.Base.EF.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories
 {
-    public class AnswerRepository : EFBaseRepository<AppDbContext, AppUser, Domain.App.Answer, Answer>, IAnswerRepository
+    public class AnswerRepository : EFBaseRepository<AppDbContext, AppUser, Domain.App.Answer, Answer>,
+        IAnswerRepository
     {
         public AnswerRepository(AppDbContext dbContext) : base(dbContext, new DALMapper<Domain.App.Answer, Answer>())
         {
@@ -34,7 +36,6 @@ namespace DAL.App.EF.Repositories
                 .Include(a => a.Choice)
                 .FirstOrDefaultAsync(e => e.Id.Equals(id));
             return DALMapper.Map(entity);
-
         }
     }
 }

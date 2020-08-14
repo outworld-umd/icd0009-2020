@@ -5,7 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Domain.App.Identity;using Microsoft.AspNetCore.Identity;
+using Domain.App.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
@@ -22,17 +23,15 @@ namespace WebApp.Areas.Identity.Pages.Account
             _userManager = userManager;
         }
 
-        [BindProperty]
-        public InputModel Input { get; set; } = default!;
+        [BindProperty] public InputModel Input { get; set; } = default!;
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
-            public string Email { get; set; } = default!;
+            [Required] [EmailAddress] public string Email { get; set; } = default!;
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
+                MinimumLength = 6)]
             [DataType(DataType.Password)]
             public string Password { get; set; } = default!;
 
@@ -84,6 +83,7 @@ namespace WebApp.Areas.Identity.Pages.Account
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
+
             return Page();
         }
     }

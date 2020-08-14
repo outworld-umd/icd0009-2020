@@ -5,7 +5,8 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Linq;
 using System.Threading.Tasks;
-using Domain.App.Identity;using Microsoft.AspNetCore.Identity;
+using Domain.App.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -35,11 +36,9 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
 
         public bool IsEmailConfirmed { get; set; }
 
-        [TempData]
-        public string StatusMessage { get; set; } = default!;
+        [TempData] public string StatusMessage { get; set; } = default!;
 
-        [BindProperty]
-        public InputModel Input { get; set; } = default!;
+        [BindProperty] public InputModel Input { get; set; } = default!;
 
         public class InputModel
         {
@@ -96,7 +95,7 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
                 var callbackUrl = Url.Page(
                     "/Account/ConfirmEmailChange",
                     pageHandler: null,
-                    values: new { userId = userId, email = Input.NewEmail, code = code },
+                    values: new {userId = userId, email = Input.NewEmail, code = code},
                     protocol: Request.Scheme);
                 await _emailSender.SendEmailAsync(
                     Input.NewEmail,
@@ -132,7 +131,7 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
             var callbackUrl = Url.Page(
                 "/Account/ConfirmEmail",
                 pageHandler: null,
-                values: new { area = "Identity", userId = userId, code = code },
+                values: new {area = "Identity", userId = userId, code = code},
                 protocol: Request.Scheme);
             await _emailSender.SendEmailAsync(
                 email,

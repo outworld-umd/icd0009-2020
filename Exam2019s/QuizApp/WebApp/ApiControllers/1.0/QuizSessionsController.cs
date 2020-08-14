@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Contracts.DAL.App;
 using Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PublicApi.DTO;
 using PublicApi.DTO.Mappers;
@@ -28,14 +30,16 @@ namespace WebApp.ApiControllers._1._0
         [HttpGet]
         public async Task<ActionResult<IEnumerable<QuizSessionView>>> GetQuizSessions()
         {
-            return Ok((await _uow.QuizSessions.GetAllAsync()).Select(e => _mapper.MapView(e)));
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            return Ok((await _uow.QuizSessions.GetAllAsync(userIdTKey)).Select(e => _mapper.MapView(e)));
         }
 
         // GET: api/QuizSessions/5
         [HttpGet("{id}")]
         public async Task<ActionResult<QuizSession>> GetQuizSession(Guid id)
         {
-            var quizSession = await _uow.QuizSessions.FirstOrDefaultAsync(id);
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            var quizSession = await _uow.QuizSessions.FirstOrDefaultAsync(id, userIdTKey);
 
             if (quizSession == null)
             {
@@ -55,6 +59,7 @@ namespace WebApp.ApiControllers._1._0
             {
                 return BadRequest();
             }
+
             var dalEntity = _mapper.Map(quizSession);
             dalEntity.AppUserId = User.UserGuidId();
             await _uow.QuizSessions.UpdateAsync(dalEntity);
@@ -72,7 +77,7 @@ namespace WebApp.ApiControllers._1._0
             _uow.QuizSessions.Add(entity);
             await _uow.SaveChangesAsync();
 
-            return CreatedAtAction("GetQuizSession", new { id = quizSession.Id }, quizSession);
+            return CreatedAtAction("GetQuizSession", new {id = quizSession.Id}, quizSession);
         }
 
         // DELETE: api/QuizSessions/5

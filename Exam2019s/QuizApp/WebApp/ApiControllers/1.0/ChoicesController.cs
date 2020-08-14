@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts.DAL.App;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PublicApi.DTO;
 using PublicApi.DTO.Mappers;
@@ -40,7 +42,8 @@ namespace WebApp.ApiControllers._1._0
                 return NotFound();
             }
 
-            return Ok(_mapper.Map(choice));;
+            return Ok(_mapper.Map(choice));
+            ;
         }
 
         // PUT: api/Choices/5
@@ -53,6 +56,7 @@ namespace WebApp.ApiControllers._1._0
             {
                 return BadRequest();
             }
+
             await _uow.Choices.UpdateAsync(_mapper.Map(choice));
             await _uow.SaveChangesAsync();
             return NoContent();
@@ -67,7 +71,7 @@ namespace WebApp.ApiControllers._1._0
             _uow.Choices.Add(_mapper.Map(choice));
             await _uow.SaveChangesAsync();
 
-            return CreatedAtAction("GetChoice", new { id = choice.Id }, choice);
+            return CreatedAtAction("GetChoice", new {id = choice.Id}, choice);
         }
 
         // DELETE: api/Choices/5

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PublicApi.DTO.Identity
 {
-    public class LoginDTO 
+    public class LoginDTO
     {
         [MaxLength(256)]
         [EmailAddress]
