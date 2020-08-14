@@ -17,10 +17,8 @@ namespace Domain.App
         public string Value { get; set; } = default!;
 
         public TKey QuestionId { get; set; } = default!;
-        [InverseProperty("Choices")]
-        public Question? Question { get; set; }
+        [InverseProperty("Choices")] public Question? Question { get; set; }
 
         public ICollection<Answer>? Answers { get; set; }
-
     }
 }

@@ -5,11 +5,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="ee.itcollege.anguzo.DAL.Base" Version="1.0.0" />
+        <PackageReference Include="ee.itcollege.anguzo.DAL.Base" Version="1.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DAL.App.DTO\DAL.App.DTO.csproj" />
+        <ProjectReference Include="..\DAL.App.DTO\DAL.App.DTO.csproj" />
     </ItemGroup>
 
 </Project>

@@ -2,6 +2,7 @@ using AutoMapper;
 using ee.itcollege.anguzo.DAL.Base.EF.Mappers;
 using DALAppDTO = DAL.App.DTO;
 using Domain.App;
+
 namespace DAL.App.EF.Mappers
 {
     public class DALMapper<TLeftObject, TRightObject> : BaseDALMapper<TLeftObject, TRightObject>
@@ -17,7 +18,7 @@ namespace DAL.App.EF.Mappers
             MapperConfigurationExpression.CreateMap<Quiz, DALAppDTO.Quiz>();
             MapperConfigurationExpression.CreateMap<QuizSession, DALAppDTO.QuizSession>();
 
-            
+
             MapperConfigurationExpression.CreateMap<DALAppDTO.Identity.AppUser, Domain.App.Identity.AppUser>();
             MapperConfigurationExpression.CreateMap<DALAppDTO.Answer, Answer>();
             MapperConfigurationExpression.CreateMap<DALAppDTO.Choice, Choice>();

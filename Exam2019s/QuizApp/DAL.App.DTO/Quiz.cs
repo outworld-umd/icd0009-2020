@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using DAL.App.DTO.Identity;
 using Domain.App.Enums;
 using ee.itcollege.anguzo.Contracts.Domain.Base.Combined;
@@ -18,15 +20,13 @@ namespace DAL.App.DTO
         where TKey : IEquatable<TKey>
         where TUser : IdentityUser<TKey>
     {
-        public string Title { get; set; } = default!;
+        [DisplayName("Title")] [Required] public string Title { get; set; } = default!;
+        [DisplayName("Description")] public string? Description { get; set; }
 
-        public string? Description { get; set; }
+        [DisplayName("Quiz Type")] [Required] public QuizType QuizType { get; set; } = default!;
 
-        public QuizType QuizType { get; set; } = default!;
-
-        public ICollection<QuizSession>? QuizSessions { get; set; }
-        public ICollection<Question>? Questions { get; set; }
-
-        public int TimesTaken => QuizSessions?.Count ?? 0;
+        [DisplayName("QuizSessions")] public ICollection<QuizSession>? QuizSessions { get; set; }
+        [DisplayName("Questions")] public ICollection<Question>? Questions { get; set; }
+        [DisplayName("Times Taken")] public int TimesTaken => QuizSessions?.Count ?? 0;
     }
 }

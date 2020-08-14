@@ -7,7 +7,8 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Domain.App.Identity;using Microsoft.AspNetCore.Identity;
+using Domain.App.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -36,8 +37,7 @@ namespace WebApp.Areas.Identity.Pages.Account
             _emailSender = emailSender;
         }
 
-        [BindProperty]
-        public InputModel Input { get; set; } = default!;
+        [BindProperty] public InputModel Input { get; set; } = default!;
 
         public string ReturnUrl { get; set; } = default!;
 
@@ -49,24 +49,28 @@ namespace WebApp.Areas.Identity.Pages.Account
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; } = default!;
-            
+
             [Required]
-            [MinLength(2)] [MaxLength(64)]
+            [MinLength(2)]
+            [MaxLength(64)]
             [Display(Name = "Phone")]
             public string Phone { get; set; } = default!;
-            
+
             [Required]
-            [MinLength(2)] [MaxLength(64)]
+            [MinLength(2)]
+            [MaxLength(64)]
             [Display(Name = "First Name")]
             public string FirstName { get; set; } = default!;
-            
+
             [Required]
-            [MinLength(2)] [MaxLength(64)]
+            [MinLength(2)]
+            [MaxLength(64)]
             [Display(Name = "Last Name")]
             public string LastName { get; set; } = default!;
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
+                MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; } = default!;
@@ -79,7 +83,7 @@ namespace WebApp.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string? returnUrl = null)
         {
-            ReturnUrl =  returnUrl!;
+            ReturnUrl = returnUrl!;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
@@ -96,7 +100,6 @@ namespace WebApp.Areas.Identity.Pages.Account
                     Phone = Input.Phone,
                     FirstName = Input.FirstName,
                     LastName = Input.LastName
-                    
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 await _userManager.AddToRoleAsync(user, "Customer");
@@ -109,7 +112,7 @@ namespace WebApp.Areas.Identity.Pages.Account
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code = code },
+                        values: new {area = "Identity", userId = user.Id, code = code},
                         protocol: Request.Scheme);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
@@ -117,7 +120,7 @@ namespace WebApp.Areas.Identity.Pages.Account
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
+                        return RedirectToPage("RegisterConfirmation", new {email = Input.Email});
                     }
                     else
                     {
@@ -125,6 +128,7 @@ namespace WebApp.Areas.Identity.Pages.Account
                         return LocalRedirect(returnUrl);
                     }
                 }
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);

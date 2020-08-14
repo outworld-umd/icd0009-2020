@@ -1,4 +1,4 @@
-@model DAL.App.DTO.Quiz
+@model QuizzesCreateEditViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -13,7 +13,7 @@
         <form asp-action="Edit">
             <div asp-validation-summary="All" class="text-danger"></div>
             <partial name="_Shared/_CreateEdit"/>
-            <input type="hidden" asp-for="Id"/>
+            <input type="hidden" asp-for="Quiz.Id"/>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary"/>
             </div>

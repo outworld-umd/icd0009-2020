@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts.DAL.App;
+using Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PublicApi.DTO;
 using PublicApi.DTO.Mappers;
@@ -26,7 +29,8 @@ namespace WebApp.ApiControllers._1._0
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Answer>>> GetAnswers()
         {
-            return Ok((await _uow.Answers.GetAllAsync()).Select(e => _mapper.Map(e)));
+            var userIdTKey = User.IsInRole("Admin") ? null : (Guid?) User.UserGuidId();
+            return Ok((await _uow.Answers.GetAllAsync(userIdTKey)).Select(e => _mapper.Map(e)));
         }
 
         // GET: api/Answers/5
@@ -53,6 +57,7 @@ namespace WebApp.ApiControllers._1._0
             {
                 return BadRequest();
             }
+
             await _uow.Answers.UpdateAsync(_mapper.Map(answer));
             await _uow.SaveChangesAsync();
             return NoContent();
@@ -67,7 +72,7 @@ namespace WebApp.ApiControllers._1._0
             _uow.Answers.Add(_mapper.Map(answer));
             await _uow.SaveChangesAsync();
 
-            return CreatedAtAction("GetAnswer", new { id = answer.Id }, answer);
+            return CreatedAtAction("GetAnswer", new {id = answer.Id}, answer);
         }
 
         // DELETE: api/Answers/5

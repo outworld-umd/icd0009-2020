@@ -11,7 +11,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories
 {
-    public class ChoiceRepository : EFBaseRepository<AppDbContext, AppUser, Domain.App.Choice, Choice>, IChoiceRepository
+    public class ChoiceRepository : EFBaseRepository<AppDbContext, AppUser, Domain.App.Choice, Choice>,
+        IChoiceRepository
     {
         public ChoiceRepository(AppDbContext dbContext) : base(dbContext, new DALMapper<Domain.App.Choice, Choice>())
         {
@@ -36,7 +37,6 @@ namespace DAL.App.EF.Repositories
                 .Include(a => a.Answers)
                 .FirstOrDefaultAsync(e => e.Id.Equals(id));
             return DALMapper.Map(entity);
-
         }
     }
 }

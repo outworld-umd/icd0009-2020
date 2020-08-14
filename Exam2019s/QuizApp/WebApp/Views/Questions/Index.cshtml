@@ -25,6 +25,9 @@
             @Html.DisplayNameFor(model => model.Quiz)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.TimesAnswered)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.CreatedBy)
         </th>
         <th>
@@ -44,7 +47,7 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.CorrectChoice.Value)
+                @Html.DisplayFor(modelItem => item.CorrectChoice!.Value)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
@@ -53,7 +56,10 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Quiz.Title)
+                @Html.DisplayFor(modelItem => item.Quiz!.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimesAnswered)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreatedBy)

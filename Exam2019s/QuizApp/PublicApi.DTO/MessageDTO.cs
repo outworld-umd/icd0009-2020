@@ -7,15 +7,13 @@ namespace PublicApi.DTO
     {
         public MessageDTO()
         {
-            
         }
 
         public MessageDTO(params string[] messages)
         {
             Messages = messages;
         }
-        
-        [Required]
-        public IList<string> Messages { get; set; } = new List<string>();
+
+        [Required] public IList<string> Messages { get; set; } = new List<string>();
     }
 }

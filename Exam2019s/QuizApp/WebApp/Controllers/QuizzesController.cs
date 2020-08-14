@@ -7,19 +7,21 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.DTO;
 using Domain.App.Identity;
+using Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using WebApp.ViewModels;
 
 namespace WebApp.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class QuizzesController : Controller
     {
         private readonly IAppUnitOfWork _uow;
-        private readonly UserManager<AppUser> _userManager;
 
-        public QuizzesController(IAppUnitOfWork uow, UserManager<AppUser> userManager)
+        public QuizzesController(IAppUnitOfWork uow)
         {
             _uow = uow;
-            _userManager = userManager;
         }
 
         // GET: Quizzes
@@ -49,8 +51,8 @@ namespace WebApp.Controllers
         // GET: Quizzes/Create
         public IActionResult Create()
         {
-            ViewData["AppUserId"] = new SelectList(_userManager.Users.ToList(), "Id", "FirstName");
-            return View();
+            var vm = new QuizzesCreateEditViewModel();
+            return View(vm);
         }
 
         // POST: Quizzes/Create
@@ -58,20 +60,18 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(
-            [Bind("Title,Description,QuizType,AppUserId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")]
-            Quiz quiz)
+        public async Task<IActionResult> Create(QuizzesCreateEditViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                quiz.Id = Guid.NewGuid();
-                _uow.Quizzes.Add(quiz);
+                vm.Quiz.Id = Guid.NewGuid();
+                vm.Quiz.AppUserId = User.UserGuidId();
+                _uow.Quizzes.Add(vm.Quiz);
                 await _uow.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["AppUserId"] = new SelectList(_userManager.Users.ToList(), "Id", "FirstName");
-            return View(quiz);
+            return View(vm);
         }
 
         // GET: Quizzes/Edit/5
@@ -82,14 +82,16 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var quiz = await _uow.Quizzes.FirstOrDefaultAsync(id.Value);
-            if (quiz == null)
+            var vm = new QuizzesCreateEditViewModel()
+            {
+                Quiz = await _uow.Quizzes.FirstOrDefaultAsync(id.Value)
+            };
+            if (vm.Quiz == null)
             {
                 return NotFound();
             }
 
-            ViewData["AppUserId"] = new SelectList(_userManager.Users.ToList(), "Id", "FirstName");
-            return View(quiz);
+            return View(vm);
         }
 
         // POST: Quizzes/Edit/5
@@ -97,11 +99,9 @@ namespace WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id,
-            [Bind("Title,Description,QuizType,AppUserId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")]
-            Quiz quiz)
+        public async Task<IActionResult> Edit(Guid id, QuizzesCreateEditViewModel vm)
         {
-            if (id != quiz.Id)
+            if (id != vm.Quiz.Id)
             {
                 return NotFound();
             }
@@ -110,12 +110,12 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    await _uow.Quizzes.UpdateAsync(quiz);
+                    await _uow.Quizzes.UpdateAsync(vm.Quiz);
                     await _uow.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!QuizExists(quiz.Id))
+                    if (!QuizExists(vm.Quiz.Id))
                     {
                         return NotFound();
                     }
@@ -128,8 +128,7 @@ namespace WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["AppUserId"] = new SelectList(_userManager.Users.ToList(), "Id", "FirstName");
-            return View(quiz);
+            return View(vm);
         }
 
         // GET: Quizzes/Delete/5

@@ -10,8 +10,7 @@ namespace Domain.App
     public class Question : Question<Guid>, IDomainEntityIdMetadata
     {
         public Guid? CorrectChoiceId { get; set; }
-        [ForeignKey(nameof(CorrectChoiceId))] 
-        public Choice? CorrectChoice { get; set; }
+        [ForeignKey(nameof(CorrectChoiceId))] public Choice? CorrectChoice { get; set; }
     }
 
     public class Question<TKey> : DomainEntityIdMetadata

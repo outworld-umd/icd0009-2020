@@ -1,16 +1,20 @@
-﻿@model DAL.App.DTO.Answer
+﻿@model AnswersCreateEditViewModel
 
-<div asp-validation-summary="All"class="text-danger"></div>
+<div asp-validation-summary="All" class="text-danger"></div>
 <div class="form-group">
-    <label asp-for="ChoiceId" class="control-label"></label>
-    <select asp-for="ChoiceId" class="form-control" asp-items="ViewBag.ChoiceId"></select>
+    <label asp-for="Answer.ChoiceId" class="control-label"></label>
+    <select asp-for="Answer.ChoiceId" class="form-control" asp-items="Model.Choices">
+        <option selected="selected" value="">Please Select</option>
+    </select>
 </div>
 <div class="form-group">
-    <label asp-for="QuizSessionId" class="control-label"></label>
-    <select asp-for="QuizSessionId" class="form-control" asp-items="ViewBag.QuizSessionIds"></select>
+    <label asp-for="Answer.QuizSessionId" class="control-label"></label>
+    <select asp-for="Answer.QuizSessionId" class="form-control" asp-items="Model.QuizSessions">
+        <option selected="selected" value="">Please Select</option>
+    </select>
 </div>
 <div class="form-group form-check">
     <label class="form-check-label">
-        <input class="form-check-input" asp-for="IsCorrect"/> @Html.DisplayNameFor(model => model.IsCorrect)
+        <input type="checkbox" class="form-check-input" asp-for="Answer.IsCorrect"/> @Html.DisplayNameFor(model => model.Answer.IsCorrect)
     </label>
 </div>

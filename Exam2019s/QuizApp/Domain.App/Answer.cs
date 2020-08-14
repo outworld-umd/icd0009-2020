@@ -18,10 +18,10 @@ namespace Domain.App
     {
         public TKey ChoiceId { get; set; } = default!;
         public Choice? Choice { get; set; }
-        
+
         public TKey QuizSessionId { get; set; } = default!;
         public QuizSession QuizSession { get; set; } = default!;
 
-        public bool? IsCorrect { get; set; }
+        public bool IsCorrect { get; set; }
     }
 }

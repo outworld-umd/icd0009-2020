@@ -2,9 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper.Internal;
 using Contracts.DAL.App;
+using Domain.App.Enums;
 using Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using PublicApi.DTO;
 using PublicApi.DTO.Mappers;
 
@@ -27,8 +32,25 @@ namespace WebApp.ApiControllers._1._0
         [HttpGet]
         public async Task<ActionResult<IEnumerable<QuizDisplay>>> GetQuizzes()
         {
-            return Ok((await _uow.Quizzes.GetAllAsync()).Select(e => _mapper.MapDisplay(e)));
+            return Ok((await _uow.Quizzes.GetAllAsync()).Where(q => q.Questions!.Count > 0).Select(e => _mapper.MapDisplay(e)));
         }
+        
+        // GET: api/Quizzes/Quiz
+        [HttpGet("Quiz")]
+        public async Task<ActionResult<IEnumerable<QuizDisplay>>> GetQuizzesOnly()
+        {
+            return Ok((await _uow.Quizzes.GetAllAsync()).Where(q => q.Questions!.Count > 0).Where(q => q.QuizType.Equals(QuizType.Quiz))
+                .Select(e => _mapper.MapDisplay(e)));
+        }
+        
+        // GET: api/Quizzes/Poll
+        [HttpGet("Poll")]
+        public async Task<ActionResult<IEnumerable<QuizDisplay>>> GetPollsOnly()
+        {
+            return Ok((await _uow.Quizzes.GetAllAsync()).Where(q => q.Questions!.Count > 0).Where(q => q.QuizType.Equals(QuizType.Poll))
+                .Select(e => _mapper.MapDisplay(e)));
+        }
+
 
         // GET: api/Quizzes/5
         [HttpGet("{id}")]
@@ -54,10 +76,12 @@ namespace WebApp.ApiControllers._1._0
             {
                 return BadRequest();
             }
+
             if (!await _uow.Quizzes.ExistsAsync(quiz.Id))
             {
                 return NotFound();
             }
+
             var dalEntity = _mapper.Map(quiz);
             dalEntity.AppUserId = User.UserGuidId();
             await _uow.Quizzes.UpdateAsync(dalEntity);
@@ -74,7 +98,7 @@ namespace WebApp.ApiControllers._1._0
             _uow.Quizzes.Add(_mapper.Map(quiz));
             await _uow.SaveChangesAsync();
 
-            return CreatedAtAction("GetQuiz", new { id = quiz.Id }, quiz);
+            return CreatedAtAction("GetQuiz", new {id = quiz.Id}, quiz);
         }
 
         // DELETE: api/Quizzes/5
