@@ -1,4 +1,5 @@
-﻿using ee.itcollege.anguzo.Contracts.DAL.Base.Mappers;
+﻿using System;
+using ee.itcollege.anguzo.Contracts.DAL.Base.Mappers;
 
 namespace DAL.App.EF.Mappers
 {
@@ -8,12 +9,12 @@ namespace DAL.App.EF.Mappers
     {
         public TRightObject Map(TLeftObject inObject)
         {
-            return inObject as TRightObject ?? default!;
+            return (inObject as TRightObject ?? default!) ?? throw new InvalidOperationException();
         }
 
         public TLeftObject Map(TRightObject inObject)
         {
-            return inObject as TLeftObject ?? default!;
+            return (inObject as TLeftObject ?? default!) ?? throw new InvalidOperationException();
         }
     }
 }
