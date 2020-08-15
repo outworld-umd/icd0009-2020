@@ -1,0 +1,1006 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\admin\AppData\Local\JetBrains\Rider2020.2\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\admin\AppData\Local\JetBrains\Rider2020.2\resharper-host\Local\Transient\Rider\v202\SolutionCaches\_FoodDeliveryApp.728795941.00" t="ExcludeRecursive" />
+    <e p="C:\Users\admin\AppData\Roaming\JetBrains\Rider2020.2\consoles\db" t="IncludeRecursive" />
+    <e p="C:\Users\admin\AppData\Roaming\JetBrains\Rider2020.2\extensions" t="IncludeRecursive" />
+    <e p="C:\Users\admin\AppData\Roaming\JetBrains\Rider2020.2\scratches" t="IncludeRecursive" />
+    <e p="C:\Users\admin\RiderProjects\icd0009-2019s\.gitignore" t="Include" />
+    <e p="C:\Users\admin\RiderProjects\icd0009-2019s\FoodDeliveryApp" t="IncludeFlat">
+      <e p=".dockerignore" t="Include" />
+      <e p="_SolutionFiles" t="Include" />
+      <e p="BLL" t="Include">
+        <e p="Contracts" t="Include" />
+      </e>
+      <e p="BLL.App" t="IncludeRecursive">
+        <e p="AppBLL.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="BLL.App.csproj" t="IncludeRecursive" />
+        <e p="Mappers" t="Include">
+          <e p="AddressServiceMapper.cs" t="Include" />
+          <e p="CategoryServiceMapper.cs" t="Include" />
+          <e p="ItemChoiceServiceMapper.cs" t="Include" />
+          <e p="ItemInTypeServiceMapper.cs" t="Include" />
+          <e p="ItemOptionServiceMapper.cs" t="Include" />
+          <e p="ItemServiceMapper.cs" t="Include" />
+          <e p="ItemTypeServiceMapper.cs" t="Include" />
+          <e p="LangStringServiceMapper.cs" t="Include" />
+          <e p="NutritionInfoServiceMapper.cs" t="Include" />
+          <e p="Old" t="Include">
+            <e p="BLLMapper.cs" t="Include" />
+            <e p="IdentityMapper.cs" t="Include" />
+          </e>
+          <e p="OrderItemChoiceServiceMapper.cs" t="Include" />
+          <e p="OrderRowServiceMapper.cs" t="Include" />
+          <e p="OrderServiceMapper.cs" t="Include" />
+          <e p="RestaurantCategoryServiceMapper.cs" t="Include" />
+          <e p="RestaurantServiceMapper.cs" t="Include" />
+          <e p="RestaurantUserServiceMapper.cs" t="Include" />
+          <e p="TranslationServiceMapper.cs" t="Include" />
+          <e p="WorkingHoursServiceMapper.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.1" t="Include">
+              <e p="BLL.App.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Services" t="Include">
+          <e p="AddressService.cs" t="Include" />
+          <e p="CategoryService.cs" t="Include" />
+          <e p="ItemChoiceService.cs" t="Include" />
+          <e p="ItemInTypeService.cs" t="Include" />
+          <e p="ItemOptionService.cs" t="Include" />
+          <e p="ItemService.cs" t="Include" />
+          <e p="ItemTypeService.cs" t="Include" />
+          <e p="LangStringService.cs" t="Include" />
+          <e p="NutritionInfoService.cs" t="Include" />
+          <e p="OrderItemChoiceService.cs" t="Include" />
+          <e p="OrderRowService.cs" t="Include" />
+          <e p="OrderService.cs" t="Include" />
+          <e p="RestaurantCategoryService.cs" t="Include" />
+          <e p="RestaurantService.cs" t="Include" />
+          <e p="RestaurantUserService.cs" t="Include" />
+          <e p="TranslationService.cs" t="Include" />
+          <e p="WorkingHoursService.cs" t="Include" />
+        </e>
+      </e>
+      <e p="BLL.App.DTO" t="IncludeRecursive">
+        <e p="Address.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="BLL.App.DTO.csproj" t="IncludeRecursive" />
+        <e p="Category.cs" t="Include" />
+        <e p="Item.cs" t="Include" />
+        <e p="ItemChoice.cs" t="Include" />
+        <e p="ItemInType.cs" t="Include" />
+        <e p="ItemOption.cs" t="Include" />
+        <e p="ItemType.cs" t="Include" />
+        <e p="LangString.cs" t="Include" />
+        <e p="NutritionInfo.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.1" t="Include">
+              <e p="BLL.App.DTO.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Order.cs" t="Include" />
+        <e p="OrderItemChoice.cs" t="Include" />
+        <e p="OrderRow.cs" t="Include" />
+        <e p="Restaurant.cs" t="Include" />
+        <e p="RestaurantCategory.cs" t="Include" />
+        <e p="RestaurantUser.cs" t="Include" />
+        <e p="Translation.cs" t="Include" />
+        <e p="WorkingHours.cs" t="Include" />
+      </e>
+      <e p="Contracts.BLL.App" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Contracts.BLL.App.csproj" t="IncludeRecursive" />
+        <e p="IAppBLL.cs" t="Include" />
+        <e p="Mappers" t="Include">
+          <e p="IAddressServiceMapper.cs" t="Include" />
+          <e p="ICategoryServiceMapper.cs" t="Include" />
+          <e p="IItemChoiceServiceMapper.cs" t="Include" />
+          <e p="IItemInTypeServiceMapper.cs" t="Include" />
+          <e p="IItemOptionServiceMapper.cs" t="Include" />
+          <e p="IItemServiceMapper.cs" t="Include" />
+          <e p="IItemTypeServiceMapper.cs" t="Include" />
+          <e p="ILangStringServiceMapper.cs" t="Include" />
+          <e p="INutritionInfoServiceMapper.cs" t="Include" />
+          <e p="IOrderItemChoiceServiceMapper.cs" t="Include" />
+          <e p="IOrderRowServiceMapper.cs" t="Include" />
+          <e p="IOrderServiceMapper.cs" t="Include" />
+          <e p="IRestaurantCategoryServiceMapper.cs" t="Include" />
+          <e p="IRestaurantServiceMapper.cs" t="Include" />
+          <e p="IRestaurantUserServiceMapper.cs" t="Include" />
+          <e p="ITranslationServiceMapper.cs" t="Include" />
+          <e p="IWorkingHoursServiceMapper.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.1" t="Include">
+              <e p="Contracts.BLL.App.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Services" t="Include">
+          <e p="IAddressService.cs" t="Include" />
+          <e p="ICategoryService.cs" t="Include" />
+          <e p="IItemChoiceService.cs" t="Include" />
+          <e p="IItemInTypeService.cs" t="Include" />
+          <e p="IItemOptionService.cs" t="Include" />
+          <e p="IItemService.cs" t="Include" />
+          <e p="IItemTypeService.cs" t="Include" />
+          <e p="ILangStringService.cs" t="Include" />
+          <e p="INutritionInfoService.cs" t="Include" />
+          <e p="IOrderItemChoiceService.cs" t="Include" />
+          <e p="IOrderRowService.cs" t="Include" />
+          <e p="IOrderService.cs" t="Include" />
+          <e p="IRestaurantCategoryService.cs" t="Include" />
+          <e p="IRestaurantService.cs" t="Include" />
+          <e p="IRestaurantUserService.cs" t="Include" />
+          <e p="ITranslationService.cs" t="Include" />
+          <e p="IWorkingHoursService.cs" t="Include" />
+        </e>
+      </e>
+      <e p="Contracts.DAL.App" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Contracts.DAL.App.csproj" t="IncludeRecursive" />
+        <e p="IAppUnitOfWork.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.1" t="Include">
+              <e p="Contracts.DAL.App.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Repositories" t="Include">
+          <e p="IAddressRepository.cs" t="Include" />
+          <e p="ICategoryRepository.cs" t="Include" />
+          <e p="IItemChoiceRepository.cs" t="Include" />
+          <e p="IItemInTypeRepository.cs" t="Include" />
+          <e p="IItemOptionRepository.cs" t="Include" />
+          <e p="IItemRepository.cs" t="Include" />
+          <e p="IItemTypeRepository.cs" t="Include" />
+          <e p="ILangStringRepository.cs" t="Include" />
+          <e p="INutritionInfoRepository.cs" t="Include" />
+          <e p="IOrderItemChoiceRepository.cs" t="Include" />
+          <e p="IOrderRepository.cs" t="Include" />
+          <e p="IOrderRowRepository.cs" t="Include" />
+          <e p="IRestaurantCategoryRepository.cs" t="Include" />
+          <e p="IRestaurantRepository.cs" t="Include" />
+          <e p="IRestaurantUserRepository.cs" t="Include" />
+          <e p="ITranslationRepository.cs" t="Include" />
+          <e p="IWorkingHoursRepository.cs" t="Include" />
+        </e>
+      </e>
+      <e p="DAL" t="Include">
+        <e p="Contracts" t="Include" />
+      </e>
+      <e p="DAL.App.DTO" t="IncludeRecursive">
+        <e p="Address.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Category.cs" t="Include" />
+        <e p="DAL.App.DTO.csproj" t="IncludeRecursive" />
+        <e p="Item.cs" t="Include" />
+        <e p="ItemChoice.cs" t="Include" />
+        <e p="ItemInType.cs" t="Include" />
+        <e p="ItemOption.cs" t="Include" />
+        <e p="ItemType.cs" t="Include" />
+        <e p="LangString.cs" t="Include" />
+        <e p="NutritionInfo.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.1" t="Include">
+              <e p="DAL.App.DTO.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Order.cs" t="Include" />
+        <e p="OrderItemChoice.cs" t="Include" />
+        <e p="OrderRow.cs" t="Include" />
+        <e p="Restaurant.cs" t="Include" />
+        <e p="RestaurantCategory.cs" t="Include" />
+        <e p="RestaurantUser.cs" t="Include" />
+        <e p="Translation.cs" t="Include" />
+        <e p="WorkingHours.cs" t="Include" />
+      </e>
+      <e p="DAL.App.EF" t="IncludeRecursive">
+        <e p="AppDbContext.cs" t="Include" />
+        <e p="AppUnitOfWork.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="DAL.App.EF.csproj" t="IncludeRecursive" />
+        <e p="Helpers" t="Include">
+          <e p="DataInitializers.cs" t="Include" />
+        </e>
+        <e p="Mappers" t="Include">
+          <e p="DALMapper.cs" t="Include" />
+          <e p="IdentityMapper.cs" t="Include" />
+        </e>
+        <e p="Migrations" t="Include">
+          <e p="20200813064555_InitialDbCreation.cs" t="Include" />
+          <e p="20200813064555_InitialDbCreation.Designer.cs" t="Include" />
+          <e p="AppDbContextModelSnapshot.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.1" t="Include">
+              <e p="DAL.App.EF.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Repositories" t="Include">
+          <e p="AddressRepository.cs" t="Include" />
+          <e p="CategoryRepository.cs" t="Include" />
+          <e p="ItemChoiceRepository.cs" t="Include" />
+          <e p="ItemInTypeRepository.cs" t="Include" />
+          <e p="ItemOptionRepository.cs" t="Include" />
+          <e p="ItemRepository.cs" t="Include" />
+          <e p="ItemTypeRepository.cs" t="Include" />
+          <e p="LangStringRepository.cs" t="Include" />
+          <e p="NutritionInfoRepository.cs" t="Include" />
+          <e p="OrderItemChoiceRepository.cs" t="Include" />
+          <e p="OrderRepository.cs" t="Include" />
+          <e p="OrderRowRepository.cs" t="Include" />
+          <e p="RestaurantCategoryRepository.cs" t="Include" />
+          <e p="RestaurantRepository.cs" t="Include" />
+          <e p="RestaurantUserRepository.cs" t="Include" />
+          <e p="TranslationRepository.cs" t="Include" />
+          <e p="WorkingHoursRepository.cs" t="Include" />
+        </e>
+      </e>
+      <e p="Directory.Build.props" t="Include" />
+      <e p="Dockerfile" t="Include" />
+      <e p="Domain" t="Include" />
+      <e p="Domain.App" t="IncludeRecursive">
+        <e p="Address.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Category.cs" t="Include" />
+        <e p="Domain.App.csproj" t="IncludeRecursive" />
+        <e p="Enums" t="Include">
+          <e p="OrderStatus.cs" t="Include" />
+          <e p="PaymentMethod.cs" t="Include" />
+        </e>
+        <e p="Item.cs" t="Include" />
+        <e p="ItemChoice.cs" t="Include" />
+        <e p="ItemInType.cs" t="Include" />
+        <e p="ItemOption.cs" t="Include" />
+        <e p="ItemType.cs" t="Include" />
+        <e p="LangString.cs" t="Include" />
+        <e p="NutritionInfo.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.1" t="Include">
+              <e p="Domain.App.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Order.cs" t="Include" />
+        <e p="OrderItemChoice.cs" t="Include" />
+        <e p="OrderRow.cs" t="Include" />
+        <e p="Restaurant.cs" t="Include" />
+        <e p="RestaurantCategory.cs" t="Include" />
+        <e p="RestaurantUser.cs" t="Include" />
+        <e p="Translation.cs" t="Include" />
+        <e p="WorkingHours.cs" t="Include" />
+      </e>
+      <e p="extensions" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Extensions.csproj" t="IncludeRecursive" />
+        <e p="IdentityExtensions.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.1" t="Include">
+              <e p="Extensions.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="FoodDeliveryApp.sln" t="IncludeFlat" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="PublicApi.DTO.v1" t="IncludeRecursive">
+        <e p="Address.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Category.cs" t="Include" />
+        <e p="Identity" t="Include">
+          <e p="AppRole.cs" t="Include" />
+          <e p="AppUser.cs" t="Include" />
+          <e p="JwtResponseDTO.cs" t="Include" />
+          <e p="LoginDTO.cs" t="Include" />
+          <e p="RegisterDTO.cs" t="Include" />
+        </e>
+        <e p="Item.cs" t="Include" />
+        <e p="ItemChoice.cs" t="Include" />
+        <e p="ItemInType.cs" t="Include" />
+        <e p="ItemOption.cs" t="Include" />
+        <e p="ItemType.cs" t="Include" />
+        <e p="Mappers" t="Include">
+          <e p="AddressMapper.cs" t="Include" />
+          <e p="Base" t="Include">
+            <e p="APIMapper.cs" t="Include" />
+            <e p="BaseAPIMapper.cs" t="Include" />
+            <e p="IBaseAPIMapper.cs" t="Include" />
+          </e>
+          <e p="CategoryMapper.cs" t="Include" />
+          <e p="ItemChoiceMapper.cs" t="Include" />
+          <e p="ItemInTypeMapper.cs" t="Include" />
+          <e p="ItemMapper.cs" t="Include" />
+          <e p="ItemOptionMapper.cs" t="Include" />
+          <e p="ItemTypeMapper.cs" t="Include" />
+          <e p="NutritionInfoMapper.cs" t="Include" />
+          <e p="OrderItemChoiceMapper.cs" t="Include" />
+          <e p="OrderMapper.cs" t="Include" />
+          <e p="OrderRowMapper.cs" t="Include" />
+          <e p="RestaurantMapper.cs" t="Include" />
+          <e p="WorkingHoursMapper.cs" t="Include" />
+        </e>
+        <e p="MessageDTO.cs" t="Include" />
+        <e p="NutritionInfo.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.1" t="Include">
+              <e p="PublicApi.DTO.v1.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Order.cs" t="Include" />
+        <e p="OrderItemChoice.cs" t="Include" />
+        <e p="OrderRow.cs" t="Include" />
+        <e p="PublicApi.DTO.v1.csproj" t="IncludeRecursive" />
+        <e p="Restaurant.cs" t="Include" />
+        <e p="RestaurantCategory.cs" t="Include" />
+        <e p="WorkingHours.cs" t="Include" />
+      </e>
+      <e p="README.md" t="Include" />
+      <e p="Resources" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="BLL.App.DTO" t="Include">
+          <e p="Address" t="Include">
+            <e p="Address.Designer.cs" t="Include" />
+            <e p="Address.et.resx" t="Include" />
+            <e p="Address.resx" t="Include" />
+            <e p="Address.ru.resx" t="Include" />
+          </e>
+          <e p="Category" t="Include">
+            <e p="Category.Designer.cs" t="Include" />
+            <e p="Category.et.resx" t="Include" />
+            <e p="Category.resx" t="Include" />
+            <e p="Category.ru.resx" t="Include" />
+          </e>
+          <e p="Identity" t="Include">
+            <e p="User.Designer.cs" t="Include" />
+            <e p="User.et.resx" t="Include" />
+            <e p="User.resx" t="Include" />
+            <e p="User.ru.resx" t="Include" />
+          </e>
+          <e p="Item" t="Include">
+            <e p="Item.Designer.cs" t="Include" />
+            <e p="Item.et.resx" t="Include" />
+            <e p="Item.resx" t="Include" />
+            <e p="Item.ru.resx" t="Include" />
+          </e>
+          <e p="ItemChoice" t="Include">
+            <e p="ItemChoice.Designer.cs" t="Include" />
+            <e p="ItemChoice.et.resx" t="Include" />
+            <e p="ItemChoice.resx" t="Include" />
+            <e p="ItemChoice.ru.resx" t="Include" />
+          </e>
+          <e p="ItemInType" t="Include">
+            <e p="ItemInType.Designer.cs" t="Include" />
+            <e p="ItemInType.et.resx" t="Include" />
+            <e p="ItemInType.resx" t="Include" />
+            <e p="ItemInType.ru.resx" t="Include" />
+          </e>
+          <e p="ItemOption" t="Include">
+            <e p="ItemOption.Designer.cs" t="Include" />
+            <e p="ItemOption.et.resx" t="Include" />
+            <e p="ItemOption.resx" t="Include" />
+            <e p="ItemOption.ru.resx" t="Include" />
+          </e>
+          <e p="ItemType" t="Include">
+            <e p="ItemType.Designer.cs" t="Include" />
+            <e p="ItemType.et.resx" t="Include" />
+            <e p="ItemType.resx" t="Include" />
+            <e p="ItemType.ru.resx" t="Include" />
+          </e>
+          <e p="NutritionInfo" t="Include">
+            <e p="NutritionInfo.Designer.cs" t="Include" />
+            <e p="NutritionInfo.et.resx" t="Include" />
+            <e p="NutritionInfo.resx" t="Include" />
+            <e p="NutritionInfo.ru.resx" t="Include" />
+          </e>
+          <e p="Order" t="Include">
+            <e p="Order.Designer.cs" t="Include" />
+            <e p="Order.et.resx" t="Include" />
+            <e p="Order.resx" t="Include" />
+            <e p="Order.ru.resx" t="Include" />
+          </e>
+          <e p="OrderItemChoice" t="Include">
+            <e p="OrderItemChoice.Designer.cs" t="Include" />
+            <e p="OrderItemChoice.et.resx" t="Include" />
+            <e p="OrderItemChoice.resx" t="Include" />
+            <e p="OrderItemChoice.ru.resx" t="Include" />
+          </e>
+          <e p="OrderRow" t="Include">
+            <e p="OrderRow.Designer.cs" t="Include" />
+            <e p="OrderRow.et.resx" t="Include" />
+            <e p="OrderRow.resx" t="Include" />
+            <e p="OrderRow.ru.resx" t="Include" />
+          </e>
+          <e p="Restaurant" t="Include">
+            <e p="Restaurant.Designer.cs" t="Include" />
+            <e p="Restaurant.et.resx" t="Include" />
+            <e p="Restaurant.resx" t="Include" />
+            <e p="Restaurant.ru.resx" t="Include" />
+          </e>
+          <e p="RestaurantCategory" t="Include">
+            <e p="RestaurantCategory.Designer.cs" t="Include" />
+            <e p="RestaurantCategory.et.resx" t="Include" />
+            <e p="RestaurantCategory.resx" t="Include" />
+            <e p="RestaurantCategory.ru.resx" t="Include" />
+          </e>
+          <e p="RestaurantUser" t="Include">
+            <e p="RestaurantUser.Designer.cs" t="Include" />
+            <e p="RestaurantUser.et.Designer.cs" t="Include" />
+            <e p="RestaurantUser.et.resx" t="Include" />
+            <e p="RestaurantUser.resx" t="Include" />
+            <e p="RestaurantUser.ru.Designer.cs" t="Include" />
+            <e p="RestaurantUser.ru.resx" t="Include" />
+          </e>
+          <e p="Translation" t="Include">
+            <e p="Translation.Designer.cs" t="Include" />
+            <e p="Translation.et.resx" t="Include" />
+            <e p="Translation.resx" t="Include" />
+            <e p="Translation.ru.resx" t="Include" />
+          </e>
+          <e p="WorkingHours" t="Include">
+            <e p="WorkingHours.Designer.cs" t="Include" />
+            <e p="WorkingHours.et.resx" t="Include" />
+            <e p="WorkingHours.resx" t="Include" />
+            <e p="WorkingHours.ru.resx" t="Include" />
+          </e>
+        </e>
+        <e p="Common" t="Include">
+          <e p="Common.Designer.cs" t="Include" />
+          <e p="Common.et.resx" t="Include" />
+          <e p="Common.resx" t="Include" />
+          <e p="Common.ru.resx" t="Include" />
+        </e>
+        <e p="Enums" t="Include">
+          <e p="OrderStatus" t="Include">
+            <e p="OrderStatus.Designer.cs" t="Include" />
+            <e p="OrderStatus.et.resx" t="Include" />
+            <e p="OrderStatus.resx" t="Include" />
+            <e p="OrderStatus.ru.resx" t="Include" />
+          </e>
+          <e p="PaymentMethod" t="Include">
+            <e p="PaymentMethod.Designer.cs" t="Include" />
+            <e p="PaymentMethod.et.resx" t="Include" />
+            <e p="PaymentMethod.resx" t="Include" />
+            <e p="PaymentMethod.ru.resx" t="Include" />
+          </e>
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.1" t="Include">
+              <e p="Resources.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Resources.csproj" t="IncludeRecursive" />
+        <e p="Views" t="Include">
+          <e p="CreDelDetEdiInd" t="Include">
+            <e p="CreDelDetEdiInd.Designer.cs" t="Include" />
+            <e p="CreDelDetEdiInd.et.resx" t="Include" />
+            <e p="CreDelDetEdiInd.resx" t="Include" />
+            <e p="CreDelDetEdiInd.ru.resx" t="Include" />
+          </e>
+          <e p="Home" t="Include">
+            <e p="Index" t="Include">
+              <e p="Index.Designer.cs" t="Include" />
+              <e p="Index.et.resx" t="Include" />
+              <e p="Index.resx" t="Include" />
+              <e p="Index.ru.resx" t="Include" />
+            </e>
+            <e p="Privacy" t="Include">
+              <e p="Privacy.Designer.cs" t="Include" />
+              <e p="Privacy.et.resx" t="Include" />
+              <e p="Privacy.resx" t="Include" />
+              <e p="Privacy.ru.resx" t="Include" />
+            </e>
+          </e>
+          <e p="Shared" t="Include">
+            <e p="_LanguageSelection" t="Include">
+              <e p="_LanguageSelection.Designer.cs" t="Include" />
+              <e p="_LanguageSelection.et.resx" t="Include" />
+              <e p="_LanguageSelection.resx" t="Include" />
+              <e p="_LanguageSelection.ru.resx" t="Include" />
+            </e>
+            <e p="_Layout" t="Include">
+              <e p="_Layout.Designer.cs" t="Include" />
+              <e p="_Layout.et.resx" t="Include" />
+              <e p="_Layout.resx" t="Include" />
+              <e p="_Layout.ru.resx" t="Include" />
+            </e>
+            <e p="_LoginPartial" t="Include">
+              <e p="_LoginPartial.Designer.cs" t="Include" />
+              <e p="_LoginPartial.et.resx" t="Include" />
+              <e p="_LoginPartial.resx" t="Include" />
+              <e p="_LoginPartial.ru.resx" t="Include" />
+            </e>
+          </e>
+          <e p="UserManager" t="Include">
+            <e p="UserManager.Designer.cs" t="Include" />
+            <e p="UserManager.et.resx" t="Include" />
+            <e p="UserManager.resx" t="Include" />
+            <e p="UserManager.ru.resx" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="WebApp" t="IncludeRecursive">
+        <e p="ApiControllers" t="Include">
+          <e p="1.0" t="Include">
+            <e p="AddressesController.cs" t="Include" />
+            <e p="CategoriesController.cs" t="Include" />
+            <e p="Identity" t="Include">
+              <e p="AccountsController.cs" t="Include" />
+            </e>
+            <e p="ItemChoicesController.cs" t="Include" />
+            <e p="ItemInTypesController.cs" t="Include" />
+            <e p="ItemOptionsController.cs" t="Include" />
+            <e p="ItemsController.cs" t="Include" />
+            <e p="ItemTypesController.cs" t="Include" />
+            <e p="NutritionInfosController.cs" t="Include" />
+            <e p="OrderItemChoicesController.cs" t="Include" />
+            <e p="OrderRowsController.cs" t="Include" />
+            <e p="OrdersController.cs" t="Include" />
+            <e p="RestaurantCategoriesController.cs" t="Include" />
+            <e p="RestaurantsController.cs" t="Include" />
+            <e p="WorkingHoursController.cs" t="Include" />
+          </e>
+        </e>
+        <e p="appsettings.Development.json" t="Include" />
+        <e p="appsettings.json" t="Include" />
+        <e p="Areas" t="Include">
+          <e p="admin" t="Include">
+            <e p="Controllers" t="Include">
+              <e p="CategoriesController.cs" t="Include" />
+              <e p="RestaurantUsersController.cs" t="Include" />
+              <e p="TranslationsController.cs" t="Include" />
+              <e p="UserManagerController.cs" t="Include" />
+            </e>
+            <e p="ViewModels" t="Include">
+              <e p="RestaurantUserCreateEditViewModel.cs" t="Include" />
+              <e p="TranslationCreateEditViewModel.cs" t="Include" />
+              <e p="UserManagerCreateViewModel.cs" t="Include" />
+              <e p="UserManagerDetailsDeleteViewModel.cs" t="Include" />
+              <e p="UserManagerEditViewModel.cs" t="Include" />
+              <e p="UserManagerIndexViewModel.cs" t="Include" />
+            </e>
+            <e p="Views" t="Include">
+              <e p="_ViewImports.cshtml" t="Include" />
+              <e p="_ViewStart.cshtml" t="Include" />
+              <e p="Categories" t="Include">
+                <e p="Create.cshtml" t="Include" />
+                <e p="Delete.cshtml" t="Include" />
+                <e p="Details.cshtml" t="Include" />
+                <e p="Edit.cshtml" t="Include" />
+                <e p="Index.cshtml" t="Include" />
+                <e p="Shared" t="Include">
+                  <e p="_CreateEdit.cshtml" t="Include" />
+                  <e p="_DetailsDelete.cshtml" t="Include" />
+                </e>
+              </e>
+              <e p="RestaurantUsers" t="Include">
+                <e p="Create.cshtml" t="Include" />
+                <e p="Delete.cshtml" t="Include" />
+                <e p="Details.cshtml" t="Include" />
+                <e p="Edit.cshtml" t="Include" />
+                <e p="Index.cshtml" t="Include" />
+                <e p="Shared" t="Include">
+                  <e p="_CreateEdit.cshtml" t="Include" />
+                  <e p="_DetailsDelete.cshtml" t="Include" />
+                </e>
+              </e>
+              <e p="Translations" t="Include">
+                <e p="Create.cshtml" t="Include" />
+                <e p="Delete.cshtml" t="Include" />
+                <e p="Details.cshtml" t="Include" />
+                <e p="Edit.cshtml" t="Include" />
+                <e p="Index.cshtml" t="Include" />
+                <e p="Shared" t="Include">
+                  <e p="_DetailsDelete.cshtml" t="Include" />
+                </e>
+              </e>
+              <e p="UserManager" t="Include">
+                <e p="Create.cshtml" t="Include" />
+                <e p="Delete.cshtml" t="Include" />
+                <e p="Details.cshtml" t="Include" />
+                <e p="Edit.cshtml" t="Include" />
+                <e p="Index.cshtml" t="Include" />
+                <e p="Shared" t="Include">
+                  <e p="_DetailsDelete.cshtml" t="Include" />
+                </e>
+              </e>
+            </e>
+          </e>
+          <e p="Customer" t="Include">
+            <e p="Controllers" t="Include">
+              <e p="AddressesController.cs" t="Include" />
+              <e p="OrderItemChoicesController.cs" t="Include" />
+              <e p="OrderRowsController.cs" t="Include" />
+              <e p="OrdersController.cs" t="Include" />
+            </e>
+            <e p="ViewModels" t="Include">
+              <e p="OrderCreateEditViewModel.cs" t="Include" />
+              <e p="OrderItemChoiceCreateEditViewModel.cs" t="Include" />
+              <e p="OrderRowCreateEditViewModel.cs" t="Include" />
+            </e>
+            <e p="Views" t="Include">
+              <e p="_ViewImports.cshtml" t="Include" />
+              <e p="_ViewStart.cshtml" t="Include" />
+              <e p="Addresses" t="Include">
+                <e p="Create.cshtml" t="Include" />
+                <e p="Delete.cshtml" t="Include" />
+                <e p="Details.cshtml" t="Include" />
+                <e p="Edit.cshtml" t="Include" />
+                <e p="Index.cshtml" t="Include" />
+                <e p="Shared" t="Include">
+                  <e p="_CreateEdit.cshtml" t="Include" />
+                  <e p="_DetailsDelete.cshtml" t="Include" />
+                </e>
+              </e>
+              <e p="OrderItemChoices" t="Include">
+                <e p="Create.cshtml" t="Include" />
+                <e p="Delete.cshtml" t="Include" />
+                <e p="Details.cshtml" t="Include" />
+                <e p="Edit.cshtml" t="Include" />
+                <e p="Index.cshtml" t="Include" />
+                <e p="Shared" t="Include">
+                  <e p="_CreateEdit.cshtml" t="Include" />
+                  <e p="_DetailsDelete.cshtml" t="Include" />
+                </e>
+              </e>
+              <e p="OrderRows" t="Include">
+                <e p="Create.cshtml" t="Include" />
+                <e p="Delete.cshtml" t="Include" />
+                <e p="Details.cshtml" t="Include" />
+                <e p="Edit.cshtml" t="Include" />
+                <e p="Index.cshtml" t="Include" />
+                <e p="Shared" t="Include">
+                  <e p="_CreateEdit.cshtml" t="Include" />
+                  <e p="_DetailsDelete.cshtml" t="Include" />
+                </e>
+              </e>
+              <e p="Orders" t="Include">
+                <e p="Create.cshtml" t="Include" />
+                <e p="Delete.cshtml" t="Include" />
+                <e p="Details.cshtml" t="Include" />
+                <e p="Edit.cshtml" t="Include" />
+                <e p="Index.cshtml" t="Include" />
+                <e p="Shared" t="Include">
+                  <e p="_AdminCreateEdit.cshtml" t="Include" />
+                  <e p="_DetailsDelete.cshtml" t="Include" />
+                </e>
+              </e>
+            </e>
+          </e>
+          <e p="Identity" t="Include">
+            <e p="IdentityHostingStartup.cs" t="Include" />
+            <e p="Pages" t="Include">
+              <e p="_ValidationScriptsPartial.cshtml" t="Include" />
+              <e p="_ViewImports.cshtml" t="Include" />
+              <e p="_ViewStart.cshtml" t="Include" />
+              <e p="Account" t="Include">
+                <e p="_StatusMessage.cshtml" t="Include" />
+                <e p="_ViewImports.cshtml" t="Include" />
+                <e p="AccessDenied.cshtml" t="Include" />
+                <e p="AccessDenied.cshtml.cs" t="Include" />
+                <e p="ConfirmEmail.cshtml" t="Include" />
+                <e p="ConfirmEmail.cshtml.cs" t="Include" />
+                <e p="ConfirmEmailChange.cshtml" t="Include" />
+                <e p="ConfirmEmailChange.cshtml.cs" t="Include" />
+                <e p="ExternalLogin.cshtml" t="Include" />
+                <e p="ExternalLogin.cshtml.cs" t="Include" />
+                <e p="ForgotPassword.cshtml" t="Include" />
+                <e p="ForgotPassword.cshtml.cs" t="Include" />
+                <e p="ForgotPasswordConfirmation.cshtml" t="Include" />
+                <e p="ForgotPasswordConfirmation.cshtml.cs" t="Include" />
+                <e p="Lockout.cshtml" t="Include" />
+                <e p="Lockout.cshtml.cs" t="Include" />
+                <e p="Login.cshtml" t="Include" />
+                <e p="Login.cshtml.cs" t="Include" />
+                <e p="LoginWith2fa.cshtml" t="Include" />
+                <e p="LoginWith2fa.cshtml.cs" t="Include" />
+                <e p="LoginWithRecoveryCode.cshtml" t="Include" />
+                <e p="LoginWithRecoveryCode.cshtml.cs" t="Include" />
+                <e p="Logout.cshtml" t="Include" />
+                <e p="Logout.cshtml.cs" t="Include" />
+                <e p="Manage" t="Include">
+                  <e p="_Layout.cshtml" t="Include" />
+                  <e p="_ManageNav.cshtml" t="Include" />
+                  <e p="_StatusMessage.cshtml" t="Include" />
+                  <e p="_ViewImports.cshtml" t="Include" />
+                  <e p="ChangePassword.cshtml" t="Include" />
+                  <e p="ChangePassword.cshtml.cs" t="Include" />
+                  <e p="DeletePersonalData.cshtml" t="Include" />
+                  <e p="DeletePersonalData.cshtml.cs" t="Include" />
+                  <e p="Disable2fa.cshtml" t="Include" />
+                  <e p="Disable2fa.cshtml.cs" t="Include" />
+                  <e p="DownloadPersonalData.cshtml" t="Include" />
+                  <e p="DownloadPersonalData.cshtml.cs" t="Include" />
+                  <e p="Email.cshtml" t="Include" />
+                  <e p="Email.cshtml.cs" t="Include" />
+                  <e p="EnableAuthenticator.cshtml" t="Include" />
+                  <e p="EnableAuthenticator.cshtml.cs" t="Include" />
+                  <e p="ExternalLogins.cshtml" t="Include" />
+                  <e p="ExternalLogins.cshtml.cs" t="Include" />
+                  <e p="GenerateRecoveryCodes.cshtml" t="Include" />
+                  <e p="GenerateRecoveryCodes.cshtml.cs" t="Include" />
+                  <e p="Index.cshtml" t="Include" />
+                  <e p="Index.cshtml.cs" t="Include" />
+                  <e p="ManageNavPages.cs" t="Include" />
+                  <e p="PersonalData.cshtml" t="Include" />
+                  <e p="PersonalData.cshtml.cs" t="Include" />
+                  <e p="ResetAuthenticator.cshtml" t="Include" />
+                  <e p="ResetAuthenticator.cshtml.cs" t="Include" />
+                  <e p="SetPassword.cshtml" t="Include" />
+                  <e p="SetPassword.cshtml.cs" t="Include" />
+                  <e p="ShowRecoveryCodes.cshtml" t="Include" />
+                  <e p="ShowRecoveryCodes.cshtml.cs" t="Include" />
+                  <e p="TwoFactorAuthentication.cshtml" t="Include" />
+                  <e p="TwoFactorAuthentication.cshtml.cs" t="Include" />
+                </e>
+                <e p="Register.cshtml" t="Include" />
+                <e p="Register.cshtml.cs" t="Include" />
+                <e p="RegisterConfirmation.cshtml" t="Include" />
+                <e p="RegisterConfirmation.cshtml.cs" t="Include" />
+                <e p="ResendEmailConfirmation.cshtml" t="Include" />
+                <e p="ResendEmailConfirmation.cshtml.cs" t="Include" />
+                <e p="ResetPassword.cshtml" t="Include" />
+                <e p="ResetPassword.cshtml.cs" t="Include" />
+                <e p="ResetPasswordConfirmation.cshtml" t="Include" />
+                <e p="ResetPasswordConfirmation.cshtml.cs" t="Include" />
+              </e>
+              <e p="Error.cshtml" t="Include" />
+              <e p="Error.cshtml.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Restaurant" t="Include">
+            <e p="Controllers" t="Include">
+              <e p="ItemChoicesController.cs" t="Include" />
+              <e p="ItemInTypesController.cs" t="Include" />
+              <e p="ItemOptionsController.cs" t="Include" />
+              <e p="ItemsController.cs" t="Include" />
+              <e p="ItemTypesController.cs" t="Include" />
+              <e p="NutritionInfosController.cs" t="Include" />
+              <e p="RestaurantCategoriesController.cs" t="Include" />
+              <e p="RestaurantsController.cs" t="Include" />
+              <e p="WorkingHoursesController.cs" t="Include" />
+            </e>
+            <e p="ViewModels" t="Include">
+              <e p="ItemChoiceCreateEditViewModel.cs" t="Include" />
+              <e p="ItemCreateEditViewModel.cs" t="Include" />
+              <e p="ItemInTypeCreateEditViewModel.cs" t="Include" />
+              <e p="ItemOptionCreateEditViewModel.cs" t="Include" />
+              <e p="ItemTypeCreateEditViewModel.cs" t="Include" />
+              <e p="NutritionInfoCreateEditViewModel.cs" t="Include" />
+              <e p="RestaurantCategoryCreateEditViewModel.cs" t="Include" />
+              <e p="WorkingHoursCreateEditViewModel.cs" t="Include" />
+            </e>
+            <e p="Views" t="Include">
+              <e p="_ViewImports.cshtml" t="Include" />
+              <e p="_ViewStart.cshtml" t="Include" />
+              <e p="ItemChoices" t="Include">
+                <e p="Create.cshtml" t="Include" />
+                <e p="Delete.cshtml" t="Include" />
+                <e p="Details.cshtml" t="Include" />
+                <e p="Edit.cshtml" t="Include" />
+                <e p="Index.cshtml" t="Include" />
+                <e p="Shared" t="Include">
+                  <e p="_CreateEdit.cshtml" t="Include" />
+                  <e p="_DetailsDelete.cshtml" t="Include" />
+                </e>
+              </e>
+              <e p="ItemInTypes" t="Include">
+                <e p="Create.cshtml" t="Include" />
+                <e p="Delete.cshtml" t="Include" />
+                <e p="Details.cshtml" t="Include" />
+                <e p="Edit.cshtml" t="Include" />
+                <e p="Index.cshtml" t="Include" />
+                <e p="Shared" t="Include">
+                  <e p="_CreateEdit.cshtml" t="Include" />
+                  <e p="_DetailsDelete.cshtml" t="Include" />
+                </e>
+              </e>
+              <e p="ItemOptions" t="Include">
+                <e p="Create.cshtml" t="Include" />
+                <e p="Delete.cshtml" t="Include" />
+                <e p="Details.cshtml" t="Include" />
+                <e p="Edit.cshtml" t="Include" />
+                <e p="Index.cshtml" t="Include" />
+                <e p="Shared" t="Include">
+                  <e p="_CreateEdit.cshtml" t="Include" />
+                  <e p="_DetailsDelete.cshtml" t="Include" />
+                </e>
+              </e>
+              <e p="Items" t="Include">
+                <e p="Create.cshtml" t="Include" />
+                <e p="Delete.cshtml" t="Include" />
+                <e p="Details.cshtml" t="Include" />
+                <e p="Edit.cshtml" t="Include" />
+                <e p="Index.cshtml" t="Include" />
+                <e p="Shared" t="Include">
+                  <e p="_CreateEdit.cshtml" t="Include" />
+                  <e p="_DetailsDelete.cshtml" t="Include" />
+                </e>
+              </e>
+              <e p="ItemTypes" t="Include">
+                <e p="Create.cshtml" t="Include" />
+                <e p="Delete.cshtml" t="Include" />
+                <e p="Details.cshtml" t="Include" />
+                <e p="Edit.cshtml" t="Include" />
+                <e p="Index.cshtml" t="Include" />
+                <e p="Shared" t="Include">
+                  <e p="_CreateEdit.cshtml" t="Include" />
+                  <e p="_DetailsDelete.cshtml" t="Include" />
+                </e>
+              </e>
+              <e p="NutritionInfos" t="Include">
+                <e p="Create.cshtml" t="Include" />
+                <e p="Delete.cshtml" t="Include" />
+                <e p="Details.cshtml" t="Include" />
+                <e p="Edit.cshtml" t="Include" />
+                <e p="Index.cshtml" t="Include" />
+                <e p="Shared" t="Include">
+                  <e p="_CreateEdit.cshtml" t="Include" />
+                  <e p="_DetailsDelete.cshtml" t="Include" />
+                </e>
+              </e>
+              <e p="RestaurantCategories" t="Include">
+                <e p="Create.cshtml" t="Include" />
+                <e p="Delete.cshtml" t="Include" />
+                <e p="Details.cshtml" t="Include" />
+                <e p="Edit.cshtml" t="Include" />
+                <e p="Index.cshtml" t="Include" />
+                <e p="Shared" t="Include">
+                  <e p="_CreateEdit.cshtml" t="Include" />
+                  <e p="_DetailsDelete.cshtml" t="Include" />
+                </e>
+              </e>
+              <e p="Restaurants" t="Include">
+                <e p="Create.cshtml" t="Include" />
+                <e p="Delete.cshtml" t="Include" />
+                <e p="Details.cshtml" t="Include" />
+                <e p="Edit.cshtml" t="Include" />
+                <e p="Index.cshtml" t="Include" />
+                <e p="Shared" t="Include">
+                  <e p="_CreateEdit.cshtml" t="Include" />
+                  <e p="_DetailsDelete.cshtml" t="Include" />
+                </e>
+              </e>
+              <e p="WorkingHourses" t="Include">
+                <e p="Create.cshtml" t="Include" />
+                <e p="Delete.cshtml" t="Include" />
+                <e p="Details.cshtml" t="Include" />
+                <e p="Edit.cshtml" t="Include" />
+                <e p="Index.cshtml" t="Include" />
+                <e p="Shared" t="Include">
+                  <e p="_CreateEdit.cshtml" t="Include" />
+                  <e p="_DetailsDelete.cshtml" t="Include" />
+                </e>
+              </e>
+            </e>
+          </e>
+        </e>
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Controllers" t="Include">
+          <e p="HomeController.cs" t="Include" />
+        </e>
+        <e p="Helpers" t="Include">
+          <e p="ConfigureSwaggerOptions.cs" t="Include" />
+          <e p="UserNameProvider.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="WebApp.AssemblyInfo.cs" t="Include" />
+              <e p="WebApp.RazorAssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="launchSettings.json" t="Include" />
+        </e>
+        <e p="Startup.cs" t="Include" />
+        <e p="ViewModels" t="Include">
+          <e p="ErrorViewModel.cs" t="Include" />
+        </e>
+        <e p="Views" t="Include">
+          <e p="_ViewImports.cshtml" t="Include" />
+          <e p="_ViewStart.cshtml" t="Include" />
+          <e p="Home" t="Include">
+            <e p="Index.cshtml" t="Include" />
+            <e p="Privacy.cshtml" t="Include" />
+          </e>
+          <e p="Shared" t="Include">
+            <e p="_AdminPartial.cshtml" t="Include" />
+            <e p="_CustomerPartial.cshtml" t="Include" />
+            <e p="_LanguageSelection.cshtml" t="Include" />
+            <e p="_Layout.cshtml" t="Include" />
+            <e p="_LoginPartial.cshtml" t="Include" />
+            <e p="_RestaurantPartial.cshtml" t="Include" />
+            <e p="_ValidationScriptsPartial.cshtml" t="Include" />
+            <e p="Error.cshtml" t="Include" />
+          </e>
+        </e>
+        <e p="WebApp.csproj" t="IncludeRecursive" />
+        <e p="wwwroot" t="Include">
+          <e p="css" t="Include">
+            <e p="site.css" t="Include" />
+          </e>
+          <e p="favicon.ico" t="Include" />
+          <e p="js" t="Include">
+            <e p="site.js" t="Include" />
+          </e>
+          <e p="lib" t="Include">
+            <e p="bootstrap" t="Include">
+              <e p="dist" t="Include">
+                <e p="css" t="Include">
+                  <e p="bootstrap-grid.css" t="Include" />
+                  <e p="bootstrap-grid.css.map" t="Include" />
+                  <e p="bootstrap-grid.min.css" t="Include" />
+                  <e p="bootstrap-grid.min.css.map" t="Include" />
+                  <e p="bootstrap-reboot.css" t="Include" />
+                  <e p="bootstrap-reboot.css.map" t="Include" />
+                  <e p="bootstrap-reboot.min.css" t="Include" />
+                  <e p="bootstrap-reboot.min.css.map" t="Include" />
+                  <e p="bootstrap.css" t="Include" />
+                  <e p="bootstrap.css.map" t="Include" />
+                  <e p="bootstrap.min.css" t="Include" />
+                  <e p="bootstrap.min.css.map" t="Include" />
+                </e>
+                <e p="js" t="Include">
+                  <e p="bootstrap.bundle.js" t="Include" />
+                  <e p="bootstrap.bundle.js.map" t="Include" />
+                  <e p="bootstrap.bundle.min.js" t="Include" />
+                  <e p="bootstrap.bundle.min.js.map" t="Include" />
+                  <e p="bootstrap.js" t="Include" />
+                  <e p="bootstrap.js.map" t="Include" />
+                  <e p="bootstrap.min.js" t="Include" />
+                  <e p="bootstrap.min.js.map" t="Include" />
+                </e>
+              </e>
+              <e p="LICENSE" t="Include" />
+            </e>
+            <e p="jquery" t="Include">
+              <e p="dist" t="Include">
+                <e p="jquery.js" t="Include" />
+                <e p="jquery.min.js" t="Include" />
+                <e p="jquery.min.map" t="Include" />
+              </e>
+              <e p="LICENSE.txt" t="Include" />
+            </e>
+            <e p="jquery-validation" t="Include">
+              <e p="dist" t="Include">
+                <e p="additional-methods.js" t="Include" />
+                <e p="additional-methods.min.js" t="Include" />
+                <e p="jquery.validate.js" t="Include" />
+                <e p="jquery.validate.min.js" t="Include" />
+              </e>
+              <e p="LICENSE.md" t="Include" />
+            </e>
+            <e p="jquery-validation-unobtrusive" t="Include">
+              <e p="jquery.validate.unobtrusive.js" t="Include" />
+              <e p="jquery.validate.unobtrusive.min.js" t="Include" />
+              <e p="LICENSE.txt" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+    </e>
+  </component>
+</project>
